@@ -94,9 +94,11 @@ public class Node {
    */
   public String toString() {
     if (this.getNext() == null) {
+      // Base case
       return this.coefficient + "x^" + this.power;
     }
     else {
+      // Recursive case
       return this.coefficient + "x^" + this.power + " + " + this.getNext().toString();
     }
 //    return this.coefficient + "x^" + this.power;

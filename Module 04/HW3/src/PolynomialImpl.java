@@ -16,16 +16,29 @@ public class PolynomialImpl implements Polynomial {
    * @param power       The power of the term.
    */
   public void addTerm(int coefficient, int power) {
+    if (coefficient < 0) {
+      throw new IllegalArgumentException("coefficient must be positive");
+    }
+
     // create new node
     Node newNode = new Node(coefficient, power);
+
     // if head is null, set head to new node
     if (head == null) {
       this.head = newNode;
     }
-    // else, traverse to end of list and set next to new node
+    // else, traverse to the correct position and insert
     else {
       Node current = head;
-      while (current.getNext() != null) {
+//      while (current.getPower() > power && current.getNext() != null) {
+//        current = current.getNext();
+//      }
+      if (current.getPower() > power) {
+        newNode.setNext(current);
+        this.head = newNode;
+        return;
+      }
+      while (current.getNext() != null && current.getNext().getPower() < power) {
         current = current.getNext();
       }
       current.setNext(newNode);
@@ -93,7 +106,7 @@ public class PolynomialImpl implements Polynomial {
    * Helper function for toString()
    * @param current The current node
    * @return A string representation of the polynomial.
-   */
+
   private String toStringHelper(Node current) {
     // Base case: empty list
     if (current == null) {
@@ -108,5 +121,6 @@ public class PolynomialImpl implements Polynomial {
     // Recursive case: append current node and call the helper function on the next node
     return current.toString() + " + " + toStringHelper(current.getNext());
   }
+  */
 
 }
