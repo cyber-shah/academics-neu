@@ -5,6 +5,10 @@ public class PolynomialImpl implements Polynomial {
   private Node head;
 
 
+  public PolynomialImpl() {
+    this.head = null;
+  }
+
   /**
    * Adds a term to the polynomial.
    *
@@ -12,7 +16,20 @@ public class PolynomialImpl implements Polynomial {
    * @param power       The power of the term.
    */
   public void addTerm(int coefficient, int power) {
-    return;
+    // create new node
+    Node newNode = new Node(coefficient, power);
+    // if head is null, set head to new node
+    if (head == null) {
+      this.head = newNode;
+    }
+    // else, traverse to end of list and set next to new node
+    else {
+      Node current = head;
+      while (current.getNext() != null) {
+        current = current.getNext();
+      }
+      current.setNext(newNode);
+    }
   }
 
   /**
@@ -62,4 +79,34 @@ public class PolynomialImpl implements Polynomial {
   public Polynomial add(Polynomial polynomial) {
     return null;
   }
+
+  /**
+   * Returns a string representation of the polynomial.
+   * @return A string representation of the polynomial.
+   */
+  public String toString () {
+    return this.head.toString();
+//    return toStringHelper(head);
+  }
+
+  /**
+   * Helper function for toString()
+   * @param current The current node
+   * @return A string representation of the polynomial.
+   */
+  private String toStringHelper(Node current) {
+    // Base case: empty list
+    if (current == null) {
+      return "";
+    }
+
+    // Base case: last node
+    if (current.getNext() == null) {
+      return current.toString();
+    }
+
+    // Recursive case: append current node and call the helper function on the next node
+    return current.toString() + " + " + toStringHelper(current.getNext());
+  }
+
 }
