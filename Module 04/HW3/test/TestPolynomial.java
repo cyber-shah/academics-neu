@@ -56,6 +56,15 @@ public class TestPolynomial {
     p3.addTerm(4, 1);
     p3.removeTerm(0);
     assertEquals("2x^3 +4x^1", p3.toString());
+
+    // remove non-existent term
+    p3.removeTerm(5);
+    assertEquals("2x^3 +4x^1", p3.toString());
+
+    // remove only term
+    p3.removeTerm(3);
+    p3.removeTerm(1);
+    assertEquals("", p3.toString());
   }
 
 }

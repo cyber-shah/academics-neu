@@ -93,6 +93,11 @@ public class PolynomialImpl implements Polynomial {
       head = head.getNext();
       return;
     }
+    // if head is greater than power, return since there is no
+    // term with the specified power
+    else if (head.getPower() < power) {
+      return;
+    }
 
     // else, start traversing at HEAD
     Node current = head;
@@ -101,14 +106,17 @@ public class PolynomialImpl implements Polynomial {
       current = current.getNext();
     }
 
+    // if current node's next node is null, simply remove the tail
+    // by setting the next node to null.
     if (current.getNext().getNext() == null) {
       current.setNext(null);
       return;
     }
+    // else, remove the next node by setting the current node's next node
     else {
       current.setNext(current.getNext().getNext());
+      return;
     }
-    return;
   }
 
   /**
@@ -117,7 +125,7 @@ public class PolynomialImpl implements Polynomial {
    * @return The degree of the polynomial.
    */
   public int getDegree() {
-    return 0;
+    return head.getPower();
   }
 
   /**
