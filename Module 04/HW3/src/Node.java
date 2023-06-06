@@ -93,15 +93,34 @@ public class Node {
    * @return A string representation of the node.
    */
   public String toString() {
+/*    // Base case
     if (this.getNext() == null) {
-      // Base case
-      return this.coefficient + "x^" + this.power;
+      if (this.coefficient > 0) {
+        return "+" + this.coefficient + "x^" + this.power;
+      }
+      else if (this.coefficient < 0) {
+        return this.coefficient + "x^" + this.power;
+      }
+      else {
+        return "";
+      }
     }
+
+    // Recursive case
     else {
-      // Recursive case
-      return this.coefficient + "x^" + this.power + " + " + this.getNext().toString();
-    }
-//    return this.coefficient + "x^" + this.power;
+      // Negative coefficient
+      if (coefficient < 0) {
+        return this.coefficient + "x^" + this.power + " " + this.getNext().toString();
+      }
+      // Positive coefficient
+      else if (coefficient > 0) {
+        return "+" + this.coefficient + "x^" + this.power + " " + this.getNext().toString();
+      }
+      else {
+        return this.getNext().toString();
+      }
+    }*/
+    return this.coefficient + "x^" + this.power;
   }
 
 }
