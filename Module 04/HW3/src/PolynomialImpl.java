@@ -1,12 +1,36 @@
 /**
  * PolynomialImpl
+ * This class implements the Polynomial interface.
+ * Uses LinkedList to store the terms of the polynomial.
  */
 public class PolynomialImpl implements Polynomial {
   private Node head;
 
 
+  /**
+   * Constructor
+   */
   public PolynomialImpl() {
     this.head = null;
+  }
+
+  /**
+   * Constructor
+   *
+   * @param polynomial The polynomial in string form.
+   */
+  public PolynomialImpl (String polynomial) {
+    // split string into terms
+    String[] terms = polynomial.split(" ");
+    // for each term
+    for (String term : terms) {
+      // split term into coefficient and power
+      String[] parts = term.split("x^");
+      int coefficient = Integer.parseInt(parts[0]);
+      int power = Integer.parseInt(parts[1]);
+      // add term to polynomial
+      this.addTerm(coefficient, power);
+    }
   }
 
   /**
@@ -23,24 +47,25 @@ public class PolynomialImpl implements Polynomial {
     // create new node
     Node newNode = new Node(coefficient, power);
 
-    // if head is null, set head to new node
-    if (head == null) {
+    // if head is null, set head to new node or
+    // if new node has lower power than head, set head to new node
+    if (head == null || head.getPower() < power) {
+      newNode.setNext(head);
       this.head = newNode;
+      return;
     }
-    // else, traverse to the correct position and insert
+
+    // else, start traversing at HEAD
     else {
       Node current = head;
-//      while (current.getPower() > power && current.getNext() != null) {
-//        current = current.getNext();
-//      }
-      if (current.getPower() > power) {
-        newNode.setNext(current);
-        this.head = newNode;
-        return;
-      }
-      while (current.getNext() != null && current.getNext().getPower() < power) {
+
+
+      // else, traverse until new node has higher power than current node's next node
+      while (current.getNext() != null && current.getNext().getPower() > power) {
         current = current.getNext();
       }
+      // insert new node after current node
+      newNode.setNext(current.getNext());
       current.setNext(newNode);
     }
   }

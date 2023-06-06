@@ -5,11 +5,13 @@ import static org.junit.Assert.assertEquals;
 public class TestPolynomial {
   private Polynomial p1;
   private Polynomial p2;
+  private Polynomial p3;
 
   @Before
   public void setUp() {
     p1 = new PolynomialImpl();
     p2 = new PolynomialImpl();
+    p3 = new PolynomialImpl();
   }
 
   @Test
@@ -27,6 +29,13 @@ public class TestPolynomial {
     p2.addTerm(3, 2);
     p2.addTerm(5, 3);
     assertEquals("5x^3 + 3x^2 + 4x^1 + 2x^0", p2.toString());
+
+    // add terms in random order
+    p3.addTerm(2, 0);
+    p3.addTerm(5, 3);
+    p3.addTerm(4, 1);
+    p3.addTerm(3, 2);
+    assertEquals("5x^3 + 3x^2 + 4x^1 + 2x^0", p3.toString());
   }
 
   @Test (expected = IllegalArgumentException.class)
