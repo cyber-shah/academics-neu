@@ -41,41 +41,50 @@ public class PolynomialImpl implements Polynomial {
    * @param power       The power of the term.
    */
   public void addTerm(int coefficient, int power) {
+    addTermHelper(coefficient, power, this.head);
+  }
+
+  private void addTermHelper(int coefficient, int power, Node current) {
+    // base cases ---------------------------------------------------------
+    // if power is negative, throw exception
     if (power < 0) {
       throw new IllegalArgumentException("coefficient must be positive");
     }
 
-    // create new node
-    Node newNode = new Node(coefficient, power);
-
-    // if head is null, set head to new node or
-    // if new node has lower power than head, set head to new node
-    if (head == null || head.getPower() < power) {
-      newNode.setNext(head);
-      this.head = newNode;
+    // if empty list, set head to new node
+    if (this.head == null) {
+      this.head = new Node(coefficient, power);
       return;
     }
 
-    // else, start traversing at HEAD
-    else {
-      Node current = head;
-      // if new node has same power as current node, add coefficients
-      if (current.getPower() == power) {
-        current.setCoefficient(current.getCoefficient() + coefficient);
-        return;
-      }
-
-      // else, traverse until new node has higher power than current node's next node
-      while (current.getNext() != null && current.getNext().getPower() > power) {
-        current = current.getNext();
-      }
-
-      // insert new node after current node
+    // if new node has same power as current node, add coefficients
+    if (current.getPower() == power) {
+      current.setCoefficient(current.getCoefficient() + coefficient);
+      return;
+    }
+    // if current's power is less than new node's power, insert new node before current node
+    else if (current.getPower() < power) {
+      Node newNode = new Node(coefficient, power);
+      newNode.setNext(current);
+      this.head = newNode;
+      return;
+    }
+    // reached last node
+    else if (current.getNext() == null) {
+      current.setNext(new Node(coefficient, power));
+      return;
+    }
+    // insert after current node if next node has lower power
+    else if (current.getNext().getPower() < power) {
+      Node newNode = new Node(coefficient, power);
       newNode.setNext(current.getNext());
       current.setNext(newNode);
+      return;
+    }
+    else {
+      addTermHelper(coefficient, power, current.getNext());
     }
   }
-
 
   /**
    * Removes a term from the polynomial.
@@ -84,41 +93,6 @@ public class PolynomialImpl implements Polynomial {
    */
   public void removeTerm(int power) {
     removeTermHelper(power, head);
-/*    // PART 1 - CHECKS and BASE CASES ------------
-    // if head is null, return
-    if (head == null) {
-      return;
-    }
-    // if head is the term to remove, set head to next node
-    if (head.getPower() == power) {
-      head = head.getNext();
-      return;
-    }
-    // if head is greater than power, return since there is no
-    // term with the specified power
-    else if (head.getPower() < power) {
-      return;
-    }
-
-    // PART 2 - TRAVERSAL ----------------------
-    // else, start traversing at HEAD
-    Node current = head;
-    // traverse until current node's next node has the power to remove
-    while (current.getNext() != null && current.getNext().getPower() != power) {
-      current = current.getNext();
-    }
-
-    // if current node's next node is null, simply remove the tail
-    // by setting the next node to null.
-    if (current.getNext().getNext() == null) {
-      current.setNext(null);
-      return;
-    }
-    // else, remove the next node by setting the current node's next node
-    else {
-      current.setNext(current.getNext().getNext());
-      return;
-    }*/
   }
 
   public void removeTermHelper(int power, Node current) {
