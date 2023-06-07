@@ -6,12 +6,14 @@ public class TestPolynomial {
   private Polynomial p1;
   private Polynomial p3;
   private Polynomial p2;
+  private Polynomial p4;
 
   @Before
   public void setUp() {
     p1 = new PolynomialImpl();
     p2 = new PolynomialImpl();
-    p3 = new PolynomialImpl("+3x^0 +2x^3 +4x^1");
+    p4 = new PolynomialImpl("8x^4 +4x^3 -11x^2 -2x^1 +1x^0");
+    p3 = new PolynomialImpl("3x^0 +2x^3 +4x^1");
   }
 
   @Test
@@ -31,8 +33,12 @@ public class TestPolynomial {
     p2.addTerm(3, 2);
     assertEquals("5x^3 +3x^2 -4x^1 +2x^0", p2.toString());
 
-
     // check the implementation of the constructor that takes a string
+    assertEquals("2x^3 +4x^1 +3x^0", p3.toString());
+
+    // adding a term with zero coefficient
+    // should not add anything
+    p3.addTerm(0, 3);
     assertEquals("2x^3 +4x^1 +3x^0", p3.toString());
   }
 
@@ -43,7 +49,7 @@ public class TestPolynomial {
 
   @Test
   public void testRemove() {
-    // remove head
+    // remove head or highest power
     p3.removeTerm(3);
     assertEquals("4x^1 +3x^0", p3.toString());
 
@@ -52,19 +58,96 @@ public class TestPolynomial {
     p3.removeTerm(1);
     assertEquals("2x^3 +3x^0", p3.toString());
 
-    // remove tail or last
+    // remove tail or last or lowest power
     p3.addTerm(4, 1);
     p3.removeTerm(0);
     assertEquals("2x^3 +4x^1", p3.toString());
 
-    // remove non-existent term
+    // remove non-existent term, should not change the term
     p3.removeTerm(5);
     assertEquals("2x^3 +4x^1", p3.toString());
 
-    // remove only term
+    // remove only term in polynomial
     p3.removeTerm(3);
     p3.removeTerm(1);
     assertEquals("", p3.toString());
+
+    // remove term with zero coefficient
+    p3.addTerm(0, 3);
+    p3.removeTerm(3);
+    assertEquals("", p3.toString());
+
+    // add everything back
+    p3.addTerm(2, 3);
+    p3.addTerm(4, 1);
+    p3.addTerm(3, 0);
+    assertEquals("2x^3 +4x^1 +3x^0", p3.toString());
   }
+
+  @Test
+  public void testGetDegree() {
+    // highest power in multiple terms
+    assertEquals(3, p3.getDegree());
+    assertEquals(4, p4.getDegree());
+
+    // testing an empty polynomial
+    assertEquals(0, p1.getDegree());
+
+    // testing a polynomial with only one term
+    p1.addTerm(2, 3);
+    assertEquals(3, p1.getDegree());
+    p1.removeTerm(3);
+  }
+
+  @Test
+  public void testGetCoefficient() {
+    // testing a polynomial with multiple terms
+    assertEquals(4, p4.getCoefficient(3));
+    assertEquals(-11, p4.getCoefficient(2));
+    assertEquals(-2, p4.getCoefficient(1));
+    assertEquals(1, p4.getCoefficient(0));
+
+    // testing a polynomial with only one term
+    p1.addTerm(2, 3);
+    assertEquals(2, p1.getCoefficient(3));
+    p1.removeTerm(3);
+
+    // testing a polynomial with no terms
+    assertEquals(0, p1.getCoefficient(3));
+
+    // testing a polynomial with a term with zero coefficient
+    p1.addTerm(0, 3);
+    assertEquals(0, p1.getCoefficient(3));
+    p1.removeTerm(3);
+
+    // testing a term that does not exist
+    assertEquals(0, p4.getCoefficient(5));
+  }
+
+  @Test
+  public void testEvaluate() {
+    // evaluate zero
+    assertEquals(1, p4.evaluate(0), 0.0001);
+
+    //positive value
+    assertEquals(0, p4.evaluate(1), 0.0001);
+
+    // negative value
+    assertEquals(-4, p4.evaluate(-1), 0.0001);
+
+    // testing a polynomial with only one term
+    p1.addTerm(2, 3);
+    assertEquals(16, p1.evaluate(2), 0.0001);
+    p1.removeTerm(3);
+
+    // testing a polynomial with no terms
+    assertEquals(0, p1.evaluate(2), 0.0001);
+
+    // testing a polynomial with a term with zero coefficient
+    p1.addTerm(0, 3);
+    assertEquals(0, p1.evaluate(2), 0.0001);
+    p1.removeTerm(3);
+  }
+
 
 }

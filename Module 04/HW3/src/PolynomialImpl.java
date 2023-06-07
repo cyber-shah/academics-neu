@@ -83,11 +83,11 @@ public class PolynomialImpl implements Polynomial {
    * @param power The power of the term to remove.
    */
   public void removeTerm(int power) {
+    // PART 1 - CHECKS and BASE CASES ------------
     // if head is null, return
     if (head == null) {
       return;
     }
-
     // if head is the term to remove, set head to next node
     if (head.getPower() == power) {
       head = head.getNext();
@@ -99,6 +99,7 @@ public class PolynomialImpl implements Polynomial {
       return;
     }
 
+    // PART 2 - TRAVERSAL ----------------------
     // else, start traversing at HEAD
     Node current = head;
     // traverse until current node's next node has the power to remove
@@ -125,7 +126,12 @@ public class PolynomialImpl implements Polynomial {
    * @return The degree of the polynomial.
    */
   public int getDegree() {
-    return head.getPower();
+    if (head == null) {
+      return 0;
+    }
+    else {
+      return head.getPower();
+    }
   }
 
   /**
@@ -135,7 +141,26 @@ public class PolynomialImpl implements Polynomial {
    * @return The coefficient of the term with the specified power.
    */
   public int getCoefficient(int power) {
-    return 0;
+    // if head is null, return 0
+    if (head == null) {
+      return 0;
+    }
+    else {
+      Node current = head;
+      // traverse until current node's power is equal to the specified power or
+      // you reach last node
+      while (current.getNext() != null && current.getPower() != power) {
+        current = current.getNext();
+      }
+      // if node not found, return 0
+      if (current.getPower() != power) {
+        return 0;
+      }
+      // else, return coefficient
+      else {
+        return current.getCoefficient();
+      }
+    }
   }
 
   /**
@@ -145,7 +170,14 @@ public class PolynomialImpl implements Polynomial {
    * @return The value of the polynomial for the specified value of the variable.
    */
   public double evaluate(double value) {
-    return 0;
+    double evaluation = 0;
+
+    Node current = head;
+    while (current!= null) {
+      evaluation += current.getCoefficient() * Math.pow(value, current.getPower());
+      current = current.getNext();
+    }
+    return evaluation;
   }
 
   /**
