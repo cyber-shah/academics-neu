@@ -44,6 +44,12 @@ public class PolynomialImpl implements Polynomial {
     addTermHelper(coefficient, power, this.head);
   }
 
+  /**
+   * Helper method that recursively adds a term to the polynomial.
+   * @param coefficient The coefficient of the term.
+   * @param power The power of the term.
+   * @param current The current node.
+   */
   private void addTermHelper(int coefficient, int power, Node current) {
     // base cases ---------------------------------------------------------
     // if power is negative, throw exception
@@ -81,6 +87,7 @@ public class PolynomialImpl implements Polynomial {
       current.setNext(newNode);
       return;
     }
+    // recursive case -----------------------------------------------------
     else {
       addTermHelper(coefficient, power, current.getNext());
     }
@@ -151,25 +158,28 @@ public class PolynomialImpl implements Polynomial {
    * @return The coefficient of the term with the specified power.
    */
   public int getCoefficient(int power) {
-    // if head is null, return 0
-    if (head == null) {
+    return getCoefficientHelper(power, head);
+  }
+
+  /**
+   * Helper function for getCoefficient().
+   * Recursively finds the coefficient of the term with the specified power.
+   *
+   * @param power The power of the term whose coefficient is to be returned.
+   * @param current The current node.
+   * @return The coefficient of the term with the specified power.
+   */
+  private int getCoefficientHelper (int power, Node current) {
+    // base cases
+    if (current == null) {
       return 0;
     }
+    else if (current.getPower() == power) {
+      return current.getCoefficient();
+    }
+    // recursive case
     else {
-      Node current = head;
-      // traverse until current node's power is equal to the specified power or
-      // you reach last node
-      while (current.getNext() != null && current.getPower() != power) {
-        current = current.getNext();
-      }
-      // if node not found, return 0
-      if (current.getPower() != power) {
-        return 0;
-      }
-      // else, return coefficient
-      else {
-        return current.getCoefficient();
-      }
+      return getCoefficientHelper(power, current.getNext());
     }
   }
 
