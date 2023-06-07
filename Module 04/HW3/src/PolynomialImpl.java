@@ -1,5 +1,5 @@
 /**
- * PolynomialImpl
+ * PolynomialImpl.
  * This class implements the Polynomial interface.
  * Uses LinkedList to store the terms of the polynomial.
  */
@@ -7,7 +7,7 @@ public class PolynomialImpl implements Polynomial {
   private Node head;
 
   /**
-   * Constructor
+   * Constructor.
    */
   public PolynomialImpl() {
     this.head = null;
@@ -15,11 +15,11 @@ public class PolynomialImpl implements Polynomial {
 
 
   /**
-   * Constructor
+   * Constructor.
    *
    * @param polynomial The polynomial in string form.
    */
-  public PolynomialImpl (String polynomial) {
+  public PolynomialImpl(String polynomial) {
     // split string into terms
     String[] terms = polynomial.split(" ");
     // for each term
@@ -102,6 +102,12 @@ public class PolynomialImpl implements Polynomial {
     removeTermHelper(power, head);
   }
 
+  /**
+   * Helper method that recursively removes a term from the polynomial.
+   *
+   * @param power The power of the term to remove.
+   * @param current The current node.
+   */
   public void removeTermHelper(int power, Node current) {
     // base cases ------------------------------------------------
     // empty list
@@ -169,7 +175,7 @@ public class PolynomialImpl implements Polynomial {
    * @param current The current node.
    * @return The coefficient of the term with the specified power.
    */
-  private int getCoefficientHelper (int power, Node current) {
+  private int getCoefficientHelper(int power, Node current) {
     // base cases
     if (current == null) {
       return 0;
@@ -218,14 +224,14 @@ public class PolynomialImpl implements Polynomial {
    * @return The result of adding the specified polynomial to this polynomial.
    */
   public Polynomial add(Polynomial other) {
-    return null;
+    return new PolynomialImpl();
   }
 
   /**
    * Returns a string representation of the polynomial.
    * @return A string representation of the polynomial.
    */
-  public String toString () {
+  public String toString() {
     return toStringHelper(head);
   }
 

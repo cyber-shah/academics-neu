@@ -2,6 +2,12 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This class tests the Polynomial interface and the PolynomialImpl class.
+ * Tests include adding terms, removing terms, getting the degree, getting the coefficient,
+ * evaluating the polynomial, and adding two polynomials.
+ * Tests also include testing the constructor that takes a string.
+ */
 public class TestPolynomial {
   private Polynomial p1;
   private Polynomial p3;
@@ -23,7 +29,7 @@ public class TestPolynomial {
     p1.addTerm(1, 3);
     p1.addTerm(4, 1);
     p1.addTerm(3, 0);
-    assertEquals("2x^3 +4x^1 +3x^0", p1.toString());
+    assertEquals("2x^3 +4x^1 +3", p1.toString());
 
     // add terms in random order to check if terms are being added in the correct position
     // negative coefficients included
@@ -31,15 +37,15 @@ public class TestPolynomial {
     p2.addTerm(5, 3);
     p2.addTerm(-4, 1);
     p2.addTerm(3, 2);
-    assertEquals("5x^3 +3x^2 -4x^1 +2x^0", p2.toString());
+    assertEquals("5x^3 +3x^2 -4x^1 +2", p2.toString());
 
     // check the implementation of the constructor that takes a string
-    assertEquals("2x^3 +4x^1 +3x^0", p3.toString());
+    assertEquals("2x^3 +4x^1 +3", p3.toString());
 
     // adding a term with zero coefficient
     // should not add anything
     p3.addTerm(0, 3);
-    assertEquals("2x^3 +4x^1 +3x^0", p3.toString());
+    assertEquals("2x^3 +4x^1 +3", p3.toString());
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -51,12 +57,12 @@ public class TestPolynomial {
   public void testRemove() {
     // remove head or highest power
     p3.removeTerm(3);
-    assertEquals("4x^1 +3x^0", p3.toString());
+    assertEquals("4x^1 +3", p3.toString());
 
     // remove middle
     p3.addTerm(2, 3);
     p3.removeTerm(1);
-    assertEquals("2x^3 +3x^0", p3.toString());
+    assertEquals("2x^3 +3", p3.toString());
 
     // remove tail or last or lowest power
     p3.addTerm(4, 1);
@@ -81,7 +87,7 @@ public class TestPolynomial {
     p3.addTerm(2, 3);
     p3.addTerm(4, 1);
     p3.addTerm(3, 0);
-    assertEquals("2x^3 +4x^1 +3x^0", p3.toString());
+    assertEquals("2x^3 +4x^1 +3", p3.toString());
   }
 
   @Test

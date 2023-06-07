@@ -1,5 +1,5 @@
 /**
- * Node
+ * Node.
  * This class represents a node in a linked list.
  * Has a coefficient, power, and next node.
  */
@@ -9,7 +9,7 @@ public class Node {
   private Node next;
 
   /**
-   * Constructor
+   * Constructor.
    *
    * @param coefficient The coefficient of the term.
    * @param power       The power of the term.
@@ -21,7 +21,7 @@ public class Node {
   }
 
   /**
-   * Constructor
+   * Constructor.
    *
    * @param coefficient The coefficient of the term.
    * @param power       The power of the term.
@@ -93,34 +93,11 @@ public class Node {
    * @return A string representation of the node.
    */
   public String toString() {
-/*    // Base case
-    if (this.getNext() == null) {
-      if (this.coefficient > 0) {
-        return "+" + this.coefficient + "x^" + this.power;
-      }
-      else if (this.coefficient < 0) {
-        return this.coefficient + "x^" + this.power;
-      }
-      else {
-        return "";
-      }
+    if (power == 0) {
+      return String.valueOf(this.coefficient);
     }
-
-    // Recursive case
     else {
-      // Negative coefficient
-      if (coefficient < 0) {
-        return this.coefficient + "x^" + this.power + " " + this.getNext().toString();
-      }
-      // Positive coefficient
-      else if (coefficient > 0) {
-        return "+" + this.coefficient + "x^" + this.power + " " + this.getNext().toString();
-      }
-      else {
-        return this.getNext().toString();
-      }
-    }*/
-    return this.coefficient + "x^" + this.power;
+      return this.coefficient + "x^" + this.power;
+    }
   }
-
 }
