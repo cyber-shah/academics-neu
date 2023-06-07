@@ -243,7 +243,7 @@ public class PolynomialImpl implements Polynomial {
   private String toStringHelper(Node current) {
     // Base case: empty list
     if (current == null) {
-      return "";
+      return "0";
     }
 
     // Base case: last node
@@ -258,6 +258,7 @@ public class PolynomialImpl implements Polynomial {
 
     // Recursive case: append current node and call the helper function on the next node
     if (current == this.head) {
+      // for head, no sign if positive
       return current.toString() + " " + toStringHelper(current.getNext());
     }
     else {

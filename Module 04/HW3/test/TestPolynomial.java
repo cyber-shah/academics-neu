@@ -13,6 +13,7 @@ public class TestPolynomial {
   private Polynomial p3;
   private Polynomial p2;
   private Polynomial p4;
+  private Polynomial p6;
 
   @Before
   public void setUp() {
@@ -48,6 +49,18 @@ public class TestPolynomial {
     assertEquals("2x^3 +4x^1 +3", p3.toString());
   }
 
+  @Test
+  public void testToString() {
+    // single term
+    p6 = new PolynomialImpl("-8x^4");
+    assertEquals("-8x^4", p6.toString());
+
+    // empty polynomial
+    Polynomial p7;
+    p7 = new PolynomialImpl();
+    assertEquals("0", p7.toString());
+  }
+
   @Test (expected = IllegalArgumentException.class)
   public void testAddTermNegativeCoefficient() {
     p1.addTerm(2, -3);
@@ -76,12 +89,12 @@ public class TestPolynomial {
     // remove only term in polynomial
     p3.removeTerm(3);
     p3.removeTerm(1);
-    assertEquals("", p3.toString());
+    assertEquals("0", p3.toString());
 
     // remove term with zero coefficient
     p3.addTerm(0, 3);
     p3.removeTerm(3);
-    assertEquals("", p3.toString());
+    assertEquals("0", p3.toString());
 
     // add everything back
     p3.addTerm(2, 3);
@@ -154,6 +167,4 @@ public class TestPolynomial {
     assertEquals(0, p1.evaluate(2), 0.0001);
     p1.removeTerm(3);
   }
-
-
 }
