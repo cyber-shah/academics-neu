@@ -83,7 +83,8 @@ public class PolynomialImpl implements Polynomial {
    * @param power The power of the term to remove.
    */
   public void removeTerm(int power) {
-    // PART 1 - CHECKS and BASE CASES ------------
+    removeTermHelper(power, head);
+/*    // PART 1 - CHECKS and BASE CASES ------------
     // if head is null, return
     if (head == null) {
       return;
@@ -117,6 +118,41 @@ public class PolynomialImpl implements Polynomial {
     else {
       current.setNext(current.getNext().getNext());
       return;
+    }*/
+  }
+
+  public void removeTermHelper(int power, Node current) {
+    // base cases ------------------------------------------------
+    // empty list
+    if (current == null) {
+      return;
+    }
+    // head is the node to be removed
+    else if (current.getPower() == power) {
+      head = head.getNext();
+      return;
+    }
+    // reached last node
+    else if (current.getNext() == null) {
+      // last node is the node to be removed
+      if (current.getPower() == power) {
+        current = null;
+        return;
+      }
+      // current node is not the node to be removed
+      else {
+        return;
+      }
+    }
+    // recursive case ---------------------------------------------
+    else {
+      if (current.getNext().getPower() == power) {
+        current.setNext(current.getNext().getNext());
+        return;
+      }
+      else {
+        removeTermHelper(power, current.getNext());
+      }
     }
   }
 
@@ -170,23 +206,34 @@ public class PolynomialImpl implements Polynomial {
    * @return The value of the polynomial for the specified value of the variable.
    */
   public double evaluate(double value) {
-    double evaluation = 0;
+    return evaluateHelper(value, head);
+  }
 
-    Node current = head;
-    while (current!= null) {
-      evaluation += current.getCoefficient() * Math.pow(value, current.getPower());
-      current = current.getNext();
+  /**
+   * Helper function for evaluate(). Recursively evaluates the polynomial.
+   * @param value The value of the variable.
+   * @param current The current node.
+   * @return The value of the polynomial for the specified value of the variable.
+   */
+  private double evaluateHelper(double value, Node current) {
+    // base case
+    if (current == null) {
+      return 0;
     }
-    return evaluation;
+    // recursive case
+    else {
+      double termEvaluation = current.getCoefficient() * Math.pow(value, current.getPower());
+      return termEvaluation + evaluateHelper(value, current.getNext());
+    }
   }
 
   /**
    * Adds the specified polynomial to this polynomial and returns the result as a new polynomial.
    *
-   * @param polynomial The polynomial to add to this polynomial.
+   * @param other The polynomial to add to this polynomial.
    * @return The result of adding the specified polynomial to this polynomial.
    */
-  public Polynomial add(Polynomial polynomial) {
+  public Polynomial add(Polynomial other) {
     return null;
   }
 
