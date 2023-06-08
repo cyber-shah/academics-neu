@@ -237,19 +237,19 @@ public class PolynomialImpl implements Polynomial {
    * Helper function for add(). Recursively adds the specified polynomial to this polynomial.
    * @param other The polynomial to add to this polynomial.
    * @param result The polynomial to store the result of the addition.
-   * @param max_degree The maximum degree of the two polynomials.
+   * @param maxDegree The maximum degree of the two polynomials.
    * @return The result of adding the specified polynomial to this polynomial.
    */
-  private Polynomial addHelper(Polynomial other, Polynomial result, int max_degree) {
+  private Polynomial addHelper(Polynomial other, Polynomial result, int maxDegree) {
     // base case
-    if (max_degree < 0) {
+    if (maxDegree < 0) {
       return result;
     }
     // recursive case
     else {
-      int coefficient = this.getCoefficient(max_degree) + other.getCoefficient(max_degree);
-      result.addTerm(coefficient, max_degree);
-      return addHelper(other, result, max_degree - 1);
+      int coefficient = this.getCoefficient(maxDegree) + other.getCoefficient(maxDegree);
+      result.addTerm(coefficient, maxDegree);
+      return addHelper(other, result, maxDegree - 1);
     }
   }
 
