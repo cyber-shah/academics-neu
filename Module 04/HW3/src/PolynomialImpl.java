@@ -26,6 +26,9 @@ public class PolynomialImpl implements Polynomial {
     for (String term : terms) {
       // split term into coefficient and power
       String[] parts = term.split("x\\^");
+      if (parts.length == 1) {
+        parts = new String[]{parts[0], "0"};
+      }
       int coefficient = Integer.parseInt(parts[0]);
       int power = Integer.parseInt(parts[1]);
       // add term to polynomial
@@ -54,7 +57,10 @@ public class PolynomialImpl implements Polynomial {
     // base cases ---------------------------------------------------------
     // if power is negative, throw exception
     if (power < 0) {
-      throw new IllegalArgumentException("coefficient must be positive");
+      throw new IllegalArgumentException("power must be positive");
+    }
+    else if (coefficient == 0) {
+      return;
     }
 
     // if empty list, set head to new node
@@ -224,7 +230,23 @@ public class PolynomialImpl implements Polynomial {
    * @return The result of adding the specified polynomial to this polynomial.
    */
   public Polynomial add(Polynomial other) {
-    return new PolynomialImpl();
+    Polynomial result = new PolynomialImpl();
+    int this_degree = this.getDegree();
+    int other_degree = other.getDegree();
+    int max_degree = 0;
+    if (this_degree > other_degree) {
+      max_degree = this_degree;
+    }
+    else {
+      max_degree = other_degree;
+    }
+    while (max_degree >= 0) {
+      int coefficient = this.getCoefficient(max_degree) + other.getCoefficient(max_degree);
+      result.addTerm(coefficient, max_degree);
+      max_degree--;
+    }
+
+    return result;
   }
 
   /**

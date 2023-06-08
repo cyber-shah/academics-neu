@@ -19,7 +19,7 @@ public class TestPolynomial {
   public void setUp() {
     p1 = new PolynomialImpl();
     p2 = new PolynomialImpl();
-    p4 = new PolynomialImpl("8x^4 +4x^3 -11x^2 -2x^1 +1x^0");
+    p4 = new PolynomialImpl("8x^4 +4x^3 -11x^2 -2x^1 +1");
     p3 = new PolynomialImpl("3x^0 +2x^3 +4x^1");
   }
 
@@ -166,5 +166,27 @@ public class TestPolynomial {
     p1.addTerm(0, 3);
     assertEquals(0, p1.evaluate(2), 0.0001);
     p1.removeTerm(3);
+  }
+
+  @Test
+  public void testAdd() {
+    // empty polynomial
+    Polynomial p5;
+    p5 = new PolynomialImpl();
+    assertEquals("8x^4 +4x^3 -11x^2 -2x^1 +1", p4.add(p5).toString());
+
+    // two polynomials with no common power
+    Polynomial p8;
+    p8 = new PolynomialImpl("3x^3 +1x^1");
+    Polynomial p9;
+    p9 = new PolynomialImpl("-4x^4 -2x^2 -0");
+    assertEquals("-4x^4 +3x^3 -2x^2 +1x^1", p8.add(p9).toString());
+
+    // two polynomials with common power
+    Polynomial p10;
+    p10 = new PolynomialImpl("3x^3 +1x^1");
+    Polynomial p11;
+    p11 = new PolynomialImpl("-4x^3 -2x^1 -0");
+    assertEquals("-1x^3 -1x^1", p10.add(p11).toString());
   }
 }
