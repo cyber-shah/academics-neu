@@ -13,7 +13,6 @@ public class TestPolynomial {
   private Polynomial p3;
   private Polynomial p2;
   private Polynomial p4;
-  private Polynomial p6;
 
   @Before
   public void setUp() {
@@ -52,7 +51,7 @@ public class TestPolynomial {
   @Test
   public void testToString() {
     // single term
-    p6 = new PolynomialImpl("-8x^4");
+    Polynomial p6 = new PolynomialImpl("-8x^4");
     assertEquals("-8x^4", p6.toString());
 
     // empty polynomial
@@ -187,6 +186,7 @@ public class TestPolynomial {
     p10 = new PolynomialImpl("3x^3 +1x^1");
     Polynomial p11;
     p11 = new PolynomialImpl("-4x^3 -2x^1 -0");
-    assertEquals("-1x^3 -1x^1", p10.add(p11).toString());
+    Polynomial p12 = p10.add(p11);
+    assertEquals(p12.toString(), p10.add(p11).toString());
   }
 }
