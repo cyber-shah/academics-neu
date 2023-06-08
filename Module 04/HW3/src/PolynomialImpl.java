@@ -258,7 +258,7 @@ public class PolynomialImpl implements Polynomial {
    * @return A string representation of the polynomial.
    */
   public String toString() {
-    return toStringHelper(head, "");
+    return toStringHelper(head);
   }
 
   /*
@@ -266,7 +266,7 @@ public class PolynomialImpl implements Polynomial {
    * @param current The current node
    * @return A string representation of the polynomial.
    */
-  private String toStringHelper(Node current, String accumulator) {
+  private String toStringHelper(Node current) {
     // Base case: empty list
     if (current == null) {
       return "0";
@@ -275,7 +275,7 @@ public class PolynomialImpl implements Polynomial {
     // Base case: last node
     if (current.getNext() == null) {
       if (current.getCoefficient() > 0) {
-        return accumulator + " " + "+" + current.toString();
+        return "+" + current.toString();
       }
       else {
         return current.toString();
@@ -285,14 +285,14 @@ public class PolynomialImpl implements Polynomial {
     // Recursive case: append current node and call the helper function on the next node
     if (current == this.head) {
       // for head, no sign if positive
-      return toStringHelper(current.getNext(), accumulator + current.toString());
+      return current.toString() + " " + toStringHelper(current.getNext());
     }
     else {
       if (current.getCoefficient() > 0) {
-        return toStringHelper(current.getNext(), accumulator + " " + "+" + current.toString());
+        return "+" + current.toString() + " " + toStringHelper(current.getNext());
       }
       else {
-        return toStringHelper(current.getNext(), accumulator + " " + current.toString());
+        return current.toString() + " " + toStringHelper(current.getNext());
       }
     }
   }
