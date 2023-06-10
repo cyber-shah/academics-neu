@@ -121,32 +121,33 @@ public class Sentence {
     if (words_List.size() == 0) {
       return "";
     }
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (String word : words_List) {
       if (isPunctuation(word)) {
-        continue;
+        result.append(" ").append(word);
       }
-
-      // if 1st word is consonant
-      if (!isVowel(String.valueOf(word.charAt(0)))) {
-        // if 2nd word is also a consonant
-        // move them to the end and add "ay"
-        if (!isVowel(String.valueOf(word.charAt(1)))) {
-          result += word.substring(2) + word.substring(0, 2) + "ay ";
+      else {
+        // if 1st word is consonant
+        if (! isVowel(String.valueOf(word.charAt(0)))) {
+          // if 2nd word is also a consonant
+          // move them to the end and add "ay"
+          if (! isVowel(String.valueOf(word.charAt(1)))) {
+            result.append(" ").append(word.substring(2)).append(word.substring(0, 2)).append("ay");
+          }
+          // if 2nd word is a vowel
+          // move it to the end and add "ay"
+          else if (isVowel(String.valueOf(word.charAt(1)))) {
+            result.append(" ").append(word.substring(1)).append(word.charAt(0)).append("ay");
+          }
         }
-        // if 2nd word is a vowel
-        // move it to the end and add "ay"
-        else if (isVowel(word.substring(1))) {
-          result += word.substring(1) + word.charAt(0) + "ay ";
+        // if 1st word is a vowel
+        // add "way" to the end
+        else if (isVowel(String.valueOf(word.charAt(0)))) {
+          result.append(" ").append(word).append("way");
         }
-      }
-      // if 1st word is a vowel
-      // add "way" to the end
-      else if (isVowel(word.substring(0))) {
-        result += word + "way ";
       }
     }
-    return result;
+    return result.toString().trim();
   }
   private boolean isVowel(String s) {
     return s.matches("[aeiouAEIOU]");

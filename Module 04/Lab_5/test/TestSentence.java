@@ -2,8 +2,6 @@ import org.junit.Test;
 import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class TestSentence {
   private Sentence s1;
@@ -135,7 +133,7 @@ public class TestSentence {
   @Test
   public void testPigLatin() {
     // base case
-    assertEquals("histay isway away esttay !", s1.pigLatin());
+    assertEquals("isThay isway away esttay !", s1.pigLatin());
 
     // empty string
     assertEquals("", s2.pigLatin());
