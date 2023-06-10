@@ -113,7 +113,36 @@ public class Sentence {
     return count;
   }
 
+  /**
+   * Converts the sentence to pig latin.
+   * @return string representation of the sentence in pig latin.
+   */
   public String pigLatin() {
+    for (String word : words_List) {
+      if (isPunctuation(word)) {
+        continue;
+      }
+
+      // check if the word starts with a consonant and a vowel
+      // move it to the end and add "ay"
+      else if (isVowel(word.substring(0))) {
+        return;
+      }
+
+      // chcek if the word starts with two consonants
+      // move them to the end and add "ay"
+      else if () {
+        return;
+      }
+
+      // check if the word starts with a vowel
+      // add "way" to the end
+
+    }
     return " ";
+  }
+
+  private boolean isVowel(String word) {
+    return word.matches("[aeiouAEIOU]");
   }
 }
