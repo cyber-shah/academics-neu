@@ -53,4 +53,82 @@ public class TestSentence {
     assertEquals("! @ , & *", s3.toString());
     assertEquals("OneWord", s4.toString());
   }
+
+  @Test
+  public void testClone() {
+    // base case
+    Sentence s5 = s1.clone();
+    assertEquals(s1.toString(), s5.toString());
+    assertEquals(s1.getNumberOfWords(), s5.getNumberOfWords());
+    assertEquals(s1.longestWord(), s5.longestWord());
+
+    // empty string
+    Sentence s6 = s2.clone();
+    assertEquals(s2.toString(), s6.toString());
+    assertEquals(s2.getNumberOfWords(), s6.getNumberOfWords());
+    assertEquals(s2.longestWord(), s6.longestWord());
+
+    // only punctuations
+    Sentence s7 = s3.clone();
+    assertEquals(s3.toString(), s7.toString());
+    assertEquals(s3.getNumberOfWords(), s7.getNumberOfWords());
+    assertEquals(s3.longestWord(), s7.longestWord());
+  }
+
+  @Test
+  public void testMerge() {
+    // base case
+    Sentence s5 = new Sentence("This is another test");
+    Sentence s6 = s1.merge(s5);
+    assertEquals("This is a test ! This is another test", s6.toString());
+    assertEquals(9, s6.getNumberOfWords());
+    assertEquals("another", s6.longestWord());
+
+    // two empty strings
+    Sentence s7 = s2.merge(s2);
+    assertEquals("", s7.toString());
+    assertEquals(0, s7.getNumberOfWords());
+    assertEquals("", s7.longestWord());
+
+    // one empty string
+    Sentence s8 = s1.merge(s2);
+    assertEquals("This is a test !", s8.toString());
+    assertEquals(5, s8.getNumberOfWords());
+    assertEquals("This", s8.longestWord());
+  }
+
+  @Test
+  public void testCountPunctuation() {
+    // base case
+    assertEquals(1, s1.countPunctuation());
+
+    // empty string
+    assertEquals(0, s2.countPunctuation());
+
+    // only punctuations
+    assertEquals(5, s3.countPunctuation());
+
+    // one word
+    assertEquals(0, s4.countPunctuation());
+  }
+
+  @Test
+  public void testCountZWords() {
+    // base case - no z words
+    assertEquals(0, s1.countZWords());
+
+    // empty string
+    assertEquals(0, s2.countZWords());
+
+    // only punctuations
+    assertEquals(0, s3.countZWords());
+
+    // multiple z words
+    Sentence sZ = new Sentence("Zombie is a Zebra");
+    assertEquals(2, sZ.countZWords());
+
+    // multiple z but one word
+    Sentence sZ1 = new Sentence("zzzzzzz");
+    assertEquals(1, sZ1.countZWords());
+  }
 }

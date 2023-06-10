@@ -18,14 +18,27 @@ public class Sentence {
     words_List.addAll(Arrays.asList(wordArray));
     }
 
+  /**
+   * Returns true if the word is a punctuation.
+   * @param word a string to check.
+   * @return true if the word is a punctuation.
+   */
   private boolean isPunctuation(String word) {
     return word.matches("\\p{Punct}");
   }
 
+  /**
+   * Returns the number of words in the sentence.
+   * @return int number of words.
+   */
   public int getNumberOfWords() {
     return words_List.size();
   }
 
+  /**
+   * Returns the longest word in the sentence.
+   * @return string representation of the longest word
+   */
   public String longestWord() {
     String longest = "";
     for (String word : words_List) {
@@ -36,6 +49,10 @@ public class Sentence {
     return longest;
   }
 
+  /**
+   * Returns a string representation of the sentence.
+   * @return a string representation of the sentence
+   */
   public String toString() {
     String result = "";
     for (int i = 0; i < words_List.size(); i++) {
@@ -50,12 +67,53 @@ public class Sentence {
     return result;
   }
 
+  /**
+   * Returns a copy of the sentence.
+   * @return a new sentence with the same words.
+   */
   public Sentence clone() {
     return new Sentence(this.toString());
   }
 
-  public void merge(Sentence other) {
-    String result = this.toString();
+  /**
+   * Merges two sentences.
+   * @param other another sentence.
+   * @return a new sentence with the words from this and other.
+   */
+  public Sentence merge(Sentence other) {
+    String result = this.toString() + " " + other.toString();
+    return new Sentence(result);
   }
 
+  /**
+   * Returns the number of punctuations in the sentence.
+   * @return the number of punctuations in the sentence.
+   */
+  public int countPunctuation() {
+    int count = 0;
+    for (String word : words_List) {
+      if (isPunctuation(word)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  /**
+   * Returns the number of words that contain the letter 'z'.
+   * @return the number of words that contain the letter 'z'.
+   */
+  public int countZWords() {
+    int count = 0;
+    for (String word : words_List) {
+      if (word.contains("z")) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  public String pigLatin() {
+    return " ";
+  }
 }
