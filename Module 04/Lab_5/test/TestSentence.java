@@ -3,6 +3,9 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test class for Sentence.java
+ */
 public class TestSentence {
   private Sentence s1;
   private Sentence s2;

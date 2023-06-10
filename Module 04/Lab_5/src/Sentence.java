@@ -1,7 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
+/**
+ * A class that represents a sentence.
+ */
 public class Sentence {
   private final List<String> words_List;
 
@@ -16,7 +21,37 @@ public class Sentence {
       return;
     }
     words_List.addAll(Arrays.asList(wordArray));
+  }
+
+  /**
+   * A function that takes in a list of type T and returns a value of type R.
+   * @param init initial value.
+   * @param list a list of type T.
+   * @param accumulator a function that takes in a value of type T and returns a value of type R.
+   * @return a value of type R.
+   * @param <T> type of the list.
+   * @param <R> type of the return value.
+   */
+  private static <T, R> R fold (R init, List<T> list, Function <T,R> accumulator){
+    R result = init;
+    for (T element : list){
+      result = accumulator.apply(element);
     }
+    return result;
+  }
+
+  /**
+   * Returns the number of words in the sentence.
+   * @return int number of words.
+   */
+  public int getNumberOfWords() {
+    AtomicInteger num = new AtomicInteger();
+    fold(0, words_List, (word) -> {
+      num.addAndGet(1);
+      return num;
+    });
+    return num.get();
+  }
 
   /**
    * Returns true if the word is a punctuation.
@@ -27,13 +62,7 @@ public class Sentence {
     return word.matches("\\p{Punct}");
   }
 
-  /**
-   * Returns the number of words in the sentence.
-   * @return int number of words.
-   */
-  public int getNumberOfWords() {
-    return words_List.size();
-  }
+
 
   /**
    * Returns the longest word in the sentence.
