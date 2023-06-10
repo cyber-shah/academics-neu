@@ -19,8 +19,7 @@ public class TestPolynomial {
     p1 = new PolynomialImpl();
     p2 = new PolynomialImpl();
     p4 = new PolynomialImpl("8x^4 +4x^3 -11x^2 -2x^1 +1");
-    p3 = new PolynomialImpl("3x^0 +2x^3 +4x^1");
-  }
+    p3 = new PolynomialImpl("3x^0 +2x^3 +4x^1");}
 
   @Test
   public void testAddTerm() {
