@@ -131,4 +131,19 @@ public class TestSentence {
     Sentence sZ1 = new Sentence("zzzzzzz");
     assertEquals(1, sZ1.countZWords());
   }
+
+  @Test
+  public void testPigLatin() {
+    // base case
+    assertEquals("histay isway away esttay !", s1.pigLatin());
+
+    // empty string
+    assertEquals("", s2.pigLatin());
+
+    // only punctuations
+    assertEquals("! @ , & *", s3.pigLatin());
+
+    // one word
+    assertEquals("OneWordway", s4.pigLatin());
+  }
 }

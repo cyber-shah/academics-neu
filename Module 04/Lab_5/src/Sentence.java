@@ -106,7 +106,7 @@ public class Sentence {
   public int countZWords() {
     int count = 0;
     for (String word : words_List) {
-      if (word.contains("z")) {
+      if (word.contains("z") || word.contains("Z")){
         count++;
       }
     }
@@ -118,31 +118,37 @@ public class Sentence {
    * @return string representation of the sentence in pig latin.
    */
   public String pigLatin() {
+    if (words_List.size() == 0) {
+      return "";
+    }
+    String result = "";
     for (String word : words_List) {
       if (isPunctuation(word)) {
         continue;
       }
 
-      // check if the word starts with a consonant and a vowel
-      // move it to the end and add "ay"
-      else if (isVowel(word.substring(0))) {
-        return;
+      // if 1st word is consonant
+      if (!isVowel(String.valueOf(word.charAt(0)))) {
+        // if 2nd word is also a consonant
+        // move them to the end and add "ay"
+        if (!isVowel(String.valueOf(word.charAt(1)))) {
+          result += word.substring(2) + word.substring(0, 2) + "ay ";
+        }
+        // if 2nd word is a vowel
+        // move it to the end and add "ay"
+        else if (isVowel(word.substring(1))) {
+          result += word.substring(1) + word.charAt(0) + "ay ";
+        }
       }
-
-      // chcek if the word starts with two consonants
-      // move them to the end and add "ay"
-      else if () {
-        return;
-      }
-
-      // check if the word starts with a vowel
+      // if 1st word is a vowel
       // add "way" to the end
-
+      else if (isVowel(word.substring(0))) {
+        result += word + "way ";
+      }
     }
-    return " ";
+    return result;
   }
-
-  private boolean isVowel(String word) {
-    return word.matches("[aeiouAEIOU]");
+  private boolean isVowel(String s) {
+    return s.matches("[aeiouAEIOU]");
   }
 }
