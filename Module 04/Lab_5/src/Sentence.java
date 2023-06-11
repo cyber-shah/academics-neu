@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A class that represents a sentence.
@@ -15,6 +15,7 @@ public class Sentence {
    * @param words a string of words separated by spaces
    */
   public Sentence(String words) {
+
     words_List = new ArrayList<>();
     String[] wordArray = words.split("\\s+");
     if (wordArray.length == 1 && wordArray[0].equals("")) {
@@ -24,44 +25,17 @@ public class Sentence {
   }
 
   /**
-   * A function that takes in a list of type T and returns a value of type R.
-   * @param init initial value.
-   * @param list a list of type T.
-   * @param accumulator a function that takes in a value of type T and returns a value of type R.
-   * @return a value of type R.
-   * @param <T> type of the list.
-   * @param <R> type of the return value.
-   */
-  private static <T, R> R fold (R init, List<T> list, Function <T,R> accumulator){
-    R result = init;
-    for (T element : list){
-      result = accumulator.apply(element);
-    }
-    return result;
-  }
-
-  /**
    * Returns the number of words in the sentence.
    * @return int number of words.
    */
   public int getNumberOfWords() {
     AtomicInteger num = new AtomicInteger();
-    fold(0, words_List, (word) -> {
+    HigherOrderFunctions.fold(0, words_List, (word) -> {
       num.addAndGet(1);
       return num;
     });
     return num.get();
   }
-
-  /**
-   * Returns true if the word is a punctuation.
-   * @param word a string to check.
-   * @return true if the word is a punctuation.
-   */
-  private boolean isPunctuation(String word) {
-    return word.matches("\\p{Punct}");
-  }
-
 
 
   /**
@@ -69,13 +43,14 @@ public class Sentence {
    * @return string representation of the longest word
    */
   public String longestWord() {
-    String longest = "";
-    for (String word : words_List) {
-      if (!isPunctuation(word) && word.length() > longest.length()) {
-        longest = word;
+    AtomicReference<String> longWord = new AtomicReference<>("");
+    HigherOrderFunctions.filter(words_List, (word) -> {
+      if (word.length() > longWord.get().length() && !isPunctuation(word)) {
+        longWord.set(word);
       }
-    }
-    return longest;
+      return longWord;
+    });
+    return longWord.get();
   }
 
   /**
@@ -119,13 +94,14 @@ public class Sentence {
    * @return the number of punctuations in the sentence.
    */
   public int countPunctuation() {
-    int count = 0;
-    for (String word : words_List) {
+    AtomicInteger count = new AtomicInteger();
+    HigherOrderFunctions.fold(0, words_List, (word) -> {
       if (isPunctuation(word)) {
-        count++;
+        count.getAndIncrement();
       }
-    }
-    return count;
+      return count;
+    });
+    return count.get();
   }
 
   /**
@@ -133,13 +109,14 @@ public class Sentence {
    * @return the number of words that contain the letter 'z'.
    */
   public int countZWords() {
-    int count = 0;
-    for (String word : words_List) {
-      if (word.contains("z") || word.contains("Z")){
-        count++;
+    AtomicInteger count = new AtomicInteger();
+    HigherOrderFunctions.fold(0, words_List, (word) -> {
+      if (word.contains("z") || word.contains("Z")) {
+        count.getAndIncrement();
       }
-    }
-    return count;
+      return count;
+    });
+    return count.get();
   }
 
   /**
@@ -178,7 +155,24 @@ public class Sentence {
     }
     return result.toString().trim();
   }
+
+  /**
+   * Returns true if the word is a vowel.
+   * @param s a string to check.
+   * @return true if the word is a vowel.
+   */
   private boolean isVowel(String s) {
     return s.matches("[aeiouAEIOU]");
   }
+
+
+  /**
+   * Returns true if the word is a punctuation.
+   * @param word a string to check.
+   * @return true if the word is a punctuation.
+   */
+  private boolean isPunctuation(String word) {
+    return word.matches("\\p{Punct}");
+  }
+
 }
