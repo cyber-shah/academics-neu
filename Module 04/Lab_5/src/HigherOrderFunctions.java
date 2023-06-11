@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class HigherOrderFunctions {
+
   /**
    * A function that takes in a list of type T and returns a value of type R.
    *

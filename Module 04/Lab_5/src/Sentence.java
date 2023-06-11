@@ -15,7 +15,6 @@ public class Sentence {
    * @param words a string of words separated by spaces
    */
   public Sentence(String words) {
-
     words_List = new ArrayList<>();
     String[] wordArray = words.split("\\s+");
     if (wordArray.length == 1 && wordArray[0].equals("")) {
@@ -30,6 +29,7 @@ public class Sentence {
    */
   public int getNumberOfWords() {
     AtomicInteger num = new AtomicInteger();
+    // using FOLD
     HigherOrderFunctions.fold(0, words_List, (word) -> {
       num.addAndGet(1);
       return num;
@@ -44,6 +44,7 @@ public class Sentence {
    */
   public String longestWord() {
     AtomicReference<String> longWord = new AtomicReference<>("");
+    // using FILTER
     HigherOrderFunctions.filter(words_List, (word) -> {
       if (word.length() > longWord.get().length() && !isPunctuation(word)) {
         longWord.set(word);
@@ -53,23 +54,27 @@ public class Sentence {
     return longWord.get();
   }
 
+
   /**
    * Returns a string representation of the sentence.
    * @return a string representation of the sentence
    */
   public String toString() {
-    String result = "";
-    for (int i = 0; i < words_List.size(); i++) {
-      if (i == words_List.size() - 1) {
-        result += words_List.get(i);
-        break;
+    StringBuilder result = new StringBuilder();
+    HigherOrderFunctions.fold("", words_List, (word) -> {
+      if (word.equals("")) {
+        return result.toString();
+      } else {
+        if (result.length() > 0) {
+          result.append(" ");
+        }
+        result.append(word);
+        return result.toString();
       }
-      else {
-        result += words_List.get(i) + " ";
-      }
-    }
-    return result;
+    });
+    return result.toString();
   }
+
 
   /**
    * Returns a copy of the sentence.
@@ -79,15 +84,17 @@ public class Sentence {
     return new Sentence(this.toString());
   }
 
+
   /**
    * Merges two sentences.
    * @param other another sentence.
    * @return a new sentence with the words from this and other.
    */
   public Sentence merge(Sentence other) {
-    String result = this.toString() + " " + other.toString();
+    String result = this.toString().trim() + " " + other.toString().trim();
     return new Sentence(result);
   }
+
 
   /**
    * Returns the number of punctuations in the sentence.
@@ -104,6 +111,7 @@ public class Sentence {
     return count.get();
   }
 
+
   /**
    * Returns the number of words that contain the letter 'z'.
    * @return the number of words that contain the letter 'z'.
@@ -118,6 +126,7 @@ public class Sentence {
     });
     return count.get();
   }
+
 
   /**
    * Converts the sentence to pig latin.
@@ -155,6 +164,7 @@ public class Sentence {
     }
     return result.toString().trim();
   }
+
 
   /**
    * Returns true if the word is a vowel.
