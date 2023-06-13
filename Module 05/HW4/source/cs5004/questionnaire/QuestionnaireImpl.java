@@ -1,16 +1,22 @@
 package cs5004.questionnaire;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-public class QuestionnaireImpl implements Questionnaire{
-  private List<Question> questions;
+public class QuestionnaireImpl implements Questionnaire {
+  private final List<Question> questionsList;
+  private final Map<String, Question> questionsMap;
 
   public QuestionnaireImpl() {
-    questions = new ArrayList<Question>();
+    questionsList = new ArrayList<Question>();
+    questionsMap = new HashMap<String, Question>();
   }
 
   /**
@@ -21,7 +27,8 @@ public class QuestionnaireImpl implements Questionnaire{
    * @param q          the {@link Question} to be added to the questionnaire
    */
   public void addQuestion(String identifier, Question q) {
-    questions.add(q);
+    questionsList.add(q);
+    questionsMap.put(identifier, q);
   }
 
   /**
@@ -31,7 +38,16 @@ public class QuestionnaireImpl implements Questionnaire{
    * @throws NoSuchElementException if there is no question with the given identifier.
    */
   public void removeQuestion(String identifier) {
-
+    // Try removing from the hashmap first
+    Question removedQuestion = questionsMap.remove(identifier);
+    // if successful, remove it from the arrayList
+    if (removedQuestion != null) {
+      questionsList.remove(removedQuestion);
+    }
+    // else throw an exception
+    else {
+      throw new NoSuchElementException("no question with given identifier.");
+    }
   }
 
   /**
@@ -44,7 +60,7 @@ public class QuestionnaireImpl implements Questionnaire{
    * @throws IndexOutOfBoundsException if there is no such question num
    */
   public Question getQuestion(int num) {
-    return null;
+    return questionsList.get(num);
   }
 
   /**
@@ -114,7 +130,7 @@ public class QuestionnaireImpl implements Questionnaire{
    * @param comp a comparator for Question
    */
   public void sort(Comparator<Question> comp) {
-
+    Collections.sort(this.questionsList, comp);
   }
 
   /**
@@ -127,5 +143,13 @@ public class QuestionnaireImpl implements Questionnaire{
    */
   public <R> R fold(BiFunction<Question, R, R> bf, R seed) {
     return null;
+  }
+
+}
+
+class comp implements Comparator<Question> {
+  @Override
+  public int compare(Question q1, Question q2) {
+
   }
 }
