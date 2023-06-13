@@ -1,4 +1,4 @@
-package questionnaire;
+package cs5004.questionnaire;
 
 import java.util.Comparator;
 import java.util.List;

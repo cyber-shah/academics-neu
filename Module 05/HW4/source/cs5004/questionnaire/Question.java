@@ -1,4 +1,4 @@
-package questionnaire;
+package cs5004.questionnaire;
 
 public interface Question {
   public String getPrompt();

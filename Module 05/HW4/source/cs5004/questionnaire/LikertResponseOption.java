@@ -1,4 +1,4 @@
-package questionnaire;
+package cs5004.questionnaire;
 
 enum LikertResponseOption {
   STRONGLY_DISAGREE(-2, "Strongly Disagree"),
