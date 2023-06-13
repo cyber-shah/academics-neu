@@ -139,4 +139,5 @@ public class TestQuestion {
     assertNotEquals(s1.getAnswer(), s3.getAnswer());
     assertNotEquals(y1.getAnswer(), y3.getAnswer());
   }
+
 }
