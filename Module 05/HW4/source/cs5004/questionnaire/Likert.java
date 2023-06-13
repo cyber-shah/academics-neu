@@ -1,5 +1,7 @@
 package cs5004.questionnaire;
 
+import java.util.Objects;
+
 /**
  * This class represents a Likert question in a questionnaire.
  * A Likert question is a question that asks the user to choose from a set of five options.

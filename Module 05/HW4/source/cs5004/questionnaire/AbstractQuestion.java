@@ -61,7 +61,15 @@ public class AbstractQuestion implements Question {
    * @return the copy.
    */
   public Question copy() {
-    return new AbstractQuestion(this.question, this.isRequired);
+    if (this instanceof YesNo) {
+      return new YesNo(this.question, this.isRequired);
+    }
+    else if (this instanceof Likert) {
+      return new Likert(this.question, this.isRequired);
+    }
+    else {
+      return new ShortAnswer(this.question, this.isRequired);
+    }
   }
 
   /**

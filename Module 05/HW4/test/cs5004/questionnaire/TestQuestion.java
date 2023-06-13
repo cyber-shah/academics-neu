@@ -2,8 +2,12 @@ package cs5004.questionnaire;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Objects;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -106,4 +110,33 @@ public class TestQuestion {
     y1.answer("Yeah");
   }
 
+  @Test
+  public void testCopy() {
+    // tests if create a deep copy
+    Likert l3 = (Likert) l1.copy();
+    ShortAnswer s3 = (ShortAnswer) s1.copy();
+    YesNo y3 = (YesNo) y1.copy();
+
+    // tests if the copy is equal to the original
+    assertEquals(l1.getPrompt(), l3.getPrompt());
+    assertEquals(l1.isRequired(), l3.isRequired());
+    assertEquals(l1.getAnswer(), l3.getAnswer());
+
+    assertEquals(s1.getPrompt(), s3.getPrompt());
+    assertEquals(s1.isRequired(), s3.isRequired());
+    assertEquals(s1.getAnswer(), s3.getAnswer());
+
+    assertEquals(y1.getPrompt(), y3.getPrompt());
+    assertEquals(y1.isRequired(), y3.isRequired());
+    assertEquals(y1.getAnswer(), y3.getAnswer());
+
+    // tests if the copy is a deep copy
+    l3.answer("Neither Agree Nor Disagree");
+    s3.answer("Red");
+    y3.answer("Yes");
+
+    assertNotEquals(l1.getAnswer(), l3.getAnswer());
+    assertNotEquals(s1.getAnswer(), s3.getAnswer());
+    assertNotEquals(y1.getAnswer(), y3.getAnswer());
+  }
 }
