@@ -93,14 +93,16 @@ public class QuestionnaireImpl implements Questionnaire {
    * @return the required questions.
    */
   public List<Question> getRequiredQuestions() {
-    List<Question> requiredQuestions = this.filter((question) -> {
-      if (question.isRequired()) {
-        return question;
+    // create a new list
+    List<Question> required_questions = new ArrayList<>();
+
+    for (Question q : this.questionsList) {
+      // for every question that is required, add it to new list
+      if (q.isRequired()) {
+        required_questions.add(q);
       }
-      return;
     }
-    ));
-return (List<Question>) requiredQuestions;
+    return required_questions;
   }
 
   /**
@@ -109,7 +111,16 @@ return (List<Question>) requiredQuestions;
    * @return the optional questions.
    */
   public List<Question> getOptionalQuestions() {
-    return null;
+    // create a new list
+    List<Question> optional_questions = new ArrayList<>();
+
+    for (Question q : this.questionsList) {
+      // for every question that is NOT required, add it to new list
+      if (!q.isRequired()) {
+        optional_questions.add(q);
+      }
+    }
+    return optional_questions;
   }
 
   /**
@@ -135,7 +146,13 @@ return (List<Question>) requiredQuestions;
    * @return the responses
    */
   public List<String> getResponses() {
-    return null;
+    List<String> responses_list = new ArrayList<>();
+    // iterate over all questions in questionsList
+    for(Question q : this.questionsList) {
+      // add answer for each question to responses_list
+      responses_list.add(q.getAnswer());
+    }
+    return responses_list;
   }
 
   /**
@@ -156,9 +173,10 @@ return (List<Question>) requiredQuestions;
       if (pq.test(question)) {
         // create a new question
         Question copiedQuestion = question.copy();
-        filteredQuestionnaire.addQuestion(getIdentifier(question) ,question.copy());
+        filteredQuestionnaire.addQuestion(getIdentifier((HashMap<String, Question>) questionsMap, question), question.copy());
       }
     }
+    return filteredQuestionnaire;
   }
 
   /**
@@ -181,6 +199,21 @@ return (List<Question>) requiredQuestions;
    */
   public <R> R fold(BiFunction<Question, R, R> bf, R seed) {
     return null;
+  }
+
+  /**
+   *
+   * @param map
+   * @param value
+   * @return
+   */
+  public String getIdentifier(HashMap<String, Question> map, Question value) {
+    for (Map.Entry<String, Question> entry : map.entrySet()) {
+      if (entry.getValue().equals(value)) {
+        return entry.getKey(); // Return the key associated with the matching value
+      }
+    }
+    return null; // Return null if the value is not found in the map
   }
 
 }
