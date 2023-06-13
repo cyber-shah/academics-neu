@@ -55,11 +55,14 @@ public class QuestionnaireImpl implements Questionnaire {
    * questionnaire, or the sorted order if the {@code sort()} method is called. The first question
    * is 1, second 2, etc.
    *
-   * @param num the number of the question, counting from 1
-   * @return the question
-   * @throws IndexOutOfBoundsException if there is no such question num
+   * @param num the number of the question, counting from 1.
+   * @return the question.
+   * @throws IndexOutOfBoundsException if there is no such question num.
    */
   public Question getQuestion(int num) {
+    if (num > questionsList.size()) {
+      throw new IndexOutOfBoundsException("Out of bounds.");
+    }
     return questionsList.get(num);
   }
 
@@ -67,12 +70,21 @@ public class QuestionnaireImpl implements Questionnaire {
    * Get the question with the given identifier (question having been previously added to the
    * questionnaire).
    *
-   * @param identifier the identifier of the question
-   * @return the question
-   * @throws NoSuchElementException if there is no question with the identifier
+   * @param identifier the identifier of the question.
+   * @return the question.
+   * @throws NoSuchElementException if there is no question with the identifier.
    */
   public Question getQuestion(String identifier) {
-    return null;
+    // get the question
+    Question askedQuestion = questionsMap.get(identifier);
+    // if found, return
+    if (askedQuestion != null) {
+      return questionsMap.get(identifier);
+    }
+    // else throw error
+    else {
+      throw new NoSuchElementException("no question with the identifier");
+    }
   }
 
   /**
@@ -81,7 +93,14 @@ public class QuestionnaireImpl implements Questionnaire {
    * @return the required questions.
    */
   public List<Question> getRequiredQuestions() {
-    return null;
+    List<Question> requiredQuestions = this.filter((question) -> {
+      if (question.isRequired()) {
+        return question;
+      }
+      return;
+    }
+    ));
+return (List<Question>) requiredQuestions;
   }
 
   /**
@@ -99,7 +118,15 @@ public class QuestionnaireImpl implements Questionnaire {
    * @return true if all required questions have responses, false otherwise.
    */
   public boolean isComplete() {
-    return false;
+    // for each question in questionsList
+    for (Question q: questionsList) {
+      // if a question is required and answer is null, return false
+      if (q.isRequired() && q.getAnswer() == null) {
+        return false;
+      }
+    }
+    // else it is complete and return true
+    return true;
   }
 
   /**
@@ -116,11 +143,22 @@ public class QuestionnaireImpl implements Questionnaire {
    * true. The returned questionnaire is completely independent of this questionnaire. That is,
    * the questions in the returned questionnaire are <b>copies</b> of the original questions.
    *
-   * @param pq the predicate
-   * @return the new questionnaire
+   * @param pq the predicate.
+   * @return the new questionnaire.
    */
   public Questionnaire filter(Predicate<Question> pq) {
-    return null;
+    // create a new questionnaire
+    QuestionnaireImpl filteredQuestionnaire = new QuestionnaireImpl();
+
+    // for each question in questionsList
+    for (Question question : questionsList) {
+      // if this test passes, add it to the filteredQuestionnaire
+      if (pq.test(question)) {
+        // create a new question
+        Question copiedQuestion = question.copy();
+        filteredQuestionnaire.addQuestion(getIdentifier(question) ,question.copy());
+      }
+    }
   }
 
   /**
@@ -147,9 +185,5 @@ public class QuestionnaireImpl implements Questionnaire {
 
 }
 
-class comp implements Comparator<Question> {
-  @Override
-  public int compare(Question q1, Question q2) {
-
-  }
-}
+//class comp implements Comparator<Question> {
+//}
