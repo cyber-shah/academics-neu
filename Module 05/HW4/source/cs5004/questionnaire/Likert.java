@@ -32,7 +32,7 @@ public class Likert extends AbstractQuestion {
     // for each option in the array
     for (LikertResponseOption option : options) {
       // if option equals answer AKA input, set it as attribute
-      if (option.name().equalsIgnoreCase(answer)) {
+      if (option.getText().equalsIgnoreCase(answer)) {
 /*         cannot use this.answer = option.getText(); because there is no answer attribute here
          we are only using super classes attributes and assigning them values.
          if we would wish to do use this.answer = option.getText(); we would need to create
