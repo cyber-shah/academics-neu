@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -132,7 +133,7 @@ public class QuestionnaireImpl implements Questionnaire {
     // for each question in questionsList
     for (Question q: questionsList) {
       // if a question is required and answer is null, return false
-      if (q.isRequired() && q.getAnswer() == null) {
+      if (q.isRequired() && Objects.equals(q.getAnswer(), "")) {
         return false;
       }
     }
