@@ -14,7 +14,7 @@ public class YesNo extends AbstractQuestion {
 
   @Override
   public void answer(String answer) {
-    // create an array of answers to iterate through
+/*    // create an array of answers to iterate through
     YesNoOptions[] valid_answers = YesNoOptions.values();
     // for each option in valid answers
     for (YesNoOptions options : valid_answers) {
@@ -26,7 +26,7 @@ public class YesNo extends AbstractQuestion {
       }
     }
     // else throw error
-    throw new IllegalArgumentException("Must be a Yes or No");
+    throw new IllegalArgumentException("Must be a Yes or No");*/
   }
 }
 
