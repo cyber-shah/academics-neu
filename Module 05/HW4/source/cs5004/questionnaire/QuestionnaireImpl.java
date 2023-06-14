@@ -176,10 +176,6 @@ public class QuestionnaireImpl implements Questionnaire {
     // create a new questionnaire
     QuestionnaireImpl filteredQuestionnaire = new QuestionnaireImpl();
 
-    // create an array of keys
-    Set keys = questionsMap.keySet();
-    Iterator i = keys.iterator();
-
     // for each question in questionsList
     for (Question question : questionsList) {
       // if this test passes, add it to the filteredQuestionnaire
@@ -187,7 +183,10 @@ public class QuestionnaireImpl implements Questionnaire {
         // create a new question
         Question copiedQuestion = question.copy();
         // add the question to the filteredQuestionnaire
-        filteredQuestionnaire.addQuestion(findKey(questionsMap, question), question);
+        String key = findKey(questionsMap, question);
+        if (key != null) {
+          filteredQuestionnaire.addQuestion(key, copiedQuestion);
+        }
       }
     }
     return filteredQuestionnaire;
@@ -216,6 +215,13 @@ public class QuestionnaireImpl implements Questionnaire {
   }
 
 
+  /**
+   * Get the key for any given value in a HashMap.
+   * @param map the map.
+   * @param object the value.
+   * @return the key.
+   * @param <K> the type of the key.
+   */
   private <K>K findKey (Map<K,Question> map, Question object) {
     // for each entry in map.entrySet called 'entry'
     for (Map.Entry<K,Question> entry : map.entrySet()) {
