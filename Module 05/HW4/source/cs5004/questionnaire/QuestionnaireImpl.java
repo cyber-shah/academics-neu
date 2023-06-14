@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -174,6 +176,10 @@ public class QuestionnaireImpl implements Questionnaire {
     // create a new questionnaire
     QuestionnaireImpl filteredQuestionnaire = new QuestionnaireImpl();
 
+    // create an array of keys
+    Set keys = questionsMap.keySet();
+    Iterator i = keys.iterator();
+
     // for each question in questionsList
     for (Question question : questionsList) {
       // if this test passes, add it to the filteredQuestionnaire
@@ -181,9 +187,7 @@ public class QuestionnaireImpl implements Questionnaire {
         // create a new question
         Question copiedQuestion = question.copy();
         // add the question to the filteredQuestionnaire
-
-        /*filteredQuestionnaire.addQuestion(getIdentifier((HashMap<String, Question>)
-                questionsMap, question), question.copy());*/
+        filteredQuestionnaire.addQuestion(findKey(questionsMap, question), question);
       }
     }
     return filteredQuestionnaire;
@@ -196,7 +200,7 @@ public class QuestionnaireImpl implements Questionnaire {
    * @param comp a comparator for Question
    */
   public void sort(Comparator<Question> comp) {
-    Collections.sort(this.questionsList, comp);
+    this.questionsList.sort(comp);
   }
 
   /**
@@ -211,7 +215,18 @@ public class QuestionnaireImpl implements Questionnaire {
     return null;
   }
 
-}
 
-//class comp implements Comparator<Question> {
-//}
+  private <K>K findKey (Map<K,Question> map, Question object) {
+    // for each entry in map.entrySet called 'entry'
+    for (Map.Entry<K,Question> entry : map.entrySet()) {
+      // get the value of each entry
+      Question value = entry.getValue();
+      // if the value is equal to object
+      if (value == object) {
+        return entry.getKey();
+      }
+    }
+    return null;
+  }
+
+}
