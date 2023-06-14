@@ -1,5 +1,7 @@
 package cs5004.questionnaire;
 
+import java.util.Objects;
+
 /**
  * This class represents a Likert question in a questionnaire.
  * A Likert question is a question that asks the user to choose from a set of five options.
@@ -16,16 +18,6 @@ public class Likert extends AbstractQuestion {
    */
   public Likert(String question, boolean isRequired) {
     super(question, isRequired);
-  }
-
-  /**
-   * Constructor. Protected so that it can be used by the copy method.
-   * @param question the prompt.
-   * @param isRequired whether the question is required.
-   * @param answer the answer.
-   */
-  protected Likert(String question, boolean isRequired, String answer) {
-    super(question, isRequired, answer);
   }
 
   /**

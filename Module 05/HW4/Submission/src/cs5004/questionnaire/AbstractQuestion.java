@@ -25,18 +25,6 @@ public class AbstractQuestion implements Question {
   }
 
   /**
-   * Constructor. Protected so that it can be used by the copy method.
-   * @param question the prompt.
-   * @param isRequired whether the question is required.
-   * @param answer the answer.
-   */
-  protected AbstractQuestion(String question, boolean isRequired, String answer) {
-    this.question = question;
-    this.isRequired = isRequired;
-    this.answer = answer;
-  }
-
-  /**
    * Getter for the prompt.
    * @return the prompt.
    */
@@ -74,13 +62,13 @@ public class AbstractQuestion implements Question {
    */
   public Question copy() {
     if (this instanceof YesNo) {
-      return new YesNo(this.question, this.isRequired, this.answer);
+      return new YesNo(this.question, this.isRequired);
     }
     else if (this instanceof Likert) {
-      return new Likert(this.question, this.isRequired, this.answer);
+      return new Likert(this.question, this.isRequired);
     }
     else {
-      return new ShortAnswer(this.question, this.isRequired, this.answer);
+      return new ShortAnswer(this.question, this.isRequired);
     }
   }
 

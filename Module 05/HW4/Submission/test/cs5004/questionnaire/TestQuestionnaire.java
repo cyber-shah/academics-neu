@@ -3,14 +3,14 @@ package cs5004.questionnaire;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Test class for the Questionnaire interface.
- */
+
 public class TestQuestionnaire {
 
   private QuestionnaireImpl q1;

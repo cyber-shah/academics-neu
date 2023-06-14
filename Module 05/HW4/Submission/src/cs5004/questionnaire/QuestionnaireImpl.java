@@ -11,9 +11,6 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-/**
- * Represents a collection of {@link Question}s, forming a questionnaire.
- */
 public class QuestionnaireImpl implements Questionnaire {
   private final List<Question> questionsList;
   private final Map<String, Question> questionsMap;
@@ -177,10 +174,7 @@ public class QuestionnaireImpl implements Questionnaire {
       if (pq.test(question)) {
         // create a new question
         Question copiedQuestion = question.copy();
-        // add the question to the filteredQuestionnaire
-
-        /*filteredQuestionnaire.addQuestion(getIdentifier((HashMap<String, Question>)
-                questionsMap, question), question.copy());*/
+        filteredQuestionnaire.addQuestion(getIdentifier((HashMap<String, Question>) questionsMap, question), question.copy());
       }
     }
     return filteredQuestionnaire;
@@ -206,6 +200,21 @@ public class QuestionnaireImpl implements Questionnaire {
    */
   public <R> R fold(BiFunction<Question, R, R> bf, R seed) {
     return null;
+  }
+
+  /**
+   *
+   * @param map
+   * @param value
+   * @return
+   */
+  public String getIdentifier(HashMap<String, Question> map, Question value) {
+    for (Map.Entry<String, Question> entry : map.entrySet()) {
+      if (entry.getValue().equals(value)) {
+        return entry.getKey(); // Return the key associated with the matching value
+      }
+    }
+    return null; // Return null if the value is not found in the map
   }
 
 }
