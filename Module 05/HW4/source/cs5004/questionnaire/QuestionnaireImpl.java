@@ -31,6 +31,9 @@ public class QuestionnaireImpl implements Questionnaire {
    * @param q          the {@link Question} to be added to the questionnaire
    */
   public void addQuestion(String identifier, Question q) {
+    if (identifier == null || identifier.isEmpty() || q == null) {
+      throw new IllegalArgumentException("identifier/question cannot be null or empty.");
+    }
     questionsList.add(q);
     questionsMap.put(identifier, q);
   }
@@ -152,7 +155,7 @@ public class QuestionnaireImpl implements Questionnaire {
   public List<String> getResponses() {
     List<String> responses_list = new ArrayList<>();
     // iterate over all questions in questionsList
-    for(Question q : this.questionsList) {
+    for (Question q : this.questionsList) {
       // add answer for each question to responses_list
       responses_list.add(q.getAnswer());
     }

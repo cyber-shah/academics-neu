@@ -32,6 +32,9 @@ public class ShortAnswer extends AbstractQuestion {
    */
   @Override
   public void answer(String answer) {
+    if (answer == null) {
+      throw new IllegalArgumentException("Answer cannot be null");
+    }
     // if length above 280
     if (answer.length() > 280) {
       throw new IllegalArgumentException("Short answers cannot be more than 280 characters");

@@ -30,9 +30,19 @@ public class TestQuestionnaire {
     q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
     assertEquals("Did you walk to work today?", q1.getQuestion(0).getPrompt());
 
-    // not unique identifier
+    // overwrite question
     q1.addQuestion("q1.0", new Likert("Do you like walk to work?", true));
     assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testAddQuestionNullIdentifier() {
+    // null identifier
+    q1.addQuestion(null, new YesNo("Did you walk to work today?", true));
+    // empty identifier
+    q1.addQuestion("", new YesNo("Did you walk to work today?", true));
+    // null question
+    q1.addQuestion("q1.0", null);
   }
 
   @Test

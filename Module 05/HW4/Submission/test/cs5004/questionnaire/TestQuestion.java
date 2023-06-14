@@ -3,14 +3,16 @@ package cs5004.questionnaire;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Objects;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-
+/**
+ * Test class for the Question interface.
+ * Tests the methods in the Question interface.
+ * Tests the methods in the AbstractQuestion class.
+ */
 public class TestQuestion {
   private cs5004.questionnaire.Likert l1;
   private cs5004.questionnaire.Likert l2;
@@ -94,6 +96,7 @@ public class TestQuestion {
     answer.append("a".repeat(280));
     s1.answer(answer.toString());
     assertEquals(answer.toString(), s1.getAnswer());
+
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -108,10 +111,20 @@ public class TestQuestion {
     // completely off
     l1.answer("I don't know");
     y1.answer("Yeah");
+
+    // answer is null
+    l1.answer(null);
+    s1.answer(null);
+    y1.answer(null);
   }
 
   @Test
   public void testCopy() {
+    // set answers
+    l1.answer("Strongly Agree");
+    s1.answer("Blue");
+    y1.answer("No");
+
     // tests if create a deep copy
     Likert l3 = (Likert) l1.copy();
     ShortAnswer s3 = (ShortAnswer) s1.copy();

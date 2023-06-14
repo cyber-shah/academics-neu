@@ -96,6 +96,7 @@ public class TestQuestion {
     answer.append("a".repeat(280));
     s1.answer(answer.toString());
     assertEquals(answer.toString(), s1.getAnswer());
+
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -110,6 +111,11 @@ public class TestQuestion {
     // completely off
     l1.answer("I don't know");
     y1.answer("Yeah");
+
+    // answer is null
+    l1.answer(null);
+    s1.answer(null);
+    y1.answer(null);
   }
 
   @Test

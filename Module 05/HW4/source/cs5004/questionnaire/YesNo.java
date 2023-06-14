@@ -33,6 +33,9 @@ public class YesNo extends AbstractQuestion {
    */
   @Override
   public void answer(String answer) {
+    if (answer == null) {
+      throw new IllegalArgumentException("Answer cannot be null");
+    }
 
     // create an array of answers to iterate through
     String[] valid_answers = new String[] {"Yes", "No"};

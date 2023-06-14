@@ -3,14 +3,14 @@ package cs5004.questionnaire;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Objects;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-
+/**
+ * Test class for the Questionnaire interface.
+ */
 public class TestQuestionnaire {
 
   private QuestionnaireImpl q1;
@@ -33,6 +33,12 @@ public class TestQuestionnaire {
     // not unique identifier
     q1.addQuestion("q1.0", new Likert("Do you like walk to work?", true));
     assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testAddQuestionNullIdentifier() {
+    q1.addQuestion(null, new YesNo("Did you walk to work today?", true));
+    q1.addQuestion("", new YesNo("Did you walk to work today?", true));
   }
 
   @Test
