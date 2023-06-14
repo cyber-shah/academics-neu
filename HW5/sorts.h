@@ -55,7 +55,7 @@ void insertionSortIntegers(int *array, unsigned int size, int print)
 
 /** Code for Bubble Sort (from Lab -if not compiling, comment out the internals, but leave the function definition) ***/
 
-// =============== Sort Function ===============
+/*// =============== Sort Function ===============
 // Name: bubblesort
 // Desc: O(n^2) comparison sort
 // param(1): 'array' is a pointer to an integer address.
@@ -65,18 +65,42 @@ void insertionSortIntegers(int *array, unsigned int size, int print)
 //           data is we are sorting.
 // param(3) 'print' tells it to print out after each iteration.
 // Output:   No value is returned, but 'array' should
-//           be modified to store a sorted array of size.
+//           be modified to store a sorted array of size.*/
 void bubbleSortIntegers(int *array, unsigned int size, int print)
 {
-    // code generated from lab
-
+    /* pseudo code --------------
+     * 1. create i pointer i
+     * 2. create i pointer j
+     * 3. start with i at 0 and j at 1
+     * 4. compare them
+     *      4.1 swap them if needed
+     * 5. move pointers by 1
+     * 6. go back to 4.
+     * -----------------------------
+    */
+    int i, j;
+    for (i= 0; i < size - 1; i++) {
+        for (j = 0; j < size - 1; j++) {
+            if (array[j] < array[j+1]) {
+                swap(&array[j], &array[j+1]);
+            }
+        }
+        // 'print' tells it to print out after each iteration.
+        if (print) {
+            printf("Iteration number %u: ", i + 1);
+            for (unsigned int p = 0; p < size; p++) {
+                printf("%d ", array[p]);
+            }
+            printf("\n");
+        }
+    }
 }
 
-// ** You will work on merge sort during the lab on Module 06 ** //
+/*// ** You will work on merge sort during the lab on Module 06 ** //
 
 // Merges two subarrays of arr[].
 // First subarray is arr[l..m]
-// Second subarray is arr[m+1..r]
+// Second subarray is arr[m+1..r]*/
 void merge(int arr[], int temp[], int l, int m, int r)
 {
     if (arr == NULL || temp == NULL)
