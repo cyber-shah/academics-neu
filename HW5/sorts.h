@@ -98,57 +98,46 @@ void bubbleSortIntegers(int *array, unsigned int size, int print)
 /*// ** You will work on merge sort during the lab on Module 06 ** //
 
 // Merges two subarrays of arr[].
-// First subarray is arr[l..m]
-// Second subarray is arr[m+1..size]*/
-void merge(int arr[], int temp[], int l, int m, int size)
+// First subarray is arr[left..mid]
+// Second subarray is arr[mid+1..size]*/
+void merge(int arr[], int temp[], int left, int mid, int size)
 {
-    if (arr == NULL || temp == NULL) {
-        exit(1);
-    }
-    if (l > m || m + 1 > size)
-        return;
+    // Starting index of the first subarray
+    int left_pointer = left;
+    // Starting index of the second subarray
+    int right_pointer = mid + 1;
+    // Starting index of the merged subarray
+    int merged_pointer = left;
 
-    // starting index of LEFT
-    int left = l;
-    // starting index of RIGHT
-    int right = m + 1;
-    // starting index of MERGED
-    int merged = l;
-
-    // while left pointer <= merged pointer
-    // and right pointer <= size
-    while (left <= merged && right <= size) {
-        // if left is less than right
-        // copy left data to merged
-        if (arr[left] <= arr[right]) {
-            temp[merged] = arr[left];
-            left ++;
+    // Merge the two subarrays into the temporary array in sorted order
+    while (left_pointer <= mid && right_pointer <= size) {
+        if (arr[left_pointer] <= arr[right_pointer]) {
+            temp[merged_pointer] = arr[left_pointer];
+            left_pointer++;
         }
-        // else copy data from right into merged
         else {
-            temp[merged] = arr[right];
-            right ++;
+            temp[merged_pointer] = arr[right_pointer];
+            right_pointer++;
         }
-        // move the merged pointer
-        merged ++;
+        merged_pointer++;
     }
 
-    // copy all elements from left if it is remaining
-    while (left <= merged) {
-        temp[merged] = arr[left];
-        left ++;
-        merged ++;
+    // Copy the remaining elements from the first subarray, if any
+    while (left_pointer <= mid) {
+        temp[merged_pointer] = arr[left_pointer];
+        left_pointer++;
+        merged_pointer++;
     }
 
-    // copy all elements from right if that is remaining
-    while (right <= size) {
-        temp[merged] = arr[right];
-        right ++;
-        merged ++;
+    // Copy the remaining elements from the second subarray, if any
+    while (right_pointer <= size) {
+        temp[merged_pointer] = arr[right_pointer];
+        right_pointer++;
+        merged_pointer++;
     }
 
-    // copy elements from temporary array to original array
-    for (int x = 0; x < size; x++) {
+    // Copy the sorted elements from the temporary array back to the original array
+    for (int x = left; x <= size; x++) {
         arr[x] = temp[x];
     }
 }
@@ -163,24 +152,22 @@ void merge(int arr[], int temp[], int l, int m, int size)
 //          (3) 'l' and 'r' are integers, which are the first index and the last index of 'arr' respectively.
 // Output: No value is returned, but 'array' should be modified to store a sorted array of numbers.*/
 void merge_sort(int arr[], int temp[], int l, int r) {
-    if (l < r)
-    {
+    if (l < r) {
         // Calculate the middle index
-        int m = l + (r - l) / 2;
+        int m = (l + r) / 2;
         // Recursively sort the left subarray
         merge_sort(arr, temp, l, m);
         // Recursively sort the right subarray
         merge_sort(arr, temp, m + 1, r);
 
-        // Merge the two sorted subarrays
+        // Merge the two sorted subarray
         merge(arr, temp, l, m, r);
     }
 }
 
 // lab build, merge sort
 
-void mergeSortIntegers(int *array, unsigned int size, int print)
-{ // print is ignored for this one
+void mergeSortIntegers(int *array, unsigned int size, int print) { // print is ignored for this one
     if (array == NULL) {
         exit(1);
     }
