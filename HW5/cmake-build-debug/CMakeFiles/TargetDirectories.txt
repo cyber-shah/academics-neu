@@ -1,3 +1,0 @@
-/home/pshah/Desktop/CS5008/HW5/cmake-build-debug/CMakeFiles/HW5.dir
-/home/pshah/Desktop/CS5008/HW5/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/pshah/Desktop/CS5008/HW5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
