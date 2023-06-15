@@ -74,4 +74,4 @@ The smallest item ends up 'Bubbling' towards the left and the largest one bubble
 # <span style="color:turquoise;"> Insertion Sort </span>
 
 
-![Alt Text](SelectionSort.gif)
+![Alt Text](https://www.alphacodingskills.com/php/img/insertion-sort.PNG)

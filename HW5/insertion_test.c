@@ -9,8 +9,7 @@
 
 
 // =============== Main Functions ===============
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 
     // Some test data sets.
     int dataset1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -34,7 +33,6 @@ int main(int argc, char *argv[])
     insertionSortIntegers(dataset5, 11, print);
     printf("\n");
     insertionSortIntegers(dataset6, 11, print);
-
 
    return 0;
 }

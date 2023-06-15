@@ -14,8 +14,7 @@ void (*sorts[])(int *, unsigned int, int) = {
     mergeSortIntegers,
     quickSortIntegers};
 
-int *get_random_array(int size)
-{
+int *get_random_array(int size) {
     // Allocate memory
     int *random = (int *)malloc(sizeof(int) * size);
 
@@ -28,8 +27,7 @@ int *get_random_array(int size)
     return random;
 }
 
-double sort_and_time(int *array, int size, int type, int print)
-{
+double sort_and_time(int *array, int size, int type, int print) {
     // Setup timers
     struct timespec begin, end;
     // Get the time before we start
@@ -43,8 +41,7 @@ double sort_and_time(int *array, int size, int type, int print)
            (end.tv_sec - begin.tv_sec);
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
     if (!(argc > 2 && argc < 5))
     {
         printf("Two arguments expected, [sort_type] and random size. Add 1 at the end to print out arrays\n");
@@ -71,11 +68,9 @@ int main(int argc, char const *argv[])
     {
         print = 1;
     }
-
     // Generate a random seed
     time_t t;
     srand((unsigned)time(&t));
-
     int *random = get_random_array(size);
 
     if (print)
