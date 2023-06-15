@@ -54,7 +54,7 @@ public class Likert extends AbstractQuestion {
       an answer attribute in this class. but then the super classes method will not
       be able to access them, rendering all super class methods useless!
       */
-        this.setAnswer(option.getText());
+        this.setAnswer(answer);
         return;
       }
     }

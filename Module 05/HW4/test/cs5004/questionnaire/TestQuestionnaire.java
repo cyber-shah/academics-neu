@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -121,5 +120,14 @@ public class TestQuestionnaire {
 
     // no questions
     assertEquals(0, q3.getResponses().size());
+  }
+
+  @Test
+  public void testRemoveQuestion() {
+    // base case
+    q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
+    q1.addQuestion("q1.1", new Likert("Do you like walk to work?", false));
+    q1.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
+
   }
 }

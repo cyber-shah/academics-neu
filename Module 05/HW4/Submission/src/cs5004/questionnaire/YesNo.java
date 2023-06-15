@@ -44,7 +44,7 @@ public class YesNo extends AbstractQuestion {
       // if any answer matches the name of that option
       if (option.equalsIgnoreCase(answer)) {
         // set the answer
-        super.setAnswer(option);
+        super.setAnswer(answer);
         return;
       }
     }

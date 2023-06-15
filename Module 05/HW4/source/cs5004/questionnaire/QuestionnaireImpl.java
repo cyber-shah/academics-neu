@@ -1,15 +1,12 @@
 package cs5004.questionnaire;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -23,6 +20,7 @@ public class QuestionnaireImpl implements Questionnaire {
   public QuestionnaireImpl() {
     questionsList = new ArrayList<Question>();
     questionsMap = new HashMap<String, Question>();
+
   }
 
   /**
@@ -223,10 +221,10 @@ public class QuestionnaireImpl implements Questionnaire {
    * Get the key for any given value in a HashMap.
    * @param map the map.
    * @param object the value.
-   * @return the key.
    * @param <K> the type of the key.
+   * @return the key.
    */
-  private <K>K findKey (Map<K,Question> map, Question object) {
+  private <K> K findKey(Map<K,Question> map, Question object) {
     // for each entry in map.entrySet called 'entry'
     for (Map.Entry<K,Question> entry : map.entrySet()) {
       // get the value of each entry

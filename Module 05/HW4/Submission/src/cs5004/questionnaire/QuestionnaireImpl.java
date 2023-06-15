@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -31,8 +33,8 @@ public class QuestionnaireImpl implements Questionnaire {
    * @param q          the {@link Question} to be added to the questionnaire
    */
   public void addQuestion(String identifier, Question q) {
-    if (identifier == null || identifier.isEmpty()) {
-      throw new IllegalArgumentException("identifier cannot be null or empty.");
+    if (identifier == null || identifier.isEmpty() || q == null) {
+      throw new IllegalArgumentException("identifier/question cannot be null or empty.");
     }
     questionsList.add(q);
     questionsMap.put(identifier, q);
@@ -181,9 +183,10 @@ public class QuestionnaireImpl implements Questionnaire {
         // create a new question
         Question copiedQuestion = question.copy();
         // add the question to the filteredQuestionnaire
-
-        /*filteredQuestionnaire.addQuestion(getIdentifier((HashMap<String, Question>)
-                questionsMap, question), question.copy());*/
+        String key = findKey(questionsMap, question);
+        if (key != null) {
+          filteredQuestionnaire.addQuestion(key, copiedQuestion);
+        }
       }
     }
     return filteredQuestionnaire;
@@ -196,7 +199,7 @@ public class QuestionnaireImpl implements Questionnaire {
    * @param comp a comparator for Question
    */
   public void sort(Comparator<Question> comp) {
-    Collections.sort(this.questionsList, comp);
+    this.questionsList.sort(comp);
   }
 
   /**
@@ -208,10 +211,32 @@ public class QuestionnaireImpl implements Questionnaire {
    * @return the summary value
    */
   public <R> R fold(BiFunction<Question, R, R> bf, R seed) {
+    R result = seed;
+    for (Question question : questionsList) {
+      result = bf.apply(question, result);
+    }
+    return result;
+  }
+
+
+  /**
+   * Get the key for any given value in a HashMap.
+   * @param map the map.
+   * @param object the value.
+   * @return the key.
+   * @param <K> the type of the key.
+   */
+  private <K>K findKey (Map<K,Question> map, Question object) {
+    // for each entry in map.entrySet called 'entry'
+    for (Map.Entry<K,Question> entry : map.entrySet()) {
+      // get the value of each entry
+      Question value = entry.getValue();
+      // if the value is equal to object
+      if (value == object) {
+        return entry.getKey();
+      }
+    }
     return null;
   }
 
 }
-
-//class comp implements Comparator<Question> {
-//}
