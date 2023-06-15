@@ -211,7 +211,11 @@ public class QuestionnaireImpl implements Questionnaire {
    * @return the summary value
    */
   public <R> R fold(BiFunction<Question, R, R> bf, R seed) {
-    return null;
+    R result = seed;
+    for (Question question : questionsList) {
+      result = bf.apply(question, result);
+    }
+    return result;
   }
 
 
