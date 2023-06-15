@@ -1,15 +1,12 @@
 package cs5004.questionnaire;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -20,9 +17,13 @@ public class QuestionnaireImpl implements Questionnaire {
   private final List<Question> questionsList;
   private final Map<String, Question> questionsMap;
 
+  /**
+   * Constructs a new {@code QuestionnaireImpl} object, with no questions.
+   */
   public QuestionnaireImpl() {
     questionsList = new ArrayList<Question>();
     questionsMap = new HashMap<String, Question>();
+
   }
 
   /**
@@ -69,10 +70,10 @@ public class QuestionnaireImpl implements Questionnaire {
    * @throws IndexOutOfBoundsException if there is no such question num.
    */
   public Question getQuestion(int num) {
-    if (num > questionsList.size()) {
+    if (num <= 0 || num > questionsList.size()) {
       throw new IndexOutOfBoundsException("Out of bounds.");
     }
-    return questionsList.get(num);
+    return questionsList.get(num - 1);
   }
 
   /**
@@ -218,15 +219,14 @@ public class QuestionnaireImpl implements Questionnaire {
     return result;
   }
 
-
   /**
    * Get the key for any given value in a HashMap.
    * @param map the map.
    * @param object the value.
-   * @return the key.
    * @param <K> the type of the key.
+   * @return the key.
    */
-  private <K>K findKey (Map<K,Question> map, Question object) {
+  private <K> K findKey(Map<K,Question> map, Question object) {
     // for each entry in map.entrySet called 'entry'
     for (Map.Entry<K,Question> entry : map.entrySet()) {
       // get the value of each entry
@@ -239,4 +239,23 @@ public class QuestionnaireImpl implements Questionnaire {
     return null;
   }
 
+  /**
+   * Return a string representation of the questionnaire.
+   *
+   * @return the string representation.
+   */
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (Question q : questionsList) {
+      if (questionsList.indexOf(q) == questionsList.size() - 1) {
+        sb.append("Question: ").append(q.getPrompt()).append("\n\n");
+        sb.append("Answer: ").append(q.getAnswer());
+      }
+      else {
+        sb.append("Question: ").append(q.getPrompt()).append("\n\n");
+        sb.append("Answer: ").append(q.getAnswer()).append("\n\n");
+      }
+    }
+    return sb.toString();
+  }
 }

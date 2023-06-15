@@ -17,6 +17,9 @@ public class QuestionnaireImpl implements Questionnaire {
   private final List<Question> questionsList;
   private final Map<String, Question> questionsMap;
 
+  /**
+   * Constructs a new {@code QuestionnaireImpl} object, with no questions.
+   */
   public QuestionnaireImpl() {
     questionsList = new ArrayList<Question>();
     questionsMap = new HashMap<String, Question>();
@@ -56,16 +59,6 @@ public class QuestionnaireImpl implements Questionnaire {
       throw new NoSuchElementException("no question with given identifier.");
     }
   }
-
-  /**
-   * Get the question with the given number, based on the order in which it was added to the
-   * questionnaire, or the sorted order if the {@code sort()} method is called. The first question
-   * is 1, second 2, etc.
-   *
-   * @param num the number of the question, counting from 1.
-   * @return the question.
-   * @throws IndexOutOfBoundsException if there is no such question num.
-   */
 
   /**
    * Get the question with the given number, based on the order in which it was added to the
@@ -258,8 +251,10 @@ public class QuestionnaireImpl implements Questionnaire {
         sb.append("Question: ").append(q.getPrompt()).append("\n\n");
         sb.append("Answer: ").append(q.getAnswer());
       }
-      sb.append("Question: ").append(q.getPrompt()).append("\n\n");
-      sb.append("Answer: ").append(q.getAnswer()).append("\n\n");
+      else {
+        sb.append("Question: ").append(q.getPrompt()).append("\n\n");
+        sb.append("Answer: ").append(q.getAnswer()).append("\n\n");
+      }
     }
     return sb.toString();
   }
