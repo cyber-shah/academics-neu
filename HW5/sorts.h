@@ -131,24 +131,24 @@ void bubbleSortIntegers(int *array, unsigned int size, int print)
 /*// ** You will work on merge sort during the lab on Module 06 ** //
 
 // Merges two subarrays of arr[].
-// First subarray is arr[left..mid]
-// Second subarray is arr[mid+1..size]*/
-void merge(int arr[], int temp[], int left, int mid, int size) {
+// First subarray is arr[l..m]
+// Second subarray is arr[m+1..r]*/
+void merge(int arr[], int temp[], int l, int m, int r) {
     if (arr == NULL || temp == NULL) {
         exit(1);
     }
-    if (left > mid || mid >= size) {
+    if (l > m || m >= r) {
         return;
     }
     // Starting index of the first subarray
-    int left_pointer = left;
+    int left_pointer = l;
     // Starting index of the second subarray
-    int right_pointer = mid + 1;
+    int right_pointer = m + 1;
     // Starting index of the merged subarray
-    int merged_pointer = left;
+    int merged_pointer = l;
 
     // Merge the two subarrays into the temporary array in sorted order
-    while (left_pointer <= mid && right_pointer <= size) {
+    while (left_pointer <= m && right_pointer <= r) {
         if (arr[left_pointer] <= arr[right_pointer]) {
             temp[merged_pointer] = arr[left_pointer];
             left_pointer++;
@@ -161,21 +161,21 @@ void merge(int arr[], int temp[], int left, int mid, int size) {
     }
 
     // Copy the remaining elements from the first subarray, if any
-    while (left_pointer <= mid) {
+    while (left_pointer <= m) {
         temp[merged_pointer] = arr[left_pointer];
         left_pointer++;
         merged_pointer++;
     }
 
     // Copy the remaining elements from the second subarray, if any
-    while (right_pointer <= size) {
+    while (right_pointer <= r) {
         temp[merged_pointer] = arr[right_pointer];
         right_pointer++;
         merged_pointer++;
     }
 
     // Copy the sorted elements from the temporary array back to the original array
-    for (int x = left; x <= size; x++) {
+    for (int x = l; x <= r; x++) {
         arr[x] = temp[x];
     }
 }
