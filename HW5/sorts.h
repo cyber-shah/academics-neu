@@ -100,8 +100,13 @@ void bubbleSortIntegers(int *array, unsigned int size, int print)
 // Merges two subarrays of arr[].
 // First subarray is arr[left..mid]
 // Second subarray is arr[mid+1..size]*/
-void merge(int arr[], int temp[], int left, int mid, int size)
-{
+void merge(int arr[], int temp[], int left, int mid, int size) {
+    if (arr == NULL || temp == NULL) {
+        exit(1);
+    }
+    if (left > mid || mid >= size) {
+        return;
+    }
     // Starting index of the first subarray
     int left_pointer = left;
     // Starting index of the second subarray
