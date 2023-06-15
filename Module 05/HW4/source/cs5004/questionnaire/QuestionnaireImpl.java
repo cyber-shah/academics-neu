@@ -66,6 +66,16 @@ public class QuestionnaireImpl implements Questionnaire {
    * @return the question.
    * @throws IndexOutOfBoundsException if there is no such question num.
    */
+
+  /**
+   * Get the question with the given number, based on the order in which it was added to the
+   * questionnaire, or the sorted order if the {@code sort()} method is called. The first question
+   * is 1, second 2, etc.
+   *
+   * @param num the number of the question, counting from 1.
+   * @return the question.
+   * @throws IndexOutOfBoundsException if there is no such question num.
+   */
   public Question getQuestion(int num) {
     if (num > questionsList.size()) {
       throw new IndexOutOfBoundsException("Out of bounds.");
@@ -216,7 +226,6 @@ public class QuestionnaireImpl implements Questionnaire {
     return result;
   }
 
-
   /**
    * Get the key for any given value in a HashMap.
    * @param map the map.
@@ -237,4 +246,21 @@ public class QuestionnaireImpl implements Questionnaire {
     return null;
   }
 
+  /**
+   * Return a string representation of the questionnaire.
+   *
+   * @return the string representation.
+   */
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (Question q : questionsList) {
+      if (questionsList.indexOf(q) == questionsList.size() - 1) {
+        sb.append("Question: ").append(q.getPrompt()).append("\n\n");
+        sb.append("Answer: ").append(q.getAnswer());
+      }
+      sb.append("Question: ").append(q.getPrompt()).append("\n\n");
+      sb.append("Answer: ").append(q.getAnswer()).append("\n\n");
+    }
+    return sb.toString();
+  }
 }

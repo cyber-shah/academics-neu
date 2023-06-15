@@ -128,6 +128,61 @@ public class TestQuestionnaire {
     q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
     q1.addQuestion("q1.1", new Likert("Do you like walk to work?", false));
     q1.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
+    q1.addQuestion("q1.3", new YesNo("Like the weather?", true));
+    q1.addQuestion("q1.4", new Likert("Coding is fun", false));
+    q1.addQuestion("q1.5", new ShortAnswer("Give a short answer", true));
+    q1.addQuestion("q1.6", new YesNo("I like Blue", true));
 
+    // remove first question
+    q1.removeQuestion("q1.0");
+    assertEquals("Do you like walk to work?", q1.getQuestion(0).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(1).getPrompt());
+    assertEquals("Like the weather?", q1.getQuestion(2).getPrompt());
+    assertEquals("Coding is fun", q1.getQuestion(3).getPrompt());
+    assertEquals("Give a short answer", q1.getQuestion(4).getPrompt());
+    assertEquals("I like Blue", q1.getQuestion(5).getPrompt());
+
+    // remove last question
+    q1.removeQuestion("q1.6");
+    assertEquals("Do you like walk to work?", q1.getQuestion(0).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(1).getPrompt());
+    assertEquals("Like the weather?", q1.getQuestion(2).getPrompt());
+    assertEquals("Coding is fun", q1.getQuestion(3).getPrompt());
+    assertEquals("Give a short answer", q1.getQuestion(4).getPrompt());
+
+    // remove middle question
+    q1.removeQuestion("q1.3");
+    assertEquals("Do you like walk to work?", q1.getQuestion(0).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(1).getPrompt());
+    assertEquals("Coding is fun", q1.getQuestion(2).getPrompt());
+    assertEquals("Give a short answer", q1.getQuestion(3).getPrompt());
+
+    System.out.println(q1.toString());
+    // remove all questions
+    q1.removeQuestion("q1.1");
+    q1.removeQuestion("q1.2");
+    q1.removeQuestion("q1.4");
+    q1.removeQuestion("q1.5");
+    assertEquals("", q1.toString());
+
+
+  }
+
+  @Test
+  public void testGetQuestion() {
+    // base case
+    q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
+    q1.addQuestion("q1.1", new Likert("Do you like walk to work?", false));
+    q1.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
+
+    // using identifier
+    assertEquals("Did you walk to work today?", q1.getQuestion("q1.0").getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion("q1.1").getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion("q1.2").getPrompt());
+
+    // using index
+    assertEquals("Did you walk to work today?", q1.getQuestion(0).getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(2).getPrompt());
   }
 }
