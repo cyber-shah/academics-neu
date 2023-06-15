@@ -1,3 +1,0 @@
-/home/pshah/Desktop/CS5008/Extra Labs/cmake-build-debug/CMakeFiles/Extra_Labs.dir
-/home/pshah/Desktop/CS5008/Extra Labs/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/pshah/Desktop/CS5008/Extra Labs/cmake-build-debug/CMakeFiles/rebuild_cache.dir

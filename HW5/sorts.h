@@ -4,20 +4,29 @@
 #include <stdlib.h>
 #include "sort_helper.h"
 
-/*** code for selection sort ****/
-
+/* ** code for selection sort ****//*
 // Returns the minimum integer from a range in an array
 // Input: array - An array of integers
 //        start - Where to start looking in an array
 //        stop - End of where to search. Typically the 'size' of the array.
-// Output: The index in an array of the minimum value between a range [start,stop]
-int findMinimum(int *array, int start, int stop)
-{
-    return 0; // modify to return the index of the min value
+// Output: The index in an array of the minimum value between a range [start,stop]*/
+int findMinimum(int *array, int start, int stop) {
+    if (start >= stop) {
+        return -1; // Invalid index range
+    }
+    int min_index = start;
+    int min_value = array[start];
+    for (int i = start + 1; i < stop; i++) {
+        if (array[i] < min_value) {
+            min_value = array[i];
+            min_index = i;
+        }
+    }
+    return min_index;
 }
 
 
-// =============== Sort Function ===============
+/*// =============== Sort Function ===============
 // Provided below is a sort function. I have also
 // provided a template for how to document functions
 // to help organize your code.
@@ -27,10 +36,20 @@ int findMinimum(int *array, int start, int stop)
 //     This is the start of some 'contiguous block of memory' that we will sort.
 //  - 'size' tells us how big the array of data is we are sorting.
 //  -  'print' tells it to print out after each interation
-// Output: No value is returned, but 'array' should be modified to store a sorted array of numbers.
-void selectionSortIntegers(int *array, unsigned int size, int print)
-{
-    // todo: implement selection sort
+// Output: No value is returned, but 'array' should be modified to store a sorted array of numbers.*/
+void selectionSortIntegers(int *array, unsigned int size, int print) {
+    int i, j, min_index;
+    // start the loop to move boundary of unsorted array
+    for (i = 0; i < size; i++) {
+        // find the min element in the unsorted array using
+        // findMinimum function
+        min_index = findMinimum(array, i, size);
+
+        // swap the found minimum element with the current one
+        if (min_index != i) {
+            swap(&array[min_index], &array[i]);
+        }
+    }
 }
 
 /***  Code for Insertion Sort ***/
@@ -48,9 +67,23 @@ void selectionSortIntegers(int *array, unsigned int size, int print)
 // Output: No value is returned, but 'array' should be modified to store a sorted array of numbers.
 void insertionSortIntegers(int *array, unsigned int size, int print)
 {
-    // TODO: Implement insertion sort
- 
-
+    for (int i = 1; i < size; i++) {
+        int key = array[i];
+        int j = i - 1;
+        // Move elements greater than the key to one position ahead
+        while (j >= 0 && array[j] > key) {
+            array[j + 1] = array[j];
+            j--;
+        }
+        array[j + 1] = key;
+        if (print) {
+            // Print array after each iteration
+            for (int k = 0; k < size; k++) {
+                printf("%d ", array[k]);
+            }
+            printf("\n");
+        }
+    }
 }
 
 /** Code for Bubble Sort (from Lab -if not compiling, comment out the internals, but leave the function definition) ***/
@@ -80,7 +113,7 @@ void bubbleSortIntegers(int *array, unsigned int size, int print)
     */
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - 1; j++) {
-            if (array[j] < array[j+1]) {
+            if (array[j] > array[j+1]) {
                 swap(&array[j], &array[j+1]);
             }
         }
@@ -171,7 +204,6 @@ void merge_sort(int arr[], int temp[], int l, int r) {
 }
 
 // lab build, merge sort
-
 void mergeSortIntegers(int *array, unsigned int size, int print) { // print is ignored for this one
     if (array == NULL) {
         exit(1);
@@ -186,7 +218,7 @@ void mergeSortIntegers(int *array, unsigned int size, int print) { // print is i
     free(temp);
 }
 
-// provided code 
+/*// provided code
 
 // =============== Helper Functions ===============
 // Name:    compare
@@ -195,7 +227,7 @@ void mergeSortIntegers(int *array, unsigned int size, int print) { // print is i
 //          to show if the result is >,<, or =.
 //
 // Input:   a and b here are generic types,
-//          that is why they are 'void'
+//          that is why they are 'void'*/
 int compare(const void *a, const void *b)
 {
     return (*(int *)a - *(int *)b);
