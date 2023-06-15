@@ -27,11 +27,11 @@ public class TestQuestionnaire {
   public void testAddQuestion() {
     // base case
     q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
-    assertEquals("Did you walk to work today?", q1.getQuestion(0).getPrompt());
+    assertEquals("Did you walk to work today?", q1.getQuestion(1).getPrompt());
 
     // overwrite question
     q1.addQuestion("q1.0", new Likert("Do you like walk to work?", true));
-    assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion(2).getPrompt());
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -87,9 +87,9 @@ public class TestQuestionnaire {
     q1.addQuestion("q1.1", new Likert("Do you like walk to work?", false));
     q1.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
     assertFalse(q1.isComplete());
-    q1.getQuestion(0).answer("Yes");
-    q1.getQuestion(1).answer("Agree");
-    q1.getQuestion(2).answer("blue");
+    q1.getQuestion(1).answer("Yes");
+    q1.getQuestion(2).answer("Agree");
+    q1.getQuestion(3).answer("blue");
     assertTrue(q1.isComplete());
 
     // not complete
@@ -97,8 +97,8 @@ public class TestQuestionnaire {
     q2.addQuestion("q2.1", new Likert("Do you like walk to work?", false));
     q2.addQuestion("q2.2", new ShortAnswer("What is your favorite color?", true));
     assertFalse(q2.isComplete());
-    q2.getQuestion(0).answer("Yes");
-    q2.getQuestion(1).answer("Agree");
+    q2.getQuestion(1).answer("Yes");
+    q2.getQuestion(2).answer("Agree");
     assertFalse(q2.isComplete());
 
     // no questions
@@ -111,9 +111,9 @@ public class TestQuestionnaire {
     q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
     q1.addQuestion("q1.1", new Likert("Do you like walk to work?", false));
     q1.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
-    q1.getQuestion(0).answer("Yes");
-    q1.getQuestion(1).answer("Agree");
-    q1.getQuestion(2).answer("blue");
+    q1.getQuestion(1).answer("Yes");
+    q1.getQuestion(2).answer("Agree");
+    q1.getQuestion(3).answer("blue");
     assertEquals("Yes", q1.getResponses().get(0));
     assertEquals("Agree", q1.getResponses().get(1));
     assertEquals("blue", q1.getResponses().get(2));
@@ -135,27 +135,28 @@ public class TestQuestionnaire {
 
     // remove first question
     q1.removeQuestion("q1.0");
-    assertEquals("Do you like walk to work?", q1.getQuestion(0).getPrompt());
-    assertEquals("What is your favorite color?", q1.getQuestion(1).getPrompt());
-    assertEquals("Like the weather?", q1.getQuestion(2).getPrompt());
-    assertEquals("Coding is fun", q1.getQuestion(3).getPrompt());
-    assertEquals("Give a short answer", q1.getQuestion(4).getPrompt());
-    assertEquals("I like Blue", q1.getQuestion(5).getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(2).getPrompt());
+    assertEquals("Like the weather?", q1.getQuestion(3).getPrompt());
+    assertEquals("Coding is fun", q1.getQuestion(4).getPrompt());
+    assertEquals("Give a short answer", q1.getQuestion(5).getPrompt());
+    assertEquals("I like Blue", q1.getQuestion(6).getPrompt());
 
     // remove last question
     q1.removeQuestion("q1.6");
-    assertEquals("Do you like walk to work?", q1.getQuestion(0).getPrompt());
-    assertEquals("What is your favorite color?", q1.getQuestion(1).getPrompt());
-    assertEquals("Like the weather?", q1.getQuestion(2).getPrompt());
-    assertEquals("Coding is fun", q1.getQuestion(3).getPrompt());
-    assertEquals("Give a short answer", q1.getQuestion(4).getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(2).getPrompt());
+    assertEquals("Like the weather?", q1.getQuestion(3).getPrompt());
+    assertEquals("Coding is fun", q1.getQuestion(4).getPrompt());
+    assertEquals("Give a short answer", q1.getQuestion(5).getPrompt());
 
     // remove middle question
     q1.removeQuestion("q1.3");
-    assertEquals("Do you like walk to work?", q1.getQuestion(0).getPrompt());
-    assertEquals("What is your favorite color?", q1.getQuestion(1).getPrompt());
-    assertEquals("Coding is fun", q1.getQuestion(2).getPrompt());
-    assertEquals("Give a short answer", q1.getQuestion(3).getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(2).getPrompt());
+    assertEquals("Coding is fun", q1.getQuestion(3).getPrompt());
+    assertEquals("Give a short answer", q1.getQuestion(4).getPrompt());
+
 
     System.out.println(q1.toString());
     // remove all questions
@@ -181,8 +182,8 @@ public class TestQuestionnaire {
     assertEquals("What is your favorite color?", q1.getQuestion("q1.2").getPrompt());
 
     // using index
-    assertEquals("Did you walk to work today?", q1.getQuestion(0).getPrompt());
-    assertEquals("Do you like walk to work?", q1.getQuestion(1).getPrompt());
-    assertEquals("What is your favorite color?", q1.getQuestion(2).getPrompt());
+    assertEquals("Did you walk to work today?", q1.getQuestion(1).getPrompt());
+    assertEquals("Do you like walk to work?", q1.getQuestion(2).getPrompt());
+    assertEquals("What is your favorite color?", q1.getQuestion(3).getPrompt());
   }
 }

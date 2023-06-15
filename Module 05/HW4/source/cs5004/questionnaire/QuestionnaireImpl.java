@@ -77,10 +77,10 @@ public class QuestionnaireImpl implements Questionnaire {
    * @throws IndexOutOfBoundsException if there is no such question num.
    */
   public Question getQuestion(int num) {
-    if (num > questionsList.size()) {
+    if (num <= 0 || num > questionsList.size()) {
       throw new IndexOutOfBoundsException("Out of bounds.");
     }
-    return questionsList.get(num);
+    return questionsList.get(num - 1);
   }
 
   /**
