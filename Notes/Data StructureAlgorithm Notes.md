@@ -1,7 +1,6 @@
 # Data Structure/Algorithm Notes
 
-# <span style="color:yellowgreen;"> Bubble Sort </span>
-![Alt Text](https://i1.faceprep.in/fp/articles/img/71784_1580551129.png)
+<img src = "https://codepumpkin.com/wp-content/uploads/2017/10/BubbleSort_Avg_case.gif">
 
 ## <span style="color:yellowgreen;"> Description </span>
 Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. This process is repeated until the list is sorted.
@@ -74,3 +73,5 @@ The smallest item ends up 'Bubbling' towards the left and the largest one bubble
 # <span style="color:turquoise;"> Insertion Sort </span>
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Selection-Sort-Animation.gif" style="float:right;padding-left:20px;" />
+
+<img src = "https://codepumpkin.com/wp-content/uploads/2017/10/BubbleSort_Avg_case.gif">
