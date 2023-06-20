@@ -135,8 +135,8 @@ public class TicTacToeModel implements TicTacToe {
     // Check diagonals for a winner
     Player centerCell = board[1][1];
     if (centerCell != null) {
-      if ((board[0][0] == centerCell && board[2][2] == centerCell) ||
-              (board[0][2] == centerCell && board[2][0] == centerCell)) {
+      if ((board[0][0] == centerCell && board[2][2] == centerCell)
+              || (board[0][2] == centerCell && board[2][0] == centerCell)) {
         return centerCell;
       }
     }
