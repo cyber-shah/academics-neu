@@ -3,9 +3,15 @@ package cs5004.questionnaire;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Comparator;
+import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test class for the Questionnaire interface.
@@ -169,6 +175,17 @@ public class TestQuestionnaire {
 
   }
 
+  @Test (expected = NoSuchElementException.class)
+  public void testRemoveQuestionInvalid() {
+    // base case
+    q1.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
+    q1.addQuestion("q1.1", new Likert("Do you like walk to work?", false));
+    q1.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
+
+    // remove invalid question
+    q1.removeQuestion("q1.3");
+  }
+
   @Test
   public void testGetQuestion() {
     // base case
@@ -185,5 +202,131 @@ public class TestQuestionnaire {
     assertEquals("Did you walk to work today?", q1.getQuestion(1).getPrompt());
     assertEquals("Do you like walk to work?", q1.getQuestion(2).getPrompt());
     assertEquals("What is your favorite color?", q1.getQuestion(3).getPrompt());
+  }
+
+  @Test
+  public void testFilterByTypeYesNo() {
+    // Create an instance of QuestionnaireImpl
+    QuestionnaireImpl questionnaire = new QuestionnaireImpl();
+
+    // Add questions of different types to the questionnaire
+    questionnaire.addQuestion("q1", new YesNo("Question 1", true));
+    questionnaire.addQuestion("q2", new ShortAnswer("Question 2", false));
+    questionnaire.addQuestion("q3", new Likert("Question 3", true));
+
+    // Create a predicate to filter questions of type YesNo
+    Predicate<Question> filterPredicate = question -> question instanceof YesNo;
+
+    // Apply the filter and get the filtered questionnaire
+    Questionnaire filteredQuestionnaire = questionnaire.filter(filterPredicate);
+
+    // Retrieve each question from the filtered questionnaire and assert its type
+    // Retrieve each question from the filtered questionnaire and assert its type
+    try {
+      Question filteredQuestion1 = filteredQuestionnaire.getQuestion("q1");
+      assertTrue(filteredQuestion1 instanceof YesNo);
+    } catch (NoSuchElementException e) {
+      fail("Question of type YesNo not found.");
+    }
+
+    try {
+      filteredQuestionnaire.getQuestion("q2");
+      fail("Question of type ShortAnswer should not be present.");
+    } catch (NoSuchElementException e) {
+      // Expected exception
+    }
+
+    try {
+      filteredQuestionnaire.getQuestion("q3");
+      fail("Question of type Likert should not be present.");
+    } catch (NoSuchElementException e) {
+      // Expected exception
+    }
+  }
+
+  @Test
+  public void testFilter() {
+    // Create an instance of QuestionnaireImpl
+    QuestionnaireImpl questionnaire = new QuestionnaireImpl();
+
+    // Add questions to the questionnaire
+    questionnaire.addQuestion("q1.0", new YesNo("Did you walk to work today?", true));
+    questionnaire.addQuestion("q1.1", new Likert("Do you like to walk to work?", false));
+    questionnaire.addQuestion("q1.2", new ShortAnswer("What is your favorite color?", true));
+    questionnaire.addQuestion("q1.3", new YesNo("Like the weather?", true));
+    questionnaire.addQuestion("q1.4", new Likert("Coding is fun", false));
+    questionnaire.addQuestion("q1.5", new ShortAnswer("Give a short answer", true));
+    questionnaire.addQuestion("q1.6", new YesNo("I like Blue", true));
+
+    // Filter by YesNo questions
+    Questionnaire filteredByYesNo = questionnaire.filter(q -> q instanceof YesNo);
+    assertEquals(3, filteredByYesNo.getResponses().size());
+    assertEquals("Did you walk to work today?", filteredByYesNo.getQuestion(1).getPrompt());
+    assertEquals("Like the weather?", filteredByYesNo.getQuestion(2).getPrompt());
+    assertEquals("I like Blue", filteredByYesNo.getQuestion(3).getPrompt());
+
+    // Filter by Likert questions
+    Questionnaire filteredByLikert = questionnaire.filter(q -> q instanceof Likert);
+    assertEquals(2, filteredByLikert.getResponses().size());
+    assertEquals("Do you like to walk to work?", filteredByLikert.getQuestion(1).getPrompt());
+    assertEquals("Coding is fun", filteredByLikert.getQuestion(2).getPrompt());
+
+    // Filter by ShortAnswer questions
+    Questionnaire filteredByShortAnswer = questionnaire.filter(q -> q instanceof ShortAnswer);
+    assertEquals(2, filteredByShortAnswer.getResponses().size());
+    assertEquals("What is your favorite color?", filteredByShortAnswer.getQuestion(1).getPrompt());
+    assertEquals("Give a short answer", filteredByShortAnswer.getQuestion(2).getPrompt());
+  }
+
+  @Test
+  public void testFoldMethod() {
+    QuestionnaireImpl questionnaire = new QuestionnaireImpl();
+
+    // Add questions to the questionnaire
+    Question question1 = new YesNo("Q1", true);
+    Question question2 = new ShortAnswer("Q2", false);
+    Question question3 = new Likert("Q3", true);
+
+    questionnaire.addQuestion("Q1", question1);
+    questionnaire.addQuestion("Q2", question2);
+    questionnaire.addQuestion("Q3", question3);
+
+    // Define the folding function
+    BiFunction<Question, Integer, Integer> foldingFunction = (q, result) -> result + 1;
+    // Perform the fold operation
+    int result = questionnaire.fold(foldingFunction, 0);
+
+    // Assert the result
+    assertEquals(3, result);
+  }
+
+  @Test
+  public void testSortMethod() {
+    QuestionnaireImpl questionnaire = new QuestionnaireImpl();
+
+    // Add questions to the questionnaire in random order
+    Question question1 = new Likert("Q1", true);
+    Question question2 = new YesNo("Q2", false);
+    Question question3 = new ShortAnswer("Q3", true);
+
+    questionnaire.addQuestion("Q1", question1);
+    questionnaire.addQuestion("Q2", question2);
+    questionnaire.addQuestion("Q3", question3);
+
+    // Define the comparator to sort questions based on the prompt in reverse alphabetical order
+    Comparator<Question> comparator = (q1, q2) -> q2.getPrompt().compareTo(q1.getPrompt());
+
+    // Perform the sort operation
+    questionnaire.sort(comparator);
+
+    // Retrieve the questions in the sorted order
+    Question sortedQuestion1 = questionnaire.getQuestion(1);
+    Question sortedQuestion2 = questionnaire.getQuestion(2);
+    Question sortedQuestion3 = questionnaire.getQuestion(3);
+
+    // Assert the sorted order
+    assertEquals("Q3", sortedQuestion1.getPrompt());
+    assertEquals("Q2", sortedQuestion2.getPrompt());
+    assertEquals("Q1", sortedQuestion3.getPrompt());
   }
 }
