@@ -3,6 +3,10 @@ package cs5004.tictactoe;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a tic-tac-toe game Model.
+ * It has a 3x3 board and two players X and O.
+ */
 public class TicTacToeModel implements TicTacToe {
 
   private final Player[][] board;

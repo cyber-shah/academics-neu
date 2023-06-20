@@ -59,4 +59,3 @@ public interface TicTacToe {
   Player getMarkAt(int r, int c);
 }
 
-;
