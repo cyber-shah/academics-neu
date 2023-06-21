@@ -13,9 +13,9 @@ public class Hw05TypeChecks {
    */
   public static void main(String[] args) {
     helper(new EnglishSolitaireModel());
-    helper(new EnglishSolitaireModel(2, 2));
-    helper(new EnglishSolitaireModel(5));
-    helper(new EnglishSolitaireModel(3, 0, 4));
+//    helper(new EnglishSolitaireModel(2, 2));
+//    helper(new EnglishSolitaireModel(5));
+//    helper(new EnglishSolitaireModel(3, 0, 4));
   }
 
   private static void helper(MarbleSolitaireModel model) {

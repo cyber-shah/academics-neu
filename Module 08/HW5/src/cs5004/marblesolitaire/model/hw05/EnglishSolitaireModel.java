@@ -7,9 +7,10 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
   private Map<String, SlotState> board;
   private int boardSize;
 
-  public EnglishSolitaireModel(){
-    boardSize = 6;
+  public EnglishSolitaireModel() {
+    boardSize = 7;
     board = new HashMap<>();
+/*
     for (int i = 0; i <= boardSize; i++) {
       for (int j = 0; j <= boardSize; j++) {
         // set top left square and top right square to invalid
@@ -32,6 +33,30 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     }
     // make the centre empty
     board.replace("3,3", SlotState.Empty);
+*/
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        // set top left square and top right square to invalid
+        if (i <= 1 && (j <= 1 || j >= 5)) {
+          // or could do, j <= remainderSquareSize || j >= boardSize - remainderSquareSize
+          board.put(i + "," + j, SlotState.Invalid);
+        } else if (i >= 5 && (j <= 1 || j >= 5)) {
+          // i >= boardSize - remainderSquareSize
+          board.put(i + "," + j, SlotState.Invalid);
+        } else {
+          board.put(i + "," + j, SlotState.Marble);
+        }
+      }
+      // make the centre empty
+      board.replace("3,3", SlotState.Empty);
+    }
+  }
+
+  private boolean isInvalidPosition (int row, int col) {
+    if (row == this.boardSize) {
+      return true;
+    }
+    return false;
   }
 
 
@@ -73,7 +98,7 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public int getBoardSize() {
-    return 0;
+    return this.boardSize;
   }
 
   /**
@@ -87,7 +112,7 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public SlotState getSlotAt(int row, int col) throws IllegalArgumentException {
-    return null;
+    return board.get(row + "," + col);
   }
 
   /**
