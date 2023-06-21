@@ -47,38 +47,38 @@ double sort_and_time(int *array, int size, int type, int print)
 void printResultsTable()
 {
     int data_size[] = {10000, 20000, 30000, 40000, 50000, 100000, 130000};
+    // get the array size
     int dataSizes = sizeof(data_size) / sizeof(data_size[0]);
     // Define the sort types
     const char *sortNames[] = {"Bubble", "Selection", "Insertion", "Merge", "Quick"};
-    int numSorts = sizeof(sorts) / sizeof(sorts[0]);
+    // array size for sortNames
+    int numberOfSorts = sizeof(sorts) / sizeof(sorts[0]);
 
     // Print the table header
     printf("Results Table\n");
     printf("%-8s", "N");
-    for (int i = 0; i < numSorts; i++) {
-        printf("%-12s\t", sortNames[i]);
+    for (int i = 0; i < numberOfSorts; i++) {
+        printf("%-12s\t", sorts[i]);
     }
     printf("\n");
 
-    // Iterate over the sizes
+    // for each data size
     for (int i = 0; i < dataSizes; i++) {
+        // select a size
         int size = data_size[i];
         printf("%d\t", size);
 
-        // Iterate over the sort types
-        for (int j = 0; j < numSorts; j++) {
+        // for each sort type
+        for (int j = 0; j < numberOfSorts; j++) {
             // Generate a random array
             int *random = get_random_array(size);
             // Perform the sort and measure the time
             double time_taken = sort_and_time(random, size, j, 0);
-
             // Free the random array
             free(random);
-
             // Print the time taken
             printf("%.6f\t", time_taken);
         }
-
         printf("\n");
     }
 }

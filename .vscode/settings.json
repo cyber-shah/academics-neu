@@ -1,0 +1,5 @@
+{
+    "cmake.configureOnOpen": true,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on"
+}

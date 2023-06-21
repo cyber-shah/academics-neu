@@ -207,6 +207,7 @@ void merge_sort(int arr[], int temp[], int l, int r)
     if (l < r) {
         // Calculate the middle index
         int m = (l + r) / 2;
+
         // Recursively sort the left subarray
         merge_sort(arr, temp, l, m);
         // Recursively sort the right subarray
@@ -214,7 +215,7 @@ void merge_sort(int arr[], int temp[], int l, int r)
 
         // Merge the two sorted subarray
         merge(arr, temp, l, m, r);
-    }   
+    }
 }
 
 // lab build, merge sort
