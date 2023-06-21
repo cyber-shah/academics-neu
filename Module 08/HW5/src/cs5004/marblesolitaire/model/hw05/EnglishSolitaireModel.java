@@ -10,6 +10,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
   public EnglishSolitaireModel() {
     boardSize = 7;
     board = new HashMap<>();
+    int bufferRectangle = (boardSize / 2) - 2;
+
 /*
     for (int i = 0; i <= boardSize; i++) {
       for (int j = 0; j <= boardSize; j++) {
@@ -52,11 +54,32 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     }
   }
 
-  private boolean isInvalidPosition (int row, int col) {
-    if (row == this.boardSize) {
+  public boolean isInvalidPosition (int row, int col) {
+    int armWidth = boardSize / 2;
+    int sideRectangle = armWidth - 1;
+
+    // when board size is 7,  arm width = 3   side rectangle = 2
+    // when board size is 13, arm width = 5   side rectangle = 4
+    // when board size is 18, arm width = 7   side rectangle = 6
+
+
+    // arm width = board size / 2
+    // buffer = arm width - 2
+
+/*    if (i <= 1 && (j <= 1 || j >= 5)) {
+      // or could do, j <= remainderSquareSize || j >= boardSize - remainderSquareSize
+      board.put(i + "," + j, SlotState.Invalid);
+    } else if (i >= 5 && (j <= 1 || j >= 5)) {
+      // i >= boardSize - remainderSquareSize
+      board.put(i + "," + j, SlotState.Invalid);
+    }*/
+
+  if (row > 0 || row < sideRectangle - 1) {
+    if ((col > (sideRectangle + armWidth)) || col < (this.boardSize - 1)) {
       return true;
     }
-    return false;
+  }
+  return false;
   }
 
 

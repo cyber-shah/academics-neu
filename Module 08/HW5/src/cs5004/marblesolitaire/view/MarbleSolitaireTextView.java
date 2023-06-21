@@ -24,6 +24,7 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
 
     // for each row
     for (int i = 0; i < boardSize; i++) {
+
       // iterate over the column - for each column
       for (int j = 0; j < boardSize; j++) {
         // 1. if it is a marble, append 0
@@ -43,6 +44,12 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
           continue;
         }
 
+
+        if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+          if (j <= 1) {
+            String.append(" ");
+          }
+        }
         // if it's not in the last position, append a space
         if (j != boardSize - 1 && model.getSlotAt(i, j) != MarbleSolitaireModelState.SlotState.Invalid) {
           String.append(" ");
