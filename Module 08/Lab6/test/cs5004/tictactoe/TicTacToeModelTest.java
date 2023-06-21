@@ -146,5 +146,29 @@ public class TicTacToeModelTest {
     assertEquals(Player.O, bd2[2][0]);
   }
 
-  // TODO: test case where board is full AND there is a winner
+  @Test
+  public void testGetWinner() {
+    // Create a new instance of TicTacToeModel and simulate a full board by making moves
+    TicTacToeModel ttt2 = new TicTacToeModel();
+    // Make moves to simulate the full board
+    ttt2.move(0, 0);
+    ttt2.move(1, 1);
+    ttt2.move(0, 1);
+    ttt2.move(1, 0);
+    ttt2.move(2, 1);
+    ttt2.move(2, 0);
+    ttt2.move(0, 2);
+    try {
+      ttt2.move(1, 2);
+    } catch (IllegalStateException e) {
+      assertTrue(e.getMessage().length() > 0);
+    }
+
+    // Assert that the game is over
+    assertTrue(ttt2.isGameOver());
+
+    // Assert that the winner is X
+    assertEquals(Player.X, ttt2.getWinner());
+  }
+
 }
