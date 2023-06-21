@@ -11,41 +11,13 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     boardSize = 7;
     board = new HashMap<>();
     int bufferRectangle = (boardSize / 2) - 2;
-
-/*
-    for (int i = 0; i <= boardSize; i++) {
-      for (int j = 0; j <= boardSize; j++) {
-        // set top left square and top right square to invalid
-        if (i <= 1 ) {
-          // or also could do i <= remainderSquareSize
-          if (j <= 1 || j >= 5) {
-            // or could do, j <= remainderSquareSize || j >= boardSize - remainderSquareSize
-            board.put(i + "," + j, SlotState.Invalid);
-          }
-        }
-        else if ( i >= 5) {
-          // i >= boardSize - remainderSquareSize
-          if (j <= 1 || j >= 5) {
-            board.put(i + "," + j, SlotState.Invalid);
-          }
-        }
-
-        board.put(i + "," + j, SlotState.Marble);
-      }
-    }
-    // make the centre empty
-    board.replace("3,3", SlotState.Empty);
-*/
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
         // set top left square and top right square to invalid
-        if (i <= 1 && (j <= 1 || j >= 5)) {
-          // or could do, j <= remainderSquareSize || j >= boardSize - remainderSquareSize
+        if (isInvalidPosition(i,j)) {
           board.put(i + "," + j, SlotState.Invalid);
-        } else if (i >= 5 && (j <= 1 || j >= 5)) {
-          // i >= boardSize - remainderSquareSize
-          board.put(i + "," + j, SlotState.Invalid);
-        } else {
+        }
+        else {
           board.put(i + "," + j, SlotState.Marble);
         }
       }
@@ -58,28 +30,13 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     int armWidth = boardSize / 2;
     int sideRectangle = armWidth - 1;
 
-    // when board size is 7,  arm width = 3   side rectangle = 2
-    // when board size is 13, arm width = 5   side rectangle = 4
-    // when board size is 18, arm width = 7   side rectangle = 6
+    boolean isTopRectangle = row >= 0 && row < sideRectangle;
+    boolean isBottomRectangle = row >= (boardSize - sideRectangle) && row < boardSize;
+    boolean isLeftRectangle = col >= 0 && col < sideRectangle;
+    boolean isRightRectangle = col >= (boardSize - sideRectangle) && col < boardSize;
 
-
-    // arm width = board size / 2
-    // buffer = arm width - 2
-
-/*    if (i <= 1 && (j <= 1 || j >= 5)) {
-      // or could do, j <= remainderSquareSize || j >= boardSize - remainderSquareSize
-      board.put(i + "," + j, SlotState.Invalid);
-    } else if (i >= 5 && (j <= 1 || j >= 5)) {
-      // i >= boardSize - remainderSquareSize
-      board.put(i + "," + j, SlotState.Invalid);
-    }*/
-
-  if (row > 0 || row < sideRectangle - 1) {
-    if ((col > (sideRectangle + armWidth)) || col < (this.boardSize - 1)) {
-      return true;
-    }
-  }
-  return false;
+    return isTopRectangle && (isLeftRectangle || isRightRectangle)
+            || isBottomRectangle && (isLeftRectangle || isRightRectangle);
   }
 
 
