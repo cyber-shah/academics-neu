@@ -5,6 +5,7 @@ package cs5004.marblesolitaire.view;
  * a view for the Marble solitaire game.
  */
 public interface MarbleSolitaireView {
+
   /**
    * Return a string that represents the current state of the board. The
    * string should have one line per row of the game board. Each slot on the

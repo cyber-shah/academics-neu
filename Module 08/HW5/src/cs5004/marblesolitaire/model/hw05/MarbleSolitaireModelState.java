@@ -4,7 +4,9 @@ package cs5004.marblesolitaire.model.hw05;
  * This interface represents operations that can be used to monitor the state of a marble solitaire
  * model, without changing it.
  */
+
 public interface MarbleSolitaireModelState {
+
   /**
    * This enum represents the state of a single slot on the board. Every slot
    * can either be empty, have a marble, or be an invalid position
@@ -35,4 +37,5 @@ public interface MarbleSolitaireModelState {
    * @return the number of marbles currently on the board
    */
   int getScore();
+
 }
