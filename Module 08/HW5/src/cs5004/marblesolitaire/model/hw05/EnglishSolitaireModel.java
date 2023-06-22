@@ -10,8 +10,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
   public EnglishSolitaireModel() {
     this.boardSize = 7;
     board = new HashMap<>();
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
+    for (int i = 0; i < this.boardSize; i++) {
+      for (int j = 0; j < this.boardSize; j++) {
         // set top left square and top right square to invalid
         if (isInvalidPosition(i,j)) {
           board.put(i + "," + j, SlotState.Invalid);
@@ -32,8 +32,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
 
     this.boardSize = 7;
     board = new HashMap<>();
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
+    for (int i = 0; i < this.boardSize; i++) {
+      for (int j = 0; j < this.boardSize; j++) {
         // set top left square and top right square to invalid
         if (isInvalidPosition(i,j)) {
           board.put(i + "," + j, SlotState.Invalid);
@@ -58,10 +58,10 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
       throw new IllegalArgumentException("Arm thickness must be an odd number");
     }
 
-    this.boardSize = armThickness + ((armThickness - 1) * 2);
+    this.boardSize = armThickness + (armThickness - 1) * 2;
     board = new HashMap<>();
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
+    for (int i = 0; i < this.boardSize; i++) {
+      for (int j = 0; j < this.boardSize; j++) {
         // set top left square and top right square to invalid
         if (isInvalidPosition(i,j)) {
           board.put(i + "," + j, SlotState.Invalid);
@@ -75,9 +75,31 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     board.replace(row + "," + col, SlotState.Empty);
   }
 
+  public EnglishSolitaireModel (int boardSize) {
+    // check if boardSize is odd
+    if (boardSize % 2 == 0) {
+      throw new IllegalArgumentException("Board size must be an odd number");
+    }
+
+    this.boardSize = boardSize;
+    board = new HashMap<>();
+    for (int i = 0; i < this.boardSize; i++) {
+      for (int j = 0; j < this.boardSize; j++) {
+        // set top left square and top right square to invalid
+        if (isInvalidPosition(i,j)) {
+          board.put(i + "," + j, SlotState.Invalid);
+        }
+        else {
+          board.put(i + "," + j, SlotState.Marble);
+        }
+      }
+      // make the centre empty
+      board.replace((boardSize / 2) + "," + (boardSize / 2), SlotState.Empty);
+    }
+  }
 
   public boolean isInvalidPosition (int row, int col) {
-    int sideRectangle = (boardSize / 2) - 1;
+    int sideRectangle = (boardSize / 3);
 
     // top rectangle range
     boolean isTopRectangle = row >= 0 && row < sideRectangle;
@@ -159,7 +181,52 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public boolean isGameOver() {
-    return false;
+    // Iterate over each position on the board
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        // Check if the current position contains a marble
+        if (board.get(i + "," + j) == SlotState.Marble) {
+          // Check if any valid moves can be made from this position
+          if (isValidMove(i, j)) {
+            return false; // Found a valid move, game is not over
+          }
+        }
+      }
+    }
+    return true; // No valid moves found, game is over
+  }
+
+  private boolean isValidMove(int row, int col) {
+    // Check if the current position contains a marble
+    if (board.get(row + "," + col) != SlotState.Marble) {
+      return false;
+    }
+
+    // Check if a move to the left is valid
+    if (col >= 2 && board.get(row + "," + (col - 2)) == SlotState.Empty
+            && board.get(row + "," + (col - 1)) == SlotState.Marble) {
+      return true;
+    }
+
+    // Check if a move to the right is valid
+    if (col <= boardSize - 3 && board.get(row + "," + (col + 2)) == SlotState.Empty
+            && board.get(row + "," + (col + 1)) == SlotState.Marble) {
+      return true;
+    }
+
+    // Check if a move upwards is valid
+    if (row >= 2 && board.get((row - 2) + "," + col) == SlotState.Empty
+            && board.get((row - 1) + "," + col) == SlotState.Marble) {
+      return true;
+    }
+
+    // Check if a move downwards is valid
+    if (row <= boardSize - 3 && board.get((row + 2) + "," + col) == SlotState.Empty
+            && board.get((row + 1) + "," + col) == SlotState.Marble) {
+      return true;
+    }
+
+    return false; // No valid moves found
   }
 
   /**
@@ -193,6 +260,15 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public int getScore() {
-    return 0;
+    int score = 0;
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        SlotState slot = board.get(i + "," + j);
+        if (slot == SlotState.Marble) {
+          score++;
+        }
+      }
+    }
+    return score;
   }
 }

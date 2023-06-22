@@ -20,6 +20,9 @@ public class TestEnglishSolitaireModel {
   private final EnglishSolitaireModel S3 = new EnglishSolitaireModel(5, 4, 4);
   private final MarbleSolitaireTextView V3 = new MarbleSolitaireTextView(S3);
 
+  private final EnglishSolitaireModel S4 = new EnglishSolitaireModel(13);
+  private final MarbleSolitaireTextView V4 = new MarbleSolitaireTextView(S4);
+
   @Test
   public void testToString() {
     assertEquals("""
@@ -57,6 +60,22 @@ public class TestEnglishSolitaireModel {
                             O O O O O
                             O O O O O""",
             V3.toString());
+
+    assertEquals("""
+                            O O O O O
+                            O O O O O
+                            O O O O O
+                            O O O O O
+                    O O O O O O O O O O O O O
+                    O O O O O O O O O O O O O
+                    O O O O O O _ O O O O O O
+                    O O O O O O O O O O O O O
+                    O O O O O O O O O O O O O
+                            O O O O O
+                            O O O O O
+                            O O O O O
+                            O O O O O""",
+            V4.toString());
   }
 
   @Test (expected = IllegalArgumentException.class)
