@@ -30,11 +30,17 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     int armWidth = boardSize / 2;
     int sideRectangle = armWidth - 1;
 
+    // top rectangle range
     boolean isTopRectangle = row >= 0 && row < sideRectangle;
+    // bottom rectangle range
     boolean isBottomRectangle = row >= (boardSize - sideRectangle) && row < boardSize;
+    // Left rectangle range
     boolean isLeftRectangle = col >= 0 && col < sideRectangle;
+    // right rectangle range
     boolean isRightRectangle = col >= (boardSize - sideRectangle) && col < boardSize;
 
+    // is top left, or top right
+    // or is bottom left or bottom right
     return isTopRectangle && (isLeftRectangle || isRightRectangle)
             || isBottomRectangle && (isLeftRectangle || isRightRectangle);
   }

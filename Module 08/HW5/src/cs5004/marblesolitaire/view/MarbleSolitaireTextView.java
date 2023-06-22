@@ -21,7 +21,7 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
   public String toString() {
     // 2. toString()
     int boardSize = model.getBoardSize();
-
+    int sideRectangle = (boardSize / 2) - 1;
     // for each row
     for (int i = 0; i < boardSize; i++) {
 
@@ -35,24 +35,30 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
         else if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Empty) {
           String.append("_");
         }
-        // 3. if j is less than 2 and it is invalid, append " "
-        else if (j <= 2 && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+        // 3. for all invalid before square starts, append space
+        else if (j <= sideRectangle && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
           String.append(" ");
         }
-        // 4. if invalid, skip
+        // 4. if invalid, after the square
         else if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
           continue;
         }
 
+        // logic to append space ------------------------------------
+        // if invalid but before side rectangle, append space
+        if (j < sideRectangle && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+          String.append(" ");
+        }
 
-        if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
-          if (j <= 1) {
+        // logic to append space --------------------------------------------------
+        // if it's not in the last position
+        if (j != boardSize - 1) {
+          // and append a space only if next one is not invalid
+          if (model.getSlotAt(i, j + 1) == MarbleSolitaireModelState.SlotState.Invalid) {
+            continue;
+          } else if (model.getSlotAt(i, j) != MarbleSolitaireModelState.SlotState.Invalid) {
             String.append(" ");
           }
-        }
-        // if it's not in the last position, append a space
-        if (j != boardSize - 1 && model.getSlotAt(i, j) != MarbleSolitaireModelState.SlotState.Invalid) {
-          String.append(" ");
         }
       }
       // after every row, append a new line if it's not the last row
