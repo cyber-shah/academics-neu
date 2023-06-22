@@ -11,31 +11,52 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestEnglishSolitaireModel {
-  private EnglishSolitaireModel S1 = new EnglishSolitaireModel();
-  private MarbleSolitaireTextView V1 = new MarbleSolitaireTextView(S1);
+  private final EnglishSolitaireModel S1 = new EnglishSolitaireModel();
+  private final MarbleSolitaireTextView V1 = new MarbleSolitaireTextView(S1);
 
-  private EnglishSolitaireModel S2 = new EnglishSolitaireModel(5,3);
-  private MarbleSolitaireTextView V2 = new MarbleSolitaireTextView(S2);
+  private final EnglishSolitaireModel S2 = new EnglishSolitaireModel(5,3);
+  private final MarbleSolitaireTextView V2 = new MarbleSolitaireTextView(S2);
+
+  private final EnglishSolitaireModel S3 = new EnglishSolitaireModel(5, 4, 4);
+  private final MarbleSolitaireTextView V3 = new MarbleSolitaireTextView(S3);
 
   @Test
   public void testToString() {
-    assertEquals("    O O O\n"
-            + "    O O O\n"
-            + "O O O O O O O\n"
-            + "O O O _ O O O\n"
-            + "O O O O O O O\n"
-            + "    O O O\n"
-            + "    O O O",
+    assertEquals("""
+                        O O O
+                        O O O
+                    O O O O O O O
+                    O O O _ O O O
+                    O O O O O O O
+                        O O O
+                        O O O""",
             V1.toString());
 
-assertEquals("    O O O\n"
-            + "    O O O\n"
-            + "O O O O O O O\n"
-            + "O O O O O O O\n"
-            + "O O O O O O O\n"
-            + "    O _ O\n"
-            + "    O O O",
+    assertEquals("""
+                        O O O
+                        O O O
+                    O O O O O O O
+                    O O O O O O O
+                    O O O O O O O
+                        O _ O
+                        O O O""",
             V2.toString());
+
+    assertEquals("""
+                            O O O O O
+                            O O O O O
+                            O O O O O
+                            O O O O O
+                    O O O O _ O O O O O O O O
+                    O O O O O O O O O O O O O
+                    O O O O O O O O O O O O O
+                    O O O O O O O O O O O O O
+                    O O O O O O O O O O O O O
+                            O O O O O
+                            O O O O O
+                            O O O O O
+                            O O O O O""",
+            V3.toString());
   }
 
   @Test (expected = IllegalArgumentException.class)

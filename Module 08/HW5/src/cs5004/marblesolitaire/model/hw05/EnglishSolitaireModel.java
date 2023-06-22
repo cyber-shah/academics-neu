@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnglishSolitaireModel implements MarbleSolitaireModel {
-  private Map<String, SlotState> board;
-  private int boardSize;
+  private final Map<String, SlotState> board;
+  private final int boardSize;
 
   public EnglishSolitaireModel() {
     this.boardSize = 7;
@@ -46,6 +46,35 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     // make the given position empty
     board.replace(row + "," + col, SlotState.Empty);
   }
+
+  public EnglishSolitaireModel (int armThickness, int row, int col) {
+    // check if row and col are valid
+    if (row < 0 || col < 0 || row > 6 || col > 6 || isInvalidPosition(row, col)) {
+      throw new IllegalArgumentException("Invalid empty cell position (" + row + "," + col + ")");
+    }
+
+    // check if armThickness is odd
+    if (armThickness % 2 == 0) {
+      throw new IllegalArgumentException("Arm thickness must be an odd number");
+    }
+
+    this.boardSize = armThickness + ((armThickness - 1) * 2);
+    board = new HashMap<>();
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        // set top left square and top right square to invalid
+        if (isInvalidPosition(i,j)) {
+          board.put(i + "," + j, SlotState.Invalid);
+        }
+        else {
+          board.put(i + "," + j, SlotState.Marble);
+        }
+      }
+    }
+    // make the given position empty
+    board.replace(row + "," + col, SlotState.Empty);
+  }
+
 
   public boolean isInvalidPosition (int row, int col) {
     int sideRectangle = (boardSize / 2) - 1;
