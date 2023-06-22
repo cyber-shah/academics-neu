@@ -8,9 +8,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
   private int boardSize;
 
   public EnglishSolitaireModel() {
-    boardSize = 7;
+    this.boardSize = 7;
     board = new HashMap<>();
-    int bufferRectangle = (boardSize / 2) - 2;
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
         // set top left square and top right square to invalid
@@ -26,9 +25,30 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     }
   }
 
+  public EnglishSolitaireModel(int row, int col) {
+    if (row < 0 || col < 0 || row > 6 || col > 6 || isInvalidPosition(row, col)) {
+      throw new IllegalArgumentException("Invalid empty cell position (" + row + "," + col + ")");
+    }
+
+    this.boardSize = 7;
+    board = new HashMap<>();
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        // set top left square and top right square to invalid
+        if (isInvalidPosition(i,j)) {
+          board.put(i + "," + j, SlotState.Invalid);
+        }
+        else {
+          board.put(i + "," + j, SlotState.Marble);
+        }
+      }
+    }
+    // make the given position empty
+    board.replace(row + "," + col, SlotState.Empty);
+  }
+
   public boolean isInvalidPosition (int row, int col) {
-    int armWidth = boardSize / 2;
-    int sideRectangle = armWidth - 1;
+    int sideRectangle = (boardSize / 2) - 1;
 
     // top rectangle range
     boolean isTopRectangle = row >= 0 && row < sideRectangle;
@@ -63,7 +83,43 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+    if (fromCol < 0 || fromCol > boardSize - 1
+            || fromRow < 0 || fromRow >  boardSize - 1
+            || toCol < 0 || toCol > boardSize - 1
+            || toRow < 0 || toRow > boardSize - 1) {
+      throw new IllegalArgumentException("Out of Bounds");
+    }
 
+    // get the slot states for both coordinates
+    SlotState fromSlot = board.get(fromRow + "," + fromCol);
+    SlotState toSlot = board.get(toRow + "," + toCol);
+
+    // if either of them is invalid, throw an exception
+    if (fromSlot == SlotState.Invalid || toSlot == SlotState.Invalid) {
+      throw new IllegalArgumentException("Either from or to is Invalid");
+    }
+
+    // if fromSlot is empty or toSlot is NOT empty,
+    if (fromSlot == SlotState.Empty || toSlot != SlotState.Empty) {
+      throw new IllegalArgumentException("Either from is empty or to is NOT empty");
+    }
+
+    // get the middle between from and TO
+    int midRow = (fromRow + toRow) / 2;
+    int midCol = (fromCol + toCol) / 2;
+
+    // get the slot slate there
+    SlotState midSlot = board.get(midRow + "," + midCol);
+
+    // if there is no marble between from and TO, throw exception
+    if (midSlot != SlotState.Marble) {
+      throw new IllegalArgumentException("No marble in between!");
+    }
+
+    // Perform the move by updating the board positions
+    board.put(fromRow + "," + fromCol, SlotState.Empty);
+    board.put(midRow + "," + midCol, SlotState.Empty);
+    board.put(toRow + "," + toCol, SlotState.Marble);
   }
 
   /**

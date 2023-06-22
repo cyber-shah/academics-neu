@@ -45,12 +45,11 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
         }
 
         // logic to append space ------------------------------------
-        // if invalid but before side rectangle, append space
+        // if invalid but before side rectangle
         if (j < sideRectangle && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
           String.append(" ");
         }
 
-        // logic to append space --------------------------------------------------
         // if it's not in the last position
         if (j != boardSize - 1) {
           // and append a space only if next one is not invalid

@@ -14,8 +14,11 @@ public class TestEnglishSolitaireModel {
   private EnglishSolitaireModel S1 = new EnglishSolitaireModel();
   private MarbleSolitaireTextView V1 = new MarbleSolitaireTextView(S1);
 
+  private EnglishSolitaireModel S2 = new EnglishSolitaireModel(5,3);
+  private MarbleSolitaireTextView V2 = new MarbleSolitaireTextView(S2);
+
   @Test
-  public void testConstructorEmpty() {
+  public void testToString() {
     assertEquals("    O O O\n"
             + "    O O O\n"
             + "O O O O O O O\n"
@@ -24,5 +27,83 @@ public class TestEnglishSolitaireModel {
             + "    O O O\n"
             + "    O O O",
             V1.toString());
+
+assertEquals("    O O O\n"
+            + "    O O O\n"
+            + "O O O O O O O\n"
+            + "O O O O O O O\n"
+            + "O O O O O O O\n"
+            + "    O _ O\n"
+            + "    O O O",
+            V2.toString());
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testInvalidConstructor() {
+    // invalid empty tile
+    EnglishSolitaireModel S1 = new EnglishSolitaireModel(5, 5);
+
+    // out of bounds empty tile
+    EnglishSolitaireModel S2 = new EnglishSolitaireModel(7,7);
+
+    // negative empty tile
+    EnglishSolitaireModel S3 = new EnglishSolitaireModel(-1, 3);
+
+//    // invalid constructor - negative arm thickness
+//    EnglishSolitaireModel S3 = new EnglishSolitaireModel(-1);
+//
+//    // invalid constructor - even arm thickness
+//    EnglishSolitaireModel S4 = new EnglishSolitaireModel(4);
+//
+//    // invalid constructor - negative empty cell position
+//    EnglishSolitaireModel S5 = new EnglishSolitaireModel(3, -1, 3);
+//
+//    // invalid constructor - empty cell position outside board
+//    EnglishSolitaireModel S6 = new EnglishSolitaireModel(3, 6, 3);
+//
+//    // invalid constructor - empty cell position inside invalid tile
+//    EnglishSolitaireModel S7 = new EnglishSolitaireModel(3, 0, 3);
+  }
+
+  @Test
+  public void testMove() {
+    // valid move
+    S1.move(3, 1, 3, 3);
+    assertEquals("    O O O\n"
+            + "    O O O\n"
+            + "O O O O O O O\n"
+            + "O _ _ O O O O\n"
+            + "O O O O O O O\n"
+            + "    O O O\n"
+            + "    O O O",
+            V1.toString());
+
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testMoveInvalid() {
+    // invalid move - no marble at origin
+    S1.move(3, 1, 3, 4);
+
+    // invalid move - not empty at destination
+    S1.move(3, 1, 3, 3);
+
+    // invalid move - not in same row or column
+    S1.move(3, 1, 4, 3);
+
+    // invalid move - not 2 spaces away
+    S1.move(3, 4, 3, 1);
+
+    // invalid move - negative
+    S1.move(-1, 4, 3, 1);
+
+    // invalid move - inside invalid tile
+    S1.move(3, 0, 3, 3);
+
+    // invalid move - outside board
+    S1.move(3, 6, 3, 8);
+
+    // invalid move - diagonal
+    S1.move(1, 3, 3, 1);
   }
 }
