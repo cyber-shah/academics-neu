@@ -23,10 +23,9 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
   }
 
   /**
-   * This method returns the string representation of the game.
-   * Uses string builder and then appends to it.
+   * Returns the string representation of the game.
    *
-   * @return String representation of the game.
+   * @return The string representation of the game.
    */
   @Override
   public String toString() {
