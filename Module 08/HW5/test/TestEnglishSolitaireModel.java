@@ -120,6 +120,7 @@ public class TestEnglishSolitaireModel {
     model.move(1, 3, 3, 3);
     model.move(3, 1, 3, 3);
   }
+
   {
     model = new EnglishSolitaireModel(2, 4);
 
@@ -129,6 +130,7 @@ public class TestEnglishSolitaireModel {
     // Test specified position is empty
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(2, 4));
   }
+
   @Test (expected = IllegalArgumentException.class)
   public void testMoveInvalidNoMarbleInBetween() {
     EnglishSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
