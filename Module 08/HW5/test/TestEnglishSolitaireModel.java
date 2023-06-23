@@ -144,7 +144,7 @@ public class TestEnglishSolitaireModel {
     assertFalse(model.isGameOver());
   }
 
-/*  @Test
+  @Test
   public void testIsGameOverTrue() {
     EnglishSolitaireModel model2 = new EnglishSolitaireModel();
 
@@ -170,7 +170,7 @@ public class TestEnglishSolitaireModel {
     model2.move(0, 3, 2, 3);
 
     assertEquals(true, model2.isGameOver());
-  }*/
+  }
 
   @Test
   public void testGetBoardSize() {
