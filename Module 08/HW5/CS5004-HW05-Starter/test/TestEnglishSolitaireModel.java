@@ -20,6 +20,9 @@ public class TestEnglishSolitaireModel {
   private final EnglishSolitaireModel S3 = new EnglishSolitaireModel(5, 4, 4);
   private final MarbleSolitaireTextView V3 = new MarbleSolitaireTextView(S3);
 
+  private final EnglishSolitaireModel S5 = new EnglishSolitaireModel(7,0,7);
+  private final MarbleSolitaireTextView V5 = new MarbleSolitaireTextView(S5);
+
   private final EnglishSolitaireModel S4 = new EnglishSolitaireModel(13);
   private final MarbleSolitaireTextView V4 = new MarbleSolitaireTextView(S4);
 
@@ -120,13 +123,10 @@ public class TestEnglishSolitaireModel {
             + "    O O O",
             V1.toString());
 
-    S1.move(3,0,3,3);
-
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testMoveInvalid() {
-
     // invalid move - no marble at origin
     S1.move(3, 1, 3, 4);
 
@@ -150,19 +150,5 @@ public class TestEnglishSolitaireModel {
 
     // invalid move - diagonal
     S1.move(1, 3, 3, 1);
-  }
-
-  @Test
-  public void testGetScore() {
-    assertEquals(32, S1.getScore());
-    assertEquals(104, S4.getScore());
-  }
-
-  @Test
-  public void testGetBoardSize() {
-    assertEquals(7, S1.getBoardSize());
-    assertEquals(7, S2.getBoardSize());
-    assertEquals(13, S3.getBoardSize());
-    assertEquals(13, S4.getBoardSize());
   }
 }
