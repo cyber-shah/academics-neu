@@ -1,6 +1,8 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
+import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 
 import static org.junit.Assert.assertEquals;
@@ -9,17 +11,34 @@ import static org.junit.Assert.assertEquals;
  * This class tests the EnglishSolitaireModel class.
  */
 public class TestEnglishSolitaireModel {
+
+  // 1. Default Constructor
   private final EnglishSolitaireModel s1 = new EnglishSolitaireModel();
   private final MarbleSolitaireTextView v1 = new MarbleSolitaireTextView(s1);
 
+  // 2. Custom Empty
   private final EnglishSolitaireModel s2 = new EnglishSolitaireModel(5,3);
   private final MarbleSolitaireTextView v2 = new MarbleSolitaireTextView(s2);
 
+  // 3. Custom Arm Thickness
   private final EnglishSolitaireModel s3 = new EnglishSolitaireModel(5, 4, 4);
   private final MarbleSolitaireTextView v3 = new MarbleSolitaireTextView(s3);
 
+  // 4. Custom Board Size
   private final EnglishSolitaireModel s4 = new EnglishSolitaireModel(13);
   private final MarbleSolitaireTextView v4 = new MarbleSolitaireTextView(s4);
+
+
+  @Test
+  public void testDefaultConstructor() {
+    // get size
+    assertEquals(7, s1.getBoardSize());
+    // centre is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, s1.getSlotAt(3, 3));
+  }
+
+  @Test
+
 
   @Test
   public void testToString() {
@@ -156,6 +175,8 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testGetBoardSize() {
+    EnglishSolitaireModel size7 = new EnglishSolitaireModel(7);
+    assertEquals(7, size7.getBoardSize());
     assertEquals(7, s1.getBoardSize());
     assertEquals(7, s2.getBoardSize());
     assertEquals(13, s3.getBoardSize());

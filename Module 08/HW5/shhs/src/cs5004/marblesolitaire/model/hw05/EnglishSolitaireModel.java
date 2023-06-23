@@ -9,13 +9,14 @@ import java.util.Map;
  */
 public class EnglishSolitaireModel implements MarbleSolitaireModel {
   private final Map<String, SlotState> board;
-  private int boardSize = 7;
+  private final int boardSize;
 
   /**
    * Constructor for EnglishSolitaireModel.
    * Creates a 7 sized board with the empty slot in the centre.
    */
   public EnglishSolitaireModel() {
+    this.boardSize = 7;
     board = new HashMap<>();
     for (int i = 0; i < this.boardSize; i++) {
       for (int j = 0; j < this.boardSize; j++) {
@@ -27,9 +28,9 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
           board.put(i + "," + j, SlotState.Marble);
         }
       }
-      // make the centre empty
-      board.replace("3,3", SlotState.Empty);
     }
+    // make the centre empty
+    board.replace("3,3", SlotState.Empty);
   }
 
   /**
@@ -41,11 +42,11 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    * @throws IllegalArgumentException if the given position is invalid.
    */
   public EnglishSolitaireModel(int row, int col) throws IllegalArgumentException {
+    this.boardSize = 7;
     if (row < 0 || col < 0 || row > 6 || col > 6 || isInvalidPosition(row, col)) {
       throw new IllegalArgumentException("Invalid empty cell position$$ (" + row + "," + col + ")");
     }
 
-    this.boardSize = 7;
     board = new HashMap<>();
     for (int i = 0; i < this.boardSize; i++) {
       for (int j = 0; j < this.boardSize; j++) {
@@ -138,7 +139,7 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     int sideRectangle = (boardSize / 3);
     // check if row and col are valid
     if (row < 0 || col < 0 || row > boardSize - 1 || col > boardSize - 1) {
-      return false;
+      return true;
     }
     // top rectangle range
     boolean isTopRectangle = row >= 0 && row < sideRectangle;
@@ -177,6 +178,12 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
             || toCol < 0 || toCol > boardSize - 1
             || toRow < 0 || toRow > boardSize - 1) {
       throw new IllegalArgumentException("Out of Bounds");
+    }
+
+    if (fromCol == toCol && Math.abs(toRow - fromRow) != 2) {
+      throw new IllegalArgumentException("not 2 spaces away");
+    } else if (fromRow == toRow && Math.abs(toCol - fromCol) != 2) {
+      throw new IllegalArgumentException("not 2 spaces away");
     }
 
     // get the slot states for both coordinates

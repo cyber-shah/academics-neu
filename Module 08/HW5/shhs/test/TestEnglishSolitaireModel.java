@@ -101,6 +101,13 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testMove() {
+    try {
+      s1.move(3, 0, 3, 3);
+    }
+    catch (IllegalArgumentException e) {
+      assertEquals("not 2 spaces away",
+              e.getMessage());
+    }
     // valid move
     s1.move(3, 1, 3, 3);
     assertEquals("    O O O\n"
@@ -111,9 +118,6 @@ public class TestEnglishSolitaireModel {
             + "    O O O\n"
             + "    O O O",
             v1.toString());
-
-    s1.move(3,0,3,3);
-
   }
 
   @Test (expected = IllegalArgumentException.class)
