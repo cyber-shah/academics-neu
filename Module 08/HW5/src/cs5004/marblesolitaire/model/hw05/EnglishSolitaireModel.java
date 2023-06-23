@@ -7,6 +7,10 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
   private final Map<String, SlotState> board;
   private int boardSize = 7;
 
+  /**
+   * Constructor for EnglishSolitaireModel.
+   * Creates a 7 sized board with the empty slot in the centre.
+   */
   public EnglishSolitaireModel() {
     board = new HashMap<>();
     for (int i = 0; i < this.boardSize; i++) {
@@ -24,7 +28,15 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     }
   }
 
-  public EnglishSolitaireModel(int row, int col) {
+  /**
+   * Constructor for EnglishSolitaireModel.
+   * Creates a 7 sized board with the empty slot at the given position.
+   *
+   * @param row row for empty slot.
+   * @param col column for empty slot.
+   * @throws IllegalArgumentException if the given position is invalid.
+   */
+  public EnglishSolitaireModel(int row, int col) throws IllegalArgumentException {
     if (row < 0 || col < 0 || row > 6 || col > 6 || isInvalidPosition(row, col)) {
       throw new IllegalArgumentException("Invalid empty cell position$$ (" + row + "," + col + ")");
     }
@@ -46,7 +58,15 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     board.replace(row + "," + col, SlotState.Empty);
   }
 
-  public EnglishSolitaireModel (int armThickness, int row, int col) {
+  /**
+   * Constructor for EnglishSolitaireModel.
+   * Creates a board with the given arm thickness and empty slot in the input.
+   *
+   * @param armThickness arm thickness of the board.
+   * @param row row for empty slot.
+   * @param col column for empty slot.
+   */
+  public EnglishSolitaireModel(int armThickness, int row, int col) {
     this.boardSize = armThickness + (armThickness - 1) * 2;
     // check if row and col are valid
     if (row < 0 || col < 0 || isInvalidPosition(row, col)) {
@@ -74,7 +94,13 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     board.replace(row + "," + col, SlotState.Empty);
   }
 
-  public EnglishSolitaireModel (int boardSize) {
+  /**
+   * Constructor for EnglishSolitaireModel.
+   * Creates a board with the given boardSize and empty slot in the centre.
+   *
+   * @param boardSize size of the board.
+   */
+  public EnglishSolitaireModel(int boardSize) {
     // check if boardSize is odd
     if (boardSize % 2 == 0) {
       throw new IllegalArgumentException("Board size must be an odd number");
@@ -97,7 +123,14 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     }
   }
 
-  public boolean isInvalidPosition (int row, int col) {
+  /**
+   * Tests if the given position is invalid.
+   *
+   * @param row row to check against.
+   * @param col column to check against.
+   * @return true if the given position is invalid, false otherwise.
+   */
+  public boolean isInvalidPosition(int row, int col) {
     int sideRectangle = (boardSize / 3);
     // check if row and col are valid
     if (row < 0 || col < 0 || row > boardSize - 1 || col > boardSize - 1) {
@@ -117,7 +150,6 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     return isTopRectangle && (isLeftRectangle || isRightRectangle)
             || isBottomRectangle && (isLeftRectangle || isRightRectangle);
   }
-
 
   /**
    * Move a single marble from a given position to another given position.
@@ -198,6 +230,13 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     return true; // No valid moves found, game is over
   }
 
+  /**
+   * Tests whether there is a valid move that can be made from the given position.
+   *
+   * @param row row of the given marble.
+   * @param col column of the given marble.
+   * @return true if there is a valid move that can be made from the given position.
+   */
   private boolean isValidMove(int row, int col) {
     // Check if the current position contains a marble
     if (board.get(row + "," + col) != SlotState.Marble) {
@@ -223,12 +262,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     }
 
     // Check if a move downwards is valid
-    if (row <= boardSize - 3 && board.get((row + 2) + "," + col) == SlotState.Empty
-            && board.get((row + 1) + "," + col) == SlotState.Marble) {
-      return true;
-    }
-
-    return false; // No valid moves found
+    return row <= boardSize - 3 && board.get((row + 2) + "," + col) == SlotState.Empty
+            && board.get((row + 1) + "," + col) == SlotState.Marble;// No valid moves found
   }
 
   /**

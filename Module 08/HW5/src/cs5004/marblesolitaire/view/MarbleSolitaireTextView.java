@@ -2,21 +2,32 @@ package cs5004.marblesolitaire.view;
 
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 
+/**
+ * This class represents the MarbleSolitaireTextView.
+ * It implements the MarbleSolitaireView interface.
+ * A part of the view.
+ */
 public class MarbleSolitaireTextView implements MarbleSolitaireView {
-  private MarbleSolitaireModelState model;
-  private StringBuilder String;
-  // 1. constructor
-  // 2. toString()
-    //2.1 There should be no spaces after the last marble on each row
-    //2.2 The string you return should not have a newline at the end of the last line.
-  // 3. render
+  private final MarbleSolitaireModelState model;
+  private final StringBuilder modelString;
 
+  /**
+   * This is the constructor for the MarbleSolitaireTextView.
+   *
+   * @param model of the type MarbleSolitaireModelState.
+   */
   public MarbleSolitaireTextView(MarbleSolitaireModelState model) {
     // 1. constructor
-    this.String = new StringBuilder();
+    this.modelString = new StringBuilder();
     this.model = model;
   }
 
+  /**
+   * This method returns the string representation of the game.
+   * Uses string builder and then appends to it.
+   *
+   * @return String representation of the game.
+   */
   @Override
   public String toString() {
     // 2. toString()
@@ -29,15 +40,16 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
       for (int j = 0; j < boardSize; j++) {
         // 1. if it is a marble, append 0
         if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Marble) {
-          String.append("O");
+          modelString.append("O");
         }
         // 2. if empty, append "_"
         else if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Empty) {
-          String.append("_");
+          modelString.append("_");
         }
         // 3. for all invalid before square starts, append space
-        else if (j <= sideRectangle && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
-          String.append(" ");
+        else if (j <= sideRectangle
+                && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+          modelString.append(" ");
         }
         // 4. if invalid, after the square
         else if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
@@ -46,8 +58,9 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
 
         // logic to append space ------------------------------------
         // if invalid but before side rectangle
-        if (j < sideRectangle && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
-          String.append(" ");
+        if (j < sideRectangle
+                && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+          modelString.append(" ");
         }
 
         // if it's not in the last position
@@ -56,15 +69,15 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
           if (model.getSlotAt(i, j + 1) == MarbleSolitaireModelState.SlotState.Invalid) {
             continue;
           } else if (model.getSlotAt(i, j) != MarbleSolitaireModelState.SlotState.Invalid) {
-            String.append(" ");
+            modelString.append(" ");
           }
         }
       }
       // after every row, append a new line if it's not the last row
-      if (i != boardSize - 1){
-        String.append("\n");
+      if (i != boardSize - 1) {
+        modelString.append("\n");
       }
     }
-    return String.toString();
+    return modelString.toString();
   }
 }
