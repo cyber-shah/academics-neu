@@ -1,84 +1,73 @@
-import org.junit.Before;
 import org.junit.Test;
 
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class TestEnglishSolitaireModel {
-  private final EnglishSolitaireModel S1 = new EnglishSolitaireModel();
-  private final MarbleSolitaireTextView V1 = new MarbleSolitaireTextView(S1);
+  private final EnglishSolitaireModel s1 = new EnglishSolitaireModel();
+  private final MarbleSolitaireTextView v1 = new MarbleSolitaireTextView(s1);
 
-  private final EnglishSolitaireModel S2 = new EnglishSolitaireModel(5,3);
-  private final MarbleSolitaireTextView V2 = new MarbleSolitaireTextView(S2);
+  private final EnglishSolitaireModel s2 = new EnglishSolitaireModel(5,3);
+  private final MarbleSolitaireTextView v2 = new MarbleSolitaireTextView(s2);
 
-  private final EnglishSolitaireModel S3 = new EnglishSolitaireModel(5, 4, 4);
-  private final MarbleSolitaireTextView V3 = new MarbleSolitaireTextView(S3);
+  private final EnglishSolitaireModel s3 = new EnglishSolitaireModel(5, 4, 4);
+  private final MarbleSolitaireTextView v3 = new MarbleSolitaireTextView(s3);
 
-  private final EnglishSolitaireModel S4 = new EnglishSolitaireModel(13);
-  private final MarbleSolitaireTextView V4 = new MarbleSolitaireTextView(S4);
+  private final EnglishSolitaireModel s4 = new EnglishSolitaireModel(13);
+  private final MarbleSolitaireTextView v4 = new MarbleSolitaireTextView(s4);
 
-/*
   @Test
   public void testToString() {
-    assertEquals("""
-                        O O O
-                        O O O
-                    O O O O O O O
-                    O O O _ O O O
-                    O O O O O O O
-                        O O O
-                        O O O""",
-            V1.toString());
+    assertEquals("    O O O\n"
+                    + "    O O O\n"
+                    + "O O O O O O O\n"
+                    + "O O O _ O O O\n"
+                    + "O O O O O O O\n"
+                    + "    O O O\n"
+                    + "    O O O",
+            v1.toString());
 
-    assertEquals("""
-                        O O O
-                        O O O
-                    O O O O O O O
-                    O O O O O O O
-                    O O O O O O O
-                        O _ O
-                        O O O""",
-            V2.toString());
+    assertEquals("    O O O\n"
+                    + "    O O O\n"
+                    + "O O O O O O O\n"
+                    + "O O O O O O O\n"
+                    + "O O O O O O O\n"
+                    + "    O _ O\n"
+                    + "    O O O",
+            v2.toString());
 
-    assertEquals("""
-                            O O O O O
-                            O O O O O
-                            O O O O O
-                            O O O O O
-                    O O O O _ O O O O O O O O
-                    O O O O O O O O O O O O O
-                    O O O O O O O O O O O O O
-                    O O O O O O O O O O O O O
-                    O O O O O O O O O O O O O
-                            O O O O O
-                            O O O O O
-                            O O O O O
-                            O O O O O""",
-            V3.toString());
+    assertEquals("        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "O O O O _ O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O",
+            v3.toString());
 
-    assertEquals("""
-                            O O O O O
-                            O O O O O
-                            O O O O O
-                            O O O O O
-                    O O O O O O O O O O O O O
-                    O O O O O O O O O O O O O
-                    O O O O O O _ O O O O O O
-                    O O O O O O O O O O O O O
-                    O O O O O O O O O O O O O
-                            O O O O O
-                            O O O O O
-                            O O O O O
-                            O O O O O""",
-            V4.toString());
+    assertEquals("        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O _ O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O",
+            v4.toString());
   }
-*/
 
   @Test (expected = IllegalArgumentException.class)
   public void testInvalidConstructor() {
@@ -110,7 +99,7 @@ public class TestEnglishSolitaireModel {
   @Test
   public void testMove() {
     // valid move
-    S1.move(3, 1, 3, 3);
+    s1.move(3, 1, 3, 3);
     assertEquals("    O O O\n"
             + "    O O O\n"
             + "O O O O O O O\n"
@@ -118,9 +107,9 @@ public class TestEnglishSolitaireModel {
             + "O O O O O O O\n"
             + "    O O O\n"
             + "    O O O",
-            V1.toString());
+            v1.toString());
 
-    S1.move(3,0,3,3);
+    s1.move(3,0,3,3);
 
   }
 
@@ -128,41 +117,41 @@ public class TestEnglishSolitaireModel {
   public void testMoveInvalid() {
 
     // invalid move - no marble at origin
-    S1.move(3, 1, 3, 4);
+    s1.move(3, 1, 3, 4);
 
     // invalid move - not empty at destination
-    S1.move(3, 1, 3, 3);
+    s1.move(3, 1, 3, 3);
 
     // invalid move - not in same row or column
-    S1.move(3, 1, 4, 3);
+    s1.move(3, 1, 4, 3);
 
     // invalid move - not 2 spaces away
-    S1.move(3, 4, 3, 1);
+    s1.move(3, 4, 3, 1);
 
     // invalid move - negative
-    S1.move(-1, 4, 3, 1);
+    s1.move(-1, 4, 3, 1);
 
     // invalid move - inside invalid tile
-    S1.move(3, 0, 3, 3);
+    s1.move(3, 0, 3, 3);
 
     // invalid move - outside board
-    S1.move(3, 6, 3, 8);
+    s1.move(3, 6, 3, 8);
 
     // invalid move - diagonal
-    S1.move(1, 3, 3, 1);
+    s1.move(1, 3, 3, 1);
   }
 
   @Test
   public void testGetScore() {
-    assertEquals(32, S1.getScore());
-    assertEquals(104, S4.getScore());
+    assertEquals(32, s1.getScore());
+    assertEquals(104, s4.getScore());
   }
 
   @Test
   public void testGetBoardSize() {
-    assertEquals(7, S1.getBoardSize());
-    assertEquals(7, S2.getBoardSize());
-    assertEquals(13, S3.getBoardSize());
-    assertEquals(13, S4.getBoardSize());
+    assertEquals(7, s1.getBoardSize());
+    assertEquals(7, s2.getBoardSize());
+    assertEquals(13, s3.getBoardSize());
+    assertEquals(13, s4.getBoardSize());
   }
 }
