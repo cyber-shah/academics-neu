@@ -3,6 +3,10 @@ package cs5004.marblesolitaire.model.hw05;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents the English Solitaire Model.
+ * It implements the MarbleSolitaireModel interface.
+ */
 public class EnglishSolitaireModel implements MarbleSolitaireModel {
   private final Map<String, SlotState> board;
   private int boardSize = 7;
