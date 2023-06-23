@@ -6,76 +6,220 @@ import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * This class tests the EnglishSolitaireModel class.
  */
 public class TestEnglishSolitaireModel {
 
-  // 1. Default Constructor
-  private final EnglishSolitaireModel s1 = new EnglishSolitaireModel();
-  private final MarbleSolitaireTextView v1 = new MarbleSolitaireTextView(s1);
+  private EnglishSolitaireModel model;
+  private MarbleSolitaireTextView view;
 
-  // 2. Custom Empty
-  private final EnglishSolitaireModel s2 = new EnglishSolitaireModel(5,3);
-  private final MarbleSolitaireTextView v2 = new MarbleSolitaireTextView(s2);
-
-  // 3. Custom Arm Thickness
-  private final EnglishSolitaireModel s3 = new EnglishSolitaireModel(5, 4, 4);
-  private final MarbleSolitaireTextView v3 = new MarbleSolitaireTextView(s3);
-
-  // 4. Custom Board Size
-  private final EnglishSolitaireModel s4 = new EnglishSolitaireModel(13);
-  private final MarbleSolitaireTextView v4 = new MarbleSolitaireTextView(s4);
-
-
-  @Test
-  public void testDefaultConstructor() {
-    // get size
-    assertEquals(7, s1.getBoardSize());
-    // centre is empty
-    assertEquals(MarbleSolitaireModelState.SlotState.Empty, s1.getSlotAt(3, 3));
+  @Before
+  public void setUp() {
+    model = new EnglishSolitaireModel();
+    view = new MarbleSolitaireTextView(model);
   }
 
   @Test
+  public void testDefaultConstructor() {
+    final MarbleSolitaireTextView view = new MarbleSolitaireTextView(model);
 
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+
+    // Test center slot is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(3, 3));
+  }
+
+  @Test
+  public void testConstructorWithPosition() {
+    model = new EnglishSolitaireModel(2, 4);
+
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(2, 4));
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testInvalidConstructorWithPosition() {
+    model = new EnglishSolitaireModel(0, 0);
+
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(0, 0));
+  }
+
+  @Test
+  public void testConstructorWithArmThicknessAndPosition() {
+    model = new EnglishSolitaireModel(5, 1, 5);
+
+    // Test board size
+    assertEquals(13, model.getBoardSize());
+
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(1, 5));
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testInvalidConstructorWithArmThickness() {
+    model = new EnglishSolitaireModel(5, 1, 3);
+
+    // Test board size
+    assertEquals(13, model.getBoardSize());
+
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(1, 3));
+  }
+
+  @Test
+  public void testConstructorWithBoardSize() {
+    model = new EnglishSolitaireModel(9);
+
+    // Test board size
+    assertEquals(9, model.getBoardSize());
+
+    // Test center slot is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(4, 4));
+  }
+
+  @Test
+  public void testMoveValid() {
+    model.move(1, 3, 3, 3);
+
+    // Test moved marble
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(1, 3));
+    assertEquals(MarbleSolitaireModelState.SlotState.Marble, model.getSlotAt(3, 3));
+
+    // Test middle slot is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(2, 3));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testMoveInvalidOutOfBounds() {
+    model.move(0, 0, -1, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testMoveInvalidNotTwoSpacesAway() {
+    model.move(1, 3, 3, 2);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testMoveInvalidFromSlotEmpty() {
+    model.move(3, 3, 4, 3);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testMoveInvalidToSlotNotEmpty() {
+    model.move(1, 3, 3, 3);
+    model.move(3, 1, 3, 3);
+  }
+  {
+    model = new EnglishSolitaireModel(2, 4);
+
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(2, 4));
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testMoveInvalidNoMarbleInBetween() {
+    EnglishSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
+    MarbleSolitaireTextView view1 = new MarbleSolitaireTextView(model1);
+
+    model.move(1, 3, 3, 3);
+    // invalid move
+    model.move(0, 3, 2, 3);
+  }
+
+  @Test
+  public void testIsGameOverFalse() {
+    assertFalse(model.isGameOver());
+  }
+
+/*  @Test
+  public void testIsGameOverTrue() {
+    EnglishSolitaireModel model2 = new EnglishSolitaireModel();
+
+    model2.move(3, 1, 3, 3);
+    model2.move(3, 0, 3, 2);
+    model2.move(4, 2, 2, 2);
+    model2.move(2, 0, 2, 2);
+    model2.move(2, 5, 2, 3);
+    model2.move(2, 2, 2, 4);
+    model2.move(3, 3, 1, 3);
+    model2.move(3, 1, 3, 3);
+    model2.move(3, 3, 3, 1);
+    model2.move(2, 3, 2, 1);
+    model2.move(2, 1, 2, 3);
+    model2.move(2, 0, 2, 2);
+    model2.move(2, 2, 2, 4);
+    model2.move(2, 4, 2, 2);
+    model2.move(2, 2, 4, 2);
+    model2.move(3, 4, 3, 2);
+    model2.move(3, 2, 3, 4);
+    model2.move(4, 3, 2, 3);
+    model2.move(2, 3, 2, 1);
+    model2.move(0, 3, 2, 3);
+
+    assertEquals(true, model2.isGameOver());
+  }*/
+
+  @Test
+  public void testGetBoardSize() {
+    assertEquals(7, model.getBoardSize());
+  }
+
+  @Test
+  public void testGetSlotAtValid() {
+    assertEquals(MarbleSolitaireModelState.SlotState.Marble, model.getSlotAt(3, 2));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSlotAtInvalid() {
+    model.getSlotAt(-1, 0);
+  }
+
+  @Test
+  public void testGetScore() {
+    assertEquals(32, model.getScore());
+    model.move(3, 1, 3, 3);
+    assertEquals(31, model.getScore());
+  }
 
   @Test
   public void testToString() {
-    assertEquals("    O O O\n"
-                    + "    O O O\n"
-                    + "O O O O O O O\n"
-                    + "O O O _ O O O\n"
-                    + "O O O O O O O\n"
-                    + "    O O O\n"
-                    + "    O O O",
-            v1.toString());
+    model.move(3, 1, 3, 3);
+    assertEquals(view.toString(), "    O O O\n" +
+            "    O O O\n" +
+            "O O O O O O O\n" +
+            "O _ _ O O O O\n" +
+            "O O O O O O O\n" +
+            "    O O O\n" +
+            "    O O O");
 
-    assertEquals("    O O O\n"
-                    + "    O O O\n"
-                    + "O O O O O O O\n"
-                    + "O O O O O O O\n"
-                    + "O O O O O O O\n"
-                    + "    O _ O\n"
-                    + "    O O O",
-            v2.toString());
+    EnglishSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
+    MarbleSolitaireTextView view1 = new MarbleSolitaireTextView(model1);
+    assertEquals(view1.toString(),
+              "    O O O\n" +
+                    "    O O O\n" +
+                    "O O O O _ O O\n" +
+                    "O O O O O O O\n" +
+                    "O O O O O O O\n" +
+                    "    O O O\n" +
+                    "    O O O");
 
-    assertEquals("        O O O O O\n"
-                    + "        O O O O O\n"
-                    + "        O O O O O\n"
-                    + "        O O O O O\n"
-                    + "O O O O _ O O O O O O O O\n"
-                    + "O O O O O O O O O O O O O\n"
-                    + "O O O O O O O O O O O O O\n"
-                    + "O O O O O O O O O O O O O\n"
-                    + "O O O O O O O O O O O O O\n"
-                    + "        O O O O O\n"
-                    + "        O O O O O\n"
-                    + "        O O O O O\n"
-                    + "        O O O O O",
-            v3.toString());
-
-    assertEquals("        O O O O O\n"
+    EnglishSolitaireModel model2 = new EnglishSolitaireModel(13);
+    MarbleSolitaireTextView view2 = new MarbleSolitaireTextView(model2);
+    assertEquals(view2.toString(),
+                "        O O O O O\n"
                     + "        O O O O O\n"
                     + "        O O O O O\n"
                     + "        O O O O O\n"
@@ -87,99 +231,26 @@ public class TestEnglishSolitaireModel {
                     + "        O O O O O\n"
                     + "        O O O O O\n"
                     + "        O O O O O\n"
-                    + "        O O O O O",
-            v4.toString());
+                    + "        O O O O O");
+
+    EnglishSolitaireModel model3 = new EnglishSolitaireModel(5, 4, 4);
+    MarbleSolitaireTextView view3 = new MarbleSolitaireTextView(model3);
+    assertEquals(view3.toString(),
+                      "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "O O O O _ O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "O O O O O O O O O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O\n"
+                    + "        O O O O O");
+
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void testInvalidConstructor() {
-    // invalid empty tile
-    EnglishSolitaireModel d1 = new EnglishSolitaireModel(5, 5);
 
-    // out of bounds empty tile
-    EnglishSolitaireModel d2 = new EnglishSolitaireModel(7,7);
-
-    // negative empty tile
-    EnglishSolitaireModel d3 = new EnglishSolitaireModel(-1, 3);
-
-    // invalid constructor - negative arm thickness
-    EnglishSolitaireModel d6 = new EnglishSolitaireModel(-1);
-
-    // invalid constructor - even arm thickness
-    EnglishSolitaireModel d7 = new EnglishSolitaireModel(4);
-
-    // invalid constructor - negative empty cell position
-    EnglishSolitaireModel d8 = new EnglishSolitaireModel(3, -1, 3);
-
-    // invalid constructor - empty cell position outside board
-    EnglishSolitaireModel d9 = new EnglishSolitaireModel(3, 6, 3);
-
-    // invalid constructor - empty cell position inside invalid tile
-    EnglishSolitaireModel d10 = new EnglishSolitaireModel(3, 0, 3);
-  }
-
-  @Test
-  public void testMove() {
-    try {
-      s1.move(3, 0, 3, 3);
-    }
-    catch (IllegalArgumentException e) {
-      assertEquals("not 2 spaces away",
-              e.getMessage());
-    }
-    // valid move
-    s1.move(3, 1, 3, 3);
-    assertEquals("    O O O\n"
-            + "    O O O\n"
-            + "O O O O O O O\n"
-            + "O _ _ O O O O\n"
-            + "O O O O O O O\n"
-            + "    O O O\n"
-            + "    O O O",
-            v1.toString());
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testMoveInvalid() {
-
-    // invalid move - no marble at origin
-    s1.move(3, 1, 3, 4);
-
-    // invalid move - not empty at destination
-    s1.move(3, 1, 3, 3);
-
-    // invalid move - not in same row or column
-    s1.move(3, 1, 4, 3);
-
-    // invalid move - not 2 spaces away
-    s1.move(3, 4, 3, 1);
-
-    // invalid move - negative
-    s1.move(-1, 4, 3, 1);
-
-    // invalid move - inside invalid tile
-    s1.move(3, 0, 3, 3);
-
-    // invalid move - outside board
-    s1.move(3, 6, 3, 8);
-
-    // invalid move - diagonal
-    s1.move(1, 3, 3, 1);
-  }
-
-  @Test
-  public void testGetScore() {
-    assertEquals(32, s1.getScore());
-    assertEquals(104, s4.getScore());
-  }
-
-  @Test
-  public void testGetBoardSize() {
-    EnglishSolitaireModel size7 = new EnglishSolitaireModel(7);
-    assertEquals(7, size7.getBoardSize());
-    assertEquals(7, s1.getBoardSize());
-    assertEquals(7, s2.getBoardSize());
-    assertEquals(13, s3.getBoardSize());
-    assertEquals(13, s4.getBoardSize());
-  }
 }

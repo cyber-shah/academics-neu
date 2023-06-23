@@ -298,7 +298,13 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public SlotState getSlotAt(int row, int col) throws IllegalArgumentException {
-    return board.get(row + "," + col);
+    // check if row and col are in bounds
+    if (row < 0 || row > boardSize - 1 || col < 0 || col > boardSize - 1) {
+      throw new IllegalArgumentException("Out of Bounds");
+    }
+    else {
+      return board.get(row + "," + col);
+    }
   }
 
   /**
