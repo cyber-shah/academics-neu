@@ -5,9 +5,6 @@ import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * This class tests the EnglishSolitaireModel class.
- */
 public class TestEnglishSolitaireModel {
   private final EnglishSolitaireModel s1 = new EnglishSolitaireModel();
   private final MarbleSolitaireTextView v1 = new MarbleSolitaireTextView(s1);
@@ -75,28 +72,28 @@ public class TestEnglishSolitaireModel {
   @Test (expected = IllegalArgumentException.class)
   public void testInvalidConstructor() {
     // invalid empty tile
-    EnglishSolitaireModel d1 = new EnglishSolitaireModel(5, 5);
+    EnglishSolitaireModel S1 = new EnglishSolitaireModel(5, 5);
 
     // out of bounds empty tile
-    EnglishSolitaireModel d2 = new EnglishSolitaireModel(7,7);
+    EnglishSolitaireModel S2 = new EnglishSolitaireModel(7,7);
 
     // negative empty tile
-    EnglishSolitaireModel d3 = new EnglishSolitaireModel(-1, 3);
+    EnglishSolitaireModel S3 = new EnglishSolitaireModel(-1, 3);
 
     // invalid constructor - negative arm thickness
-    EnglishSolitaireModel d6 = new EnglishSolitaireModel(-1);
+    EnglishSolitaireModel S6 = new EnglishSolitaireModel(-1);
 
     // invalid constructor - even arm thickness
-    EnglishSolitaireModel d7 = new EnglishSolitaireModel(4);
+    EnglishSolitaireModel S7 = new EnglishSolitaireModel(4);
 
     // invalid constructor - negative empty cell position
-    EnglishSolitaireModel d8 = new EnglishSolitaireModel(3, -1, 3);
+    EnglishSolitaireModel S8 = new EnglishSolitaireModel(3, -1, 3);
 
     // invalid constructor - empty cell position outside board
-    EnglishSolitaireModel d9 = new EnglishSolitaireModel(3, 6, 3);
+    EnglishSolitaireModel S9 = new EnglishSolitaireModel(3, 6, 3);
 
     // invalid constructor - empty cell position inside invalid tile
-    EnglishSolitaireModel d10 = new EnglishSolitaireModel(3, 0, 3);
+    EnglishSolitaireModel S10 = new EnglishSolitaireModel(3, 0, 3);
   }
 
   @Test
