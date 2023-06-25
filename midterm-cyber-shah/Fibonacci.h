@@ -3,7 +3,7 @@
 
 // declarations
 int fibonacci_dp(int n, int print);
-int fibonacci_recursive(int n, int print);
+int fibonacci_recursive(int n, int print, dll_t* printer);
 int fibonacci_recursive_controller(int n, int print);
 int fibonacci_iterative(int n, int print);
 void fibonacci_printer(int print);
@@ -39,7 +39,7 @@ int fibonacci_iterative(int n, int print) {
     return 0;
 }
 
-int fibonacci_recursive(int n, int print) {
+int fibonacci_recursive(int n, int print, dll_t* printer) {
     if (n == 0) {
         return 0;
     }
@@ -47,9 +47,9 @@ int fibonacci_recursive(int n, int print) {
         return 1;
     }
     else {
-        int fib = fibonacci_recursive(n-1, print) + fibonacci_recursive(n-2, print);
+        int fib = fibonacci_recursive(n-1, print, printer) + fibonacci_recursive(n-2, print, printer);
         if (print) {
-
+            dll_push_back(printer,fib);
         }
         return fib;
     }
@@ -59,7 +59,11 @@ int fibonacci_recursive_controller(int n, int print) {
     if (print) {
         dll_t* printer = create_dll();
     }
-    int value = fibonacci_recursive(n, print);
+    dll_t* printer = create_dll();
+    int value = fibonacci_recursive(n, print,printer);
+    for (int i = 0; i < dll_size(printer); i++) {
+        printf("%i ", dll_get(printer, i));
+    }
     return value;
 }
 
