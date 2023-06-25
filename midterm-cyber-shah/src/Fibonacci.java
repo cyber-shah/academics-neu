@@ -32,13 +32,46 @@ public class Fibonacci {
       System.exit(1);
     }
 
+    // defaults
+    int mode = 1;
+    int print = 0;
+
     if (args.length > 2) {
-      int mode = Integer.parseInt(args[1]);
-      int print = 0;
+      mode = Integer.parseInt(args[1]);
     }
     if (args.length > 3) {
-      int print = Integer.parseInt(args[2]);
+      print = Integer.parseInt(args[2]);
+    }
+
+    fibonacciManager(N, mode, print);
+  }
+
+  public static void fibonacciManager(int N, int mode, int print) {
+    switch (mode) {
+      case 1:
+        fibonacciIterative(N, print);
+        break;
+      case 2:
+        fibonacciRecursive(N, print);
+        break;
+      case 3:
+        fibonacciDynamic(N, print);
+        break;
+      default:
+        fibonacciIterative(N, print);
+        break;
     }
   }
 
+  public static void fibonacciIterative(int N, int print) {
+    
+  }
+
+  public static void fibonacciRecursive(int N, int print) {
+    // TODO : Implement
+  }
+
+  public static void fibonacciDynamic(int N, int print) {
+    // TODO : Implement
+  }
 }
