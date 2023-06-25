@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include "my_dll.h"
 
 // declarations
 int fibonacci_dp(int n, int print);
-int fibonacci_recursive(int n, int print, dll_t* printer);
+int fibonacci_recursive(int n);
 int fibonacci_recursive_controller(int n, int print);
 int fibonacci_iterative(int n, int print);
 void fibonacci_printer(int print);
@@ -36,10 +35,36 @@ void fibonacci_printer(int print) {
 }
 
 int fibonacci_iterative(int n, int print) {
-    return 0;
+    int a = 0, b = 1;
+    int c = a + b; // Initialize c with the initial value of a + b
+
+    // Special case for n = 0
+    if (n >= 1) {
+        printf("%d", a);
+    }
+
+    // Print the series up to the given number of terms
+    for (int i = 2; i <= n; i++) {
+        if (print > 1) {
+            if (i == n) {
+                printf(", %d\n", c);
+            }
+            else {
+                printf(", %d", c);
+            }
+        }
+        a = b;
+        b = c;
+        c = a + b;
+    }
+    if (print == 1) {
+        printf("%d\n", c);
+    }
+    return c;
 }
 
-int fibonacci_recursive(int n, int print, dll_t* printer) {
+
+int fibonacci_recursive(int n) {
     if (n == 0) {
         return 0;
     }
@@ -47,22 +72,15 @@ int fibonacci_recursive(int n, int print, dll_t* printer) {
         return 1;
     }
     else {
-        int fib = fibonacci_recursive(n-1, print, printer) + fibonacci_recursive(n-2, print, printer);
-        if (print) {
-            dll_push_back(printer,fib);
-        }
+        int fib = fibonacci_recursive(n-1) + fibonacci_recursive(n-2);
         return fib;
     }
 }
 
 int fibonacci_recursive_controller(int n, int print) {
-    if (print) {
-        dll_t* printer = create_dll();
-    }
-    dll_t* printer = create_dll();
-    int value = fibonacci_recursive(n, print,printer);
-    for (int i = 0; i < dll_size(printer); i++) {
-        printf("%i ", dll_get(printer, i));
+    int value = fibonacci_recursive(n);
+    if (print > 0) {
+        printf("Fibonacci Value at %i = %i \n", n, value);
     }
     return value;
 }
