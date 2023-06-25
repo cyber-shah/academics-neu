@@ -15,9 +15,9 @@ ull pascaldp(int n, int i)
 {
     if (n == i || i == 0) {
         return 1;
-    }else if (table[n][i] > 0) {
+    } else if (table[n][i] > 0) {
         return table[n][i];
-    }else {
+    } else {
         table[n][i] = pascaldp(n - 1, i) + pascaldp(n - 1, i - 1);
         return table[n][i];//pascal(n - 1, i) + pascal(n - 1, i - 1);
     }

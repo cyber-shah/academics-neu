@@ -1,9 +1,13 @@
 #include <stdio.h>
 
+
 // declarations
-int fibonacci_dp(int n, int print);
+int fibonacci_dp(int n, int* value_table);
+int fibonacci_dp_controller(int n, int print);
+
 int fibonacci_recursive(int n);
 int fibonacci_recursive_controller(int n, int print);
+
 int fibonacci_iterative(int n, int print);
 void fibonacci_printer(int print);
 
@@ -18,7 +22,7 @@ void help() {
 int fibonacci_manager(int n, int type, int print) {
     int value = 0;
     if (type == 2) {
-        value = fibonacci_dp(n, print);
+        value = fibonacci_dp_controller(n, print);
     }
     else if (type == 1) {
         value = fibonacci_recursive_controller(n, print);
@@ -69,7 +73,6 @@ int fibonacci_iterative(int n, int print) {
     return c;
 }
 
-
 int fibonacci_recursive(int n) {
     if (n == 0) {
         return 0;
@@ -91,7 +94,38 @@ int fibonacci_recursive_controller(int n, int print) {
     return value;
 }
 
-int fibonacci_dp(int n, int print) {
-    return 0;
+int fibonacci_dp(int n, int* value_table) {
+    if (n == 0) {
+        return 0;
+    }
+    else if (n == 1) {
+        return 1;
+    }
+    // if default value, calculate the number
+    else if (value_table[n] == -1) {
+        value_table[n] = fibonacci_dp(n-1, value_table) + fibonacci_dp(n-2, value_table);
+        return value_table[n];
+    }
+    // if it's not zero, return the value at position
+    else if (value_table[n] != -1) {
+        return value_table[n];
+    }
+}
+
+int fibonacci_dp_controller(int n, int print) {
+    int value;
+    int* value_table = (int*) malloc(sizeof(int) * n);
+
+    for (int i = 0; i < n; i++) {
+        value_table[i] = -1;
+    }
+    int a = 0;
+    value = fibonacci_dp(n, value_table);
+    for (int i = 0; i < n; i++) {
+        if (value_table[i] != 0) {
+            printf("%i\n", value_table[i]);  // Add a newline character '\n' after each print
+        }
+    }
+    return value;
 }
 
