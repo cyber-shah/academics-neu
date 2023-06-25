@@ -35,13 +35,8 @@ int main(int argc, char* argv[]) {
         type = atoi(argv[2]);
     }
     // if third is provided = its print
-    bool print_it = false;
     if(argc > 3) {
         print = atoi(argv[3]);
-        // if print is greater than one, print
-        if (print > 1) {
-            print_it = true;
-        }
     }
 
     fibonacci_manager(n, type, print);

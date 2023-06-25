@@ -1,13 +1,6 @@
+import java.util.Arrays;
+
 public class Fibonacci {
-
-  // TODO : Find the Nth value of the Fibonacci sequence
-  //          1. Iteratively
-  //          2. Recursion
-  //          3. Dynamic programming
-
-  // TODO : Print the Fibonacci Series from 1 to N:
-  //          1. Print just N
-  //          2. Print nothing/execute correctly
 
   public static void main(String[] args) {
     if (args.length < 2) {
@@ -39,7 +32,7 @@ public class Fibonacci {
     if (args.length > 2) {
       mode = Integer.parseInt(args[1]);
     }
-    if (args.length > 3) {
+    if (args.length >= 2) {
       print = Integer.parseInt(args[2]);
     }
 
@@ -48,14 +41,11 @@ public class Fibonacci {
 
   public static void fibonacciManager(int N, int mode, int print) {
     switch (mode) {
-      case 1:
-        fibonacciIterative(N, print);
-        break;
       case 2:
-        fibonacciRecursive(N, print);
+        fibonacciRecursiveManager(N, print);
         break;
       case 3:
-        fibonacciDynamic(N, print);
+        fibonacciDynamicManager(N, print);
         break;
       default:
         fibonacciIterative(N, print);
@@ -64,14 +54,85 @@ public class Fibonacci {
   }
 
   public static void fibonacciIterative(int N, int print) {
-    
+    int a = 0, b = 1;
+    int c = a + b;
+
+    if (print > 1) {
+      if (N >= 1) {
+        System.out.print(a);
+      }
+    }
+
+    for (int i = 2; i <= N; i++) {
+      if (print == 1) {
+        if (i == N) {
+          System.out.println("Fibonacci value at " + i + " = " + c);
+        }
+      }
+      if (print > 1) {
+        if (i == N) {
+          System.out.println(", " + c);
+        } else {
+          System.out.print(", " + c);
+        }
+      }
+      a = b;
+      b = c;
+      c = a + b;
+    }
   }
 
-  public static void fibonacciRecursive(int N, int print) {
-    // TODO : Implement
+  public static int fibonacciRecursive(int N) {
+    if (N == 0) {
+      return 0;
+    } else if (N == 1) {
+      return 1;
+    } else {
+      return fibonacciRecursive(N - 1) + fibonacciRecursive(N - 2);
+    }
   }
 
-  public static void fibonacciDynamic(int N, int print) {
-    // TODO : Implement
+  public static void fibonacciRecursiveManager(int N, int print) {
+    int value = fibonacciRecursive(N);
+    if (print > 0) {
+      System.out.println("Fibonacci Value at " + N + " = " + value);
+    }
+  }
+
+  public static int fibonacciDynamicManager(int N, int print) {
+    int[] valueTable = new int[N + 1];
+    Arrays.fill(valueTable, -1);
+
+    fibonacciDP(N, valueTable);
+    if (print == 1) {
+      if (valueTable[N] != -1) {
+        System.out.println(valueTable[N]);
+      }
+    }
+    else if (print == 2) {
+      for (int i = 0; i <= N; i++) {
+        if (i == N) {
+          System.out.print(valueTable[i] + "\n");
+        }
+        else {
+          System.out.print(valueTable[i] + ", ");
+        }
+      }
+    }
+    return 0;
+  }
+
+  public static int fibonacciDP(int N, int[] valueTable) {
+    if (N == 0) {
+      valueTable[0] = 0;
+    }
+    else if (N == 1) {
+      valueTable[1] = 1;
+    }
+    else if (valueTable[N] == -1) {
+      valueTable[N] = fibonacciDP(N - 1, valueTable) + fibonacciDP(N - 2, valueTable);
+    }
+
+    return valueTable[N];
   }
 }
