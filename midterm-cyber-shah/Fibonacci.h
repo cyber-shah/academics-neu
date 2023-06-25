@@ -3,10 +3,8 @@
 // declarations
 int fibonacci_dp(int n, int* value_table);
 int fibonacci_dp_controller(int n, int print);
-
 int fibonacci_recursive(int n);
 int fibonacci_recursive_controller(int n, int print);
-
 int fibonacci_iterative(int n, int print);
 
 /**

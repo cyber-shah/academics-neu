@@ -1,18 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include "Fibonacci.h"
-
-// TODO : Find the Nth value of the Fibonacci sequence
-//          1. Iteratively
-//          2. Recursion
-//          3. Dynamic programming
-
-// TODO : Print the Fibonacci Series from 1 to N:
-//          1. Print just N
-//          2. Print nothing/execute correctly
-
 
 int main(int argc, char* argv[]) {
     // if number of arguments is less than 2
