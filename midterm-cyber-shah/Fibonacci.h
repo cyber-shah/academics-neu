@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 // declarations
 int fibonacci_dp(int n, int* value_table);
 int fibonacci_dp_controller(int n, int print);
@@ -9,9 +8,10 @@ int fibonacci_recursive(int n);
 int fibonacci_recursive_controller(int n, int print);
 
 int fibonacci_iterative(int n, int print);
-void fibonacci_printer(int print);
 
-
+/**
+ * @brief Prints the help message for the program
+ */
 void help() {
     printf("./Fibonacci.out [N] [Type] [Print Level]\n");
     printf("\t[N] = Nth Fibonacci number, required.\n");
@@ -19,6 +19,13 @@ void help() {
     printf("\t[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.\n");
 }
 
+/**
+ * Fibonacci Manager, calls the appropriate function based on the type.
+ * @param n number of terms to print.
+ * @param type 0 for iterative, 1 for recursive, 2 for dynamic programming.
+ * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
+ * @return the Nth fibonacci number.
+ */
 int fibonacci_manager(int n, int type, int print) {
     int value = 0;
     if (type == 2) {
@@ -33,6 +40,12 @@ int fibonacci_manager(int n, int type, int print) {
     return value;
 }
 
+/**
+ * Iterative Fibonacci function.
+ * @param n number of terms to print.
+ * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
+ * @return the Nth fibonacci number.
+ */
 int fibonacci_iterative(int n, int print) {
     int a = 0, b = 1;
     int c = a + b; // Initialize c with the initial value of a + b
@@ -68,6 +81,11 @@ int fibonacci_iterative(int n, int print) {
     return c;
 }
 
+/**
+ * Recursive Fibonacci function.
+ * @param n number of terms to print.
+ * @return the Nth fibonacci number.
+ */
 int fibonacci_recursive(int n) {
     if (n == 0) {
         return 0;
@@ -81,6 +99,12 @@ int fibonacci_recursive(int n) {
     }
 }
 
+/**
+ * Recursive Fibonacci controller function.
+ * @param n number of terms to print.
+ * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
+ * @return the Nth fibonacci number.
+ */
 int fibonacci_recursive_controller(int n, int print) {
     int value = fibonacci_recursive(n);
     if (print > 0) {
@@ -89,6 +113,12 @@ int fibonacci_recursive_controller(int n, int print) {
     return value;
 }
 
+/**
+ * Dynamic Programming Fibonacci function.
+ * @param n number of terms to print.
+ * @param value_table the table of values.
+ * @return the Nth fibonacci number.
+ */
 int fibonacci_dp(int n, int* value_table) {
     if (n == 0) {
         return 0;
@@ -107,6 +137,12 @@ int fibonacci_dp(int n, int* value_table) {
     }
 }
 
+/**
+ * Dynamic Programming controller function.
+ * @param n number of terms to print.
+ * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
+ * @return the Nth fibonacci number.
+ */
 int fibonacci_dp_controller(int n, int print) {
     int value;
     int* value_table = (int*) malloc(sizeof(int) * (n + 1));  // Allocate n + 1 elements
