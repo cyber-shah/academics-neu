@@ -39,12 +39,21 @@ int fibonacci_iterative(int n, int print) {
     int c = a + b; // Initialize c with the initial value of a + b
 
     // Special case for n = 0
-    if (n >= 1) {
-        printf("%d", a);
+    if (print > 1) {
+        if (n >= 1) {
+            printf("%d", a);
+        }
     }
 
     // Print the series up to the given number of terms
     for (int i = 2; i <= n; i++) {
+        // print last digit only
+        if (print == 1) {
+            if (i == n) {
+                printf("Fibonacci value at %i = %d\n", i, c);
+            }
+        }
+        // print all values
         if (print > 1) {
             if (i == n) {
                 printf(", %d\n", c);
@@ -56,9 +65,6 @@ int fibonacci_iterative(int n, int print) {
         a = b;
         b = c;
         c = a + b;
-    }
-    if (print == 1) {
-        printf("%d\n", c);
     }
     return c;
 }
