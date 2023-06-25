@@ -102,15 +102,14 @@ ull *getPascalTriangle(int n, bool print, int version)
 
 
 
-void help() {
+/*void help() {
     printf("./pascal.out N [Type] [Print Level]\n");
     printf("\tN is the number of rows in the pascal triangle, required.\n");
     printf("\t[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.\n");
     printf("\t[Print Level] is 0 for no print/speed compare only, 1 for print final row only, 2 for print all rows, defaults to 0.\n");
+}*/
 
-}
-
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
     if (argc < 2)
     {
@@ -136,4 +135,4 @@ int main(int argc, char* argv[])
     ull *row_at_n = getPascalTriangle(n, print_it, type);
     if (print == 1) printSingleRow(row_at_n, n);
     return 0;
-}
+}*/
