@@ -31,11 +31,6 @@ int fibonacci_manager(int n, int type, int print) {
         value = fibonacci_iterative(n, print);
     }
     return value;
-    fibonacci_printer(print);
-}
-
-void fibonacci_printer(int print) {
-
 }
 
 int fibonacci_iterative(int n, int print) {
@@ -101,12 +96,12 @@ int fibonacci_dp(int n, int* value_table) {
     else if (n == 1) {
         return 1;
     }
-    // if default value, calculate the number
+        // if default value, calculate the number
     else if (value_table[n] == -1) {
         value_table[n] = fibonacci_dp(n-1, value_table) + fibonacci_dp(n-2, value_table);
         return value_table[n];
     }
-    // if it's not zero, return the value at position
+        // if it's not -1, return the value at position
     else if (value_table[n] != -1) {
         return value_table[n];
     }
@@ -114,18 +109,19 @@ int fibonacci_dp(int n, int* value_table) {
 
 int fibonacci_dp_controller(int n, int print) {
     int value;
-    int* value_table = (int*) malloc(sizeof(int) * n);
+    int* value_table = (int*) malloc(sizeof(int) * (n + 1));  // Allocate n + 1 elements
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i <= n; i++) {  // Iterate up to n (inclusive)
         value_table[i] = -1;
     }
     int a = 0;
     value = fibonacci_dp(n, value_table);
-    for (int i = 0; i < n; i++) {
-        if (value_table[i] != 0) {
+    for (int i = 0; i <= n; i++) {  // Iterate up to n (inclusive)
+        if (value_table[i] != -1) {
             printf("%i\n", value_table[i]);  // Add a newline character '\n' after each print
         }
     }
+    free(value_table);  // Free the allocated memory
     return value;
 }
 
