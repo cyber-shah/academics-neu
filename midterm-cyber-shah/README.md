@@ -21,14 +21,18 @@ In this analysis, we will examine three different approaches to compute the Fibo
 | Recursive | O(2^n)         | O(n) |
 | Dynamic Programming | O(n)           | O(n) |
 
-1. **_Iterative Approach_**
-The iterative approach involves iterating over the values of the series until reaching the desired nth number. It is the most efficient and intuitive method for calculating the Fibonacci series. The time complexity of the iterative approach is O(n), meaning the time required to calculate the nth Fibonacci number grows linearly with the input value. Additionally, the iterative approach uses O(1) space complexity, as it only requires storing the last two numbers to compute the next number.
+1. **_Iterative Approach_**: The iterative approach involves iterating over the values of the Fibonacci series until reaching the desired nth number. It starts with the first two numbers (1 and 1) and calculates the subsequent numbers by summing the last two numbers in the series.
+- Time Complexity: The time complexity of the iterative approach is O(n). This is because for each number in the series from 3 to n, we perform a constant-time operation (addition) to calculate the next number. The number of iterations directly corresponds to the input value of n. 
+- Space Complexity: The space complexity of the iterative approach is O(1) or constant. It only requires storing the last two numbers of the series to compute the next number. Regardless of the input value of n, the amount of memory used remains constant.
 
-2. **_Recursive Approach_**
-The recursive approach calls the Fibonacci function recursively until reaching the desired nth number. While conceptually simple, the recursive approach is the least efficient method for computing the Fibonacci series. Its time complexity is exponential, with a growth rate of O(2^n). This is because each recursive call requires calculating the previous two numbers, leading to redundant calculations. The space complexity is O(n) as the function calls are stored in the stack.
+2. **_Recursive Approach_**: The recursive approach involves calling the Fibonacci function recursively until reaching the desired nth number. The function calculates the Fibonacci number by recursively calling itself for the previous two numbers and summing them.
+- Time Complexity: The time complexity of the recursive approach is O(2^n). Each recursive call branches into two additional recursive calls, resulting in exponential growth. The number of recursive calls increases exponentially with the input value of n, leading to a significant increase in the number of calculations required.
+- Space Complexity: The space complexity of the recursive approach is O(n). As the recursive calls stack up, memory is allocated to store each function call. Since the maximum depth of the recursive call stack is determined by the input value of n, the space complexity is directly proportional to n.
 
-3. _**_Dynamic Programming Approach_**_
-The dynamic programming approach optimizes the efficiency of calculating the Fibonacci series by using a technique known as memoization. In this approach, the values of the Fibonacci series are stored in an array, eliminating the need for redundant calculations. By reusing the precomputed values, the dynamic programming approach achieves a time complexity of O(n), making it significantly faster than the recursive approach. The space complexity remains at O(n) since the array is used to store the previous numbers.
+3. _**_Dynamic Programming Approach_**_: The dynamic programming approach optimizes the efficiency of calculating the Fibonacci series by using memoization. It stores the Fibonacci numbers in an array and reuses the precomputed values to avoid redundant calculations.
+- Time Complexity: The time complexity of the dynamic programming approach is O(n). By storing the calculated Fibonacci numbers in an array, we eliminate the need for redundant calculations. Each number in the series is computed once, resulting in linear time complexity with respect to n.
+- Space Complexity: The space complexity of the dynamic programming approach is O(n). We need to store the Fibonacci numbers in an array to reuse them in subsequent calculations. The size of the array is directly proportional to the input value of n, hence the linear space complexity.
+
 
 By analyzing the time and space complexities of the three approaches, it becomes evident that the iterative approach is the most efficient method for calculating the Fibonacci series. It provides the fastest execution time and requires the least amount of memory. The recursive approach is the slowest and utilizes the most memory due to redundant calculations. The dynamic programming approach offers a balance between efficiency and memory usage by leveraging precomputed values.
 
