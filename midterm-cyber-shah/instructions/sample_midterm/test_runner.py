@@ -89,7 +89,8 @@ def table_header() -> str:
 
 def main(n):
     print(table_header())
-    for i in range(1, n + 1, 500): ## If you use this script, you will want to change this range!! 
+
+    for i in range(1, n + 1): ## If you use this script, you will want to change this range!!
         print(build_row(i))
 
 
