@@ -150,9 +150,14 @@ int fibonacci_dp_controller(int n, int print) {
     }
     int a = 0;
     value = fibonacci_dp(n, value_table);
-    for (int i = 0; i <= n; i++) {  // Iterate up to n (inclusive)
-        if (value_table[i] != -1) {
-            printf("%i\n", value_table[i]);  // Add a newline character '\n' after each print
+    if (print == 1) {
+        printf("Fibonacci Value at %i = %i \n", n, value);
+    }
+    else if (print == 2) {
+        for (int i = 0; i <= n; i++) {  // Iterate up to n (inclusive)
+            if (value_table[i] != -1) {
+                printf("%i\n", value_table[i]);  // Add a newline character '\n' after each print
+            }
         }
     }
     free(value_table);  // Free the allocated memory

@@ -19,11 +19,6 @@ int main(int argc, char* argv[]) {
         help();
         return 1;
     }
-    else if (n > 92) {
-        printf("N must be less than 93!\n");
-        help();
-        return 1;
-    }
 
 
     // defaults to 0

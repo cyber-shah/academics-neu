@@ -1,5 +1,6 @@
 {
     "cmake.configureOnOpen": true,
     "editor.cursorBlinking": "smooth",
-    "editor.cursorSmoothCaretAnimation": "on"
+    "editor.cursorSmoothCaretAnimation": "on",
+    "cmake.sourceDirectory": "/home/pshah/Desktop/CS5008/midterm-cyber-shah"
 }
