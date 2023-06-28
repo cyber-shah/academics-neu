@@ -21,7 +21,7 @@ COMMON_ARG_FORMAT = "./Fibonacci.out {n} {algo} 0"
 FORMAT = "markdown"
 TIMEOUT = 60
 COMMON_ARG_JAVA = "java Fibonacci {n} {algo} 0"  # I also used  pypy3 as it is faster than python
-JAVA_SET = ('1', '2', '3')
+PYTHON_SET = ('1', '2', '3')
 
 LAST_RUN_TRACKER = {"0": 0.0, "1": 0.0, "2": 0.0, "3": 0.0, "iterative": 0.0, "recursive": 0.0, "dp": 0.0}
 
@@ -68,8 +68,8 @@ def build_row(n: int) -> str:
     iterative, recursive, dynamic_programming = results_lst
 
     results_lst = []
-    for t in JAVA_SET:
-        result = run_single(n, int(t), COMMON_ARG_JAVA)  # Convert t to an integer
+    for t in PYTHON_SET:
+        result = run_single(n, t, COMMON_ARG_JAVA)
         results_lst.append("-" if math.isnan(result) else f"{result:.5f}")
     iterative_p, recursive_p, dynamic_programming_p = results_lst
 
@@ -81,6 +81,7 @@ def build_row(n: int) -> str:
 
 def table_header() -> str:
     """Returns a markdown table header for this data set"""
+
     if FORMAT == "markdown":
         return "| n | Iterative C | Recursive C | Dynamic Programming  C | Iterative P | Recursive P | Dynamic Programming  P |\n" + \
             "|--|:--:|:--:|:--:|:--:|:--:|:--:|"
@@ -88,28 +89,26 @@ def table_header() -> str:
 
 
 def main(n):
+    """Main function to run the script"""
+
     print(table_header())
 
     for i in range(1, n + 1): ## If you use this script, you will want to change this range!!
+        ## buildrow for every number between 1 and n+1
         print(build_row(i*500))
 
 
-# note while using argv directly, there are better tools for this like pip click as shown in pascal.py
+# note while using argv directly,
+# there are better tools for this like pip click as shown in pascal.py
 if __name__ == "__main__":
-    _n = 30 if len(sys.argv) < 2 else int(sys.argv[1])
+    # if N is not provided
+    if len(sys.argv) < 2:
+        FibN = 30 # default to 30
+    # N is provided
+    else: 
+        int(sys.argv[1])
+
+    # if format is provided
     if len(sys.argv) == 3:
         FORMAT = "csv"
-    
-    # Check if C code arguments are provided
-    if len(sys.argv) >= 4:
-        algo_c = sys.argv[2]
-        command_c = COMMON_ARG_C.replace("{algo}", algo_c)
-        LAST_RUN_TRACKER["0"] = run_single(_n, algo_c, command_c)
-    
-    # Check if Java code arguments are provided
-    if len(sys.argv) >= 5:
-        algo_java = sys.argv[3]
-        command_java = COMMON_ARG_JAVA.replace("{algo}", algo_java)
-        LAST_RUN_TRACKER["1"] = run_single(_n, algo_java, command_java)
-
-    main(_n)
+    main(FibN)
