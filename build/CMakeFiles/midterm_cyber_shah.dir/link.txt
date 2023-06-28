@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/midterm_cyber_shah.dir/instructions/sample_midterm/pascalr.c.o CMakeFiles/midterm_cyber_shah.dir/Fibonacci.c.o -o midterm_cyber_shah 
