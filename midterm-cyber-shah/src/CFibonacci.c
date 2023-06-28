@@ -1,19 +1,20 @@
 /**
-    * @file Fibonacci.c
-    * @brief This is the main file that runs the program
-    * @details This file takes command line arguments of the format 
-    * ./Fibonacci {N} {type} {print}
-    * where N is the Nth value of the Fibonacci sequence
-    * type is the type of algorithm to use
-    * print is whether to print the sequence or not
-    * @date 10/18/2020
-    * @version 1.0
-*/
+ * Pranchal Shah
+ * Summer 2023
+ * 
+ * @file Fibonacci.c
+ * @brief This is the main file that runs the program
+ * @details This file takes command line arguments of the format 
+ * ./Fibonacci {N} {type} {print}
+ * where N is the Nth value of the Fibonacci sequence
+ * type is the type of algorithm to use
+ * print is whether to print the sequence or not
+ */
 
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "Fibonacci.h"
+#include "HeaderFibonacci.h"
 
 /**
  * This is the main function that runs the program

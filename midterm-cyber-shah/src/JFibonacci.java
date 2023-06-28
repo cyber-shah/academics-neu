@@ -10,7 +10,7 @@ import java.lang.Long;
  * using three different methods: Iteratively, Recursively, and
  * using Dynamic Programming.
  */
-public class Fibonacci {
+public class JFibonacci {
 
   /**
    * This method is the main method of the class. It takes in three

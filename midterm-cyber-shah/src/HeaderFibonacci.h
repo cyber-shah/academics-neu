@@ -1,4 +1,14 @@
+/**
+ * Pranchal Shah
+ * Summer 2023
+ * 
+ * @file HeaderFibonacci.h
+ * @brief Header file for the Fibonacci program
+ * @details This file contains the declarations for the Fibonacci program
+*/
+
 #include <stdio.h>
+#include <stdlib.h>
 
 // declarations
 int fibonacci_dp(int n, int* value_table);
