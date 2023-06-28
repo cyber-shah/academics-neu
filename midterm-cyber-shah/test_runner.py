@@ -19,11 +19,12 @@ from typing import Union
 
 COMMON_ARG_FORMAT = "./Fibonacci.out {n} {algo} 0"
 FORMAT = "markdown"
-TIMEOUT = 60
+TIMEOUT = 30
 COMMON_ARG_JAVA = "java Fibonacci {n} {algo} 0"  # I also used  pypy3 as it is faster than python
-PYTHON_SET = ('1', '2', '3')
+PYTHON_SET = ('11', '12', '13')
+C_SET = ('0', '1', '2')
 
-LAST_RUN_TRACKER = {"0": 0.0, "1": 0.0, "2": 0.0, "3": 0.0, "iterative": 0.0, "recursive": 0.0, "dp": 0.0}
+LAST_RUN_TRACKER = {"0": 0.0, "1": 0.0, "2": 0.0, "11": 0.0, "12": 0.0, "13": 0.0}
 
 
 def run_single(n: int, typ: Union[int, str], command=COMMON_ARG_FORMAT) -> float:
@@ -35,7 +36,7 @@ def run_single(n: int, typ: Union[int, str], command=COMMON_ARG_FORMAT) -> float
         typ (int): the type of algorithm to use
 
     Returns:
-        float: the time it took, or nan if is reached first
+        float: the time it took, or nan if TIMEOUT is reached first
     """
     command = command.format(n=n, algo=typ)
     if math.isnan(LAST_RUN_TRACKER[str(typ)]):
@@ -62,7 +63,7 @@ def build_row(n: int) -> str:
         str: a markdown formatted or csv string of the result
     """
     results_lst = []
-    for t in range(0, 3):
+    for t in C_SET:
         result = run_single(n, t)
         results_lst.append("-" if math.isnan(result) else f"{result:.5f}")
     iterative, recursive, dynamic_programming = results_lst
@@ -81,7 +82,6 @@ def build_row(n: int) -> str:
 
 def table_header() -> str:
     """Returns a markdown table header for this data set"""
-
     if FORMAT == "markdown":
         return "| n | Iterative C | Recursive C | Dynamic Programming  C | Iterative P | Recursive P | Dynamic Programming  P |\n" + \
             "|--|:--:|:--:|:--:|:--:|:--:|:--:|"
@@ -89,26 +89,16 @@ def table_header() -> str:
 
 
 def main(n):
-    """Main function to run the script"""
-
     print(table_header())
 
     for i in range(1, n + 1): ## If you use this script, you will want to change this range!!
-        ## buildrow for every number between 1 and n+1
-        print(build_row(i*500))
+        print(build_row(i))
 
+    
 
-# note while using argv directly,
-# there are better tools for this like pip click as shown in pascal.py
+# note while using argv directly, there are better tools for this like pip click as shown in pascal.py
 if __name__ == "__main__":
-    # if N is not provided
-    if len(sys.argv) < 2:
-        FibN = 30 # default to 30
-    # N is provided
-    else: 
-        int(sys.argv[1])
-
-    # if format is provided
+    _n = 30 if len(sys.argv) < 2 else int(sys.argv[1])
     if len(sys.argv) == 3:
         FORMAT = "csv"
-    main(FibN)
+    main(_n)

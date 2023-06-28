@@ -6,9 +6,9 @@ public class Fibonacci {
     if (args.length < 2) {
       System.out.println("Usage: java Fibonacci <N> <MODE> <PRINT>");
       System.out.println("    N: The Nth value of the Fibonacci sequence");
-      System.out.println(" MODE: 1 - Iteratively");
-      System.out.println("       2 - Recursion");
-      System.out.println("       3 - Dynamic programming");
+      System.out.println(" MODE: 11 - Iteratively");
+      System.out.println("       12 - Recursion");
+      System.out.println("       13 - Dynamic programming");
       System.out.println("PRINT: 0 - No print");
       System.out.println("       1 - Nth number only");
       System.out.println("       2 - print all numbers");
@@ -37,10 +37,10 @@ public class Fibonacci {
 
   public static void fibonacciManager(int N, int mode, int print) {
     switch (mode) {
-      case 2:
+      case 12:
         fibonacciRecursiveManager(N, print);
         break;
-      case 3:
+      case 13:
         fibonacciDynamicManager(N, print);
         break;
       default:
