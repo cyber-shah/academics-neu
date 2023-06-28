@@ -133,6 +133,9 @@ int fibonacci_dp(int n, int* value_table) {
     else if (value_table[n] != -1) {
         return value_table[n];
     }
+    else {
+        return -1;
+    }
 }
 
 /**
