@@ -63,6 +63,7 @@ For the empirical analysis, the time limit for each algorithm was set to 30 seco
 * **Environment**: The tests were conducted on a 2022 Alienware x14 laptop equipped with an Intel i7-11900H CPU running at 2.50 GHz and 32.0 GB of RAM. The operating system used was Fedora Linux, Workstation edition.
 
 * **Testing Parameters**: Two sets of input values were used to test the algorithms. The first set ranged from 1 to 50, incrementing by 50 steps. The second set ranged from 90 million to two billion and seventy million, incrementing by 90 million at each step. These values were chosen to cover both smaller and larger input sizes, allowing for a comprehensive performance analysis.
+* I used `test_runner.py` provided in the assignment handouts to test all the algorithms and generate a csv file with the results.
   
 ### Performance Comparisons with Small N Values (< 50)
 
@@ -90,6 +91,7 @@ The recursive version of the C algorithm reached its time limit of 30 seconds wh
 
 
 ### Performance Comparisons with Large N Values (> 30 million)
+
 Upon analyzing the results, it was observed that the recursive versions of both the Java and C algorithms reached their limits at around the 47th and 48th Fibonacci numbers, respectively, for smaller values of N. Thus, further investigation was conducted to assess the performance for extremely large values.
 
 To further evaluate the performance of the algorithms, I conducted tests using larger values of N. Specifically, I focused on values greater than 90 million. The following table presents the execution times for calculating the 90 millionth value using different algorithms in Java and C:
@@ -103,12 +105,12 @@ To further evaluate the performance of the algorithms, I conducted tests using l
 
    Unfortunately, limitations were encountered in Java when using the dynamic programming approach. Java has a maximum size limit for arrays, which prevented the calculation of the 20 billion and 70 millionth Fibonacci number using dynamic programming.
 
-* **Execution Times**:  For dynamic programming in Java, the limit was reached at the 30 millionth Fibonacci number. This table represents the values at the 28 millionth Fibonacci number.
+* **Execution Times**:  For dynamic programming in Java, the limit was reached at the 300 millionth Fibonacci number. This table represents the values at the 280 millionth Fibonacci number.
 
    | Algorithm        | Java      | C         |
    |------------------|-----------|-----------|
    | Dynamic Programming | 5.77818     | 1.41863    |
-   | Iterative        | 1.51969     | 0.21527    
+   | Iterative        | 1.51969     | 0.21527
 
 ![NonRecursiveJava](EmpericalAnalysis/20MillionJava.png)
 
@@ -124,6 +126,14 @@ To further evaluate the performance of the algorithms, I conducted tests using l
 
 * The empirical analysis highlights that the iterative approach consistently outperforms the recursive and dynamic programming approaches in calculating Fibonacci numbers. The recursive approach demonstrates poor performance due to the high computational cost of recursive calls. The dynamic programming approach, despite its theoretical efficiency, incurs overhead due to array storage and access, making it slower than the iterative approach.
 
+| Algorithm | N (timeout < 30 seconds) |
+|--|:--:|
+| Iterative C |   20,70,000,000+ |
+| Recursive C | 48 |
+| Dynamic Programming  C | 59 |
+| Iterative Java | 20,70,000,000 |
+| Recursive Java | 49 |
+| Dynamic Programming  Java | 320,000,000 |
 
 * The iterative approach offers the advantage of efficient computation with a constant number of operations per iteration, making it highly scalable. The dynamic programming approach provides similar scalability but at the expense of additional overhead due to array storage and access. The recursive approach proves to be the least efficient due to the large number of recursive calls. It is also noted that the choice of language can impact performance, as seen with Java's limitations in handling extremely large Fibonacci numbers.
 
@@ -134,10 +144,19 @@ To further evaluate the performance of the algorithms, I conducted tests using l
 
 In the previous analysis, we observed that the choice of programming language can impact the performance of Fibonacci algorithms. Specifically, we encountered limitations in Java when using the dynamic programming approach due to array size restrictions. To further investigate the impact of language on runtimes, we can compare the performance of the algorithms implemented in different languages.
 
-Graph
+![NonRecursiveJava](EmpericalAnalysis/Iterative.png)
 
 From the above table, we can see that the C implementation outperforms the Java implementation in terms of execution time for the iterative algorithm. This difference can be attributed to several factors, including language-specific optimizations, memory management, and lower-level access in C.
 
+This pattern continues for large values of N, as seen in the following table:
+
+![NonRecursiveJava](EmpericalAnalysis/LanguageLargeDP.png)
+
+As the value of N increases the gap between the execution times of the Java and C implementations widens. This is due to the limitations of Java in handling extremely large arrays, as discussed previously. The C implementation, on the other hand, does not encounter these limitations and is able to handle larger values of N.
+
+![NonRecursiveJava](EmpericalAnalysis/LanguageRecursive.png)
+
+Surprisingly, the recursive implementation of Java outperforms the C implementation. This is likely due to the fact that Java is able to handle a larger number of recursive calls compared to C. This is evident from the graph above, which shows that the C implementation reaches its limit at the 48th Fibonacci number, while the Java implementation reaches its limit at the 49th Fibonacci number.
 
 ### Language 1: C
 

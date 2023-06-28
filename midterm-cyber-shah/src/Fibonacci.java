@@ -1,27 +1,48 @@
-import java.util.Arrays;
+/**
+ * Name: Pranchal Shah
+ * Semester : Summer 2023
+ */
 
+import java.lang.Long;
+
+/**
+ * This class calculates the Nth value of the Fibonacci sequence
+ * using three different methods: Iteratively, Recursively, and
+ * using Dynamic Programming.
+ */
 public class Fibonacci {
 
+  /**
+   * This method is the main method of the class. It takes in three
+   * arguments from the command line of the format:
+   * java Fibonacci <N> <MODE> <PRINT>
+   * N: The Nth value of the Fibonacci sequence
+   * MODE: 11 - Iteratively
+   *      12 - Recursion
+   *     13 - Dynamic programming
+   * PRINT: 0 - No print
+   *      1 - Nth number only
+   *     2 - print all numbers
+   * 
+   * @param args The command line arguments
+   * @return void
+   */
   public static void main(String[] args) {
-    if (args.length < 2) {
+    if (args.length < 3) {
       System.out.println("Usage: java Fibonacci <N> <MODE> <PRINT>");
       System.out.println("    N: The Nth value of the Fibonacci sequence");
-      System.out.println(" MODE: 1 - Iteratively");
-      System.out.println("       2 - Recursion");
-      System.out.println("       3 - Dynamic programming");
+      System.out.println(" MODE: 11 - Iteratively");
+      System.out.println("       12 - Recursion");
+      System.out.println("       13 - Dynamic programming");
       System.out.println("PRINT: 0 - No print");
       System.out.println("       1 - Nth number only");
       System.out.println("       2 - print all numbers");
       System.exit(1);
     }
 
-    int N = Integer.parseInt(args[0]);
+    Long N = Long.parseLong(args[0]);
     if (N < 1) {
       System.out.println("N must be greater than 0");
-      System.exit(1);
-    }
-    if (N > 100) {
-      System.out.println("N must be less than 100");
       System.exit(1);
     }
 
@@ -29,22 +50,30 @@ public class Fibonacci {
     int mode = 1;
     int print = 0;
 
-    if (args.length > 2) {
+    if (args.length > 1) {
       mode = Integer.parseInt(args[1]);
     }
-    if (args.length >= 2) {
+    if (args.length > 2) {
       print = Integer.parseInt(args[2]);
     }
 
     fibonacciManager(N, mode, print);
   }
 
-  public static void fibonacciManager(int N, int mode, int print) {
+  /**
+   * This method is the manager method for the three different
+   * methods of calculating the Nth value of the Fibonacci sequence.
+   * 
+   * @param N The Nth value of the Fibonacci sequence.
+   * @param mode The mode of calculation.
+   * @param print The print mode.
+   */
+  public static void fibonacciManager(Long N, int mode, int print) {
     switch (mode) {
-      case 2:
+      case 12:
         fibonacciRecursiveManager(N, print);
         break;
-      case 3:
+      case 13:
         fibonacciDynamicManager(N, print);
         break;
       default:
@@ -53,9 +82,17 @@ public class Fibonacci {
     }
   }
 
-  public static void fibonacciIterative(int N, int print) {
-    int a = 0, b = 1;
-    int c = a + b;
+  /**
+   * This method calculates the Nth value of the Fibonacci sequence,
+   * iteratively.
+   * 
+   * @param N The Nth value of the Fibonacci sequence.
+   * @param print The print mode.
+   * @return The Nth value of the Fibonacci sequence.
+   */
+  public static Long fibonacciIterative(Long N, int print) {
+    Long a = 0L, b = 1L;
+    Long c = a + b;
 
     if (print > 1) {
       if (N >= 1) {
@@ -66,7 +103,7 @@ public class Fibonacci {
     for (int i = 2; i <= N; i++) {
       if (print == 1) {
         if (i == N) {
-          System.out.println("Fibonacci value at " + i + " = " + c);
+          System.out.println("Iterative Fibonacci value at " + i + " = " + c);
         }
       }
       if (print > 1) {
@@ -76,63 +113,90 @@ public class Fibonacci {
           System.out.print(", " + c);
         }
       }
-      a = b;
-      b = c;
-      c = a + b;
+      if (i == N) {
+        return c;
+      } else {
+        a = b;
+        b = c;
+        c = a + b;
+      }
     }
+    return c;
   }
 
-  public static int fibonacciRecursive(int N) {
+  /**
+   * This method calculates the Nth value of the Fibonacci sequence,
+   * recursively.
+   * 
+   * @param N The Nth value of the Fibonacci sequence to be calculated.
+   * @return The Nth value of the Fibonacci sequence.
+   */
+  public static Long fibonacciRecursive(Long N) {
     if (N == 0) {
-      return 0;
+      return 0L;
     } else if (N == 1) {
-      return 1;
+      return 1L;
     } else {
       return fibonacciRecursive(N - 1) + fibonacciRecursive(N - 2);
     }
   }
 
-  public static void fibonacciRecursiveManager(int N, int print) {
-    int value = fibonacciRecursive(N);
+  /**
+   * This method is the manager method for the recursive method of
+   * calculating the Nth value of the Fibonacci sequence.
+   * 
+   * @param N The Nth value of the Fibonacci sequence to be calculated.
+   * @param print The print mode.
+   */
+  public static void fibonacciRecursiveManager(Long N, int print) {
+    Long value = fibonacciRecursive(N);
     if (print > 0) {
-      System.out.println("Fibonacci Value at " + N + " = " + value);
+      System.out.println("Recursive Fibonacci Value at " + N + " = " + value);
     }
   }
 
-  public static int fibonacciDynamicManager(int N, int print) {
-    int[] valueTable = new int[N + 1];
-    Arrays.fill(valueTable, -1);
+
+  /**
+   * This method is the manager method for the dynamic programming
+   * method of calculating the Nth value of the Fibonacci sequence.
+   * 
+   * @param N The Nth value of the Fibonacci sequence to be calculated.
+   * @param print The print mode.
+   * @return The Nth value of the Fibonacci sequence.
+   */
+  public static Long fibonacciDynamicManager(Long N, int print) {
+    Long[] valueTable = new Long[N.intValue() + 1];
 
     fibonacciDP(N, valueTable);
+
     if (print == 1) {
-      if (valueTable[N] != -1) {
-        System.out.println(valueTable[N]);
-      }
-    }
-    else if (print == 2) {
+      System.out.println("Dynamic Programming Fibonacci Value at " + N + " = " + valueTable[N.intValue()]);
+    } else if (print == 2) {
       for (int i = 0; i <= N; i++) {
         if (i == N) {
           System.out.print(valueTable[i] + "\n");
-        }
-        else {
+        } else {
           System.out.print(valueTable[i] + ", ");
         }
       }
     }
-    return 0;
+    return valueTable[N.intValue()];
   }
 
-  public static int fibonacciDP(int N, int[] valueTable) {
-    if (N == 0) {
-      valueTable[0] = 0;
+  /**
+   * This method calculates the Nth value of the Fibonacci sequence,
+   * using dynamic programming.
+   * 
+   * @param N The Nth value of the Fibonacci sequence to be calculated.
+   * @param valueTable The table of values.
+   */
+  public static void fibonacciDP(Long N, Long[] valueTable) {
+    valueTable[0] = 0L;
+    if (N > 0) {
+      valueTable[1] = 1L;
+      for (int i = 2; i <= N; i++) {
+        valueTable[i] = valueTable[i - 1] + valueTable[i - 2];
+      }
     }
-    else if (N == 1) {
-      valueTable[1] = 1;
-    }
-    else if (valueTable[N] == -1) {
-      valueTable[N] = fibonacciDP(N - 1, valueTable) + fibonacciDP(N - 2, valueTable);
-    }
-
-    return valueTable[N];
   }
 }
