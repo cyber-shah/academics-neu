@@ -1,4 +1,5 @@
 # Midterm p1: Report on Analysis of Fibonacci  Series
+
 # include links and references everywhere
 
 * **Author**: Pranchal Shah
@@ -52,14 +53,13 @@ In the following sections of this report, we will present empirical data, compar
 
 For the empirical analysis, the time limit for each algorithm was set to 30 seconds. For the implementations I used in this report the following chart represents the Big O value.
 
-| Version |  Big O | Space Used | 
+| Version |  Big O | Space Used |
 | :-- | :-- |  :-- |
 | Iterative | $O(n)$ | $O(1)$ |
 | Recursive | $O(2^n)$  | $O(n)$ |
 | Dynamic Programming | $O(n)$ | $O(n)$ |
 
-
-### 1.1 - Environmental Setup:
+### 1.1 - Environmental Setup
 
 * **Environment**: The tests were conducted on a 2022 Alienware x14 laptop equipped with an Intel i7-11900H CPU running at 2.50 GHz and 32.0 GB of RAM. The operating system used was Fedora Linux, Workstation edition.
 
@@ -91,7 +91,6 @@ The recursive version of the C algorithm reached its time limit of 30 seconds wh
 
 > For N values smaller than 50, both the iterative and dynamic programming approaches exhibit similar performance, running very close to each other.  
 > > This raises the question for further investigation: what happens when the values become larger? How do these algorithms scale?
-
 
 ### 1.3 - Performance Comparisons with Large N Values (> 30 million)
 
@@ -127,11 +126,12 @@ To further evaluate the performance of the algorithms, I conducted tests using l
   
 * **Scalability**: The iterative approach exhibits good scalability with larger input sizes, enabling efficient computation of Fibonacci numbers. On the other hand, the dynamic programming approach shows limitations in Java due to array size restrictions, preventing the calculation of extremely large Fibonacci numbers.
 
-### 1.4 - Conclusion:
+### 1.4 - Conclusion
 
 * The empirical analysis highlights that the iterative approach consistently outperforms the recursive and dynamic programming approaches in calculating Fibonacci numbers. The recursive approach demonstrates poor performance due to the high computational cost of recursive calls. The dynamic programming approach, despite its theoretical efficiency, incurs overhead due to array storage and access, making it slower than the iterative approach.
 
-# Review this and all the numbers once again!!!!
+# Review this and all the numbers once again
+
 # Convert everything to longs to check upper limits
 
 | Algorithm | N (timeout < 30 seconds) |
@@ -169,123 +169,28 @@ As we can see from the above analysis, the choice of programming language can ha
 
 ### 2.1 - Language 1: C
 
-I had started writing the code with recursion and then moved to iterative and then dynamic programming. This is because fibonacci is a classic recursive problem. I had to use long long int to store the values of the fibonacci numbers.
-
-```c
-int fibonacci_manager(int n, int type, int print) {
-    int value = 0;
-    if (type == 2) {
-        value = fibonacci_dp_controller(n, print);
-    }
-    else if (type == 1) {
-        value = fibonacci_recursive_controller(n, print);
-    }
-    else {
-        value = fibonacci_iterative(n, print);
-    }
-    return value;
-}
-```
+In the C implementation, I initially started with the recursive approach since Fibonacci is a classic recursive problem. Later, I expanded to iterative and dynamic programming approaches. To handle the large values of Fibonacci numbers, I used the long long int data type.
 
 The overall structure of the code can be seen in the UML diagram below:
 
-# UML DIAGRAM
+![NonRecursiveJava](EmpericalAnalysis/UML.jpg)
 
 The C implementation utilized various functions and controllers to handle iterative, recursive, and dynamic programming approaches. The main function called the FibonacciManager, which determined the appropriate function to calculate the Fibonacci numbers based on the input parameters. The recursive implementation in C used a simple recursive approach, while the dynamic programming implementation utilized memoization to avoid redundant calculations.
-```c 
-/**
- * Recursive Fibonacci function.
- * @param n number of terms to print.
- * @return the Nth fibonacci number.
- */
-int fibonacci_recursive(int n) {
-    if (n == 0) {
-        return 0;
-    }
-    else if (n == 1) {
-        return 1;
-    }
-    else {
-        int fib = fibonacci_recursive(n-1) + fibonacci_recursive(n-2);
-        return fib;
-    }
-}
-
-/**
- * Recursive Fibonacci controller function.
- * @param n number of terms to print.
- * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
- * @return the Nth fibonacci number.
- */
-int fibonacci_recursive_controller(int n, int print) {
-    int value = fibonacci_recursive(n);
-    if (print > 0) {
-        printf("Fibonacci Value at %i = %i \n", n, value);
-    }
-    return value;
-}
-```
-
-The recursive algorithm was the simplest to write but also the most expensive in terms of resources and Big O.
 
 ```c
-/**
- * Dynamic Programming Fibonacci function.
- * @param n number of terms to print.
- * @param value_table the table of values.
- * @return the Nth fibonacci number.
- */
-int fibonacci_dp(int n, int* value_table) {
-    if (n == 0) {
-        return 0;
-    }
-    else if (n == 1) {
-        return 1;
-    }
-    else if (value_table[n] == -1) {
-        value_table[n] = fibonacci_dp(n-1, value_table) + fibonacci_dp(n-2, value_table);
-        return value_table[n];
-    }
-    else if (value_table[n] != -1) {
-        return value_table[n];
-    }
-    else {
-        return -1;
-    }
-}
-
-/**
- * Dynamic Programming controller function.
- * @param n number of terms to print.
- * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
- * @return the Nth fibonacci number.
- */
-int fibonacci_dp_controller(int n, int print) {
-    int value;
-    int* value_table = (int*) malloc(sizeof(int) * (n + 1));  // Allocate n + 1 elements
-
-    for (int i = 0; i <= n; i++) {
-        value_table[i] = -1;
-    }
-    int a = 0;
-    value = fibonacci_dp(n, value_table);
-    if (print == 1) {
-        printf("Fibonacci Value at %i = %i \n", n, value);
-    }
-    else if (print == 2) {
-        for (int i = 0; i <= n; i++) {
-            if (value_table[i] != -1) {
-                printf("%i\n", value_table[i]);
-            }
-        }
-    }
-    free(value_table);
-    return value;
-}
+recursive code here
 ```
 
+The recursive algorithm is simple to implement but is resource-intensive and has a higher time complexity. To overcome the limitations of the recursive approach, I introduced the dynamic programming approach, which utilizes memoization to avoid redundant calculations.
+
+```c
+DP COde here
+```
 # change it to long long it
+
 During the implementation in C, some concerns and issues were encountered. One concern was the potential for stack overflow when using the recursive approach for large values of n. To address this, the dynamic programming approach was introduced, which allowed for better memory management and performance for large values of n. Another issue was the need to handle the integer overflow when calculating Fibonacci numbers. This was addressed by using the `long long int` data type to store the Fibonacci values.
+
+To optimize the code further and improve memory management, the dynamic programming approach utilized memoization. By storing previously calculated Fibonacci values, redundant calculations were avoided, resulting in better performance for large values of n.
 
 The areas that received the most focus during the implementation in C were:
 
@@ -295,7 +200,36 @@ The areas that received the most focus during the implementation in C were:
 
 ### 2.2 - Language 2: Java
 
-### Comparison and Discussion Between Experiences
+The second language I chose for implementing the Fibonacci functions is Java. Java was selected for its widespread usage, object-oriented nature, and platform independence. Additionally, Java provides built-in support for data structures and has a robust standard library, which can be advantageous for implementing complex algorithms.
+
+In the Java implementation, I aimed to maintain a similar structure and functionality as the C implementation. The features I wanted to test and explore in Java included:
+
+* Syntax and Object-Oriented Approach: Java is renowned for its object-oriented programming paradigm. I wanted to leverage this feature and implement the Fibonacci functions using classes, objects, and method encapsulation.
+* Iterative, Recursive, and Dynamic Programming Approaches: Just like in the C implementation, I intended to incorporate all three approaches to calculate Fibonacci numbers in Java. This would allow for a comprehensive performance comparison between the two languages.
+* Memory Management: Java manages memory differently than C, with automatic memory management through garbage collection. I aimed to explore how Java handles memory allocation and deallocation in the context of the Fibonacci functions.
+
+The implementation in Java consists of two files: [JFibonacci.java](JFibonacci.java) 
+ and [JFibonacciTest.java](JFibonacciTest.java)
+
+The J[JFibonacci.java](JFibonacci.java) file contains the implementation of Fibonacci functions using iterative, recursive, and dynamic programming approaches. The iterative implementation uses loops to calculate Fibonacci numbers, the recursive implementation utilizes a recursive function, and the dynamic programming implementation employs memoization to avoid redundant calculations.
+
+The [JFibonacciTest.java](JFibonacciTest.java) file contains the test cases and test functions to verify the correctness and performance of the Fibonacci functions implemented in JFibonacci.java. This facilitates the comparison of results and performance with the C implementation.
+
+```java
+java code here
+```
+
+During the Java implementation, a concern that may arise is the potential impact of garbage collection on performance, especially in the dynamic programming approach. Additionally, memory utilization and efficiency might differ compared to the C implementation due to Java's automatic memory management system.
+
+To address these concerns and optimize the Java implementation, the following areas received the most focus:
+
+* Object-Oriented Design: I  emphasized leveraging Java's object-oriented features to create appropriate class structures and method encapsulation for the Fibonacci functions. This allowed for better organization and readability of the code.
+* Performance and Efficiency: I aimed to optimize the code to achieve efficient and fast Fibonacci calculations, considering Java's memory management system and language-specific optimizations. Careful consideration was given to the impact of garbage collection on performance, especially in the dynamic programming approach.
+* Testing and Verification: Similar to the C implementation, I implemented comprehensive test cases and test functions in JFibonacciTest.java to ensure the accuracy and performance of the Fibonacci functions. This allowed for validation of the Java implementation and identification of any potential issues or discrepancies.
+
+By implementing the Fibonacci functions in both C and Java, I was able to compare the performance and behavior of the algorithms in different programming languages. This analysis provides insights into the impact of language choice on algorithmic efficiency and memory management.
+
+### 2.3 - Comparison and Discussion Between Experiences
 
 In the previous analysis, we observed that the choice of programming language can impact the performance of Fibonacci algorithms. Specifically, we encountered limitations in Java when using the dynamic programming approach due to array size restrictions. To further investigate the impact of language on runtime, we can compare the performance of the algorithms implemented in different languages.
 
@@ -312,5 +246,30 @@ As the value of N increases the gap between the execution times of the Java and 
 ![NonRecursiveJava](EmpericalAnalysis/LanguageRecursive.png)
 
 Surprisingly, the recursive implementation of Java outperforms the C implementation. This is likely due to the fact that Java is able to handle a larger number of recursive calls compared to C. This is evident from the graph above, which shows that the C implementation reaches its limit at the 48th Fibonacci number, while the Java implementation reaches its limit at the 49th Fibonacci number.
+
+#### 2.3.1 - Limitations
+
+However, it is important to consider the limitations of both languages to ensure a fair and accurate analysis.
+
+For C, one limitation is the potential for stack overflow when using the recursive approach for large values of n. To address this limitation, the dynamic programming approach was introduced, which allowed for better memory management and performance for large values of n. Another limitation is the need to handle integer overflow when calculating Fibonacci numbers. This was addressed by using the long long int data type to store the Fibonacci values.
+
+In the case of Java, a limitation is the potential impact of garbage collection on performance, especially in the dynamic programming approach. Additionally, memory utilization and efficiency might differ compared to C due to Java's automatic memory management system.
+
+#### 2.3.1 - Advantages and Disadvantages
+
+When comparing and contrasting the two languages, we can identify the following advantages and disadvantages:
+
+ | Language | Advantages                                                                                                       | Disadvantages                                                                                                        |
+|----------|-----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| C        | - Efficient and low-level access to memory and system resources.                                                 | - Requires manual memory management, which can be prone to errors.                                                    |
+|          | - No limitations on array size and handling large values of `n`.                                                 | - Lack of built-in support for advanced data structures and high-level abstractions.                                  |
+|          | - Well-suited for resource-constrained environments.                                                             |                                                                                                                      |
+| Java     | - Automatic memory management through garbage collection.                                                         | - Potentially slower execution due to garbage collection overhead.                                                     |
+|          | - Rich standard library and built-in support for data structures.                                                 | - Limitations on array size and handling extremely large values of `n`.                                                |
+|          | - Object-oriented nature allows for better code organization and reusability.                                    |
+
+By considering the limitations and characteristics of both languages, we can make more informed decisions about their usage in specific scenarios.
+
+In conclusion, the choice of programming language can have a significant impact on the performance of Fibonacci algorithms. While C performs better in terms of execution time for the iterative and dynamic programming approaches, Java excels in handling a larger number of recursive calls. These findings highlight the importance of considering the specific requirements and constraints of a problem when selecting a programming language for algorithm implementation.
 
 ## Conclusions / Reflection
