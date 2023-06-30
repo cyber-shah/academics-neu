@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "HeaderFibonacci.h"
+#include "CHeaderFibonacci.h"
 
 /**
  * This is the main function that runs the program
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Nth value
-    const int n = atoi(argv[1]);
+    const long long int n = atoi(argv[1]);
     if (n < 0) {
         printf("N must be greater than 0!\n");
         help();

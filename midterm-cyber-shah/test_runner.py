@@ -9,7 +9,7 @@ FORMAT = "markdown"
 TIMEOUT = 30
 COMMON_ARG_JAVA = "java Fibonacci {n} {algo} 0"
 JAVA_SET = ('11x', '12x', '13x')
-C_SET = ('0x', '1x', '2')
+C_SET = ('0', '1x', '2x')
 LAST_RUN_TRACKER = {"0": 0.0, "1": 0.0, "2": 0.0, "11": 0.0, "12": 0.0, "13": 0.0}
 
 
@@ -64,7 +64,7 @@ def main(n):
     print(table_header())
 
     for i in range(1, n + 1):
-        print(build_row(i*100000000))
+        print(build_row(i*1000000000))
 
 
 if __name__ == "__main__":

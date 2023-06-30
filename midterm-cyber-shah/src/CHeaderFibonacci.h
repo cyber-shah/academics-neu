@@ -11,11 +11,11 @@
 #include <stdlib.h>
 
 // declarations
-int fibonacci_dp(int n, int* value_table);
-int fibonacci_dp_controller(int n, int print);
-int fibonacci_recursive(int n);
-int fibonacci_recursive_controller(int n, int print);
-int fibonacci_iterative(int n, int print);
+long long int fibonacci_dp(int n, long long int* value_table);
+long long int fibonacci_dp_controller(int n, int print);
+long long int fibonacci_recursive(int n);
+long long int fibonacci_recursive_controller(int n, int print);
+long long int fibonacci_iterative(int n, int print);
 
 /**
  * @brief Prints the help message for the program
@@ -34,8 +34,8 @@ void help() {
  * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
  * @return the Nth fibonacci number.
  */
-int fibonacci_manager(int n, int type, int print) {
-    int value = 0;
+long long int fibonacci_manager(int n, int type, int print) {
+    long long int value = 0;
     if (type == 2) {
         value = fibonacci_dp_controller(n, print);
     }
@@ -54,14 +54,14 @@ int fibonacci_manager(int n, int type, int print) {
  * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
  * @return the Nth fibonacci number.
  */
-int fibonacci_iterative(int n, int print) {
-    int a = 0, b = 1;
-    int c = a + b; // Initialize c with the initial value of a + b
+long long int fibonacci_iterative(int n, int print) {
+    long long int a = 0, b = 1;
+    long long int c = a + b; // Initialize c with the initial value of a + b
 
     // Special case for n = 0
     if (print > 1) {
         if (n >= 1) {
-            printf("%d", a);
+            printf("%lld", a);
         }
     }
 
@@ -70,16 +70,16 @@ int fibonacci_iterative(int n, int print) {
         // print last digit only
         if (print == 1) {
             if (i == n) {
-                printf("Fibonacci value at %i = %d\n", i, c);
+                printf("Fibonacci value at %i = %lld\n", i, c);
             }
         }
         // print all values
         if (print > 1) {
             if (i == n) {
-                printf(", %d\n", c);
+                printf(", %lld\n", c);
             }
             else {
-                printf(", %d", c);
+                printf(", %lld", c);
             }
         }
         a = b;
@@ -94,7 +94,7 @@ int fibonacci_iterative(int n, int print) {
  * @param n number of terms to print.
  * @return the Nth fibonacci number.
  */
-int fibonacci_recursive(int n) {
+long long int fibonacci_recursive(int n) {
     if (n == 0) {
         return 0;
     }
@@ -102,7 +102,7 @@ int fibonacci_recursive(int n) {
         return 1;
     }
     else {
-        int fib = fibonacci_recursive(n-1) + fibonacci_recursive(n-2);
+        long long int fib = fibonacci_recursive(n-1) + fibonacci_recursive(n-2);
         return fib;
     }
 }
@@ -113,10 +113,10 @@ int fibonacci_recursive(int n) {
  * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
  * @return the Nth fibonacci number.
  */
-int fibonacci_recursive_controller(int n, int print) {
-    int value = fibonacci_recursive(n);
+long long int fibonacci_recursive_controller(int n, int print) {
+    long long int value = fibonacci_recursive(n);
     if (print > 0) {
-        printf("Fibonacci Value at %i = %i \n", n, value);
+        printf("Fibonacci Value at %i = %lld \n", n, value);
     }
     return value;
 }
@@ -127,19 +127,19 @@ int fibonacci_recursive_controller(int n, int print) {
  * @param value_table the table of values.
  * @return the Nth fibonacci number.
  */
-int fibonacci_dp(int n, int* value_table) {
+long long int fibonacci_dp(int n, long long int* value_table) {
     if (n == 0) {
         return 0;
     }
     else if (n == 1) {
         return 1;
     }
-        // if default value, calculate the number
+    // if default value, calculate the number
     else if (value_table[n] == -1) {
         value_table[n] = fibonacci_dp(n-1, value_table) + fibonacci_dp(n-2, value_table);
         return value_table[n];
     }
-        // if it's not -1, return the value at position
+    // if it's not -1, return the value at position
     else if (value_table[n] != -1) {
         return value_table[n];
     }
@@ -154,26 +154,25 @@ int fibonacci_dp(int n, int* value_table) {
  * @param print 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers.
  * @return the Nth fibonacci number.
  */
-int fibonacci_dp_controller(int n, int print) {
-    int value;
-    int* value_table = (int*) malloc(sizeof(int) * (n + 1));  // Allocate n + 1 elements
+long long int fibonacci_dp_controller(int n, int print) {
+    long long int value;
+    long long int* value_table = (long long int*) malloc(sizeof(long long int) * (n + 1));  // Allocate n + 1 elements
 
     for (int i = 0; i <= n; i++) {  // Iterate up to n (inclusive)
         value_table[i] = -1;
     }
-    int a = 0;
+    long long int a = 0;
     value = fibonacci_dp(n, value_table);
     if (print == 1) {
-        printf("Fibonacci Value at %i = %i \n", n, value);
+        printf("Fibonacci Value at %i = %lld \n", n, value);
     }
     else if (print == 2) {
         for (int i = 0; i <= n; i++) {  // Iterate up to n (inclusive)
             if (value_table[i] != -1) {
-                printf("%i\n", value_table[i]);  // Add a newline character '\n' after each print
+                printf("%lld\n", value_table[i]);  // Add a newline character '\n' after each print
             }
         }
     }
     free(value_table);  // Free the allocated memory
     return value;
 }
-
