@@ -8,13 +8,15 @@
 
 ## 0 - Overview
 
-The Fibonacci series is a sequence of numbers that appears in various natural phenomena and is often regarded as a fascinating mathematical pattern. It serves as the foundation for the golden ratio, which can be observed in numerous aspects of the natural world. In this report, we will delve into the analysis of the Fibonacci series, exploring different algorithms to calculate the series efficiently and comparing their performance.
+The [Fibonacci Series]<sup>1</sup>.  is a sequence of numbers that appears in various natural phenomena and is often regarded as a fascinating mathematical pattern. It serves as the foundation for the golden ratio, which can be observed in numerous aspects of the natural world. In this report, we will delve into the analysis of the Fibonacci series, exploring different algorithms to calculate the series efficiently and comparing their performance.
 
 ### <u> 0.1 - The Significance of the Fibonacci Series and the Golden Ratio </u>
 
 The Fibonacci series serves as the foundation for the golden ratio, a mathematical concept that holds immense significance in nature, art, and design. The golden ratio can be observed in the spiral patterns of seashells, the arrangement of leaves on plants, the growth patterns of trees, and even in the proportions of human faces. It is a mathematical harmony that resonates throughout the universe, creating aesthetically pleasing and visually balanced compositions.
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Fibonacci_Spiral.svg/1280px-Fibonacci_Spiral.svg.png">
+
+> The Fibonacci spiral: an approximation of the golden spiral created by drawing circular arcs connecting the opposite corners of squares in the Fibonacci tiling. Image from [Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number).<sup>2</sup>
 
 Mathematically, the Fibonacci series is defined as a sequence in which each number, known as a Fibonacci number, is the sum of the two preceding numbers.
 $$F(n) = F(n-1) + F(n-2)$$
@@ -70,15 +72,18 @@ For the empirical analysis, the time limit for each algorithm was set to 30 seco
 
 In this section, we will look at performance comparisons of three different algorithms (iterative, recursive, and dynamic programming) for small values of N (less than 50).
 
-The recursive version of the C algorithm reached its time limit of 30 seconds when calculating the 48th Fibonacci number, hence all the timers presented here represent the time taken to calculate the 48th value.
 
-* **Execution Times**: The table shows time taken by each algorithm to calculate 48th value.
+* **Execution Times**: The table shows time taken by each algorithm to calculate nth value. The recursive version of the C algorithm reached its time limit of 30 seconds when calculating the 48th Fibonacci number, hence all the last value of n presented here is 48:
+  
+| n   | Iterative C | Recursive C | Dynamic Programming C | Iterative Java | Recursive Java | Dynamic Programming Java |
+|-----|-------------|-------------|-----------------------|----------------|----------------|--------------------------|
+| 1   | 0.00142     | 0.00153     | 0.00138               | 0.03201        | 0.03229        | 0.03206                  |
+| 10  | 0.0016      | 0.00139     | 0.00153               | 0.03221        | 0.03209        | 0.03252                  |
+| 20  | 0.00142     | 0.00145     | 0.00157               | 0.03225        | 0.06429        | 0.03278                  |
+| 30  | 0.00156     | 0.03184     | 0.00179               | 0.03235        | 0.03183        | 0.032                    |
+| 40  | 0.00162     | 0.61536     | 0.00178               | 0.03231        | 0.41469        | 0.03199                  |
+| 48  | 0.00157     | 26.6117     | 0.00159               | 0.03219        | 16.0217        | 0.0325                   |
 
-| Algorithm        | Java      | C         |
-|------------------|-----------|-----------|
-| Iterative        | 0.03243     | 0.00142     |
-| Recursive        | 15.77696     | 27.91239     |
-| Dynamic Programming | 0.03299     | 0.00209     |
 
 ![AllC](EmpericalAnalysis/AllC.png)
 
@@ -98,7 +103,7 @@ Upon analyzing the results, it was observed that the recursive versions of both 
 
 To further evaluate the performance of the algorithms, I conducted tests using larger values of N. Specifically, I focused on values greater than 90 million. The following table presents the execution times for calculating the 90 millionth value using different algorithms in Java and C:
 
-* **Execution Times**: The table shows time taken by each algorithm to calculate 20 billion and 70 millionth value using iterative algorithm.
+* **Execution Times**: The table shows time taken by each algorithm to calculate nth value. Java timed out at 20 billion and 70 millionth value using iterative algorithm. Hence the last value represented here is that.
 
    | Algorithm        | Java      | C         |
    |------------------|-----------|-----------|
@@ -244,6 +249,8 @@ long long int fibonacci_dp_controller(int n, int print) {
 
 During the implementation in C, some concerns and issues were encountered. One concern was the potential for stack overflow when using the recursive approach for large values of n. To address this, the dynamic programming approach was introduced, which allowed for better memory management and performance for large values of n. Another issue was the need to handle the integer overflow when calculating Fibonacci numbers. This was addressed by using the `long long int` data type to store the Fibonacci values.
 
+I refered to [GeeksforGeeks](https://www.geeksforgeeks.org/difference-between-long-int-and-long-long-int-in-c-cpp/)<sup> 3</sup> to learn more on long long ints and how to use them in C.
+
 To optimize the code further and improve memory management, the dynamic programming approach utilized memoization. By storing previously calculated Fibonacci values, redundant calculations were avoided, resulting in better performance for large values of n.
 
 The areas that received the most focus during the implementation in C were:
@@ -358,7 +365,7 @@ By considering the limitations and characteristics of both languages, we can mak
 
 In conclusion, the choice of programming language can have a significant impact on the performance of Fibonacci algorithms. While C performs better in terms of execution time for the iterative and dynamic programming approaches, Java excels in handling a larger number of recursive calls. These findings highlight the importance of considering the specific requirements and constraints of a problem when selecting a programming language for algorithm implementation.
 
-## Conclusions / Reflection
+## 3 - Conclusions / Reflection
 
 ### <u> 3.1 - Lessons </u>
 
@@ -376,3 +383,16 @@ In conclusion, the choice of programming language can have a significant impact 
 * Practical experiments are necessary to validate theoretical efficiency expectations and gain a comprehensive understanding of algorithm behavior.
 * Low-level languages offer greater control over performance-related decisions, resulting in improved efficiency, particularly in scenarios where performance optimizations at a granular level are essential.
 * Exponential time algorithms quickly become impractical and inefficient for large input sizes, emphasizing the need for choosing appropriate algorithms that can scale effectively.
+
+
+<!-- auto references -->
+[Fibonacci Series]: https://en.wikipedia.org/wiki/Fibonacci_sequence
+
+## References
+
+1. Wikipedia, "Fibonacci sequence" Wikipedia: The Free Encyclopedia,
+June 14, 2023. <https://en.wikipedia.org/wiki/Fibonacci_sequence>.
+2. Wikipedia, "Fibonacci Spiral" Wikipedia: The Free Encyclopedia,
+January 18, 2022. https://en.wikipedia.org/wiki/Fibonacci_sequence#/media/File:Fibonacci_Spiral.svg
+3. GeeksforGeeks, "Difference between long int and long long int in C," GeeksforGeeks, March 10, 2021.
+<https://www.geeksforgeeks.org/difference-between-long-int-and-long-long-int-in-c-cpp/>.

@@ -100,6 +100,11 @@ public class JFibonacci {
       }
     }
 
+    if (N < 1) {
+      System.out.println("Iterative Fibonacci value at " + N + " = " + a);
+      return a;
+    }
+
     for (int i = 2; i <= N; i++) {
       if (print == 1) {
         if (i == N) {

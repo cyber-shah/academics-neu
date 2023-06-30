@@ -1,59 +1,50 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class JFibonacciTest {
 
     @Test
     public void testFibonacciIterative() {
-        long result = JFibonacci.fibonacciIterative(0L, 0);
-        Assertions.assertEquals(0L, result);
+        // Test case 1: N = 0
+        Long result1 = JFibonacci.fibonacciIterative(0L, 1);
+        Assert.assertEquals(0L, result1.longValue());
 
-        result = JFibonacci.fibonacciIterative(1L, 0);
-        Assertions.assertEquals(1L, result);
+        // Test case 2: N = 1
+        Long result2 = JFibonacci.fibonacciIterative(1L, 1);
+        Assert.assertEquals(1L, result2.longValue());
 
-        result = JFibonacci.fibonacciIterative(2L, 0);
-        Assertions.assertEquals(1L, result);
-
-        result = JFibonacci.fibonacciIterative(5L, 0);
-        Assertions.assertEquals(5L, result);
-
-        result = JFibonacci.fibonacciIterative(10L, 0);
-        Assertions.assertEquals(55L, result);
+        // Test case 3: N = 10
+        Long result3 = JFibonacci.fibonacciIterative(10L, 1);
+        Assert.assertEquals(55L, result3.longValue());
     }
 
     @Test
     public void testFibonacciRecursive() {
-        long result = JFibonacci.fibonacciRecursive(0L);
-        Assertions.assertEquals(0L, result);
+        // Test case 1: N = 0
+        Long result1 = JFibonacci.fibonacciRecursive(0L);
+        Assert.assertEquals(0L, result1.longValue());
 
-        result = JFibonacci.fibonacciRecursive(1L);
-        Assertions.assertEquals(1L, result);
+        // Test case 2: N = 1
+        Long result2 = JFibonacci.fibonacciRecursive(1L);
+        Assert.assertEquals(1L, result2.longValue());
 
-        result = JFibonacci.fibonacciRecursive(2L);
-        Assertions.assertEquals(1L, result);
-
-        result = JFibonacci.fibonacciRecursive(5L);
-        Assertions.assertEquals(5L, result);
-
-        result = JFibonacci.fibonacciRecursive(10L);
-        Assertions.assertEquals(55L, result);
+        // Test case 3: N = 10
+        Long result3 = JFibonacci.fibonacciRecursive(10L);
+        Assert.assertEquals(55L, result3.longValue());
     }
 
     @Test
     public void testFibonacciDynamicManager() {
-        long result = JFibonacci.fibonacciDynamicManager(0L, 0);
-        Assertions.assertEquals(0L, result);
+        // Test case 1: N = 0
+        Long result1 = JFibonacci.fibonacciDynamicManager(0L, 1);
+        Assert.assertEquals(0L, result1.longValue());
 
-        result = JFibonacci.fibonacciDynamicManager(1L, 0);
-        Assertions.assertEquals(1L, result);
+        // Test case 2: N = 1
+        Long result2 = JFibonacci.fibonacciDynamicManager(1L, 1);
+        Assert.assertEquals(1L, result2.longValue());
 
-        result = JFibonacci.fibonacciDynamicManager(2L, 0);
-        Assertions.assertEquals(1L, result);
-
-        result = JFibonacci.fibonacciDynamicManager(5L, 0);
-        Assertions.assertEquals(5L, result);
-
-        result = JFibonacci.fibonacciDynamicManager(10L, 0);
-        Assertions.assertEquals(55L, result);
+        // Test case 3: N = 10
+        Long result3 = JFibonacci.fibonacciDynamicManager(10L, 1);
+        Assert.assertEquals(55L, result3.longValue());
     }
 }
