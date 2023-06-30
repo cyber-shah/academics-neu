@@ -1,82 +1,62 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <assert.h>
-#include "HeaderFibonacci.h"
+#include "CHeaderFibonacci.h"
 
-// Function to compare two integer arrays
-bool compareArrays(int* arr1, int* arr2, int size) {
-    for (int i = 0; i < size; i++) {
-        if (arr1[i] != arr2[i]) {
-            return false;
-        }
+// Test fibonacci_iterative function
+void test_fibonacci_iterative() {
+    printf("Running test_fibonacci_iterative...\n");
+    assert(fibonacci_iterative(0, 0) == 0);
+    assert(fibonacci_iterative(1, 0) == 1);
+    assert(fibonacci_iterative(5, 0) == 5);
+    assert(fibonacci_iterative(10, 0) == 55);
+    printf("test_fibonacci_iterative passed!\n");
+}
+
+// Test fibonacci_recursive function
+void test_fibonacci_recursive() {
+    printf("Running test_fibonacci_recursive...\n");
+    assert(fibonacci_recursive(0) == 0);
+    assert(fibonacci_recursive(1) == 1);
+    assert(fibonacci_recursive(5) == 5);
+    assert(fibonacci_recursive(10) == 55);
+    printf("test_fibonacci_recursive passed!\n");
+}
+
+// Test fibonacci_dp function
+void test_fibonacci_dp() {
+    printf("Running test_fibonacci_dp...\n");
+    long long int value_table[11];  // Adjust the array size according to the maximum value of n you want to test
+    for (int i = 0; i < 11; i++) {  // Initialize the value_table array with -1
+        value_table[i] = -1;
     }
-    return true;
+    assert(fibonacci_dp(0, value_table) == 0);
+    assert(fibonacci_dp(1, value_table) == 1);
+    assert(fibonacci_dp(5, value_table) == 5);
+    assert(fibonacci_dp(10, value_table) == 55);
+    printf("test_fibonacci_dp passed!\n");
 }
 
-// Function to test the fibonacci_iterative function
-void testFibonacciIterative() {
-    int n = 10;
-    int expected[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
-    int result = fibonacci_iterative(n, 2);
-
-    assert(result == expected[n]);
-
-    printf("Test Fibonacci Iterative: Passed\n");
+// Test fibonacci_manager function
+void test_fibonacci_manager() {
+    printf("Running test_fibonacci_manager...\n");
+    assert(fibonacci_manager(0, 0, 0) == 0);
+    assert(fibonacci_manager(1, 0, 0) == 1);
+    assert(fibonacci_manager(5, 0, 0) == 5);
+    assert(fibonacci_manager(10, 0, 0) == 55);
+    printf("test_fibonacci_manager passed!\n");
 }
 
-// Function to test the fibonacci_recursive function
-void testFibonacciRecursive() {
-    int n = 10;
-    int expected[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
-    int result = fibonacci_recursive(n);
 
-    assert(result == expected[n]);
-
-    printf("Test Fibonacci Recursive: Passed\n");
-}
-
-// Function to test the fibonacci_dp_controller function
-void testFibonacciDP() {
-    int n = 10;
-    int expected[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
-    int result = fibonacci_dp_controller(n, 2);
-
-    assert(result == expected[n]);
-
-    printf("Test Fibonacci Dynamic Programming: Passed\n");
-}
-
-// Function to test the fibonacci_manager function
-void testFibonacciManager() {
-    int n = 10;
-    int expected[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
-
-    for (int type = 0; type <= 2; type++) {
-        int result = fibonacci_manager(n, type, 2);
-
-        assert(result == expected[n]);
-    }
-
-    printf("Test Fibonacci Manager: Passed\n");
-}
-
-// Function to test the help function
-void testHelp() {
-    // No assertions, just verify the output manually
-    help();
-}
-
-// Function to run all the tests
-void runTests() {
-    testFibonacciIterative();
-    testFibonacciRecursive();
-    testFibonacciDP();
-    testFibonacciManager();
-    testHelp();
+// Run all the tests
+void run_all_tests() {
+    test_fibonacci_iterative();
+    test_fibonacci_recursive();
+    test_fibonacci_dp();
+    test_fibonacci_manager();
 }
 
 int main() {
-    runTests();
+    run_all_tests();
     return 0;
 }
