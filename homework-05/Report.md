@@ -192,7 +192,8 @@ An unstable sorting algorithm, like Quick Sort, does not guarantee the preservat
 
 ### 6.2 When stability is needed?
 Explain in your own words a case in which you will want a stable algorithm over an unstable. Include an example.
-> Stability is important when we want to maintain the original order of equal elements in the input array. For example, if we want to sort a list of students by their first name, we would want to use a stable sorting algorithm. This is because if two students have the same first name, we would want the student that appears first in the original list to also appear first in the sorted list. If we use an unstable sorting algorithm, the order of the students with the same first name may be changed in the sorted list.
+* Stability is important when we want to maintain the original order of equal elements in the input array. For example, if we want to sort a list of students by their first name, we would want to use a stable sorting algorithm. This is because if two students have the same first name, we would want the student that appears first in the original list to also appear first in the sorted list. If we use an unstable sorting algorithm, the order of the students with the same first name may be changed in the sorted list.
+* Therefore, stable sorting algorithm maintains the relative order of items with equal sort keys. Some examples of stable sorting algorithms are Bubble Sort, Insertion Sort, and Merge Sort. These algorithms preserve the relative order of equal elements while sorting the input data.
 
 ### 7. Gold Thief
 
@@ -200,10 +201,18 @@ You are planning a heist to steal a rare coin that weighs 1.0001 ounces. The pro
 
 #### 7.1 Algorithm
 Describe an algorithm that will help you find the coin. We encourage you to use pseudo-code, but not required.
-> I would use something like binary search to find the coin. I would first divide the coins into two piles and weigh them against each other. 
-> If one pile is heavier than the other, then the rare coin is in that pile. If one pile is heavier than the other, then the rare coin is in that pile. I would continue this process until I find the rare coin.
+1. Start by dividing the 250 coins into two equal-ish piles (125 each) and place them on the balance scale. 
+2. If one pile is heavier than the other, it must contain the rare coin. Proceed to the next step with the heavier pile. 
+3. If both piles weigh the same, it means the rare coin is not in either of them. Now you can safely eliminate both piles from your search. 
+4. In case you have an uneven number of coins after dividing, set aside the one unallocated coin for now. 
+   1. Take the heavier pile (if applicable) and divide it again into two equal-ish piles (e.g., 63 and 62 coins) for weighing. 
+   2. Once more, if one pile is heavier, it contains the rare coin. Proceed to the next step with the heavier pile. 
+7. If both piles weigh the same, eliminate both piles from your search.
+8. If you have an uneven number of coins at this step, combine the unallocated coin from the previous division with one of the piles. Place the other pile on the balance scale for weighing. 
+9. Continue this process of dividing the heavier pile in half and weighing the sub-piles, ensuring to handle any uneven number of coins that may arise. 
+10. Keep repeating the process until you are left with only one coin.
 
-
+The remaining one coin is the one we are looking for. We can now weigh it against the original coin to confirm that it is indeed the rare coin.
 #### 7.2 Time Complexity
 What is the average time complexity of your algorithm? 
 > By dividing the coins into two at each step, we effectively reduce the search space in logarithmic steps, resulting in a maximum of 8 weighings required to find the counterfeit coin.
