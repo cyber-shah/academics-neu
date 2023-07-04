@@ -2,6 +2,8 @@ package cs5004.marblesolitaire.view;
 
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 
+import java.io.IOException;
+
 /**
  * This class represents the MarbleSolitaireTextView.
  * It implements the MarbleSolitaireView interface.
@@ -78,5 +80,15 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
       }
     }
     return modelString.toString();
+  }
+
+  @Override
+  public void renderBoard() throws IOException {
+
+  }
+
+  @Override
+  public void renderMessage(String message) throws IOException {
+
   }
 }

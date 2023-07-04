@@ -8,6 +8,7 @@ import java.io.IOException;
  */
 
 public interface MarbleSolitaireView {
+
   /**
    * Return a string that represents the current state of the board. The
    * string should have one line per row of the game board. Each slot on the

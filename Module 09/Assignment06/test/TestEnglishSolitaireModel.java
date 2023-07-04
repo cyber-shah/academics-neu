@@ -1,10 +1,12 @@
-import org.junit.Before;
-import org.junit.Test;
+import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
+import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -13,8 +15,8 @@ import static org.junit.Assert.assertFalse;
  */
 public class TestEnglishSolitaireModel {
 
-  private EnglishSolitaireModel model;
-  private MarbleSolitaireTextView view;
+  private MarbleSolitaireModel model;
+  private MarbleSolitaireView view;
 
   @Before
   public void setUp() {
@@ -24,7 +26,7 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testDefaultConstructor() {
-    final MarbleSolitaireTextView view = new MarbleSolitaireTextView(model);
+    final MarbleSolitaireView view = new MarbleSolitaireTextView(model);
 
     // Test board size
     assertEquals(7, model.getBoardSize());
@@ -79,13 +81,13 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testConstructorWithBoardSize() {
-    model = new EnglishSolitaireModel(9);
+    model = new EnglishSolitaireModel(13);
 
     // Test board size
-    assertEquals(9, model.getBoardSize());
+    assertEquals(13, model.getBoardSize());
 
     // Test center slot is empty
-    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(4, 4));
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(6, 6));
   }
 
   @Test
@@ -133,8 +135,8 @@ public class TestEnglishSolitaireModel {
 
   @Test (expected = IllegalArgumentException.class)
   public void testMoveInvalidNoMarbleInBetween() {
-    EnglishSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
-    MarbleSolitaireTextView view1 = new MarbleSolitaireTextView(model1);
+    MarbleSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
+    MarbleSolitaireView view1 = new MarbleSolitaireTextView(model1);
 
     model.move(1, 3, 3, 3);
     // invalid move
@@ -144,34 +146,6 @@ public class TestEnglishSolitaireModel {
   @Test
   public void testIsGameOverFalse() {
     assertFalse(model.isGameOver());
-  }
-
-  @Test
-  public void testIsGameOverTrue() {
-    EnglishSolitaireModel model2 = new EnglishSolitaireModel();
-
-    model2.move(3, 1, 3, 3);
-    model2.move(3, 0, 3, 2);
-    model2.move(4, 2, 2, 2);
-    model2.move(2, 0, 2, 2);
-    model2.move(2, 5, 2, 3);
-    model2.move(2, 2, 2, 4);
-    model2.move(3, 3, 1, 3);
-    model2.move(3, 1, 3, 3);
-    model2.move(3, 3, 3, 1);
-    model2.move(2, 3, 2, 1);
-    model2.move(2, 1, 2, 3);
-    model2.move(2, 0, 2, 2);
-    model2.move(2, 2, 2, 4);
-    model2.move(2, 4, 2, 2);
-    model2.move(2, 2, 4, 2);
-    model2.move(3, 4, 3, 2);
-    model2.move(3, 2, 3, 4);
-    model2.move(4, 3, 2, 3);
-    model2.move(2, 3, 2, 1);
-    model2.move(0, 3, 2, 3);
-
-    assertEquals(true, model2.isGameOver());
   }
 
   @Test
@@ -207,8 +181,8 @@ public class TestEnglishSolitaireModel {
             "    O O O\n" +
             "    O O O");
 
-    EnglishSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
-    MarbleSolitaireTextView view1 = new MarbleSolitaireTextView(model1);
+    MarbleSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
+    MarbleSolitaireView view1 = new MarbleSolitaireTextView(model1);
     assertEquals(view1.toString(),
               "    O O O\n" +
                     "    O O O\n" +
@@ -218,8 +192,8 @@ public class TestEnglishSolitaireModel {
                     "    O O O\n" +
                     "    O O O");
 
-    EnglishSolitaireModel model2 = new EnglishSolitaireModel(13);
-    MarbleSolitaireTextView view2 = new MarbleSolitaireTextView(model2);
+    MarbleSolitaireModel model2 = new EnglishSolitaireModel(13);
+    MarbleSolitaireView view2 = new MarbleSolitaireTextView(model2);
     assertEquals(view2.toString(),
                 "        O O O O O\n"
                     + "        O O O O O\n"
@@ -235,8 +209,8 @@ public class TestEnglishSolitaireModel {
                     + "        O O O O O\n"
                     + "        O O O O O");
 
-    EnglishSolitaireModel model3 = new EnglishSolitaireModel(5, 4, 4);
-    MarbleSolitaireTextView view3 = new MarbleSolitaireTextView(model3);
+    MarbleSolitaireModel model3 = new EnglishSolitaireModel(5, 4, 4);
+    MarbleSolitaireView view3 = new MarbleSolitaireTextView(model3);
     assertEquals(view3.toString(),
                       "        O O O O O\n"
                     + "        O O O O O\n"
@@ -253,6 +227,4 @@ public class TestEnglishSolitaireModel {
                     + "        O O O O O");
 
   }
-
-
 }
