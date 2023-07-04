@@ -12,6 +12,8 @@ import java.io.IOException;
 public class MarbleSolitaireTextView implements MarbleSolitaireView {
   private final MarbleSolitaireModelState model;
   private final StringBuilder modelString;
+  private final Appendable outAppendable;
+
 
   /**
    * This is the constructor for the MarbleSolitaireTextView.
@@ -19,9 +21,26 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
    * @param model of the type MarbleSolitaireModelState.
    */
   public MarbleSolitaireTextView(MarbleSolitaireModelState model) {
-    // 1. constructor
-    this.modelString = new StringBuilder();
     this.model = model;
+    this.outAppendable = System.out;
+    this.modelString = new StringBuilder();
+  }
+
+  /**
+   * Constructor that takes in two parameters.
+   *
+   * @param model of the type MarbleSolitaireModelState.
+   * @param outAppendable of the type Appendable.
+   * @throws IllegalArgumentException if the model or outAppendable is null.
+   */
+  public MarbleSolitaireTextView(MarbleSolitaireModelState model,
+                                 Appendable outAppendable) throws IllegalArgumentException {
+    if (model == null || outAppendable == null) {
+      throw new IllegalArgumentException("Appendable or model cannot be null");
+    }
+    this.model = model;
+    this.outAppendable = outAppendable;
+    this.modelString = new StringBuilder();
   }
 
   /**
@@ -31,7 +50,6 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
    */
   @Override
   public String toString() {
-    // 2. toString()
     int boardSize = model.getBoardSize();
     int sideRectangle = (boardSize / 2) - 1;
     // for each row
@@ -82,13 +100,36 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
     return modelString.toString();
   }
 
+  /**
+   * This method renders the board to the provided data destination.
+   * The board should be rendered exactly in the format produced by the toString method above.
+   *
+   * @throws IOException if transmission of the board to the provided data destination fails.
+   */
   @Override
   public void renderBoard() throws IOException {
-
+    try {
+      this.outAppendable.append(this.toString());
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new IOException("Failed to transmit board data.", e);
+    }
   }
 
+  /**
+   *  this method can be used to show an arbitrary message.
+   *  allowing this view to show messages determined by whoever uses it.
+   *
+   * @param message the message to be transmitted.
+   * @throws IOException if transmission of the board to the provided data destination fails.
+   */
   @Override
   public void renderMessage(String message) throws IOException {
-
+    try {
+      this.outAppendable.append(message);
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new IOException("Failed to transmit message.", e);
+    }
   }
 }
