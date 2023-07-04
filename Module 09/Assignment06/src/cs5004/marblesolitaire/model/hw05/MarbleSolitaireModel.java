@@ -5,6 +5,7 @@ package cs5004.marblesolitaire.model.hw05;
  * model. One object of the model represents one game of marble solitaire
  */
 public interface MarbleSolitaireModel extends MarbleSolitaireModelState {
+
   /**
    * Move a single marble from a given position to another given position.
    * A move is valid only if the from and to positions are valid. Specific
