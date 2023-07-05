@@ -3,6 +3,7 @@ package cs5004.marblesolitaire.controller;
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -17,8 +18,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
   /**
    * This is the constructor for the MarbleSolitaireControllerImpl.
    *
-   * @param model of the type MarbleSolitaireModel
-   * @param view of the type MarbleSolitaireView
+   * @param model         of the type MarbleSolitaireModel
+   * @param view          of the type MarbleSolitaireView
    * @param readableInput of the type Readable
    * @throws IllegalArgumentException if the model, view, or readableInput is null.
    */
@@ -32,11 +33,12 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     this.readableInput = readableInput;
   }
 
-  private void resetMove(String[] move) {
+  private String[] resetMove(String[] move) {
     move[0] = "-1";
     move[1] = "-1";
     move[2] = "-1";
     move[3] = "-1";
+    return move;
   }
 
   /**
@@ -55,19 +57,43 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     this.printBoard(moveNumber);
     String[] move = new String[4];
 
-    while(!model.isGameOver() && scanner.hasNextLine()) {
-      resetMove(move);
+    while (!model.isGameOver() && !Objects.equals(move[0], "-1")) {
       // for input types = "3\n1\n3\n3\n5\n2\n3\n2"
       if (scanner.nextLine().length() == 1) {
-        lineSeperated(scanner, moveNumber, move);
-        moveNumber++;
+        move[0] = scanner.nextLine();
+        move[1] = scanner.nextLine();
+        move[2] = scanner.nextLine();
+        move[3] = scanner.nextLine();
       }
+
       // for input types = "3 1 3 3\n5 2 3 2" and "3 1 3 3 5 2 3 2"
       else if (scanner.nextLine().length() > 3) {
-        String line = scanner.nextLine();
-        spaceSeperated(line, moveNumber);
-        moveNumber++;
+        move = scanner.nextLine().split(" ");
       }
+
+      // check if the input is valid
+      checkValues valid = checkValues(move);
+      // if the input is invalid, continue
+
+      if (valid == checkValues.BAD_INPUT) {
+        continue;
+      }
+
+      // if the input is quit, return
+      else if (valid == checkValues.QUIT) {
+        return;
+      }
+
+      // if the input is valid, make the move
+      else {
+        model.move(Integer.parseInt(move[0]), Integer.parseInt(move[1]),
+                Integer.parseInt(move[2]), Integer.parseInt(move[3]));
+        moveNumber++;
+        move = resetMove(move);
+      }
+
+      // after move is made
+      this.printBoard(moveNumber);
     }
 
     // if the game is over
@@ -75,8 +101,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       try {
         view.renderMessage("\nGame over!");
         view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         e.printStackTrace();
         throw new IllegalStateException("Error rendering the message, game over");
       }
@@ -110,42 +135,61 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     }*/
 
 
-  private void spaceSeperated(String line, int moveNumber) {
-    // values in the line
-    String[] values = line.split(" ");
+  private checkValues checkValues(String[] move) {
     // if the input is bad
-    if (isBadInput(values)) {
+    if(isBadInput(move)) {
       try {
-        view.renderMessage("\nBad Input. Play again. " + values + " is not a valid input");
+        view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
       }
       catch (Exception e) {
         e.printStackTrace();
         throw new IllegalStateException("Error rendering the message, invalid move");
       }
-      return;
+      return checkValues.BAD_INPUT;
     }
 
     // if the user wants to quit
-    if (isQPresent(values)) {
+    if(isQPresent(move)) {
       try {
         view.renderMessage("\nGame quit!");
         view.renderMessage("\nState of game when quit:");
         view.renderBoard();
         view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         e.printStackTrace();
         throw new IllegalStateException("Error rendering the message, game quit");
       }
-      return;
+      return checkValues.QUIT;
     }
 
-    // user wants to make a move
-    model.move(Integer.parseInt(values[0]), Integer.parseInt(values[1]),
-            Integer.parseInt(values[2]), Integer.parseInt(values[3]));
-    // render the updated board and score after the move
-    this.printBoard(moveNumber);
+    // if it passes all checks
+    return checkValues.GOOD_INPUT;
+  }
 
+  enum checkValues {QUIT, BAD_INPUT, GOOD_INPUT}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  private String[] spaceSeperated(String line) {
+    // values in the line
+    String[] values = line.split(" ");
+    return values;
   }
 
 
