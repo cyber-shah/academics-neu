@@ -56,7 +56,7 @@ public class MockSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public SlotState getSlotAt(int row, int col) throws IllegalArgumentException {
-    return null;
+    return SlotState.Invalid;
   }
 
   /**

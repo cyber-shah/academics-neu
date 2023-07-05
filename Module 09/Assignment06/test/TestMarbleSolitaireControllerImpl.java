@@ -70,8 +70,9 @@ public class TestMarbleSolitaireControllerImpl {
       e.printStackTrace();
     }
 
+    String strippedString = log.toString().replaceAll("(?m)^\\s+|\\s+$", "");
     assertEquals("move (3, 1) -> (3, 3)\n"
-            + "move (5, 2) -> (3, 2)\n", log.toString());
+            + "move (5, 2) -> (3, 2)\n", strippedString);
   }
 
   @Test
@@ -89,8 +90,13 @@ public class TestMarbleSolitaireControllerImpl {
       e.printStackTrace();
     }
 
-    assertEquals("move (3, 1) -> (3, 3)\n"
+    String strippedString = log.toString().replaceAll("(?m)^\\s+|\\s+$", "");
+    // Remove empty spaces
+    assertEquals("Score after move 0: 0\n"
+            + "move (3, 1) -> (3, 3)\n"
+            + "Score after move 1: 0\n"
             + "move (5, 2) -> (3, 2)\n"
-            + "Game Quit!", log.toString());
+            + "Score after move 2: 0\n"
+            + "Game Quit!", strippedString);
   }
 }

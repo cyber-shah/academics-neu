@@ -3,6 +3,7 @@ package cs5004.marblesolitaire.controller;
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -51,7 +52,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
    * @throws IllegalStateException if it encounters issues with input or output.
    */
   @Override
-  public void playGame() throws IllegalStateException {
+  public void playGame() throws IllegalStateException, IOException {
     Scanner scanner = new Scanner(readableInput);
     int moveNumber = 0;
 
@@ -99,22 +100,12 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
       // if the input is quit, return
       if (valid == checkValues.QUIT) {
-        try {
-          view.renderMessage("\nGame quit!");
-        } catch (Exception e) {
-          e.printStackTrace();
-          throw new IllegalStateException("Error rendering the message, game quit");
-        }
+        view.renderMessage("\nGame quit!");
       }
 
       // if the input is invalid, continue
       else if (valid == checkValues.BAD_INPUT) {
-        try {
-          view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
-        } catch (Exception e) {
-          e.printStackTrace();
-          throw new IllegalStateException("Error rendering the message, invalid move");
-        }
+        view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
       }
 
       // if the input is valid, make the move
@@ -131,13 +122,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
     // if the game is over
     if (model.isGameOver()) {
-      try {
-        view.renderMessage("\nGame over!");
-        view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalStateException("Error rendering the message, game over");
-      }
+      view.renderMessage("\nGame over!");
+      view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
     }
   }
 
@@ -198,14 +184,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     return checkValues.GOOD_INPUT;
   }
 
-  private String[] spaceSeperated(String line) {
-    // values in the line
-    String[] values = line.split(" ");
-    return values;
-  }
-
-
-  private void printBoard(int lineNumber) throws IllegalStateException {
+  private void printBoard(int lineNumber) {
     try {
       // 1. render the board
       view.renderBoard();
@@ -215,10 +194,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     }
     catch (Exception e) {
       e.printStackTrace();
-      throw new IllegalStateException("Error rendering the board or score");
     }
   }
-
 
   /**
    * Checks if the input is bad.
