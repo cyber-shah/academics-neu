@@ -6,34 +6,66 @@ import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
  */
 public class MockSolitaireModel implements MarbleSolitaireModel {
 
-    private StringBuilder log;
+  private StringBuilder log;
 
-    public MockSolitaireModel(StringBuilder log) {
-        this.log = log;
-    }
+  /**
+   * Constructor for the mock model.
+   * @param log the log to be used
+   */
+  public MockSolitaireModel(StringBuilder log) {
+    this.log = log;
+  }
 
-    @Override
-    public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
-        log.append(String.format("move (%d, %d) -> (%d, %d)\n", fromRow, fromCol, toRow, toCol));
-    }
+  /**
+   * Appends the move to the log.
+   *
+   * @param fromRow the row number of the position to be moved from
+   * @param fromCol the column number of the position to be moved from
+   * @param toRow   the row number of the position to be moved to
+   * @param toCol   the column number of the position to be moved to
+   * @throws IllegalArgumentException if the move is not possible
+   */
+  @Override
+  public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+    log.append(String.format("move (%d, %d) -> (%d, %d)\n", fromRow, fromCol, toRow, toCol));
+  }
 
-    @Override
-    public boolean isGameOver() {
-        return false;
-    }
+  /**
+   * Returns true if the game is over, false otherwise.
+   *
+   * @return always returns false
+   */
+  @Override
+  public boolean isGameOver() {
+    return false;
+  }
 
-    @Override
-    public int getBoardSize() {
-        return 7;
-    }
+  /**
+   * Returns a int that represents size of the board.
+   * @return always returns 13
+   */
+  @Override
+  public int getBoardSize() {
+    return 13;
+  }
 
-    @Override
-    public SlotState getSlotAt(int row, int col) throws IllegalArgumentException {
-        return null;
-    }
+  /**
+   * Returns the current state of the game as enum.
+   *
+   * @return always returns null.
+   */
+  @Override
+  public SlotState getSlotAt(int row, int col) throws IllegalArgumentException {
+    return null;
+  }
 
-    @Override
-    public int getScore() {
-        return 0;
-    }
+  /**
+   * Returns the score.
+   *
+   * @return always returns 0.
+   */
+  @Override
+  public int getScore() {
+    return 0;
+  }
 }

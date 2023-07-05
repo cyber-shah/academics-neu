@@ -1,5 +1,8 @@
 package cs5004.marblesolitaire.controller;
 
+/**
+ * This interface represents the controller for the Marble Solitaire game.
+ */
 public interface MarbleSolitaireController {
 
     /**
