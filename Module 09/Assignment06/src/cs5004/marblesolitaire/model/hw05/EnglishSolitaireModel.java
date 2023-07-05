@@ -150,7 +150,10 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
 
     // if fromSlot is empty or toSlot is NOT empty,
     if (fromSlot == SlotState.Empty || toSlot != SlotState.Empty) {
-      throw new IllegalArgumentException("Either from is empty or to is NOT empty");
+      throw new IllegalArgumentException("Either from is empty or to is NOT empty"
+              + "Move between (" + fromRow + "," + fromCol
+              + ") and (" + toRow + "," + toCol
+              + ") is not possible");
     }
 
     // get the middle between from and TO

@@ -60,21 +60,27 @@ public class TestEnglishSolitaireModel {
   @Test
   public void testConstructorWithArmThicknessAndPosition() {
     model = new EnglishSolitaireModel(5, 1, 5);
-
     // Test board size
     assertEquals(13, model.getBoardSize());
-
     // Test specified position is empty
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(1, 5));
   }
 
+  @Test
+  public void testConstructorWithArmThicknessAndPosition2() {
+    model = new EnglishSolitaireModel(3, 4, 4);
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(4, 4));
+  }
+
+
   @Test (expected = IllegalArgumentException.class)
   public void testInvalidConstructorWithArmThickness() {
     model = new EnglishSolitaireModel(5, 1, 3);
-
     // Test board size
     assertEquals(13, model.getBoardSize());
-
     // Test specified position is empty
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(1, 3));
   }
