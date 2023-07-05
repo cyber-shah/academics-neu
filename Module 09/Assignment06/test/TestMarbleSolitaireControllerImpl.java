@@ -37,9 +37,12 @@ public class TestMarbleSolitaireControllerImpl {
 
   @Test
   public void testPlayingGameSpace() {
+    // initialize the logs
     log = new StringBuilder();
+    StringBuilder logView = new StringBuilder();
+
     model = new MockSolitaireModel(this.log);
-    view = new MarbleSolitaireTextView(model, System.out);
+    view = new MarbleSolitaireTextView(model, logView);
     // Test a file with tokens seperated by space and moves by line
     Readable test = new StringReader("3 1 3 3\n5 2 3 2");
     controller = new MarbleSolitaireControllerImpl(model, view, test);
@@ -56,9 +59,12 @@ public class TestMarbleSolitaireControllerImpl {
 
   @Test
   public void testPlayGameNewLines() {
+    // initialize the logs
     log = new StringBuilder();
+    StringBuilder logView = new StringBuilder();
+
     model = new MockSolitaireModel(this.log);
-    view = new MarbleSolitaireTextView(model, System.out);
+    view = new MarbleSolitaireTextView(model, logView);
 
     // Test a file with tokens seperated by line
     Readable test = new StringReader("3\n1\n3\n3\n5\n2\n3\n2");
@@ -70,18 +76,20 @@ public class TestMarbleSolitaireControllerImpl {
       e.printStackTrace();
     }
 
-    String strippedString = log.toString().replaceAll("(?m)^\\s+|\\s+$", "");
     assertEquals("move (3, 1) -> (3, 3)\n"
-            + "move (5, 2) -> (3, 2)\n", strippedString);
+            + "move (5, 2) -> (3, 2)\n", log.toString());
   }
 
   @Test
   public void testQuitGame() {
+    // initialize the logs
     log = new StringBuilder();
-    model = new MockSolitaireModel(this.log);
-    view = new MarbleSolitaireTextView(model, this.log);
+    StringBuilder logView = new StringBuilder();
 
-    Readable test = new StringReader("3\n1\n3\n3\n5\n2\n3\n2\nq");
+    model = new MockSolitaireModel(this.log);
+    view = new MarbleSolitaireTextView(model, logView);
+
+    Readable test = new StringReader("3\n1\n3\n3\n5\n2\n3\n2\nq\n1\n2");
     controller = new MarbleSolitaireControllerImpl(model, view, test);
     try {
       controller.playGame();
@@ -90,13 +98,13 @@ public class TestMarbleSolitaireControllerImpl {
       e.printStackTrace();
     }
 
-    String strippedString = log.toString().replaceAll("(?m)^\\s+|\\s+$", "");
     // Remove empty spaces
-    assertEquals("Score after move 0: 0\n"
-            + "move (3, 1) -> (3, 3)\n"
-            + "Score after move 1: 0\n"
-            + "move (5, 2) -> (3, 2)\n"
-            + "Score after move 2: 0\n"
-            + "Game Quit!", strippedString);
+    assertEquals("move (3, 1) -> (3, 3)\n"
+            + "move (5, 2) -> (3, 2)\n", log.toString());
+
+    // Check last line of logView
+    String[] lines = logView.toString().split("\\n");
+    String lastLine = lines[lines.length - 1].trim();
+    assertEquals("Game Quit!", lastLine);
   }
 }

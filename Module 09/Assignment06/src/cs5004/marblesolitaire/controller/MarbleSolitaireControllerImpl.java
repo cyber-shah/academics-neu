@@ -76,6 +76,10 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
           move[i] = input;
         }
       }
+      else if (input.equalsIgnoreCase("q")) {
+        view.renderMessage("\nGame Quit!");
+        return;
+      }
 
 /*      while (input.matches("\\d+")) {
         try {
@@ -100,7 +104,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
       // if the input is quit, return
       if (valid == checkValues.QUIT) {
-        view.renderMessage("\nGame quit!");
+        view.renderMessage("\nGame Quit!");
+        return;
       }
 
       // if the input is invalid, continue
