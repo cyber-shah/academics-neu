@@ -20,7 +20,7 @@ public class TestMarbleSolitaireControllerImpl {
   private MarbleSolitaireController controller;
   private MarbleSolitaireModel model;
   private MarbleSolitaireView view;
-  private final StringBuilder log = new StringBuilder();
+  private StringBuilder log;
 
   @Before
   public void setUp() {
@@ -37,8 +37,9 @@ public class TestMarbleSolitaireControllerImpl {
   @Test
   public void testPlayingGame() {
     // Test a file with tokens seperated by space and moves by line
-    Readable test1 = new StringReader("3 1 3 3\n5 2 3 2");
-    controller = new MarbleSolitaireControllerImpl(model, view, test1);
+    log = new StringBuilder();
+    Readable test = new StringReader("3 1 3 3\n5 2 3 2");
+    controller = new MarbleSolitaireControllerImpl(model, view, test);
     try {
       controller.playGame();
     }
@@ -46,14 +47,13 @@ public class TestMarbleSolitaireControllerImpl {
       e.printStackTrace();
     }
 
-    assertEquals("""
-            move (3, 1) -> (3, 3)
-            move (5, 2) -> (3, 2)
-            """, log.toString());
+    assertEquals("move (3, 1) -> (3, 3)\n"
+            + "move (5, 2) -> (3, 2)\n", log.toString());
 
     // Test a file with tokens and moves seperated by line
-    Readable test2 = new StringReader("3\n1\n3\n3\n5\n2\n3\n2");
-    controller = new MarbleSolitaireControllerImpl(model, view, test2);
+    log = new StringBuilder();
+    test = new StringReader("3\n1\n3\n3\n5\n2\n3\n2");
+    controller = new MarbleSolitaireControllerImpl(model, view, test);
     try {
       controller.playGame();
     }
@@ -61,12 +61,22 @@ public class TestMarbleSolitaireControllerImpl {
       e.printStackTrace();
     }
 
-    assertEquals("""
-            move (3, 1) -> (3, 3)
-            move (5, 2) -> (3, 2)
-            """, log.toString());
+    assertEquals("move (3, 1) -> (3, 3)\n"
+            + "move (5, 2) -> (3, 2)\n", log.toString());
+
+    // Test a file with tokens and moves seperated by line
+    log = new StringBuilder();
+    test = new StringReader("3 1 3 3 5 2 3 2");
+    controller = new MarbleSolitaireControllerImpl(model, view, test);
+    try {
+      controller.playGame();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    assertEquals("move (3, 1) -> (3, 3)\n"
+            + "move (5, 2) -> (3, 2)\n", log.toString());
+
   }
-
-
-
 }
