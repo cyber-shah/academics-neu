@@ -3,8 +3,6 @@ package cs5004.marblesolitaire.controller;
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
-import java.io.IOException;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -25,7 +23,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
    * @throws IllegalArgumentException if the model, view, or readableInput is null.
    */
   public MarbleSolitaireControllerImpl(MarbleSolitaireModel model,
-                                       MarbleSolitaireView view, Readable readableInput) throws IllegalArgumentException {
+                                       MarbleSolitaireView view,
+                                       Readable readableInput) throws IllegalArgumentException {
     if (model == null || view == null || readableInput == null) {
       throw new IllegalArgumentException("Model, view, and readable cannot be null");
     }
@@ -34,7 +33,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     this.readableInput = readableInput;
   }
 
-  enum checkValues {QUIT, BAD_INPUT, GOOD_INPUT}
+  enum checkValues { QUIT, BAD_INPUT, GOOD_INPUT }
 
   private String[] resetMove(String[] move) {
     move[0] = "-1";
@@ -52,7 +51,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
    * @throws IllegalStateException if it encounters issues with input or output.
    */
   @Override
-  public void playGame() throws IllegalStateException, IOException {
+  public void playGame() throws IllegalStateException {
     Scanner scanner = new Scanner(readableInput);
     int moveNumber = 0;
 
@@ -77,22 +76,15 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         }
       }
       else if (input.equalsIgnoreCase("q")) {
-        view.renderMessage("\nGame Quit!");
+        try {
+          view.renderMessage("\nGame Quit!");
+        }
+        catch (Exception e) {
+          e.printStackTrace();
+          throw new IllegalStateException("Error rendering the message, game quit");
+        }
         return;
       }
-
-/*      while (input.matches("\\d+")) {
-        try {
-          move[0] = input;
-          move[1] = scanner.nextLine();
-          move[2] = scanner.nextLine();
-          move[3] = scanner.nextLine();
-        }
-        // if the input is quit, return
-        catch (Exception e) {
-          return;
-        }
-      }*/
 
       // for input types = "3 1 3 3\n5 2 3 2" and "3 1 3 3 5 2 3 2"
       else if (input.length() > 3) {
@@ -104,13 +96,26 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
       // if the input is quit, return
       if (valid == checkValues.QUIT) {
-        view.renderMessage("\nGame Quit!");
+        try {
+          view.renderMessage("\nGame Quit!");
+        }
+        catch (Exception e) {
+          e.printStackTrace();
+          throw new IllegalStateException("Error rendering the message, game quit");
+        }
         return;
       }
 
       // if the input is invalid, continue
       else if (valid == checkValues.BAD_INPUT) {
-        view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
+        try {
+          view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
+        }
+        catch (Exception e) {
+          e.printStackTrace();
+          throw new IllegalStateException("Error rendering the message, bad input");
+        }
+        continue;
       }
 
       // if the input is valid, make the move
@@ -127,40 +132,27 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
     // if the game is over
     if (model.isGameOver()) {
-      view.renderMessage("\nGame over!");
-      view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
+      try {
+        view.renderMessage("\nGame over!");
+        view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+        throw new IllegalStateException("Error rendering the message, game over");
+      }
+      return;
     }
   }
 
-/*    // WHILE LOOP scanner has next Line --------------------
-    while (scanner.hasNextLine()) {
-      // 1. if game is over break
-      if (model.isGameOver()) {
-        try {
-          view.renderMessage("\nGame over!");
-          view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
-        }
-        catch (Exception e) {
-          e.printStackTrace();
-          throw new IllegalStateException("Error rendering the message, game over");
-        }
-        return;
-      }
-      // 2. if game is not over and there are moves left
-
-      // 2.1 if moves are separated by space, call spaceSeperated
-      if (scanner.next().length() == 4) {
-        this.spaceSeperated(scanner, moveNumber);
-        moveNumber++;
-      }
-      else {
-        this.lineSeperated(scanner, moveNumber);
-      }
-    }*/
-
+  /**
+   * This method checks the set of values to see if they are valid.
+   *
+   * @param move of the type String[]
+   * @return checkValues of the type enum
+   */
   private checkValues checkValues(String[] move) {
     // if the input is bad
-    if(isBadInput(move)) {
+    if (isBadInput(move)) {
       try {
         view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
       }
@@ -172,7 +164,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     }
 
     // if the user wants to quit
-    if(isQPresent(move)) {
+    if (isQPresent(move)) {
       try {
         view.renderMessage("\nGame quit!");
         view.renderMessage("\nState of game when quit:");
@@ -189,6 +181,10 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     return checkValues.GOOD_INPUT;
   }
 
+  /**
+   * This method calls other methods in the view to print the board and the score.
+   * @param lineNumber of the type int
+   */
   private void printBoard(int lineNumber) {
     try {
       // 1. render the board
@@ -229,6 +225,12 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     return false;
   }
 
+  /**
+   * Checks if the input is quit.
+   *
+   * @param values the input to check.
+   * @return true if the input is quit, false otherwise.
+   */
   private boolean isQPresent(String[] values) {
     for (int i = 0; i < values.length; i++) {
       if (values[i].equalsIgnoreCase("q")) {

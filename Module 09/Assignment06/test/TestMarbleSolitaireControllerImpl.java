@@ -4,10 +4,6 @@ import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 import org.junit.Test;
-import org.junit.Before;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
@@ -21,19 +17,6 @@ public class TestMarbleSolitaireControllerImpl {
   private MarbleSolitaireModel model;
   private MarbleSolitaireView view;
   private StringBuilder log;
-
-/*  @Before
-  public void setUp() {
-    log = new StringBuilder();
-    model = new MockSolitaireModel(this.log);
-    view = new MarbleSolitaireTextView(model, System.out);
-    try {
-      FileReader fileReader = new FileReader("moves.txt");
-      controller = new MarbleSolitaireControllerImpl(model, view, fileReader);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-  }*/
 
   @Test
   public void testPlayingGameSpace() {
