@@ -46,7 +46,7 @@ public class MockSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public int getBoardSize() {
-    return 13;
+    return 7;
   }
 
   /**

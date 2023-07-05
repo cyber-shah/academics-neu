@@ -33,6 +33,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     this.readableInput = readableInput;
   }
 
+  enum checkValues {QUIT, BAD_INPUT, GOOD_INPUT}
+
   private String[] resetMove(String[] move) {
     move[0] = "-1";
     move[1] = "-1";
@@ -57,31 +59,62 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     this.printBoard(moveNumber);
     String[] move = new String[4];
 
-    while (!model.isGameOver() && !Objects.equals(move[0], "-1")) {
+    while (!model.isGameOver() && scanner.hasNextLine()) {
+
+      String input = scanner.nextLine();
       // for input types = "3\n1\n3\n3\n5\n2\n3\n2"
-      if (scanner.nextLine().length() == 1) {
-        move[0] = scanner.nextLine();
-        move[1] = scanner.nextLine();
-        move[2] = scanner.nextLine();
-        move[3] = scanner.nextLine();
+      if (input.matches("\\d+")) {
+        move[0] = input;
+        for (int i = 1; i < 4; i++) {
+          try {
+            input = scanner.nextLine();
+          }
+          catch (Exception e) {
+            continue;
+          }
+          move[i] = input;
+        }
       }
 
+/*      while (input.matches("\\d+")) {
+        try {
+          move[0] = input;
+          move[1] = scanner.nextLine();
+          move[2] = scanner.nextLine();
+          move[3] = scanner.nextLine();
+        }
+        // if the input is quit, return
+        catch (Exception e) {
+          return;
+        }
+      }*/
+
       // for input types = "3 1 3 3\n5 2 3 2" and "3 1 3 3 5 2 3 2"
-      else if (scanner.nextLine().length() > 3) {
-        move = scanner.nextLine().split(" ");
+      else if (input.length() > 3) {
+        move = input.split(" ");
       }
 
       // check if the input is valid
       checkValues valid = checkValues(move);
-      // if the input is invalid, continue
-
-      if (valid == checkValues.BAD_INPUT) {
-        continue;
-      }
 
       // if the input is quit, return
-      else if (valid == checkValues.QUIT) {
-        return;
+      if (valid == checkValues.QUIT) {
+        try {
+          view.renderMessage("\nGame quit!");
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new IllegalStateException("Error rendering the message, game quit");
+        }
+      }
+
+      // if the input is invalid, continue
+      else if (valid == checkValues.BAD_INPUT) {
+        try {
+          view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new IllegalStateException("Error rendering the message, invalid move");
+        }
       }
 
       // if the input is valid, make the move
@@ -105,9 +138,9 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         e.printStackTrace();
         throw new IllegalStateException("Error rendering the message, game over");
       }
-      return;
     }
   }
+
 /*    // WHILE LOOP scanner has next Line --------------------
     while (scanner.hasNextLine()) {
       // 1. if game is over break
@@ -133,7 +166,6 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         this.lineSeperated(scanner, moveNumber);
       }
     }*/
-
 
   private checkValues checkValues(String[] move) {
     // if the input is bad
@@ -165,26 +197,6 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     // if it passes all checks
     return checkValues.GOOD_INPUT;
   }
-
-  enum checkValues {QUIT, BAD_INPUT, GOOD_INPUT}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   private String[] spaceSeperated(String line) {
     // values in the line
