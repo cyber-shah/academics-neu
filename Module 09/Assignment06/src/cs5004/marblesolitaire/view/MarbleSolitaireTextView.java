@@ -11,7 +11,6 @@ import java.io.IOException;
  */
 public class MarbleSolitaireTextView implements MarbleSolitaireView {
   private final MarbleSolitaireModelState model;
-  private final StringBuilder modelString;
   private final Appendable outAppendable;
 
 
@@ -23,7 +22,6 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
   public MarbleSolitaireTextView(MarbleSolitaireModelState model) {
     this.model = model;
     this.outAppendable = System.out;
-    this.modelString = new StringBuilder();
   }
 
   /**
@@ -40,7 +38,6 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
     }
     this.model = model;
     this.outAppendable = outAppendable;
-    this.modelString = new StringBuilder();
   }
 
   /**
@@ -50,6 +47,7 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
    */
   @Override
   public String toString() {
+    StringBuilder modelString = new StringBuilder();
     int boardSize = model.getBoardSize();
     int sideRectangle = (boardSize / 2) - 1;
     // for each row
@@ -109,7 +107,7 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
   @Override
   public void renderBoard() throws IOException {
     try {
-      this.outAppendable.append(this.toString());
+      this.outAppendable.append("\n" + this.toString());
     } catch (IOException e) {
       e.printStackTrace();
       throw new IOException("Failed to transmit board data.", e);

@@ -10,19 +10,23 @@ import org.junit.Before;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 
-
+/**
+ * This class tests the MarbleSolitaireControllerImpl class.
+ */
 public class TestMarbleSolitaireControllerImpl {
 
     private MarbleSolitaireController controller;
     private MarbleSolitaireModel model;
     private MarbleSolitaireView view;
+    private final StringBuilder log = new StringBuilder();
 
     @Before
     public void setUp() {
-        model = new EnglishSolitaireModel();
+        model = new MockSolitaireModel(this.log);
         view = new MarbleSolitaireTextView(model, System.out);
         try {
             FileReader fileReader = new FileReader("moves.txt");
@@ -34,18 +38,31 @@ public class TestMarbleSolitaireControllerImpl {
 
     @Test
     public void testPlayingGame() {
-        // A file with tokens seperated by space and moves by line
-        String test1 = "3 1 3 3\n5 2 3 2";
-        try {
-            controller = new MarbleSolitaireControllerImpl(model, view, test1);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // Test a file with tokens seperated by space and moves by line
+        Readable test1 = new StringReader("3 1 3 3\n5 2 3 2");
+        controller = new MarbleSolitaireControllerImpl(model, view, test1);
         try {
             controller.playGame();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
+
+        assertEquals("move (3, 1) -> (3, 3)\n" +
+                "move (5, 2) -> (3, 2)\n", log.toString());
+
+        // Test a file with tokens and moves seperated by line
+        Readable test2 = new StringReader("3\n1\n3\n3\n5\n2\n3\n2");
+        controller = new MarbleSolitaireControllerImpl(model, view, test2);
+        try {
+            controller.playGame();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("move (3, 1) -> (3, 3)\n" +
+                "move (5, 2) -> (3, 2)\n", log.toString());
     }
 
 

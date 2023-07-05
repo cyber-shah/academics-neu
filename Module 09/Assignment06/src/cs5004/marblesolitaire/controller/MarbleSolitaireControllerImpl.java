@@ -31,25 +31,27 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     public void playGame() throws IllegalStateException {
         // create a scanner
         Scanner scanner = new Scanner(readableInput);
+        int lineNumber = 0;
+        // print the board before making any move
+        try {
+            // 1. render the board
+            view.renderBoard();
+            // 2. render the score
+            view.renderMessage("\nScore at the Beginning: " + Integer.toString(model.getScore()) + "\n");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Error rendering the board or score");
+        }
         // while scanner has next Line
         while (scanner.hasNextLine()) {
-            try {
-                // 1. render the board
-                view.renderBoard();
-                // 2. render the score
-                view.renderMessage(Integer.toString(model.getScore()));
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new IllegalStateException("Error rendering the board or score");
-            }
             // get the next Line
             String Line = scanner.nextLine();
             // values in the Line
             String[] values = Line.split(" ");
-            if (!isBadInput(values)) {
+            if (isBadInput(values)) {
                 try {
-                    view.renderMessage("Invalid move. Play again. " + values + " is not a valid input");
+                    view.renderMessage("\nBad Input. Play again. " + values + " is not a valid input");
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -59,6 +61,18 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
             }
             model.move(Integer.parseInt(values[0]), Integer.parseInt(values[1]),
                     Integer.parseInt(values[2]), Integer.parseInt(values[3]));
+            // render the updated board and score after the move
+            lineNumber++;
+            try {
+                // 1. render the board
+                view.renderBoard();
+                // 2. render the score
+                view.renderMessage("\nScore after move " + lineNumber + ": " + Integer.toString(model.getScore()) + "\n");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new IllegalStateException("Error rendering the board or score");
+            }
         }
     }
 
