@@ -10,7 +10,6 @@ import org.junit.Before;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +33,14 @@ public class TestMarbleSolitaireControllerImpl {
     }
 
     @Test
-    public void testPlayGame() {
+    public void testPlayingGame() {
+        // A file with tokens seperated by space and moves by line
+        String test1 = "3 1 3 3\n5 2 3 2";
+        try {
+            controller = new MarbleSolitaireControllerImpl(model, view, test1);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         try {
             controller.playGame();
         } catch (Exception e) {
