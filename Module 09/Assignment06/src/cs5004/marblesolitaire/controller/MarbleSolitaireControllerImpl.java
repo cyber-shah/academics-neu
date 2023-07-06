@@ -120,8 +120,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
       // if the input is valid, make the move
       else {
-        model.move(Integer.parseInt(move[0]), Integer.parseInt(move[1]),
-                Integer.parseInt(move[2]), Integer.parseInt(move[3]));
+        model.move(Integer.parseInt(move[0])  - 1, Integer.parseInt(move[1]) - 1,
+                Integer.parseInt(move[2]) - 1, Integer.parseInt(move[3]) - 1);
         moveNumber++;
         move = resetMove(move);
       }

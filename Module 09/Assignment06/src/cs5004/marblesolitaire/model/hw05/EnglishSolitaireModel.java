@@ -53,16 +53,17 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    * @throws IllegalArgumentException if the given position is invalid.
    */
   public EnglishSolitaireModel(int armThickness, int row, int col) throws IllegalArgumentException {
+    // check if armThickness is odd
+    if (armThickness % 2 == 0) {
+      throw new IllegalArgumentException("Arm thickness must be an odd number");
+    }
+
     this.boardSize = armThickness + (armThickness - 1) * 2;
     // check if row and col are valid
     if (row < 0 || col < 0 || isInvalidPosition(row, col)) {
       throw new IllegalArgumentException("Invalid empty cell position^^ (" + row + "," + col + ")");
     }
 
-    // check if armThickness is odd
-    if (armThickness % 2 == 0) {
-      throw new IllegalArgumentException("Arm thickness must be an odd number");
-    }
 
     board = new HashMap<>();
     for (int i = 0; i < this.boardSize; i++) {
