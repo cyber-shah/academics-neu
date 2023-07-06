@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Represents a Controller for Tic Tac Toe: handle user moves by executing them using the model;
+ * convey move outcomes to the user in some form.
+ */
 public class TicTacToeConsoleController implements TicTacToeController {
 
   private final Readable readable;
@@ -14,10 +18,12 @@ public class TicTacToeConsoleController implements TicTacToeController {
    *
    * @param readable  the readable object
    * @param appendable the appendable object
+   * @throws IllegalArgumentException if readable or appendable is null
    */
-  public TicTacToeConsoleController(Readable readable, Appendable appendable) throws NullPointerException {
+  public TicTacToeConsoleController(Readable readable, Appendable appendable)
+          throws IllegalArgumentException {
     if (readable == null || appendable == null) {
-      throw new NullPointerException("Readable or Appendable is null");
+      throw new IllegalArgumentException("Readable or Appendable is null");
     }
     this.readable = readable;
     this.appendable = appendable;
@@ -79,7 +85,8 @@ public class TicTacToeConsoleController implements TicTacToeController {
         // 5. check if token is quit
         if (token.equalsIgnoreCase("q")) {
           try {
-            appendable.append("Game quit! Ending game state:\n").append(model.toString()).append("\n");
+            appendable.append("Game quit! Ending game state:\n")
+                    .append(model.toString()).append("\n");
             return;
           }
           catch (IOException e) {
@@ -127,18 +134,7 @@ public class TicTacToeConsoleController implements TicTacToeController {
    */
   private boolean isInvalidInput(String token) {
     // 1. Check if input contains valid characters
-    if (!token.matches("[1-4]") && !token.equalsIgnoreCase("q")) {
-      return true;
-    }
-    /*try {
-      int value = Integer.parseInt(token);
-      if (value < 1 || value > 4) {
-        return true;
-      }
-    } catch (NumberFormatException e) {
-      return true;
-    }*/
-    return false;
+    return !token.matches("[1-4]") && !token.equalsIgnoreCase("q");
   }
 
 }
