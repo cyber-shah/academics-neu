@@ -19,7 +19,11 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
    *
    * @param model of the type MarbleSolitaireModelState.
    */
-  public MarbleSolitaireTextView(MarbleSolitaireModelState model) {
+  public MarbleSolitaireTextView(MarbleSolitaireModelState model)
+          throws IllegalArgumentException {
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
     this.model = model;
     this.outAppendable = System.out;
   }

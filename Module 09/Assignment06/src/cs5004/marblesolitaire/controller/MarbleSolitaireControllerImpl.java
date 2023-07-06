@@ -3,6 +3,7 @@ package cs5004.marblesolitaire.controller;
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -222,7 +223,13 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       for (int i = 0; i < moves.length; i++) {
 
         // 3. scanner.next = token
-        String token = scanner.next();
+        String token;
+        try {
+          token = scanner.next();
+        }
+        catch (NoSuchElementException e) {
+          throw new IllegalStateException("No more inputs found");
+        }
 
         // 4. while token is invalid, continue to update token.
         while (this.isBadInput(token)) {
@@ -232,9 +239,9 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         // 5. check if token is quit
         if (token.equalsIgnoreCase("q")) {
           try {
-            view.renderMessage("Game quit!\nState of game when quit:\n");
-          }
-          catch (Exception e) {
+            view.renderMessage("Game quit!\n");
+            view.renderMessage("State of game when quit:\n");
+          } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalStateException("Error rendering the message, game quit");
           }
@@ -303,6 +310,10 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       // 9.3 transmit the score to the view
       this.transmitBoard();
       return;
+    }
+    // otherwise show the end status of the game
+    else {
+      this.transmitBoard();
     }
   }
 
