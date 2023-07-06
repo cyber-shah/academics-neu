@@ -43,6 +43,60 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     return move;
   }
 
+
+
+
+  public void playGame1() throws IllegalStateException {
+    // 1. game over to false
+    boolean gameOver = false;
+
+    while (!gameOver) {
+      // 1. transmit the current state of game to the view
+      // 2. transmit the score to the view
+      this.printBoard();
+
+      // 3. scanner.next = token
+      Scanner scanner = new Scanner(this.readableInput);
+
+    }
+
+
+
+
+        // 4. check if token is valid
+
+            // 4.1 check if token is quit
+
+        // 5. if valid add it to the move array
+
+        // 6. if move array is full, make the move
+
+        // 7. if model.move throws an error, print the error
+        // 8. move on to the next and continue to the next iteration
+
+        // 9. check if game over
+          // 9.1 if game is over, break out of the loop
+          // 9.2 transmit the current state of game to the view
+          // 9.3 transmit the score to the view
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /**
    * Play a new game of Marble Solitaire using the model.
    * Plays the game until it is over or the user quits.
