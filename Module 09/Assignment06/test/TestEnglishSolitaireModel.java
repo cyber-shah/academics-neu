@@ -60,16 +60,16 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testConstructorWithArmThicknessOnly() {
-    model = new EnglishSolitaireModel(5, 7, 7);
+    model = new EnglishSolitaireModel(5);
     // Test board size
     assertEquals(13, model.getBoardSize());
     // Test specified position is empty
-    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(7, 7));
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(6, 6));
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testInvalidConstructorWithArmThicknessOnly() {
-    model = new EnglishSolitaireModel(6, 7,7);
+    model = new EnglishSolitaireModel(6);
     // Test board size
     assertEquals(13, model.getBoardSize());
     // Test specified position is empty
@@ -95,7 +95,6 @@ public class TestEnglishSolitaireModel {
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(4, 4));
   }
 
-
   @Test (expected = IllegalArgumentException.class)
   public void testInvalidConstructorWithArmThickness() {
     model = new EnglishSolitaireModel(5, 1, 3);
@@ -107,7 +106,7 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testConstructorWithBoardSize() {
-    model = new EnglishSolitaireModel(13);
+    model = new EnglishSolitaireModel(5);
 
     // Test board size
     assertEquals(13, model.getBoardSize());
@@ -218,7 +217,7 @@ public class TestEnglishSolitaireModel {
                     "    O O O\n" +
                     "    O O O");
 
-    MarbleSolitaireModel model2 = new EnglishSolitaireModel(13);
+    MarbleSolitaireModel model2 = new EnglishSolitaireModel(5);
     MarbleSolitaireView view2 = new MarbleSolitaireTextView(model2);
     assertEquals(view2.toString(),
                 "        O O O O O\n"

@@ -35,11 +35,11 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    * Constructor for EnglishSolitaireModel.
    * Creates a board with the given boardSize and empty slot in the centre.
    *
-   * @param boardSize size of the board.
+   * @param armThickness size of the board.
    * @throws IllegalArgumentException if the given boardSize is invalid.
    */
-  public EnglishSolitaireModel(int boardSize) throws IllegalArgumentException {
-    this ((boardSize / 3) + 1, (boardSize / 2), (boardSize / 2));
+  public EnglishSolitaireModel(int armThickness) throws IllegalArgumentException {
+    this (armThickness,armThickness + 1,armThickness + 1);
   }
 
   
