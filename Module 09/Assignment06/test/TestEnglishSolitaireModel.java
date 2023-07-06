@@ -60,10 +60,27 @@ public class TestEnglishSolitaireModel {
 
   @Test
   public void testConstructorWithArmThicknessOnly() {
+    model = new EnglishSolitaireModel(3);
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(3, 3));
+    try {
+      model.move(0, 2, 3, 3);
+    }
+    catch (IllegalArgumentException e) {
+      assertEquals("not in a straight line", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testConstructorWithArmThicknessOnly2() {
     model = new EnglishSolitaireModel(5);
+
     // Test board size
     assertEquals(13, model.getBoardSize());
-    // Test specified position is empty
+
+    // Test center slot is empty
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(6, 6));
   }
 
@@ -102,17 +119,6 @@ public class TestEnglishSolitaireModel {
     assertEquals(13, model.getBoardSize());
     // Test specified position is empty
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(1, 3));
-  }
-
-  @Test
-  public void testConstructorWithBoardSize() {
-    model = new EnglishSolitaireModel(5);
-
-    // Test board size
-    assertEquals(13, model.getBoardSize());
-
-    // Test center slot is empty
-    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(6, 6));
   }
 
   @Test

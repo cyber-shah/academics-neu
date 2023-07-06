@@ -39,7 +39,7 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    * @throws IllegalArgumentException if the given boardSize is invalid.
    */
   public EnglishSolitaireModel(int armThickness) throws IllegalArgumentException {
-    this (armThickness,armThickness + 1,armThickness + 1);
+    this (armThickness, (armThickness + (armThickness - 1) * 2) /2, (armThickness + (armThickness - 1) * 2) /2);
   }
 
   
@@ -134,11 +134,17 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
       throw new IllegalArgumentException("Out of Bounds");
     }
 
-    if (fromCol == toCol && Math.abs(toRow - fromRow) != 2) {
-      throw new IllegalArgumentException("not 2 spaces away");
-    } else if (fromRow == toRow && Math.abs(toCol - fromCol) != 2) {
+    if (fromCol != toCol && fromRow != toRow) {
+      throw new IllegalArgumentException("not in a straight line");
+    }
+    else if (fromCol == toCol && Math.abs(toRow - fromRow) != 2) {
       throw new IllegalArgumentException("not 2 spaces away");
     }
+    else if (fromRow == toRow && Math.abs(toCol - fromCol) != 2) {
+      throw new IllegalArgumentException("not 2 spaces away");
+    }
+
+
 
     // get the slot states for both coordinates
     SlotState fromSlot = board.get(fromRow + "," + fromCol);
