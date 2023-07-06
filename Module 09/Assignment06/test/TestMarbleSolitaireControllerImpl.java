@@ -255,6 +255,52 @@ public class TestMarbleSolitaireControllerImpl {
 
   }
 
+  @Test
+  public void testRealModelQuit() {
+    // initialize the logs
+    log = new StringBuilder();
+    StringBuilder logView = new StringBuilder();
+
+    model = new EnglishSolitaireModel();
+    view = new MarbleSolitaireTextView(model, logView);
+
+    Readable test = new StringReader("2\n4\n4\n4\nq");
+    controller = new MarbleSolitaireControllerImpl(model, view, test);
+    try {
+      controller.playGame();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    assertEquals("\n    O O O\n"
+              + "    O O O\n"
+              + "O O O O O O O\n"
+              + "O O O _ O O O\n"
+              + "O O O O O O O\n"
+              + "    O O O\n"
+              + "    O O O"
+              + "\nScore: 32\n\n"
+              + "    O O O\n"
+              + "    O _ O\n"
+              + "O O O _ O O O\n"
+              + "O O O O O O O\n"
+              + "O O O O O O O\n"
+              + "    O O O\n"
+              + "    O O O"
+              + "\nScore: 31\n\n"
+              + "Game quit!\n"
+              + "State of game when quit:\n"
+              + "    O O O\n"
+              + "    O _ O\n"
+              + "O O O _ O O O\n"
+              + "O O O O O O O\n"
+              + "O O O O O O O\n"
+              + "    O O O\n"
+              + "    O O O"
+              + "\nScore: 31\n", logView.toString());
+
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testNullModel() {
     // initialize the logs

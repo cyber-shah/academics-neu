@@ -27,7 +27,8 @@ public class MockSolitaireModel implements MarbleSolitaireModel {
    */
   @Override
   public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
-    log.append(String.format("move (%d, %d) -> (%d, %d)\n", fromRow + 1, fromCol + 1, toRow + 1, toCol + 1));
+    log.append(String.format("move (%d, %d) -> (%d, %d)\n",
+            fromRow + 1, fromCol + 1, toRow + 1, toCol + 1));
   }
 
   /**

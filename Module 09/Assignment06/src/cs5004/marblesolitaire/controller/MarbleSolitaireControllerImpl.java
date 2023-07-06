@@ -34,172 +34,6 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     this.readableInput = readableInput;
   }
 
-  // OLD CODE --------------------
-
-//  enum checkValues { QUIT, BAD_INPUT, GOOD_INPUT }
-//
-//  private String[] resetMove(String[] move) {
-//    move[0] = "-1";
-//    move[1] = "-1";
-//    move[2] = "-1";
-//    move[3] = "-1";
-//    return move;
-//  }
-//
-//  /**
-//   * Play a new game of Marble Solitaire using the model.
-//   * Plays the game until it is over or the user quits.
-//   * Uses Readable to get input from the user.
-//   *
-//   * @throws IllegalStateException if it encounters issues with input or output.
-//   */
-//  @Override
-//  public void playGame() throws IllegalStateException {
-//    Scanner scanner = new Scanner(readableInput);
-//    int moveNumber = 0;
-//
-//    // print the board before making any move
-//    this.transmitBoard(moveNumber);
-//    String[] move = new String[4];
-//
-//    while (!model.isGameOver() && scanner.hasNextLine()) {
-//
-//      String input = scanner.nextLine();
-//      // for input types = "3\n1\n3\n3\n5\n2\n3\n2"
-//      if (input.matches("\\d+")) {
-//        move[0] = input;
-//        for (int i = 1; i < 4; i++) {
-//          try {
-//            input = scanner.nextLine();
-//          }
-//          catch (Exception e) {
-//            continue;
-//          }
-//          move[i] = input;
-//        }
-//      }
-//      else if (input.equalsIgnoreCase("q")) {
-//        try {
-//          view.renderMessage("\nGame Quit!");
-//        }
-//        catch (Exception e) {
-//          e.printStackTrace();
-//          throw new IllegalStateException("Error rendering the message, game quit");
-//        }
-//        return;
-//      }
-//
-//      // for input types = "3 1 3 3\n5 2 3 2" and "3 1 3 3 5 2 3 2"
-//      else if (input.length() > 3) {
-//        move = input.split(" ");
-//      }
-//
-//      // check if the input is valid
-//      checkValues valid = checkValues(move);
-//
-//      // if the input is quit, return
-//      if (valid == checkValues.QUIT) {
-//        try {
-//          view.renderMessage("\nGame Quit!");
-//        }
-//        catch (Exception e) {
-//          e.printStackTrace();
-//          throw new IllegalStateException("Error rendering the message, game quit");
-//        }
-//        return;
-//      }
-//
-//      // if the input is invalid, continue
-//      else if (valid == checkValues.BAD_INPUT) {
-//        try {
-//          view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
-//        }
-//        catch (Exception e) {
-//          e.printStackTrace();
-//          throw new IllegalStateException("Error rendering the message, bad input");
-//        }
-//        continue;
-//      }
-//
-//      // if the input is valid, make the move
-//      else {
-//        model.move(Integer.parseInt(move[0])  - 1, Integer.parseInt(move[1]) - 1,
-//                Integer.parseInt(move[2]) - 1, Integer.parseInt(move[3]) - 1);
-//        moveNumber++;
-//        move = resetMove(move);
-//      }
-//
-//      // after move is made
-//      this.transmitBoard(moveNumber);
-//    }
-//
-//    // if the game is over
-//    if (model.isGameOver()) {
-//      try {
-//        view.renderMessage("\nGame over!");
-//        view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
-//      }
-//      catch (Exception e) {
-//        e.printStackTrace();
-//        throw new IllegalStateException("Error rendering the message, game over");
-//      }
-//      return;
-//    }
-//  }
-//  /**
-//   * This method checks the set of values to see if they are valid.
-//   *
-//   * @param move of the type String[]
-//   * @return checkValues of the type enum
-//   */
-//  private checkValues checkValues(String[] move) {
-//    // if the input is bad
-//    if (isBadInput(move)) {
-//      try {
-//        view.renderMessage("\nBad Input. Play again. " + move + " is not a valid input");
-//      }
-//      catch (Exception e) {
-//        e.printStackTrace();
-//        throw new IllegalStateException("Error rendering the message, invalid move");
-//      }
-//      return checkValues.BAD_INPUT;
-//    }
-//
-//    // if the user wants to quit
-//    if (isQPresent(move)) {
-//      try {
-//        view.renderMessage("\nGame quit!");
-//        view.renderMessage("\nState of game when quit:");
-//        view.renderBoard();
-//        view.renderMessage("\nScore: " + Integer.toString(model.getScore()));
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//        throw new IllegalStateException("Error rendering the message, game quit");
-//      }
-//      return checkValues.QUIT;
-//    }
-//
-//    // if it passes all checks
-//    return checkValues.GOOD_INPUT;
-//  }
-
-
-  // NEW CODE --------------------
-//  /**
-//   * Checks if the input is quit.
-//   *
-//   * @param values the input to check.
-//   * @return true if the input is quit, false otherwise.
-//   */
-//  private boolean isQPresent(String[] values) {
-//    for (int i = 0; i < values.length; i++) {
-//      if (values[i].equalsIgnoreCase("q")) {
-//        return true;
-//      }
-//    }
-//    return false;
-//  }
-
   /**
    * Play a new game of Marble Solitaire using the model.
    * Plays the game until it is over or the user quits.
@@ -239,8 +73,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         // 5. check if token is quit
         if (token.equalsIgnoreCase("q")) {
           try {
-            view.renderMessage("Game quit!\n");
-            view.renderMessage("State of game when quit:\n");
+            view.renderMessage("\nGame quit!\nState of game when quit:");
           } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalStateException("Error rendering the message, game quit");
@@ -295,8 +128,14 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       moves = new String[4];
     }
 
+    // 9. when readable runs out of inputs
+    if (!model.isGameOver() && !scanner.hasNext()) {
+      this.transmitBoard();
+      throw new IllegalStateException("No more inputs found");
+    }
+
     // 9. check if game over
-    if (model.isGameOver()) {
+    else if (model.isGameOver()) {
       // 9.1 if game is over, print the game over message
       try {
         view.renderMessage("Game over!");
@@ -311,10 +150,12 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       this.transmitBoard();
       return;
     }
+
     // otherwise show the end status of the game
     else {
       this.transmitBoard();
     }
+
   }
 
   /**
@@ -366,24 +207,5 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     }
     return false;
   }
-
-  /*
-    // scan all tokens in the line
-    for (int i = 0; i < input.length; i++) {
-      // if token is a NUMBER
-      try {
-        int token = Integer.parseInt(input[i]);
-        if (token < 0 || token > this.model.getBoardSize()) {
-          return true;
-        }
-      }
-      // if token is a STRING
-      catch (NumberFormatException e) {
-        String token = input[i];
-        if (!token.equals("q")) {
-          return true;
-        }
-      }
-    }*/
 
 }

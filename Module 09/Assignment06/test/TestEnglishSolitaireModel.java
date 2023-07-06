@@ -204,24 +204,24 @@ public class TestEnglishSolitaireModel {
   @Test
   public void testToString() {
     model.move(3, 1, 3, 3);
-    assertEquals(view.toString(), "    O O O\n" +
-            "    O O O\n" +
-            "O O O O O O O\n" +
-            "O _ _ O O O O\n" +
-            "O O O O O O O\n" +
-            "    O O O\n" +
-            "    O O O");
+    assertEquals(view.toString(), "    O O O\n"
+            + "    O O O\n"
+            + "O O O O O O O\n"
+            + "O _ _ O O O O\n"
+            + "O O O O O O O\n"
+            + "    O O O\n"
+            + "    O O O");
 
     MarbleSolitaireModel model1 = new EnglishSolitaireModel(2, 4);
     MarbleSolitaireView view1 = new MarbleSolitaireTextView(model1);
     assertEquals(view1.toString(),
-              "    O O O\n" +
-                    "    O O O\n" +
-                    "O O O O _ O O\n" +
-                    "O O O O O O O\n" +
-                    "O O O O O O O\n" +
-                    "    O O O\n" +
-                    "    O O O");
+              "    O O O\n"
+                      + "    O O O\n"
+                      + "O O O O _ O O\n"
+                      + "O O O O O O O\n"
+                      + "O O O O O O O\n"
+                      + "    O O O\n"
+                      + "    O O O");
 
     MarbleSolitaireModel model2 = new EnglishSolitaireModel(5);
     MarbleSolitaireView view2 = new MarbleSolitaireTextView(model2);

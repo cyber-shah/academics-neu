@@ -39,7 +39,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
    * @throws IllegalArgumentException if the given boardSize is invalid.
    */
   public EnglishSolitaireModel(int armThickness) throws IllegalArgumentException {
-    this (armThickness, (armThickness + (armThickness - 1) * 2) /2, (armThickness + (armThickness - 1) * 2) /2);
+    this (armThickness, (armThickness + (armThickness - 1) * 2) / 2,
+            (armThickness + (armThickness - 1) * 2) / 2);
   }
 
   
