@@ -39,6 +39,7 @@ public class TicTacToeConsoleController implements TicTacToeController {
       // 1. ask for input
       // should catch Exception from Appendable
       try {
+        appendable.append(model.toString()).append("\n");
         appendable.append("Enter a move for ").append(model.getTurn().toString()).append(":\n");
       }
       catch (IOException e) {
@@ -61,13 +62,25 @@ public class TicTacToeConsoleController implements TicTacToeController {
         // Non-integer value rejection
         // TODO: throw an error for invalid inputs
         while (this.isInvalidInput(token)) {
-          token = scanner.next();
+          try {
+            appendable.append("Invalid input. Please try again:\n");
+          }
+          catch (IOException e) {
+            throw new IllegalStateException("Cannot append invalid input");
+          }
+          try {
+            token = scanner.next();
+          }
+          catch (NoSuchElementException e) {
+            throw new IllegalStateException("No more inputs found");
+          }
         }
 
         // 5. check if token is quit
         if (token.equalsIgnoreCase("q")) {
           try {
             appendable.append("Game quit! Ending game state:\n").append(model.toString()).append("\n");
+            return;
           }
           catch (IOException e) {
             throw new IllegalStateException("Cannot append quit");
@@ -82,7 +95,7 @@ public class TicTacToeConsoleController implements TicTacToeController {
       // 7. by here we have a valid userInput, both tokens are valid and not quit
       // make the move ------------------
       try {
-        model.move(Integer.parseInt(userInput[0]), Integer.parseInt(userInput[1]));
+        model.move(Integer.parseInt(userInput[0]) - 1, Integer.parseInt(userInput[1]) - 1);
       }
       catch (IllegalArgumentException e) {
         throw new IllegalStateException(userInput[0] + ", " + userInput[1] + "is an Invalid move");
@@ -93,6 +106,12 @@ public class TicTacToeConsoleController implements TicTacToeController {
     // output the result
     try {
       appendable.append(model.toString()).append("\n");
+      if (model.getWinner() == null) {
+        appendable.append("Game is over! Tie game.\n");
+      }
+      else {
+        appendable.append("Player ").append(model.getWinner().toString()).append(" wins!\n");
+      }
     }
     catch (IOException e) {
       throw new IllegalStateException("Cannot append end of game");
@@ -111,16 +130,14 @@ public class TicTacToeConsoleController implements TicTacToeController {
     if (!token.matches("[1-4]") && !token.equalsIgnoreCase("q")) {
       return true;
     }
-
-    // 2. by here we know input has exactly 2 elements and contains valid characters
-    try {
+    /*try {
       int value = Integer.parseInt(token);
       if (value < 1 || value > 4) {
         return true;
       }
     } catch (NumberFormatException e) {
       return true;
-    }
+    }*/
     return false;
   }
 
