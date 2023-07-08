@@ -65,12 +65,26 @@ long long int fibonacci_iterative(int n, int print) {
         }
     }
 
+    if (n < 1) {
+        if (print == 1) {
+            printf("Iterative Fibonacci value at %i = %lld\n", n, a);
+        }
+        return a;
+    }
+
+    if (n < 2) {
+        if (print == 1) {
+            printf("Iterative Fibonacci value at %i = %lld\n", n, b);
+        }
+        return b;
+    }
+
     // Print the series up to the given number of terms
     for (int i = 2; i <= n; i++) {
         // print last digit only
         if (print == 1) {
             if (i == n) {
-                printf("Fibonacci value at %i = %lld\n", i, c);
+                printf("Iterative Fibonacci value at %i = %lld\n", i, c);
             }
         }
         // print all values
@@ -86,8 +100,9 @@ long long int fibonacci_iterative(int n, int print) {
         b = c;
         c = a + b;
     }
-    return c;
+    return b;
 }
+
 
 /**
  * Recursive Fibonacci function.
