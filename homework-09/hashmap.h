@@ -126,13 +126,24 @@ void map_put(hashmap* map, char *key, float value) {
 		// put the pointer to there
 		map->contents[index] = new_node;
 	}
-	// case 2. index is not empty so there is a collision
+	
+	// case 2. index is not empty so there is a collision 
+	// 			or same key already exists
 	else {
-		h_node* current = map->contents[index];
-		while (current->next != NULL) {
-			current = current->next;
+		// 2.1 if key already exists
+		if (strcmp(map->contents[index]->key, key) == 0) {
+			map->contents[index]->value = value;
+			return;
 		}
-		current->next = new_node;
+		// 2.2 collision
+		else {
+			h_node* current = map->contents[index];
+			while (current->next != NULL) {
+				current = current->next;
+			}
+			current->next = new_node;
+			return;
+		}
 	}
 }
 
