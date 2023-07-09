@@ -120,14 +120,14 @@ void map_put(hashmap* map, char *key, float value) {
 	new_node->next = NULL;
 	new_node->key = key;
 	new_node->value = value;
-	
-	// case 1. index is empty
+
+	// case 1. index is empty, key is not in the map
 	if (map->contents[index] == NULL) {
-		// if yes malloc a new h_node and 
-		// put the pointer to it there
+		// put the pointer to there
+		map->contents[index] = new_node;
 	}
 	// case 2. index is not empty so there is a collision
-	else if (map->contents[index] != NULL) {
+	else {
 		h_node* current = map->contents[index];
 		while (current->next != NULL) {
 			current = current->next;
