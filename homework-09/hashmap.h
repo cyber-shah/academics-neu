@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 
+
 typedef struct node {
 	char *key;
 	float value;
@@ -53,8 +54,17 @@ ul get_hash(char *str) {
  * @returns (pointer) to the hashmap
 */
 hashmap* map_create(int size) {
-   hashmap* hashMap = malloc(sizeof(h_node) * size);
-   return hashMap;
+	// create the MAP
+	hashmap* newMap = malloc(sizeof(hashmap));
+	h_node* table[size];
+	// contents - pointer to nodes
+	newMap->contents = table;
+	for (int i = 0; i < size; i++) {
+		newMap->contents[i] = NULL;
+	}
+
+	newMap->size = size;
+	return newMap;
 } 
 
 /**
@@ -66,7 +76,7 @@ hashmap* map_create(int size) {
 */
 float map_get(hashmap* map, char *key) {
 
-	ul index = get_hash(key);
+	int index = get_hash(key) % map->size;
 	
 	// case 1. location is empty
 	if (map->contents[index] == NULL) {
@@ -113,7 +123,7 @@ float map_del(hashmap* map, char *key) {
 */
 void map_put(hashmap* map, char *key, float value) {
 	// get index
-	ul index = get_hash(key);
+	int index = get_hash(key) % map->size;
 
 	// create the node
 	h_node* new_node = malloc(sizeof(h_node));
@@ -126,7 +136,7 @@ void map_put(hashmap* map, char *key, float value) {
 		// put the pointer to there
 		map->contents[index] = new_node;
 	}
-	
+
 	// case 2. index is not empty so there is a collision 
 	// 			or same key already exists
 	else {
