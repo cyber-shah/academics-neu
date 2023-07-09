@@ -30,6 +30,8 @@ typedef h_node **hashTable;
  * A hashing algorithm. Students may pick their own
  * but it is recommended they use one of the ones 
  * from the lab. 
+ * 
+ * @return (unsigned long) representing the hash
 */
 ul get_hash(char *str) {
   return 0;
@@ -37,6 +39,8 @@ ul get_hash(char *str) {
 
 /**
  * Creates with the specified size.
+ * 
+ * @returns (pointer) to the hashmap
 */
 hashmap* map_create(int size) {
    return NULL;
@@ -45,6 +49,9 @@ hashmap* map_create(int size) {
 /**
  * Gets a value from the hashmap. 
  * If a value is not found, return -1.0F
+ * 
+ * @returns (float) the value of the key
+ * @returns (float) -1.0F if not found
 */
 float map_get(hashmap* map, char *key) {
     return 0;
@@ -56,6 +63,9 @@ float map_get(hashmap* map, char *key) {
  * is not found to remove, return -1.0F
  * 
  * Remember to free the key value, before free the node.
+ * 
+ * @returns (float) the value of the key if found
+ * @returns (float) -1.0F if not found
 */
 float map_del(hashmap* map, char *key) {
     return 0;
