@@ -1,7 +1,7 @@
 /** 
  * CS 5008 - Homework 09
- * Student: UPDATE NAME
- * Semester: UPDATE SEMESTER
+ * Student: Pranchal Shah
+ * Semester: Summer 2023 Online
 */
 #ifndef HASHMAP
 #define HASHMAP
@@ -12,14 +12,14 @@
 
 typedef struct node
 {
-    char *key;
-    float value;
-    struct node *next;
+	char *key;
+	float value;
+	struct node *next;
 } h_node;
 
 typedef struct ht {
-    int size;
-    h_node **contents;
+	int size;
+	h_node **contents;
 
 } hashmap;
 
@@ -34,17 +34,30 @@ typedef h_node **hashTable;
  * @return (unsigned long) representing the hash
 */
 ul get_hash(char *str) {
-  return 0;
+  ul hash = 5381;
+
+  for (int i = 0; i < strlen(str); i++) {
+	hash = ((hash << 5) + hash) + str[i];
+  }
+
+/*   int c;
+
+	while ((c = *str++)) {
+		hash = ((hash << 5) + hash) + c; // hash * 33 + c
+	} 
+*/
+  return hash;
 }
 
 /**
  * Creates with the specified size.
- * 
+ *
  * @returns (pointer) to the hashmap
 */
 hashmap* map_create(int size) {
-   return NULL;
-}
+   hashmap* hashMap = malloc(sizeof(h_node) * size);
+   return hashMap;
+} 
 
 /**
  * Gets a value from the hashmap. 
@@ -54,7 +67,7 @@ hashmap* map_create(int size) {
  * @returns (float) -1.0F if not found
 */
 float map_get(hashmap* map, char *key) {
-    return 0;
+	return 0;
 }
 
 /**
@@ -68,7 +81,7 @@ float map_get(hashmap* map, char *key) {
  * @returns (float) -1.0F if not found
 */
 float map_del(hashmap* map, char *key) {
-    return 0;
+	return 0;
 }
 
 /**
@@ -80,7 +93,7 @@ float map_del(hashmap* map, char *key) {
  * the original string passed into the function can be released.
 */
 void map_put(hashmap* map, char *key, float value) {
-    
+	
 }
 
 /**
