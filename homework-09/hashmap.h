@@ -10,8 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 
-typedef struct node
-{
+typedef struct node {
 	char *key;
 	float value;
 	struct node *next;
@@ -20,7 +19,6 @@ typedef struct node
 typedef struct ht {
 	int size;
 	h_node **contents;
-
 } hashmap;
 
 typedef unsigned long ul;
@@ -61,13 +59,34 @@ hashmap* map_create(int size) {
 
 /**
  * Gets a value from the hashmap. 
- * If a value is not found, return -1.0F
+ * If a value is not found, return -1.0F.
  * 
  * @returns (float) the value of the key
  * @returns (float) -1.0F if not found
 */
 float map_get(hashmap* map, char *key) {
-	return 0;
+
+	ul index = get_hash(key);
+	
+	// case 1. location is empty
+	if (map->contents[index] == NULL) {
+		return -1.0F;
+	}
+	// case 2. location has something but not the same key
+	else if (map->contents[index]->key != key) {
+		h_node* current = map->contents[index];
+		while (current->next != NULL) {
+			if(strcmp(current->key, key) == 0) {
+				return current->value;
+			}
+			current = current->next;
+		}
+
+	}
+	// case 3. location has the same key
+	else if (strcmp(map->contents[index]->key, key) == 0) {
+		return map->contents[index]->value;
+	}
 }
 
 /**
@@ -93,7 +112,28 @@ float map_del(hashmap* map, char *key) {
  * the original string passed into the function can be released.
 */
 void map_put(hashmap* map, char *key, float value) {
+	// get index
+	ul index = get_hash(key);
+
+	// create the node
+	h_node* new_node = malloc(sizeof(h_node));
+	new_node->next = NULL;
+	new_node->key = key;
+	new_node->value = value;
 	
+	// case 1. index is empty
+	if (map->contents[index] == NULL) {
+		// if yes malloc a new h_node and 
+		// put the pointer to it there
+	}
+	// case 2. index is not empty so there is a collision
+	else if (map->contents[index] != NULL) {
+		h_node* current = map->contents[index];
+		while (current->next != NULL) {
+			current = current->next;
+		}
+		current->next = new_node;
+	}
 }
 
 /**

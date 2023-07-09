@@ -14,7 +14,7 @@
 */
 
 int main() {
-  /*  hashmap map = map_create(1);
+   hashmap map = map_create(1);
 
     map_put(map, "Apple", 2.08);
     map_put(map, "Orange", 3.01);
@@ -30,5 +30,5 @@ int main() {
     map_print(map);
 
     map_free(map);
-    */
+   
 }
