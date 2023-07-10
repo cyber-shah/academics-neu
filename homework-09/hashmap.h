@@ -89,26 +89,26 @@ float map_get(hashmap* map, char *key) {
 	// case 2. location has something but not the same key
 	else if (map->contents[index]->key != key) {
 
-		for (h_node* current_item = map->contents[index]; 
-		current_item != NULL; 
-		current_item = current_item->next) 
+		for (h_node* current_bucket = map->contents[index]; 
+		current_bucket != NULL; 
+		current_bucket = current_bucket->next) 
 		{
-			if(strcmp(current_item->key, key) == 0) {
-				return current_item->value;
+			if(strcmp(current_bucket->key, key) == 0) {
+				return current_bucket->value;
 			}
 		}
 
 		// as a while loop
-		/* while (current_item->next != NULL) {
-			if(strcmp(current_item->key, key) == 0) {
-				return current_item->value;
+		/* while (current_bucket->next != NULL) {
+			if(strcmp(current_bucket->key, key) == 0) {
+				return current_bucket->value;
 			}
-			current_item = current_item->next;
+			current_bucket = current_bucket->next;
 		}
 		// after current reaches the end
 		// check if that is the 
-		if(strcmp(current_item->key, key) == 0) {
-			return current_item->value;
+		if(strcmp(current_bucket->key, key) == 0) {
+			return current_bucket->value;
 		} */
 
 	}
@@ -130,8 +130,42 @@ float map_get(hashmap* map, char *key) {
  * @returns (float) -1.0F if not found
 */
 float map_del(hashmap* map, char *key) {
-	return 0;
+	int index = get_hash(key) % map->size;
+	float value;
+
+	// Check if the bucket is empty
+    if (map->contents[index] == NULL) {
+        return -1.0F;
+    }
+
+    // Check if the first node matches the key
+    if (strcmp(map->contents[index]->key, key) == 0) {
+        h_node* temp = map->contents[index];
+        value = temp->value;
+        map->contents[index] = map->contents[index]->next;
+        free(temp->key);
+        free(temp);
+        return value;
+    }
+
+    // Search for the key in the linked list
+    h_node* current_bucket = map->contents[index];
+    while (current_bucket->next != NULL) {
+        if (strcmp(current_bucket->next->key, key) == 0) {
+            h_node* temp = current_bucket->next;
+            value = temp->value;
+            current_bucket->next = current_bucket->next->next;
+            free(temp->key);
+            free(temp);
+            return value;
+        }
+        current_bucket = current_bucket->next;
+    }
+
+    // Key not found
+    return -1.0F;
 }
+
 
 /**
  * Stores a value into the hashmap. 
@@ -168,26 +202,23 @@ void map_put(hashmap* map, char *key, float value) {
 	// 2.2 if key at index is not the same as we are inserting
 	// traverse until either key is found or we reach the end
 	else {
-		for (h_node* current_item = map->contents[index]; 
-		current_item != NULL; 
-		current_item = current_item->next) {
+		for (h_node* current_bucket = map->contents[index]; 
+		current_bucket != NULL; 
+		current_bucket = current_bucket->next) {
 			// if a key matches the one we are adding
-			if (strcmp(current_item->key, key) == 0) {
-                current_item->value = value;
+			if (strcmp(current_bucket->key, key) == 0) {
+                current_bucket->value = value;
 				free(new_node->key); free(new_node); return;
             }
 
 			// if no key matched after the last node,
-			if (current_item->next == NULL) {
-				current_item->next = new_node;
+			if (current_bucket->next == NULL) {
+				current_bucket->next = new_node;
 				return;
 			}
-		}
-	}
-}
-
+			/*
 			// whhile loop option
-/* 			// set the current node
+ 			// set the current node
 			h_node* current = map->contents[index];
 
 			// move to next
@@ -207,8 +238,9 @@ void map_put(hashmap* map, char *key, float value) {
                 current->value = value;
 				free(new_node->key); free(new_node); return;
             } */
-			
-			/* 	// NOTE: This code adds to the front instead of back
+
+			/* 	
+			// NOTE: This code adds to the front instead of back
 	// get index
 	int index = get_hash(key) % map->size;
 
@@ -229,6 +261,10 @@ void map_put(hashmap* map, char *key, float value) {
 	// key exists, update value
 	current->value = value;
 	return; */
+
+		}
+	}
+}
 
 
 
@@ -258,8 +294,19 @@ void map_print(hashmap* map) {
  * to free all the individual nodes. 
 */
 void map_free(hashmap* map) {
-
+    for (int i = 0; i < map->size; i++) {
+        h_node* current_bucket = map->contents[i];
+        while (current_bucket != NULL) {
+            h_node* temp_item = current_bucket->next;
+            free(current_bucket->key);
+            free(current_bucket);
+            current_bucket = temp_item;
+        }
+    }
+    free(map->contents);
+    free(map);
 }
+
 
 
 #endif
