@@ -51,21 +51,25 @@ ul get_hash(char *str) {
 /**
  * Creates with the specified size.
  *
+ * @param 
  * @returns (pointer) to the hashmap
 */
 hashmap* map_create(int size) {
 	// create the MAP
 	hashmap* newMap = malloc(sizeof(hashmap));
-	h_node* table[size];
-	// contents - pointer to nodes
-	newMap->contents = table;
+	newMap->size = size;
+
+	// create an array
+    newMap->contents = (h_node **)malloc(size * sizeof(h_node *));
+
+	// initialize everything to NULL
 	for (int i = 0; i < size; i++) {
 		newMap->contents[i] = NULL;
 	}
 
-	newMap->size = size;
 	return newMap;
-} 
+}
+
 
 /**
  * Gets a value from the hashmap. 
@@ -84,12 +88,12 @@ float map_get(hashmap* map, char *key) {
 	}
 	// case 2. location has something but not the same key
 	else if (map->contents[index]->key != key) {
-		h_node* current = map->contents[index];
-		while (current->next != NULL) {
-			if(strcmp(current->key, key) == 0) {
-				return current->value;
+		h_node* current_item = map->contents[index];
+		while (current_item->next != NULL) {
+			if(strcmp(current_item->key, key) == 0) {
+				return current_item->value;
 			}
-			current = current->next;
+			current_item = current_item->next;
 		}
 
 	}
@@ -97,6 +101,7 @@ float map_get(hashmap* map, char *key) {
 	else if (strcmp(map->contents[index]->key, key) == 0) {
 		return map->contents[index]->value;
 	}
+	return -1.0F;
 }
 
 /**
@@ -122,36 +127,47 @@ float map_del(hashmap* map, char *key) {
  * the original string passed into the function can be released.
 */
 void map_put(hashmap* map, char *key, float value) {
-	// get index
-	int index = get_hash(key) % map->size;
-
-	// create the node
+	// 1. create the node
 	h_node* new_node = malloc(sizeof(h_node));
+	// new_node->key = (char*) malloc(sizeof(char) * (strlen(key) + 1));
 	new_node->next = NULL;
-	new_node->key = key;
+	strcpy(new_node->key, key);
 	new_node->value = value;
 
+	// 2. get index
+	int index = get_hash(key) % map->size;
+
+	// 3. get the item at location
+	h_node* current_item = map->contents[index];
+
+
 	// case 1. index is empty, key is not in the map
-	if (map->contents[index] == NULL) {
-		// put the pointer to there
-		map->contents[index] = new_node;
+	if (current_item == NULL) {
+		current_item = new_node;
 	}
 
 	// case 2. index is not empty so there is a collision 
 	// 			or same key already exists
 	else {
 		// 2.1 if key already exists
-		if (strcmp(map->contents[index]->key, key) == 0) {
+		if (strcmp(current_item->key, key) == 0) {
+
+			// TODO: why won't current_item->value, value work?
 			map->contents[index]->value = value;
 			return;
 		}
 		// 2.2 collision
 		else {
-			h_node* current = map->contents[index];
-			while (current->next != NULL) {
-				current = current->next;
+			while (current_item->next != NULL) {
+                if (strcmp(current_item->key, key) == 0) {
+                    current_item->value = value;
+                    return;
+                }
+                else {
+				    current_item = current_item->next;
+                }
 			}
-			current->next = new_node;
+			current_item->next = new_node;
 			return;
 		}
 	}
@@ -165,8 +181,18 @@ void map_put(hashmap* map, char *key, float value) {
  * only produce strings of .2f (two decimals). 
 */
 void map_print(hashmap* map) {
-   
+    for (int i = 0; i < map->size; i++) {
+        h_node* current = map->contents[i];
+        while (current != NULL) {
+            printf("%s : %.2f", current->key, current->value);
+            current = current->next;
+            if (current != NULL) {
+                printf(", ");
+            }
+        }
+    }
 }
+
 
 /**
  * Frees the map in memory. Make sure
