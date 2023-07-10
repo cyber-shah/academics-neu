@@ -127,47 +127,56 @@ float map_del(hashmap* map, char *key) {
  * the original string passed into the function can be released.
 */
 void map_put(hashmap* map, char *key, float value) {
-	// 1. create the node
-	h_node* new_node = malloc(sizeof(h_node));
-	// new_node->key = (char*) malloc(sizeof(char) * (strlen(key) + 1));
-	new_node->next = NULL;
-	strcpy(new_node->key, key);
-	new_node->value = value;
-
-	// 2. get index
+	// get index
 	int index = get_hash(key) % map->size;
 
-	// 3. get the item at location
-	h_node* current_item = map->contents[index];
-
+	// create the node
+	h_node* new_node = malloc(sizeof(h_node));
+	new_node->next = NULL;
+	new_node->key = strdup(key);
+	new_node->value = value;
 
 	// case 1. index is empty, key is not in the map
-	if (current_item == NULL) {
-		current_item = new_node;
+	if (map->contents[index] == NULL) {
+		// put the pointer to there
+		map->contents[index] = new_node;
 	}
 
 	// case 2. index is not empty so there is a collision 
 	// 			or same key already exists
 	else {
-		// 2.1 if key already exists
-		if (strcmp(current_item->key, key) == 0) {
+		h_node* current = map->contents[index];
 
-			// TODO: why won't current_item->value, value work?
-			map->contents[index]->value = value;
+		// 2.1 if key already exists at index location
+		if (strcmp(current->key, key) == 0) {
+			// update the value
+			current->value = value;
 			return;
 		}
-		// 2.2 collision
+
+		// 2.2 if key at index is not the same as we are inserting
 		else {
-			while (current_item->next != NULL) {
-                if (strcmp(current_item->key, key) == 0) {
-                    current_item->value = value;
-                    return;
-                }
+			// move to next
+			while (current != NULL) {
+                if (strcmp(current->key, key) == 0) {
+                    current->value = value;
+					free(new_node->key);
+                	free(new_node);
+                	return;
+            	}
                 else {
-				    current_item = current_item->next;
+				    current = current->next;
                 }
 			}
-			current_item->next = new_node;
+			// after travesring to the last node, 
+			// add it there
+			// if (strcmp(current->key, key) == 0) {
+            //     current->value = value;
+			// 	free(new_node->key);
+            //     free(new_node);
+            //     return;
+            // }
+			current->next = new_node;
 			return;
 		}
 	}
