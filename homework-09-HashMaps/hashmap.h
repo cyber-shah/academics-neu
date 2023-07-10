@@ -54,6 +54,10 @@ ul get_hash(char *str) {
  * @returns (pointer) to the hashmap
 */
 hashmap* map_create(int size) {
+	if (size < 1) {
+		return NULL;
+	}
+
 	// create the MAP
 	hashmap* newMap = malloc(sizeof(hashmap));
 	newMap->size = size;
@@ -78,6 +82,10 @@ hashmap* map_create(int size) {
 */
 float map_get(hashmap* map, char *key) {
 
+	if (map == NULL || key == NULL) {
+		return -1.0F;
+	}
+	
 	int index = get_hash(key) % map->size;
 	
 	// case 1. location is empty

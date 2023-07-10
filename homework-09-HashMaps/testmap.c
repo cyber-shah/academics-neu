@@ -7,12 +7,235 @@
 #include "hashmap.h"
 
 int test_create_1() {
-    return 0;
+    hashmap* map = map_create(5);
+    
+    // Check if all are NULL
+    for (int i = 0; i < 5; i++) {
+        if (map->contents[i] != NULL) {
+            map_free(map);
+            return 0;
+        }
+    }
+    
+    // Check for size
+    if (map->size != 5) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
 }
 
 int test_create_2() {
+    hashmap* map = map_create(0);
+    if (map != NULL) {
+        map_free(map);
+        return 0;
+    }
     
+    return 1;
 }
+
+int test_create_3() {
+    hashmap* map = map_create(-5);
+    if (map != NULL) {
+        map_free(map);
+        return 0;
+    }
+    
+    return 1;
+}
+
+int test_create_4() {
+    hashmap* map = map_create(200);
+    
+    // Check if all are NULL
+    for (int i = 0; i < 200; i++) {
+        if (map->contents[i] != NULL) {
+            map_free(map);
+            return 0;
+        }
+    }
+    
+    // Check for size
+    if (map->size != 200) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_put_1() {
+    hashmap* map = map_create(5);
+    map_put(map, "Heart", 100);
+    
+    // Check if the value is stored correctly
+    float value = map_get(map, "Heart");
+    if (value != 100) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_put_2() {
+    hashmap* map = map_create(5);
+    map_put(map, "Heart", 100);
+    map_put(map, "Heart", 200);
+    
+    // Check if the value is updated correctly
+    float value = map_get(map, "Heart");
+    if (value != 200) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_put_3() {
+    hashmap* map = map_create(5);
+    map_put(map, "Threat", 100);
+    map_put(map, "Heart", 200);
+    
+    // Check if both values are stored correctly
+    float value1 = map_get(map, "Threat");
+    float value2 = map_get(map, "Heart");
+    
+    if (value1 != 100 || value2 != 200) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_put_4() {
+    hashmap* map = map_create(5);
+    map_put(map, "Threat", 100);
+    map_put(map, "Heart", 200);
+    
+    // Check if value is updated correctly with collision
+    map_put(map, "Threat", 300);
+    float value = map_get(map, "Threat");
+    
+    if (value != 300) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_get_1() {
+    hashmap* map = map_create(5);
+    
+    // Key does not exist
+    float value = map_get(map, "Heart");
+    if (value != -1.0F) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_get_2() {
+    hashmap* map = map_create(5);
+    map_put(map, "Heart", 100);
+    
+    // Key exists
+    float value = map_get(map, "Heart");
+    if (value != 100) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_get_3() {
+    hashmap* map = map_create(5);
+    map_put(map, "Heart", 100);
+    
+    // Key found at index but not equal to the given key
+    float value = map_get(map, "Threat");
+    if (value != -1.0F) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_get_4() {
+    hashmap* map = map_create(5);
+    
+    // NULL key
+    float value = map_get(map, NULL);
+    if (value != -1.0F) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_del_1() {
+    hashmap* map = map_create(5);
+    
+    // Key does not exist
+    float value = map_del(map, "Heart");
+    if (value != -1.0F) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_del_2() {
+    hashmap* map = map_create(5);
+    map_put(map, "Heart", 100);
+    
+    // Key exists
+    float value = map_del(map, "Heart");
+    if (value != 100) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
+int test_del_3() {
+    hashmap* map = map_create(5);
+    
+    // Delete from an empty hashmap
+    float value = map_del(map, "Heart");
+    if (value != -1.0F) {
+        map_free(map);
+        return 0;
+    }
+    
+    map_free(map);
+    return 1;
+}
+
 /**
  * CREATE
  * 1. create a hash map and check if size is correct
@@ -44,13 +267,24 @@ int test_create_2() {
  * 2. with items
 */
 
-
 int (*unitTests[])(int) = {
     test_create_1,
+    test_create_2,
+    test_create_3,
+    test_create_4,
+    test_put_1,
+    test_put_2,
+    test_put_3,
+    test_put_4,
+    test_get_1,
+    test_get_2,
+    test_get_3,
+    test_get_4,
+    test_del_1,
+    test_del_2,
+    test_del_3,
     NULL
 };
-
-
 
 
 /** use this file for tests. 
@@ -77,7 +311,7 @@ int main() {
     int counter = 0;
     while (unitTests[counter] != NULL) 
     {
-        printf("========unitTest %d========\n", counter);
+        printf("\n\n========unitTest %d========\n", counter);
         if (1 == unitTests[counter](1)) 
         {
             printf("passed test\n");
