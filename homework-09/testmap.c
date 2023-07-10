@@ -56,9 +56,8 @@ int main() {
 
     map_put(map, "Apple", 2.08);
     map_put(map, "Orange", 3.01);
-    // TODO : this doesn't work!
-    // it should update the value instead of adding a new one
     map_put(map, "Orange", 2.50);
+    // it should update the value instead of adding a new one
 
     map_print(map);
 

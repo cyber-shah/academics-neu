@@ -127,7 +127,7 @@ float map_del(hashmap* map, char *key) {
  * the original string passed into the function can be released.
 */
 void map_put(hashmap* map, char *key, float value) {
-	// get index
+ 	// get index
 	int index = get_hash(key) % map->size;
 
 	// create the node
@@ -145,41 +145,62 @@ void map_put(hashmap* map, char *key, float value) {
 	// case 2. index is not empty so there is a collision 
 	// 			or same key already exists
 	else {
-		h_node* current = map->contents[index];
-
 		// 2.1 if key already exists at index location
-		if (strcmp(current->key, key) == 0) {
+		if (strcmp(map->contents[index]->key, key) == 0) {
 			// update the value
-			current->value = value;
+			map->contents[index]->value = value;
 			return;
 		}
 
 		// 2.2 if key at index is not the same as we are inserting
 		else {
+			// set the current node
+			h_node* current = map->contents[index];
+
 			// move to next
-			while (current != NULL) {
+			while (current->next != NULL) {
                 if (strcmp(current->key, key) == 0) {
                     current->value = value;
-					free(new_node->key);
-                	free(new_node);
-                	return;
+					free(new_node->key); free(new_node); return;
             	}
                 else {
 				    current = current->next;
                 }
 			}
-			// after travesring to the last node, 
-			// add it there
-			// if (strcmp(current->key, key) == 0) {
-            //     current->value = value;
-			// 	free(new_node->key);
-            //     free(new_node);
-            //     return;
-            // }
+			
+			// after traversing to the last node
+			// if the last node has the same key, update
+			if (strcmp(current->key, key) == 0) {
+                current->value = value;
+				free(new_node->key); free(new_node); return;
+            }
 			current->next = new_node;
 			return;
 		}
 	}
+
+/* 	// NOTE: This code adds to the front instead of back
+	// get index
+	int index = get_hash(key) % map->size;
+
+	// create the node
+	h_node* new_node = malloc(sizeof(h_node));
+	new_node->key = key;
+	new_node->value = value;
+
+	// check if key already exists
+	h_node* current = map->contents[index];
+	if (current == NULL || strcmp(current->key, key) != 0) {
+		// key does not exist, add new node
+		new_node->next = map->contents[index];
+		map->contents[index] = new_node;
+		return;
+	}
+
+	// key exists, update value
+	current->value = value;
+	return; */
+
 }
 
 /**
