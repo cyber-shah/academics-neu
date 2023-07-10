@@ -62,7 +62,7 @@ int main() {
     map_print(map);
 
 
-    printf("Dread is %.2f\n", map_get(map, "Orange"));
+    printf("\nDread is %.2f\n", map_get(map, "Orange"));
 
     map_del(map, "Apple");
     map_del(map, "Pineapple");

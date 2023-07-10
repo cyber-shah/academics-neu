@@ -88,13 +88,28 @@ float map_get(hashmap* map, char *key) {
 	}
 	// case 2. location has something but not the same key
 	else if (map->contents[index]->key != key) {
-		h_node* current_item = map->contents[index];
-		while (current_item->next != NULL) {
+
+		for (h_node* current_item = map->contents[index]; 
+		current_item != NULL; 
+		current_item = current_item->next) 
+		{
+			if(strcmp(current_item->key, key) == 0) {
+				return current_item->value;
+			}
+		}
+
+		// as a while loop
+		/* while (current_item->next != NULL) {
 			if(strcmp(current_item->key, key) == 0) {
 				return current_item->value;
 			}
 			current_item = current_item->next;
 		}
+		// after current reaches the end
+		// check if that is the 
+		if(strcmp(current_item->key, key) == 0) {
+			return current_item->value;
+		} */
 
 	}
 	// case 3. location has the same key
@@ -142,19 +157,37 @@ void map_put(hashmap* map, char *key, float value) {
 		map->contents[index] = new_node;
 	}
 
-	// case 2. index is not empty so there is a collision 
-	// 			or same key already exists
-	else {
-		// 2.1 if key already exists at index location
-		if (strcmp(map->contents[index]->key, key) == 0) {
-			// update the value
-			map->contents[index]->value = value;
-			return;
-		}
+	// case 2. COLLISION
+	// 2.1 if key already exists at index location
+	else if (strcmp(map->contents[index]->key, key) == 0) {
+		// update the value
+		map->contents[index]->value = value;
+		return;
+	}
 
-		// 2.2 if key at index is not the same as we are inserting
-		else {
-			// set the current node
+	// 2.2 if key at index is not the same as we are inserting
+	// traverse until either key is found or we reach the end
+	else {
+		for (h_node* current_item = map->contents[index]; 
+		current_item != NULL; 
+		current_item = current_item->next) {
+			// if a key matches the one we are adding
+			if (strcmp(current_item->key, key) == 0) {
+                current_item->value = value;
+				free(new_node->key); free(new_node); return;
+            }
+
+			// if no key matched after the last node,
+			if (current_item->next == NULL) {
+				current_item->next = new_node;
+				return;
+			}
+		}
+	}
+}
+
+			// whhile loop option
+/* 			// set the current node
 			h_node* current = map->contents[index];
 
 			// move to next
@@ -173,13 +206,9 @@ void map_put(hashmap* map, char *key, float value) {
 			if (strcmp(current->key, key) == 0) {
                 current->value = value;
 				free(new_node->key); free(new_node); return;
-            }
-			current->next = new_node;
-			return;
-		}
-	}
-
-/* 	// NOTE: This code adds to the front instead of back
+            } */
+			
+			/* 	// NOTE: This code adds to the front instead of back
 	// get index
 	int index = get_hash(key) % map->size;
 
@@ -201,7 +230,7 @@ void map_put(hashmap* map, char *key, float value) {
 	current->value = value;
 	return; */
 
-}
+
 
 /**
  * Prints the map in the specified format of
