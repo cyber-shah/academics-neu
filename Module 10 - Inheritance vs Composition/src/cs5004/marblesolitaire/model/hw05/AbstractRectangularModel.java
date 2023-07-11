@@ -3,9 +3,15 @@ package cs5004.marblesolitaire.model.hw05;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbstractSquareSolitaireModel implements MarbleSolitaireModel {
-  private final Map<String, SlotState> board;
-  private final int boardSize;
+public class AbstractRectangularModel implements MarbleSolitaireModel {
+  protected Map<String, SlotState> board;
+  protected int boardSize;
+
+  public AbstractRectangularModel() {
+    this.board = new HashMap<>();
+    this.boardSize = 3;
+  }
+
 
   /**
    * Move a single marble from a given position to another given position.

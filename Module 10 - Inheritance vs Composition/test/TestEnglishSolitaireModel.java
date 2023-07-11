@@ -1,3 +1,4 @@
+import cs5004.marblesolitaire.model.hw05.AbstractRectangularModel;
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class TestEnglishSolitaireModel {
 
-  private MarbleSolitaireModel model;
+  private AbstractRectangularModel model;
   private MarbleSolitaireView view;
 
   @Before

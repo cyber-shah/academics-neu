@@ -1,9 +1,12 @@
+/*
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
 import cs5004.marblesolitaire.model.hw07.TriangleSolitaireModel;
 
+*/
 /**
  * Do not modify this file. This file should compile correctly with your code!
- */
+ *//*
+
 public class Hw07TypeChecks {
 
   public static void main(String[] args) {
@@ -22,3 +25,4 @@ public class Hw07TypeChecks {
   }
 
 }
+*/

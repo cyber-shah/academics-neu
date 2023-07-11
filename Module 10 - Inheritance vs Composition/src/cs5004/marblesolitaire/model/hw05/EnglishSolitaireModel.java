@@ -7,9 +7,7 @@ import java.util.Map;
  * This class represents the English Solitaire Model.
  * It implements the MarbleSolitaireModel interface.
  */
-public class EnglishSolitaireModel extends AbstractSquareSolitaireModel {
-  private final Map<String, SlotState> board;
-  private final int boardSize;
+public class EnglishSolitaireModel extends AbstractRectangularModel {
 
   /**
    * Constructor for EnglishSolitaireModel.
@@ -53,18 +51,24 @@ public class EnglishSolitaireModel extends AbstractSquareSolitaireModel {
    * @throws IllegalArgumentException if the given position is invalid.
    */
   public EnglishSolitaireModel(int armThickness, int row, int col) throws IllegalArgumentException {
+    super();
+
+    // assign values to fields
+    this.board = new HashMap<>();
+    this.boardSize = armThickness + (armThickness - 1) * 2;
+
     // check if armThickness is odd
     if (armThickness % 2 == 0) {
       throw new IllegalArgumentException("Arm thickness must be an odd number");
     }
-    this.boardSize = armThickness + (armThickness - 1) * 2;
+
     // check if row and col are valid
     if (row < 0 || col < 0 || isInvalidPosition(row, col)) {
       throw new IllegalArgumentException("Invalid empty cell position^^ (" + row + "," + col + ")");
     }
     board = new HashMap<>();
-    for (int i = 0; i < this.boardSize; i++) {
-      for (int j = 0; j < this.boardSize; j++) {
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
         // set top left square and top right square to invalid
         if (isInvalidPosition(i,j)) {
           board.put(i + "," + j, SlotState.Invalid);
