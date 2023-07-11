@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class TestEuropeanSolitaireModel {
-  private AbstractRectangularModel model;
+  private AbstractModel model;
   private MarbleSolitaireView view;
 
   @Before

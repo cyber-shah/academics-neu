@@ -2,7 +2,7 @@ package cs5004.marblesolitaire.model.hw05;
 
 import java.util.HashMap;
 
-public class EuropeanSolitaireModel extends AbstractRectangularModel {
+public class EuropeanSolitaireModel extends AbstractModel {
 
   /**
    * Constructor for EnglishSolitaireModel.

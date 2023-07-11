@@ -1,6 +1,6 @@
 import cs5004.marblesolitaire.controller.MarbleSolitaireController;
 import cs5004.marblesolitaire.controller.MarbleSolitaireControllerImpl;
-import cs5004.marblesolitaire.model.hw05.AbstractRectangularModel;
+import cs5004.marblesolitaire.model.hw05.AbstractModel;
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class TestMarbleSolitaireControllerImpl {
 
   private MarbleSolitaireController controller;
-  private AbstractRectangularModel model;
+  private AbstractModel model;
   private MarbleSolitaireView view;
   private StringBuilder log;
 

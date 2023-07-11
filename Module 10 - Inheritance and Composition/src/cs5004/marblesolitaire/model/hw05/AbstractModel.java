@@ -3,7 +3,7 @@ package cs5004.marblesolitaire.model.hw05;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbstractRectangularModel implements MarbleSolitaireModel {
+public class AbstractModel implements MarbleSolitaireModel {
   protected Map<String, SlotState> board;
   protected int boardSize;
 
@@ -12,7 +12,7 @@ public class AbstractRectangularModel implements MarbleSolitaireModel {
    * Defaults to a 3x3 board with the empty slot in the centre.
    * New hashmap is created to represent the board.
    */
-  public AbstractRectangularModel() {
+  public AbstractModel() {
     this.board = new HashMap<>();
     this.boardSize = 7;
   }

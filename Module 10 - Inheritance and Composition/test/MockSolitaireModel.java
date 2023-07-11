@@ -1,11 +1,10 @@
-import cs5004.marblesolitaire.model.hw05.AbstractRectangularModel;
-import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
+import cs5004.marblesolitaire.model.hw05.AbstractModel;
 
 /**
  * Mock model class for testing the controller.
  * It is used to test the controller's ability to transmit the information correctly.
  */
-public class MockSolitaireModel extends AbstractRectangularModel {
+public class MockSolitaireModel extends AbstractModel {
 
   private StringBuilder log;
 
