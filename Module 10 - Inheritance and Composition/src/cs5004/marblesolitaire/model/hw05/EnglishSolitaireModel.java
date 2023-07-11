@@ -66,7 +66,7 @@ public class EnglishSolitaireModel extends AbstractRectangularModel {
     if (row < 0 || col < 0 || isInvalidPosition(row, col)) {
       throw new IllegalArgumentException("Invalid empty cell position^^ (" + row + "," + col + ")");
     }
-    board = new HashMap<>();
+
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
         // set top left square and top right square to invalid
@@ -82,4 +82,31 @@ public class EnglishSolitaireModel extends AbstractRectangularModel {
     board.replace(row + "," + col, SlotState.Empty);
   }
 
+  /**
+   * Tests if the given position is invalid.
+   *
+   * @param row row to check against.
+   * @param col column to check against.
+   * @return true if the given position is invalid, false otherwise.
+   */
+  private boolean isInvalidPosition(int row, int col) {
+    int sideRectangle = (boardSize / 3);
+    // check if row and col are valid
+    if (row < 0 || col < 0 || row > boardSize - 1 || col > boardSize - 1) {
+      return true;
+    }
+    // top rectangle range
+    boolean isTopRectangle = row >= 0 && row < sideRectangle;
+    // bottom rectangle range
+    boolean isBottomRectangle = row >= (boardSize - sideRectangle) && row < boardSize;
+    // Left rectangle range
+    boolean isLeftRectangle = col >= 0 && col < sideRectangle;
+    // right rectangle range
+    boolean isRightRectangle = col >= (boardSize - sideRectangle) && col < boardSize;
+
+    // is top left, or top right
+    // or is bottom left or bottom right
+    return isTopRectangle && (isLeftRectangle || isRightRectangle)
+            || isBottomRectangle && (isLeftRectangle || isRightRectangle);
+  }
 }

@@ -7,11 +7,15 @@ public class AbstractRectangularModel implements MarbleSolitaireModel {
   protected Map<String, SlotState> board;
   protected int boardSize;
 
+  /**
+   * Constructor for AbstractRectangularModel.
+   * Defaults to a 3x3 board with the empty slot in the centre.
+   * New hashmap is created to represent the board.
+   */
   public AbstractRectangularModel() {
     this.board = new HashMap<>();
-    this.boardSize = 3;
+    this.boardSize = 7;
   }
-
 
   /**
    * Move a single marble from a given position to another given position.
@@ -137,33 +141,6 @@ public class AbstractRectangularModel implements MarbleSolitaireModel {
             && board.get((row + 1) + "," + col) == SlotState.Marble;// No valid moves found
   }
 
-  /**
-   * Tests if the given position is invalid.
-   *
-   * @param row row to check against.
-   * @param col column to check against.
-   * @return true if the given position is invalid, false otherwise.
-   */
-  protected boolean isInvalidPosition(int row, int col) {
-    int sideRectangle = (boardSize / 3);
-    // check if row and col are valid
-    if (row < 0 || col < 0 || row > boardSize - 1 || col > boardSize - 1) {
-      return true;
-    }
-    // top rectangle range
-    boolean isTopRectangle = row >= 0 && row < sideRectangle;
-    // bottom rectangle range
-    boolean isBottomRectangle = row >= (boardSize - sideRectangle) && row < boardSize;
-    // Left rectangle range
-    boolean isLeftRectangle = col >= 0 && col < sideRectangle;
-    // right rectangle range
-    boolean isRightRectangle = col >= (boardSize - sideRectangle) && col < boardSize;
-
-    // is top left, or top right
-    // or is bottom left or bottom right
-    return isTopRectangle && (isLeftRectangle || isRightRectangle)
-            || isBottomRectangle && (isLeftRectangle || isRightRectangle);
-  }
 
   /**
    * Return the size of this board. The size is roughly the longest dimension of a board
