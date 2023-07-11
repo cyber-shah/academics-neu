@@ -1,13 +1,11 @@
-import cs5004.marblesolitaire.model.hw05.AbstractRectangularModel;
-import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
-import cs5004.marblesolitaire.model.hw05.EuropeanSolitaireModel;
-import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
+import cs5004.marblesolitaire.model.hw05.*;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class TestEuropeanSolitaireModel {
   private AbstractRectangularModel model;
@@ -83,9 +81,8 @@ public class TestEuropeanSolitaireModel {
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(4, 4));
   }
 
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testInvalidConstructorWithArmThickness() {
+  @Test
+  public void testValidConstructorWithArmThickness() {
     model = new EuropeanSolitaireModel(5, 1, 3);
     // Test board size
     assertEquals(13, model.getBoardSize());
@@ -144,6 +141,53 @@ public class TestEuropeanSolitaireModel {
   public void testMoveInvalidToSlotNotEmpty() {
     model.move(1, 3, 3, 3);
     model.move(3, 1, 3, 3);
+  }
+
+  {
+    model = new EuropeanSolitaireModel(2, 4);
+
+    // Test board size
+    assertEquals(7, model.getBoardSize());
+
+    // Test specified position is empty
+    assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(2, 4));
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testMoveInvalidNoMarbleInBetween() {
+    MarbleSolitaireModel model1 = new EuropeanSolitaireModel(2, 4);
+    MarbleSolitaireView view1 = new MarbleSolitaireTextView(model1);
+
+    model.move(1, 3, 3, 3);
+    // invalid move
+    model.move(0, 3, 2, 3);
+  }
+
+  @Test
+  public void testIsGameOverFalse() {
+    assertFalse(model.isGameOver());
+  }
+
+  @Test
+  public void testGetBoardSize() {
+    assertEquals(7, model.getBoardSize());
+  }
+
+  @Test
+  public void testGetSlotAtValid() {
+    assertEquals(MarbleSolitaireModelState.SlotState.Marble, model.getSlotAt(3, 2));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSlotAtInvalid() {
+    model.getSlotAt(-1, 0);
+  }
+
+  @Test
+  public void testGetScore() {
+    assertEquals(36, model.getScore());
+    model.move(3, 1, 3, 3);
+    assertEquals(35, model.getScore());
   }
 
   @Test
