@@ -6,10 +6,40 @@ import java.io.IOException;
 
 public class AbstractTextView implements MarbleSolitaireView {
 
-  private final MarbleSolitaireModelState model;
-  private final Appendable outAppendable;
+  protected final MarbleSolitaireModelState inModel;
+  protected Appendable outAppendable;
+
+  /**
+   * This is the constructor for the AbstractTextView.
+   * Defaults appendable to System.out.
+   *
+   * @param inModel of the type MarbleSolitaireModelState.
+   * @throws IllegalArgumentException if the model is null.
+   */
+  public AbstractTextView(MarbleSolitaireModelState inModel) throws IllegalArgumentException {
+    if (inModel == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
+    this.inModel = inModel;
+    this.outAppendable = System.out;
+  }
 
 
+  /**
+   * This is the constructor for the AbstractTextView.
+   *
+   * @param inModel of the type MarbleSolitaireModelState.
+   * @param outAppendable of the type Appendable.
+   * @throws IllegalArgumentException if the model or outAppendable is null.
+   */
+  public AbstractTextView(MarbleSolitaireModelState inModel,
+                          Appendable outAppendable) throws IllegalArgumentException {
+    if (inModel == null || outAppendable == null) {
+      throw new IllegalArgumentException("Appendable or model cannot be null");
+    }
+    this.inModel = inModel;
+    this.outAppendable = outAppendable;
+  }
 
   /**
    * This method renders the board to the provided data destination.

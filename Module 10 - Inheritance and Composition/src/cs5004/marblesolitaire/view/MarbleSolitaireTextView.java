@@ -2,17 +2,12 @@ package cs5004.marblesolitaire.view;
 
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 
-import java.io.IOException;
-
 /**
  * This class represents the MarbleSolitaireTextView.
  * It implements the MarbleSolitaireView interface.
  * A part of the view.
  */
-public class MarbleSolitaireTextView implements MarbleSolitaireView {
-  private final MarbleSolitaireModelState model;
-  private final Appendable outAppendable;
-
+public class MarbleSolitaireTextView extends AbstractTextView {
 
   /**
    * This is the constructor for the MarbleSolitaireTextView.
@@ -21,11 +16,8 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
    */
   public MarbleSolitaireTextView(MarbleSolitaireModelState model)
           throws IllegalArgumentException {
-    if (model == null) {
-      throw new IllegalArgumentException("Model cannot be null");
-    }
-    this.model = model;
-    this.outAppendable = System.out;
+
+    super(model);
   }
 
   /**
@@ -37,11 +29,8 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
    */
   public MarbleSolitaireTextView(MarbleSolitaireModelState model,
                                  Appendable outAppendable) throws IllegalArgumentException {
-    if (model == null || outAppendable == null) {
-      throw new IllegalArgumentException("Appendable or model cannot be null");
-    }
-    this.model = model;
-    this.outAppendable = outAppendable;
+
+    super (model, outAppendable);
   }
 
   /**
@@ -52,7 +41,7 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
   @Override
   public String toString() {
     StringBuilder modelString = new StringBuilder();
-    int boardSize = model.getBoardSize();
+    int boardSize = inModel.getBoardSize();
     int sideRectangle = (boardSize / 2) - 1;
     // for each row
     for (int i = 0; i < boardSize; i++) {
@@ -60,36 +49,36 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
       // iterate over the column - for each column
       for (int j = 0; j < boardSize; j++) {
         // 1. if it is a marble, append 0
-        if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Marble) {
+        if (inModel.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Marble) {
           modelString.append("O");
         }
         // 2. if empty, append "_"
-        else if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Empty) {
+        else if (inModel.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Empty) {
           modelString.append("_");
         }
         // 3. for all invalid before square starts, append space
         else if (j <= sideRectangle
-                && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+                && inModel.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
           modelString.append(" ");
         }
         // 4. if invalid, after the square
-        else if (model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+        else if (inModel.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
           continue;
         }
 
         // logic to append space ------------------------------------
         // if invalid but before side rectangle
         if (j < sideRectangle
-                && model.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
+                && inModel.getSlotAt(i, j) == MarbleSolitaireModelState.SlotState.Invalid) {
           modelString.append(" ");
         }
 
         // if it's not in the last position
         if (j != boardSize - 1) {
           // and append a space only if next one is not invalid
-          if (model.getSlotAt(i, j + 1) == MarbleSolitaireModelState.SlotState.Invalid) {
+          if (inModel.getSlotAt(i, j + 1) == MarbleSolitaireModelState.SlotState.Invalid) {
             continue;
-          } else if (model.getSlotAt(i, j) != MarbleSolitaireModelState.SlotState.Invalid) {
+          } else if (inModel.getSlotAt(i, j) != MarbleSolitaireModelState.SlotState.Invalid) {
             modelString.append(" ");
           }
         }
@@ -102,36 +91,4 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
     return modelString.toString();
   }
 
-  /**
-   * This method renders the board to the provided data destination.
-   * The board should be rendered exactly in the format produced by the toString method above.
-   *
-   * @throws IOException if transmission of the board to the provided data destination fails.
-   */
-  @Override
-  public void renderBoard() throws IOException {
-    try {
-      this.outAppendable.append("\n" + this.toString());
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new IOException("Failed to transmit board data.", e);
-    }
-  }
-
-  /**
-   *  this method can be used to show an arbitrary message.
-   *  allowing this view to show messages determined by whoever uses it.
-   *
-   * @param message the message to be transmitted.
-   * @throws IOException if transmission of the board to the provided data destination fails.
-   */
-  @Override
-  public void renderMessage(String message) throws IOException {
-    try {
-      this.outAppendable.append(message);
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new IOException("Failed to transmit message.", e);
-    }
-  }
 }
