@@ -34,7 +34,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("move (3, 1) -> (3, 3)\n"
@@ -56,7 +56,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("move (3, 1) -> (3, 3)\n"
@@ -78,7 +78,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("move (3, 1) -> (3, 3)\n"
@@ -101,7 +101,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("move (3, 1) -> (3, 3)\n"
@@ -123,7 +123,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("", log.toString());
@@ -144,7 +144,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("move (3, 1) -> (3, 3)\n"
@@ -225,7 +225,7 @@ public class TestMarbleSolitaireControllerImpl {
     try {
       controller.playGame();
     } catch (Exception e) {
-      e.printStackTrace();
+      assertEquals("No more inputs found", e.getMessage());
     }
 
     assertEquals("\n    O O O\n" +

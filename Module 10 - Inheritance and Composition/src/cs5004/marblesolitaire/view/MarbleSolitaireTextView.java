@@ -2,6 +2,7 @@ package cs5004.marblesolitaire.view;
 
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 
+
 /**
  * This class represents the MarbleSolitaireTextView.
  * It implements the MarbleSolitaireView interface.
@@ -32,6 +33,7 @@ public class MarbleSolitaireTextView extends AbstractTextView {
 
     super (model, outAppendable);
   }
+
 
   /**
    * Returns the string representation of the game.

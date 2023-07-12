@@ -9,6 +9,7 @@ public class AbstractTextView implements MarbleSolitaireView {
   protected final MarbleSolitaireModelState inModel;
   protected Appendable outAppendable;
 
+
   /**
    * This is the constructor for the AbstractTextView.
    * Defaults appendable to System.out.
