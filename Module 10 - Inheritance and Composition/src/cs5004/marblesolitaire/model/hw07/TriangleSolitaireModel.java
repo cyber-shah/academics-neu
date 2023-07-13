@@ -1,4 +1,4 @@
-package cs5004.marblesolitaire.model.hw05;
+package cs5004.marblesolitaire.model.hw07;
 
 import java.util.HashMap;
 
@@ -76,7 +76,6 @@ public class TriangleSolitaireModel extends AbstractModel {
   }
 
 
-
   /**
    * Tests whether there is a valid move that can be made from the given position.
    *
@@ -92,19 +91,23 @@ public class TriangleSolitaireModel extends AbstractModel {
    */
   @Override
   protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
-    boolean generalChecks = super.generalChecks(fromRow, fromCol, toRow, toCol);
-    boolean checkMoveHorizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
-    boolean checkMoveVertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
-    boolean checkMoveDiagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
+    try {
+      boolean generalChecks = super.generalChecks(fromRow, fromCol, toRow, toCol);
+      boolean checkMoveHorizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);boolean checkMoveVertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
+      boolean checkMoveDiagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
 
-    if (generalChecks && checkMoveHorizontal) {
-      return true;
-    } else if (generalChecks && checkMoveVertical) {
-      return true;
-    } else if (generalChecks && checkMoveDiagonal) {
-      return true;
-    } else {
-      return false;
+      if (generalChecks && checkMoveHorizontal) {
+        return true;
+      } else if (generalChecks && checkMoveVertical) {
+        return true;
+      } else if (generalChecks && checkMoveDiagonal) {
+        return true;
+      } else {
+        throw new IllegalArgumentException("Invalid Move");
+      }
+    }
+    catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Move not possible");
     }
   }
 

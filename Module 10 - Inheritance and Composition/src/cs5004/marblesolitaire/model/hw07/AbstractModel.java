@@ -1,4 +1,6 @@
-package cs5004.marblesolitaire.model.hw05;
+package cs5004.marblesolitaire.model.hw07;
+
+import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,69 +52,15 @@ public class AbstractModel implements MarbleSolitaireModel {
         board.put(midRow + "," + midCol, SlotState.Empty);
         board.put(toRow + "," + toCol, SlotState.Marble);
       }
+      else {
+        throw new IllegalArgumentException("Invalid move");
+      }
     }
     // else print what went wrong
     catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(e.getMessage());
     }
   }
-  // OLD MOVE METHOD
-/*  @Override
-  public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
-    // 1. check if the move is on board ========================
-    if (fromCol < 0 || fromCol > boardSize - 1
-            || fromRow < 0 || fromRow >  boardSize - 1
-            || toCol < 0 || toCol > boardSize - 1
-            || toRow < 0 || toRow > boardSize - 1) {
-      throw new IllegalArgumentException("Out of Bounds");
-    }
-
-    // 2. check if move is 2 spaces away ========================
-//    if (fromCol != toCol && fromRow != toRow) {
-//      throw new IllegalArgumentException("not in a straight line");
-//    }
-    else if (fromCol == toCol && Math.abs(toRow - fromRow) != 2) {
-      throw new IllegalArgumentException("not 2 spaces away");
-    }
-    else if (fromRow == toRow && Math.abs(toCol - fromCol) != 2) {
-      throw new IllegalArgumentException("not 2 spaces away");
-    }
-
-    // 3. if from or to is invalid, throw an exception ========================
-    // get the slot states for both coordinates
-    SlotState fromSlot = board.get(fromRow + "," + fromCol);
-    SlotState toSlot = board.get(toRow + "," + toCol);
-    if (fromSlot == SlotState.Invalid || toSlot == SlotState.Invalid) {
-      throw new IllegalArgumentException("Either from or to is Invalid");
-    }
-
-    // 4. if fromSlot is empty or toSlot is NOT empty ========================
-    else if (fromSlot == SlotState.Empty || toSlot != SlotState.Empty) {
-      throw new IllegalArgumentException("Either from is empty or to is NOT empty"
-              + "Move between (" + fromRow + "," + fromCol
-              + ") and (" + toRow + "," + toCol
-              + ") is not possible");
-    }
-
-    // 5. check if marble in between ========================
-    // get the middle between from and TO
-    int midRow = (fromRow + toRow) / 2;
-    int midCol = (fromCol + toCol) / 2;
-    // get the slot slate there
-    SlotState midSlot = board.get(midRow + "," + midCol);
-    // if there is no marble between from and TO, throw exception
-    if (midSlot != SlotState.Marble) {
-      throw new IllegalArgumentException("No marble in between!");
-    }
-
-    // Perform the move by updating the board positions
-    board.put(fromRow + "," + fromCol, SlotState.Empty);
-    board.put(midRow + "," + midCol, SlotState.Empty);
-    board.put(toRow + "," + toCol, SlotState.Marble);
-  }*/
-
-
-
 
   /**
    * Tests whether there is a valid move that can be made from the given position.
@@ -138,56 +86,18 @@ public class AbstractModel implements MarbleSolitaireModel {
         return true;
       }
       // else check if move vertical
-      else return generalChecks && checkMoveVertical;
+      else if (generalChecks && checkMoveVertical) {
+        return true;
+      }
+      else {
+        throw new IllegalArgumentException("Invalid Move");
+      }
+
     }
     catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(e.getMessage());
     }
   }
-
-
-  // OLD ISVALIDMOVE METHOD
-/*  protected boolean isMovePossible(int row, int col) {
-    // Check if a move to HORIZONTAL left is valid
-    if (col >= 2 && board.get(row + "," + (col - 2)) == SlotState.Empty
-            && board.get(row + "," + (col - 1)) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move to HORIZONTAL right is valid
-    else if (col <= boardSize - 3 && board.get(row + "," + (col + 2)) == SlotState.Empty
-            && board.get(row + "," + (col + 1)) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move VERTICAL upwards is valid
-    else if (row >= 2 && board.get((row - 2) + "," + col) == SlotState.Empty
-            && board.get((row - 1) + "," + col) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move VERTICAL downwards is valid
-    else if (row <= boardSize - 3 && board.get((row + 2) + "," + col) == SlotState.Empty
-            && board.get((row + 1) + "," + col) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move Diagonal upwards left is valid
-    else if (row >= 2 && col >= 2 && board.get((row - 2) + "," + (col - 2)) == SlotState.Empty
-            && board.get((row - 1) + "," + (col - 1)) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move Diagonal upwards right is valid
-    else if (row >= 2 && col <= boardSize - 3 && board.get((row - 2) + "," + (col + 2)) == SlotState.Empty
-            && board.get((row - 1) + "," + (col + 1)) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move Diagonal downwards left is valid
-    else if (row <= boardSize - 3 && col >= 2 && board.get((row + 2) + "," + (col - 2)) == SlotState.Empty
-            && board.get((row + 1) + "," + (col - 1)) == SlotState.Marble) {
-      return true;
-    }
-    // Check if a move Diagonal downwards right is valid
-    else return row <= boardSize - 3 && col <= boardSize - 3 && board.get((row + 2) + "," + (col + 2)) == SlotState.Empty
-              && board.get((row + 1) + "," + (col + 1)) == SlotState.Marble;
-  }
-  */
 
   /**
    * General checks to verify if a move is valid.

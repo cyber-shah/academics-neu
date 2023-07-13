@@ -1,6 +1,6 @@
 import cs5004.marblesolitaire.controller.MarbleSolitaireController;
 import cs5004.marblesolitaire.controller.MarbleSolitaireControllerImpl;
-import cs5004.marblesolitaire.model.hw05.AbstractModel;
+import cs5004.marblesolitaire.model.hw07.AbstractModel;
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;

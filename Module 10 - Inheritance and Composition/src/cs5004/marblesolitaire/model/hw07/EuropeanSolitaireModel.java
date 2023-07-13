@@ -1,4 +1,4 @@
-package cs5004.marblesolitaire.model.hw05;
+package cs5004.marblesolitaire.model.hw07;
 
 import java.util.HashMap;
 

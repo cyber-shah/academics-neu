@@ -1,4 +1,6 @@
 import cs5004.marblesolitaire.model.hw05.*;
+import cs5004.marblesolitaire.model.hw07.AbstractModel;
+import cs5004.marblesolitaire.model.hw07.EuropeanSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 import org.junit.Before;
@@ -59,7 +61,7 @@ public class TestEuropeanSolitaireModel {
       model.move(0, 2, 3, 3);
     }
     catch (IllegalArgumentException e) {
-      assertEquals("not in a straight line", e.getMessage());
+      assertEquals("Invalid Move", e.getMessage());
     }
   }
 
@@ -109,6 +111,8 @@ public class TestEuropeanSolitaireModel {
     // Test specified position is empty
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(7, 7));
   }
+
+
 
   @Test
   public void testMoveValid() {
@@ -163,10 +167,18 @@ public class TestEuropeanSolitaireModel {
     model.move(0, 3, 2, 3);
   }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void testMoveNotSameRowNorSameColumn() {
+    model.move(0, 2, 3, 3);
+  }
+
+
+
   @Test
   public void testIsGameOverFalse() {
     assertFalse(model.isGameOver());
   }
+
 
   @Test
   public void testGetBoardSize() {

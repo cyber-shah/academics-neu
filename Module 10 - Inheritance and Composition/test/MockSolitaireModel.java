@@ -1,4 +1,4 @@
-import cs5004.marblesolitaire.model.hw05.AbstractModel;
+import cs5004.marblesolitaire.model.hw07.AbstractModel;
 
 /**
  * Mock model class for testing the controller.

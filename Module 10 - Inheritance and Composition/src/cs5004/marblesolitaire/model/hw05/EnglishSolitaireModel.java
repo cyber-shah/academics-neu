@@ -1,5 +1,7 @@
 package cs5004.marblesolitaire.model.hw05;
 
+import cs5004.marblesolitaire.model.hw07.AbstractModel;
+
 import java.util.HashMap;
 
 /**

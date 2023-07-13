@@ -1,9 +1,8 @@
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
-import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 import cs5004.marblesolitaire.view.AbstractTextView;
 import cs5004.marblesolitaire.view.TriangleSolitaireTextView;
 import org.junit.Before;
-import cs5004.marblesolitaire.model.hw05.TriangleSolitaireModel;
+import cs5004.marblesolitaire.model.hw07.TriangleSolitaireModel;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

@@ -1,5 +1,5 @@
 import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
-import cs5004.marblesolitaire.model.hw05.AbstractModel;
+import cs5004.marblesolitaire.model.hw07.AbstractModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireView;
 
 import cs5004.marblesolitaire.model.hw05.EnglishSolitaireModel;
@@ -70,7 +70,7 @@ public class TestEnglishSolitaireModel {
       model.move(0, 2, 3, 3);
     }
     catch (IllegalArgumentException e) {
-      assertEquals("not in a straight line", e.getMessage());
+      assertEquals("Invalid Move", e.getMessage());
     }
   }
 
