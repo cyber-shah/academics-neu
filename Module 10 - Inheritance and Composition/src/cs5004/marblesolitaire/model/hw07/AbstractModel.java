@@ -5,6 +5,11 @@ import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents the Abstract Model.
+ * It implements the MarbleSolitaireModel interface.
+ * It is used to store the common fields and methods of the different models.
+ */
 public class AbstractModel implements MarbleSolitaireModel {
   protected Map<String, SlotState> board;
   protected int boardSize;
@@ -43,7 +48,7 @@ public class AbstractModel implements MarbleSolitaireModel {
 
       // if move is valid and general checks are passed, update the board
       if (validMove) {
-        // get the mid point
+        // get the mid-point
         int midRow = (fromRow + toRow) / 2;
         int midCol = (fromCol + toCol) / 2;
 
@@ -75,7 +80,8 @@ public class AbstractModel implements MarbleSolitaireModel {
    *                (starts at 0)
    * @return true if there is a valid move that can be made from the given position.
    */
-  protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+  protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol)
+          throws IllegalArgumentException {
     try {
       boolean generalChecks = generalChecks(fromRow, fromCol, toRow, toCol);
       boolean checkMoveHorizontal = checkMoveHorizontal(fromRow, fromCol, toRow, toCol);

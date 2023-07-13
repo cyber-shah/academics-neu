@@ -19,6 +19,7 @@ public class TestEuropeanSolitaireModel {
     view = new MarbleSolitaireTextView(model);
   }
 
+  // CONSTRUCTOR TESTS ==============================================
   @Test
   public void testDefaultConstructor() {
     // Test board size
@@ -112,7 +113,7 @@ public class TestEuropeanSolitaireModel {
     assertEquals(MarbleSolitaireModelState.SlotState.Empty, model.getSlotAt(7, 7));
   }
 
-
+  // MOVE TESTS ========================================================
 
   @Test
   public void testMoveValid() {
