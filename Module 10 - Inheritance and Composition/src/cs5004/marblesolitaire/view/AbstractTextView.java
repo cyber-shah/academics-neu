@@ -4,6 +4,11 @@ import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 
 import java.io.IOException;
 
+/**
+ * This class represents the AbstractTextView.
+ * It implements the MarbleSolitaireView interface.
+ * A part of the view.
+ */
 public class AbstractTextView implements MarbleSolitaireView {
 
   protected final MarbleSolitaireModelState inModel;

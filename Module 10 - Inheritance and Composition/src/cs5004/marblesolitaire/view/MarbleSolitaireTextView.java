@@ -31,7 +31,7 @@ public class MarbleSolitaireTextView extends AbstractTextView {
   public MarbleSolitaireTextView(MarbleSolitaireModelState model,
                                  Appendable outAppendable) throws IllegalArgumentException {
 
-    super (model, outAppendable);
+    super(model, outAppendable);
   }
 
 

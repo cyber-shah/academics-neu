@@ -26,16 +26,21 @@ public class TriangleSolitaireTextView extends AbstractTextView {
   /**
    * Constructor that takes in two parameters.
    *
-   * @param model of the type MarbleSolitaireModelState.
+   * @param model         of the type MarbleSolitaireModelState.
    * @param outAppendable of the type Appendable.
    * @throws IllegalArgumentException if the model or outAppendable is null.
    */
   public TriangleSolitaireTextView(MarbleSolitaireModelState model,
-                                 Appendable outAppendable) throws IllegalArgumentException {
+                                   Appendable outAppendable) throws IllegalArgumentException {
 
-    super (model, outAppendable);
+    super(model, outAppendable);
   }
 
+  /**
+   * Returns the string representation of the game.
+   *
+   * @return The string representation of the game.
+   */
   public String toString() {
     StringBuilder modelString = new StringBuilder();
     int boardSize = this.inModel.getBoardSize();
@@ -60,19 +65,19 @@ public class TriangleSolitaireTextView extends AbstractTextView {
 
         // 4. Render the white spaces after the marble
         if (j < (boardSize - 1)) {
-          if (this.inModel.getSlotAt(i, j + 1) != MarbleSolitaireModelState.SlotState.Invalid)
+          if (this.inModel.getSlotAt(i, j + 1) != MarbleSolitaireModelState.SlotState.Invalid) {
             modelString.append(" ");
-        } else {
-          break;
+          } else {
+            break;
+          }
         }
-      }
 
-      // 4. Render the new line - except for the last line
-      if (i < (boardSize - 1)) {
-        modelString.append("\n");
+        // 4. Render the new line - except for the last line
+        if (i < (boardSize - 1)) {
+          modelString.append("\n");
+        }
       }
     }
     return modelString.toString();
   }
-
 }

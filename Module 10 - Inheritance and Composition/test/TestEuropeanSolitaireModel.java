@@ -1,4 +1,4 @@
-import cs5004.marblesolitaire.model.hw05.*;
+import cs5004.marblesolitaire.model.hw05.MarbleSolitaireModelState;
 import cs5004.marblesolitaire.model.hw07.AbstractModel;
 import cs5004.marblesolitaire.model.hw07.EuropeanSolitaireModel;
 import cs5004.marblesolitaire.view.MarbleSolitaireTextView;
@@ -9,6 +9,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Test class for EuropeanSolitaireModel.
+ * Tests all constructors and methods.
+ */
 public class TestEuropeanSolitaireModel {
   private AbstractModel model;
   private MarbleSolitaireView view;
@@ -160,8 +164,6 @@ public class TestEuropeanSolitaireModel {
 
   @Test (expected = IllegalArgumentException.class)
   public void testMoveInvalidNoMarbleInBetween() {
-    MarbleSolitaireModel model1 = new EuropeanSolitaireModel(2, 4);
-    MarbleSolitaireView view1 = new MarbleSolitaireTextView(model1);
 
     model.move(1, 3, 3, 3);
     // invalid move

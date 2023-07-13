@@ -2,6 +2,11 @@ package cs5004.marblesolitaire.model.hw07;
 
 import java.util.HashMap;
 
+/**
+ * This class represents the TriangleSolitaireModel.
+ * It extends the AbstractModel class.
+ * It is used to store the fields and methods specific to the Triangle Solitaire game.
+ */
 public class TriangleSolitaireModel extends AbstractModel {
 
   /**
@@ -58,7 +63,6 @@ public class TriangleSolitaireModel extends AbstractModel {
       for (int j = 0; j < boardSize; j++) {
         if (j > i) {
           board.put(i + "," + j, SlotState.Invalid);
-          ;
         } else {
           board.put(i + "," + j, SlotState.Marble);
         }
@@ -90,10 +94,12 @@ public class TriangleSolitaireModel extends AbstractModel {
    * @return true if there is a valid move that can be made from the given position.
    */
   @Override
-  protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+  protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol)
+          throws IllegalArgumentException {
     try {
       boolean generalChecks = super.generalChecks(fromRow, fromCol, toRow, toCol);
-      boolean checkMoveHorizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);boolean checkMoveVertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
+      boolean checkMoveHorizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
+      boolean checkMoveVertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
       boolean checkMoveDiagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
 
       if (generalChecks && checkMoveHorizontal) {

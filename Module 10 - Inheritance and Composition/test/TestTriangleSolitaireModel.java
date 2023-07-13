@@ -8,7 +8,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Test class for TriangleSolitaireModel.
+ * Tests all constructors and methods.
+ */
 public class TestTriangleSolitaireModel {
   private MarbleSolitaireModel model;
   private AbstractTextView view;
@@ -27,7 +30,6 @@ public class TestTriangleSolitaireModel {
     assertEquals(MarbleSolitaireModelState.SlotState.Marble, model.getSlotAt(2,0));
   }
 
-/*
   @Test
   public void testConstructorArmThickness() {
     model = new TriangleSolitaireModel(6);
@@ -55,7 +57,7 @@ public class TestTriangleSolitaireModel {
   public void testConstructorRowColumnInvalid() {
     model = new TriangleSolitaireModel(5, 0, 5);
   }
-*/
+
 
 
   // MOVE TESTS ==================================================
