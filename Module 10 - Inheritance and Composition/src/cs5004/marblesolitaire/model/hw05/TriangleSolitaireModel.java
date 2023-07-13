@@ -91,7 +91,49 @@ public class TriangleSolitaireModel extends AbstractModel {
    */
   @Override
   public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+    boolean horizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
+    boolean vertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
+    boolean diagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
 
+    if (horizontal || vertical || diagonal) {
+      super.move(fromRow, fromCol, toRow, toCol);
+    }
+    else {
+      throw new IllegalArgumentException("Invalid move");
+    }
+
+    // basically
+    // super () everything  - horizontal and vertical
+    // just add diagonal now
+
+    // similarly for game over
+    // everything plus diagonal checks
+
+
+
+
+
+
+
+
+
+
+
+
+    // check if move is diagonal
+    else if (Math.abs(fromRow - toRow) != 2 || Math.abs(fromCol - toCol) != 2) {
+      throw new IllegalArgumentException("Invalid move");
+    }
+    // check if move is over a marble
+    else if (board.get((fromRow + toRow) / 2 + "," + (fromCol + toCol) / 2) != SlotState.Marble) {
+      throw new IllegalArgumentException("Invalid move");
+    }
+    // move marble
+    else {
+      board.put(fromRow + "," + fromCol, SlotState.Empty);
+      board.put(toRow + "," + toCol, SlotState.Marble);
+      board.put((fromRow + toRow) / 2 + "," + (fromCol + toCol) / 2, SlotState.Empty);
+    }
   }
 
   /**

@@ -27,7 +27,6 @@ public class TestTriangleSolitaireModel {
     }
   }
 
-
   @Test
   public void testToString() {
     view = new TriangleSolitaireTextView(model);
@@ -37,6 +36,12 @@ public class TestTriangleSolitaireModel {
             "  O O O\n" +
             " O O O O\n" +
             "O O O O O", view.toString());
+
+    model.move(2, 0, 0, 0);
+
+
   }
+
+
 
 }

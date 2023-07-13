@@ -95,15 +95,14 @@ public class EuropeanSolitaireModel extends AbstractModel {
     board.replace(row + "," + col, SlotState.Empty);
   }
 
-
 /*
-  *//**
+
    * Tests if the given position is invalid.
    *
    * @param row row to check against.
    * @param col column to check against.
    * @return true if the given position is invalid, false otherwise.
-   *//*
+   *
   private boolean isInvalidPosition(int row, int col) {
     int sideRectangle = (boardSize / 3);
     // check if row and col are valid

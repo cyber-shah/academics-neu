@@ -121,26 +121,38 @@ public class AbstractModel implements MarbleSolitaireModel {
     if (board.get(row + "," + col) != SlotState.Marble) {
       return false;
     }
-    // Check if a move to the left is valid
-    if (col >= 2 && board.get(row + "," + (col - 2)) == SlotState.Empty
+    // Check if a move to HORIZONTAL left is valid
+    else if (col >= 2 && board.get(row + "," + (col - 2)) == SlotState.Empty
             && board.get(row + "," + (col - 1)) == SlotState.Marble) {
       return true;
     }
-    // Check if a move to the right is valid
-    if (col <= boardSize - 3 && board.get(row + "," + (col + 2)) == SlotState.Empty
+    // Check if a move to HORIZONTAL right is valid
+    else if (col <= boardSize - 3 && board.get(row + "," + (col + 2)) == SlotState.Empty
             && board.get(row + "," + (col + 1)) == SlotState.Marble) {
       return true;
     }
-    // Check if a move upwards is valid
-    if (row >= 2 && board.get((row - 2) + "," + col) == SlotState.Empty
+    // Check if a move VERTICAL upwards is valid
+    else if (row >= 2 && board.get((row - 2) + "," + col) == SlotState.Empty
             && board.get((row - 1) + "," + col) == SlotState.Marble) {
       return true;
     }
-    // Check if a move downwards is valid
-    return row <= boardSize - 3 && board.get((row + 2) + "," + col) == SlotState.Empty
-            && board.get((row + 1) + "," + col) == SlotState.Marble;// No valid moves found
+    // Check if a move VERTICAL downwards is valid
+    else if (row <= boardSize - 3 && board.get((row + 2) + "," + col) == SlotState.Empty
+            && board.get((row + 1) + "," + col) == SlotState.Marble) {
+      return true;
+    }
+    // No valid moves found
+    return false;
   }
 
+
+
+  private boolean checkMoveHorizontal(int fromRow, int fromCol, int toRow, int toCol) {
+    if (fromCol == toCol && Math.abs(toRow - fromRow) == 2) {
+      return true;
+    }
+    return false;
+  }
 
   /**
    * Return the size of this board. The size is roughly the longest dimension of a board
