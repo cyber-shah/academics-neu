@@ -34,6 +34,7 @@ public class AbstractModel implements MarbleSolitaireModel {
    */
   @Override
   public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+    // 1. check if the move is on board ========================
     if (fromCol < 0 || fromCol > boardSize - 1
             || fromRow < 0 || fromRow >  boardSize - 1
             || toCol < 0 || toCol > boardSize - 1
@@ -41,9 +42,10 @@ public class AbstractModel implements MarbleSolitaireModel {
       throw new IllegalArgumentException("Out of Bounds");
     }
 
-    if (fromCol != toCol && fromRow != toRow) {
-      throw new IllegalArgumentException("not in a straight line");
-    }
+    // 2. check if move is 2 spaces away ========================
+//    if (fromCol != toCol && fromRow != toRow) {
+//      throw new IllegalArgumentException("not in a straight line");
+//    }
     else if (fromCol == toCol && Math.abs(toRow - fromRow) != 2) {
       throw new IllegalArgumentException("not 2 spaces away");
     }
@@ -51,30 +53,28 @@ public class AbstractModel implements MarbleSolitaireModel {
       throw new IllegalArgumentException("not 2 spaces away");
     }
 
+    // 3. if from or to is invalid, throw an exception ========================
     // get the slot states for both coordinates
     SlotState fromSlot = board.get(fromRow + "," + fromCol);
     SlotState toSlot = board.get(toRow + "," + toCol);
-
-    // if either of them is invalid, throw an exception
     if (fromSlot == SlotState.Invalid || toSlot == SlotState.Invalid) {
       throw new IllegalArgumentException("Either from or to is Invalid");
     }
 
-    // if fromSlot is empty or toSlot is NOT empty,
-    if (fromSlot == SlotState.Empty || toSlot != SlotState.Empty) {
+    // 4. if fromSlot is empty or toSlot is NOT empty ========================
+    else if (fromSlot == SlotState.Empty || toSlot != SlotState.Empty) {
       throw new IllegalArgumentException("Either from is empty or to is NOT empty"
               + "Move between (" + fromRow + "," + fromCol
               + ") and (" + toRow + "," + toCol
               + ") is not possible");
     }
 
+    // 5. check if marble in between ========================
     // get the middle between from and TO
     int midRow = (fromRow + toRow) / 2;
     int midCol = (fromCol + toCol) / 2;
-
     // get the slot slate there
     SlotState midSlot = board.get(midRow + "," + midCol);
-
     // if there is no marble between from and TO, throw exception
     if (midSlot != SlotState.Marble) {
       throw new IllegalArgumentException("No marble in between!");
@@ -116,7 +116,9 @@ public class AbstractModel implements MarbleSolitaireModel {
    * @param col column of the given marble.
    * @return true if there is a valid move that can be made from the given position.
    */
-  private boolean isValidMove(int row, int col) {
+
+  // this is just used in game over
+  protected boolean isValidMove(int row, int col) {
     // Check if the current position contains a marble
     if (board.get(row + "," + col) != SlotState.Marble) {
       return false;
@@ -147,12 +149,29 @@ public class AbstractModel implements MarbleSolitaireModel {
 
 
 
-  private boolean checkMoveHorizontal(int fromRow, int fromCol, int toRow, int toCol) {
-    if (fromCol == toCol && Math.abs(toRow - fromRow) == 2) {
-      return true;
-    }
-    return false;
+
+
+  protected boolean checkMoveHorizontal(int fromRow, int fromCol, int toRow, int toCol) {
+    return fromCol == toCol && Math.abs(toRow - fromRow) == 2;
   }
+
+  protected boolean checkMoveVertical(int fromRow, int fromCol, int toRow, int toCol) {
+    return fromRow == toRow && Math.abs(toCol - fromCol) == 2;
+  }
+
+  protected boolean checkMoveDiagonal(int fromRow, int fromCol, int toRow, int toCol) {
+    return Math.abs(toRow - fromRow) == 2 && Math.abs(toCol - fromCol) == 2;
+  }
+
+
+
+
+
+
+
+
+
+
 
   /**
    * Return the size of this board. The size is roughly the longest dimension of a board

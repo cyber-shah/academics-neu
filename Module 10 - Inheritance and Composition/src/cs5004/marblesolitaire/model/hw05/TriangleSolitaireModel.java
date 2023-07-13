@@ -9,7 +9,7 @@ public class TriangleSolitaireModel extends AbstractModel {
    * Creates a 5 sized board with the empty slot at 0,0.
    */
   public TriangleSolitaireModel() {
-    this(5,0, 0);
+    this(5, 0, 0);
   }
 
   /**
@@ -20,7 +20,7 @@ public class TriangleSolitaireModel extends AbstractModel {
    * @throws IllegalArgumentException if the given boardSize is invalid.
    */
   public TriangleSolitaireModel(int boardSize) throws IllegalArgumentException {
-    this (boardSize, 0, 0);
+    this(boardSize, 0, 0);
   }
 
   /**
@@ -40,8 +40,8 @@ public class TriangleSolitaireModel extends AbstractModel {
    * Creates a board of the given size with the empty slot at the given position.
    *
    * @param boardSize size of the board.
-   * @param row row for empty slot.
-   * @param col column for empty slot.
+   * @param row       row for empty slot.
+   * @param col       column for empty slot.
    * @throws IllegalArgumentException if the given boardSize or position is invalid.
    */
   public TriangleSolitaireModel(int boardSize, int row, int col) throws IllegalArgumentException {
@@ -57,7 +57,8 @@ public class TriangleSolitaireModel extends AbstractModel {
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
         if (j > i) {
-          board.put(i + "," + j, SlotState.Invalid);;
+          board.put(i + "," + j, SlotState.Invalid);
+          ;
         } else {
           board.put(i + "," + j, SlotState.Marble);
         }
@@ -67,16 +68,18 @@ public class TriangleSolitaireModel extends AbstractModel {
     // check if position is valid
     if (row < 0 || row >= boardSize || col < 0 || col >= boardSize) {
       throw new IllegalArgumentException("Invalid empty cell position (" + row + "," + col + ")");
-    }
-    else if (board.get(row + "," + col) == SlotState.Invalid) {
+    } else if (board.get(row + "," + col) == SlotState.Invalid) {
       throw new IllegalArgumentException("Invalid empty cell position (" + row + "," + col + ")");
     }
     // set empty slot
     board.put(row + "," + col, SlotState.Empty);
   }
+}
 
+/*
 
-  /**
+  */
+/**
    * Moves a marble from a given position to another given position.
    *
    * @param fromRow the row number of the position to be moved from
@@ -88,26 +91,39 @@ public class TriangleSolitaireModel extends AbstractModel {
    * @param toCol   the column number of the position to be moved to
    *                (starts at 0)
    * @throws IllegalArgumentException if the move is not possible.
-   */
+   *//*
+
   @Override
   public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+    // so these are generic checks that apply to all models ===========================
+    // checks if move is on the board
+    // checks what is there at FROM and TO positions
+    // checks if move is out of bounds or
+    // checks if there is a marble in between
+
+    boolean generalChecks = super.generalChecks(fromRow, fromCol, toRow, toCol);
+
     boolean horizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
     boolean vertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
     boolean diagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
 
+
+
+
+
+    // if any of the checks are true, move is valid
     if (horizontal || vertical || diagonal) {
+
+
+
       super.move(fromRow, fromCol, toRow, toCol);
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Invalid move");
     }
+  }
+}
 
-    // basically
-    // super () everything  - horizontal and vertical
-    // just add diagonal now
-
-    // similarly for game over
-    // everything plus diagonal checks
+*/
 
 
 
@@ -119,7 +135,7 @@ public class TriangleSolitaireModel extends AbstractModel {
 
 
 
-
+/*
     // check if move is diagonal
     else if (Math.abs(fromRow - toRow) != 2 || Math.abs(fromCol - toCol) != 2) {
       throw new IllegalArgumentException("Invalid move");
@@ -136,35 +152,5 @@ public class TriangleSolitaireModel extends AbstractModel {
     }
   }
 
-  /**
-   * Determines if the game is over or not.
-   *
-   * @return true if the game is over, false otherwise.
-   */
-  @Override
-  public boolean isGameOver() {
-    // 1. for each position on the board
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j <= i; j++) {
-        // 2. if there is a marble and a move is possible, game is not over
-        if (board.get(i + "," + j) == SlotState.Marble && isMovePossible(i, j)) {
-          return false;
-        }
-      }
-    }
-    // 3. if no marbles or no possible moves, game is over
-    return true;
-  }
-
-  /**
-   * Determines if a move is possible from a given position.
-   *
-   * @param fromRow the row number of the position to be moved from.
-   * @param fromCol the column number of the position to be moved from.
-   * @return true if the move is possible, false otherwise.
-   */
-  private boolean isMovePossible(int fromRow, int fromCol) {
-    return false;
-  }
-
 }
+*/
