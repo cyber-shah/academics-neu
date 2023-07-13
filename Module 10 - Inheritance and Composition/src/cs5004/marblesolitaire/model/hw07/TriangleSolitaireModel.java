@@ -3,9 +3,9 @@ package cs5004.marblesolitaire.model.hw07;
 import java.util.HashMap;
 
 /**
- * This class represents the TriangleSolitaireModel.
- * It extends the AbstractModel class.
- * It is used to store the fields and methods specific to the Triangle Solitaire game.
+ * This class represents the Triangle Solitaire Model.
+ * It implements the MarbleSolitaireModel interface.
+ * Extends AbstractModel.
  */
 public class TriangleSolitaireModel extends AbstractModel {
 

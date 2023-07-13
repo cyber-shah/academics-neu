@@ -7,7 +7,6 @@ import java.io.IOException;
 /**
  * This class represents the AbstractTextView.
  * It implements the MarbleSolitaireView interface.
- * A part of the view.
  */
 public class AbstractTextView implements MarbleSolitaireView {
 

@@ -6,11 +6,12 @@ import org.junit.Before;
 import cs5004.marblesolitaire.model.hw07.TriangleSolitaireModel;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test class for TriangleSolitaireModel.
- * Tests all constructors and methods.
  */
 public class TestTriangleSolitaireModel {
   private MarbleSolitaireModel model;
@@ -57,7 +58,6 @@ public class TestTriangleSolitaireModel {
   public void testConstructorRowColumnInvalid() {
     model = new TriangleSolitaireModel(5, 0, 5);
   }
-
 
 
   // MOVE TESTS ==================================================

@@ -76,7 +76,7 @@ public class EuropeanSolitaireModel extends AbstractModel {
 
         // bottom rectangle
         else if (i > (sideRectangle * 2)) {
-          if (j < i - (sideRectangle * 2) || j > (boardSize - (i - (sideRectangle * 2)) -1)) {
+          if (j < i - (sideRectangle * 2) || j > (boardSize - (i - (sideRectangle * 2)) - 1)) {
             board.put(i + "," + j, SlotState.Invalid);
           } else {
             board.put(i + "," + j, SlotState.Marble);

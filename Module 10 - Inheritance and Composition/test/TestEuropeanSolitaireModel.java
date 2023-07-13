@@ -10,8 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Test class for EuropeanSolitaireModel.
- * Tests all constructors and methods.
+ * This class tests the EuropeanSolitaireModel class.
  */
 public class TestEuropeanSolitaireModel {
   private AbstractModel model;
@@ -164,7 +163,6 @@ public class TestEuropeanSolitaireModel {
 
   @Test (expected = IllegalArgumentException.class)
   public void testMoveInvalidNoMarbleInBetween() {
-
     model.move(1, 3, 3, 3);
     // invalid move
     model.move(0, 3, 2, 3);
