@@ -34,6 +34,31 @@ public class AbstractModel implements MarbleSolitaireModel {
    */
   @Override
   public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+
+    try {
+      // check if move is valid
+      boolean validMove = isValidMove(fromRow, fromCol, toRow, toCol);
+
+      // if move is valid and general checks are passed, update the board
+      if (validMove) {
+        // get the mid point
+        int midRow = (fromRow + toRow) / 2;
+        int midCol = (fromCol + toCol) / 2;
+
+        // Perform the move by updating the board positions
+        board.put(fromRow + "," + fromCol, SlotState.Empty);
+        board.put(midRow + "," + midCol, SlotState.Empty);
+        board.put(toRow + "," + toCol, SlotState.Marble);
+      }
+    }
+    // else print what went wrong
+    catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+  }
+  // OLD MOVE METHOD
+/*  @Override
+  public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
     // 1. check if the move is on board ========================
     if (fromCol < 0 || fromCol > boardSize - 1
             || fromRow < 0 || fromRow >  boardSize - 1
@@ -84,47 +109,47 @@ public class AbstractModel implements MarbleSolitaireModel {
     board.put(fromRow + "," + fromCol, SlotState.Empty);
     board.put(midRow + "," + midCol, SlotState.Empty);
     board.put(toRow + "," + toCol, SlotState.Marble);
-  }
+  }*/
 
-  /**
-   * Determine and return if the game is over or not. A game is over if no
-   * more moves can be made.
-   *
-   * @return true if the game is over, false otherwise
-   */
-  @Override
-  public boolean isGameOver() {
-    // Iterate over each position on the board
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
-        // Check if the current position contains a marble
-        if (board.get(i + "," + j) == SlotState.Marble) {
-          // Check if any valid moves can be made from this position
-          if (isValidMove(i, j)) {
-            return false; // Found a valid move, game is not over
-          }
-        }
-      }
-    }
-    return true; // No valid moves found, game is over
-  }
+
+
 
   /**
    * Tests whether there is a valid move that can be made from the given position.
    *
-   * @param row row of the given marble.
-   * @param col column of the given marble.
+   * @param fromRow the row number of the position to be moved from
+   *                (starts at 0)
+   * @param fromCol the column number of the position to be moved from
+   *                (starts at 0)
+   * @param toRow   the row number of the position to be moved to
+   *                (starts at 0)
+   * @param toCol   the column number of the position to be moved to
+   *                (starts at 0)
    * @return true if there is a valid move that can be made from the given position.
    */
+  protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
+    try {
+      boolean generalChecks = generalChecks(fromRow, fromCol, toRow, toCol);
+      boolean checkMoveHorizontal = checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
+      boolean checkMoveVertical = checkMoveVertical(fromRow, fromCol, toRow, toCol);
 
-  // this is just used in game over
-  protected boolean isValidMove(int row, int col) {
-    // Check if the current position contains a marble
-    if (board.get(row + "," + col) != SlotState.Marble) {
-      return false;
+      // check if move horizontal
+      if (generalChecks && checkMoveHorizontal) {
+        return true;
+      }
+      // else check if move vertical
+      else return generalChecks && checkMoveVertical;
     }
+    catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+  }
+
+
+  // OLD ISVALIDMOVE METHOD
+/*  protected boolean isMovePossible(int row, int col) {
     // Check if a move to HORIZONTAL left is valid
-    else if (col >= 2 && board.get(row + "," + (col - 2)) == SlotState.Empty
+    if (col >= 2 && board.get(row + "," + (col - 2)) == SlotState.Empty
             && board.get(row + "," + (col - 1)) == SlotState.Marble) {
       return true;
     }
@@ -143,34 +168,153 @@ public class AbstractModel implements MarbleSolitaireModel {
             && board.get((row + 1) + "," + col) == SlotState.Marble) {
       return true;
     }
-    // No valid moves found
-    return false;
+    // Check if a move Diagonal upwards left is valid
+    else if (row >= 2 && col >= 2 && board.get((row - 2) + "," + (col - 2)) == SlotState.Empty
+            && board.get((row - 1) + "," + (col - 1)) == SlotState.Marble) {
+      return true;
+    }
+    // Check if a move Diagonal upwards right is valid
+    else if (row >= 2 && col <= boardSize - 3 && board.get((row - 2) + "," + (col + 2)) == SlotState.Empty
+            && board.get((row - 1) + "," + (col + 1)) == SlotState.Marble) {
+      return true;
+    }
+    // Check if a move Diagonal downwards left is valid
+    else if (row <= boardSize - 3 && col >= 2 && board.get((row + 2) + "," + (col - 2)) == SlotState.Empty
+            && board.get((row + 1) + "," + (col - 1)) == SlotState.Marble) {
+      return true;
+    }
+    // Check if a move Diagonal downwards right is valid
+    else return row <= boardSize - 3 && col <= boardSize - 3 && board.get((row + 2) + "," + (col + 2)) == SlotState.Empty
+              && board.get((row + 1) + "," + (col + 1)) == SlotState.Marble;
+  }
+  */
+
+  /**
+   * General checks to verify if a move is valid.
+   *
+   * @param fromRow the row number of the position to be moved from.
+   * @param fromCol the column number of the position to be moved from.
+   * @param toRow  the row number of the position to be moved to.
+   * @param toCol the column number of the position to be moved to.
+   * @return true if the horizontal move is valid.
+   */
+  protected boolean generalChecks(int fromRow, int fromCol, int toRow, int toCol) {
+    SlotState fromSlot = board.get(fromRow + "," + fromCol);
+    SlotState toSlot = board.get(toRow + "," + toCol);
+    int midRow = (fromRow + toRow) / 2;
+    int midCol = (fromCol + toCol) / 2;
+    SlotState midSlot = board.get(midRow + "," + midCol);
+
+
+    // 1. check if the move is on board
+    if (fromCol < 0 || fromCol > boardSize - 1
+            || fromRow < 0 || fromRow >  boardSize - 1
+            || toCol < 0 || toCol > boardSize - 1
+            || toRow < 0 || toRow > boardSize - 1) {
+      throw new IllegalArgumentException("Out of Bounds");
+    }
+
+    // 2. if from or to is invalid, throw an exception
+    else if (fromSlot == SlotState.Invalid || toSlot == SlotState.Invalid) {
+      throw new IllegalArgumentException("Either from or to is Invalid");
+    }
+
+    // 3. Check if the current position contains a marble and the destination is empty
+    else if (fromSlot != SlotState.Marble || toSlot != SlotState.Empty) {
+      throw new IllegalArgumentException("From is not a marble and ");
+    }
+
+    // 4. check if marble in between
+    else if (midSlot != SlotState.Marble) {
+      throw new IllegalArgumentException("No marble in between!");
+    }
+
+    return true;
   }
 
-
-
-
-
+  /**
+   * Checks to verify if a move is valid horizontally.
+   *
+   * @param fromRow the row number of the position to be moved from.
+   * @param fromCol the column number of the position to be moved from.
+   * @param toRow the row number of the position to be moved to.
+   * @param toCol the column number of the position to be moved to.
+   * @return true if the horizontal move is valid.
+   */
   protected boolean checkMoveHorizontal(int fromRow, int fromCol, int toRow, int toCol) {
     return fromCol == toCol && Math.abs(toRow - fromRow) == 2;
   }
 
+  /**
+   * Checks to verify if a move is valid vertically.
+   *
+   * @param fromRow the row number of the position to be moved from.
+   * @param fromCol the column number of the position to be moved from.
+   * @param toRow the row number of the position to be moved to.
+   * @param toCol the column number of the position to be moved to.
+   * @return true if the vertical move is valid.
+   */
   protected boolean checkMoveVertical(int fromRow, int fromCol, int toRow, int toCol) {
     return fromRow == toRow && Math.abs(toCol - fromCol) == 2;
   }
 
+  /**
+   * Checks to verify if a move is valid diagonally.
+   *
+   * @param fromRow the row number of the position to be moved from.
+   * @param fromCol the column number of the position to be moved from.
+   * @param toRow the row number of the position to be moved to.
+   * @param toCol the column number of the position to be moved to.
+   * @return true if the diagonal move is valid.
+   */
   protected boolean checkMoveDiagonal(int fromRow, int fromCol, int toRow, int toCol) {
     return Math.abs(toRow - fromRow) == 2 && Math.abs(toCol - fromCol) == 2;
   }
 
+  /**
+   * Determine and return if the game is over or not. A game is over if no
+   * more moves can be made.
+   *
+   * @return true if the game is over, false otherwise
+   */
+  @Override
+  public boolean isGameOver() {
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        if (board.get(i + "," + j) == SlotState.Marble) {
+          if (hasValidMove(i, j)) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
 
+  /**
+   * Determines if a given position has a valid move.
+   * ***** It calls isValidMove() for each direction. *****
+   *
+   * @param i the row of the position.
+   * @param j the column of the position.
+   * @return true if the position has a valid move, false otherwise.
+   */
+  private boolean hasValidMove(int i, int j) {
+    int[][] directions = {{0, -2}, {0, 2}, {-2, 0}, {2, 0}, {-2, -2}, {-2, 2}, {2, -2}, {2, 2}};
 
+    // for each direction in directions
+    for (int[] direction : directions) {
+      try {
+        if (isValidMove(i, j, i + direction[0], j + direction[1])) {
+          return true;
+        }
+      } catch (IllegalArgumentException e) {
+        // Do nothing
+      }
+    }
 
-
-
-
-
-
+    return false;
+  }
 
 
   /**

@@ -74,13 +74,11 @@ public class TriangleSolitaireModel extends AbstractModel {
     // set empty slot
     board.put(row + "," + col, SlotState.Empty);
   }
-}
 
-/*
 
-  */
-/**
-   * Moves a marble from a given position to another given position.
+
+  /**
+   * Tests whether there is a valid move that can be made from the given position.
    *
    * @param fromRow the row number of the position to be moved from
    *                (starts at 0)
@@ -90,67 +88,26 @@ public class TriangleSolitaireModel extends AbstractModel {
    *                (starts at 0)
    * @param toCol   the column number of the position to be moved to
    *                (starts at 0)
-   * @throws IllegalArgumentException if the move is not possible.
-   *//*
-
+   * @return true if there is a valid move that can be made from the given position.
+   */
   @Override
-  public void move(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
-    // so these are generic checks that apply to all models ===========================
-    // checks if move is on the board
-    // checks what is there at FROM and TO positions
-    // checks if move is out of bounds or
-    // checks if there is a marble in between
-
+  protected boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) throws IllegalArgumentException {
     boolean generalChecks = super.generalChecks(fromRow, fromCol, toRow, toCol);
+    boolean checkMoveHorizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
+    boolean checkMoveVertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
+    boolean checkMoveDiagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
 
-    boolean horizontal = super.checkMoveHorizontal(fromRow, fromCol, toRow, toCol);
-    boolean vertical = super.checkMoveVertical(fromRow, fromCol, toRow, toCol);
-    boolean diagonal = super.checkMoveDiagonal(fromRow, fromCol, toRow, toCol);
-
-
-
-
-
-    // if any of the checks are true, move is valid
-    if (horizontal || vertical || diagonal) {
-
-
-
-      super.move(fromRow, fromCol, toRow, toCol);
+    if (generalChecks && checkMoveHorizontal) {
+      return true;
+    } else if (generalChecks && checkMoveVertical) {
+      return true;
+    } else if (generalChecks && checkMoveDiagonal) {
+      return true;
     } else {
-      throw new IllegalArgumentException("Invalid move");
-    }
-  }
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-/*
-    // check if move is diagonal
-    else if (Math.abs(fromRow - toRow) != 2 || Math.abs(fromCol - toCol) != 2) {
-      throw new IllegalArgumentException("Invalid move");
-    }
-    // check if move is over a marble
-    else if (board.get((fromRow + toRow) / 2 + "," + (fromCol + toCol) / 2) != SlotState.Marble) {
-      throw new IllegalArgumentException("Invalid move");
-    }
-    // move marble
-    else {
-      board.put(fromRow + "," + fromCol, SlotState.Empty);
-      board.put(toRow + "," + toCol, SlotState.Marble);
-      board.put((fromRow + toRow) / 2 + "," + (fromCol + toCol) / 2, SlotState.Empty);
+      return false;
     }
   }
 
+
 }
-*/
+
