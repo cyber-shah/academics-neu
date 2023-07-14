@@ -44,6 +44,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
   @Override
   public void playGame() throws IllegalStateException {
 
+    this.transmitBoard();
+
     // create array and scanner
     String[] moves = new String[4];
     Scanner scanner = new Scanner(this.readableInput);
@@ -51,7 +53,6 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     while (!model.isGameOver() && scanner.hasNext()) {
       // 1. transmit the current state of game to the view
       // 2. transmit the score to the view
-      this.transmitBoard();
 
       // run the loop 4 times until the moves array is full
       for (int i = 0; i < moves.length; i++) {
@@ -123,7 +124,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         }
         continue;
       }
-
+      this.transmitBoard();
       // 9. move on to the next and continue to the next iteration
       moves = new String[4];
     }
