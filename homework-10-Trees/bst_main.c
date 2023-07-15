@@ -39,8 +39,44 @@ int *get_random_array(int size) {
     return arr;
 }
 
+int (*unitTests)[] = {
+    test_bst_exists,
+    test_bst_size,
+    test_bst_add,
+    test_bst_sum,
+    test_bst_min,
+    test_bst_max,
+    test_bst_to_array,
+    test_bst_to_array_sorted,
+    test_bst_remove,
+    test_bst_remove_all,
+    NULL
+};
+
+
+
 int main(int argc, char const *argv[])
 {
+    // TESTING SUITE ----------------------------------
+    unsigned int testsPassed = 0;
+    // List of Unit Tests to test your data structure
+    int counter = 0;
+    while (unitTests[counter] != NULL) 
+    {
+        printf("\n\n========unitTest %d========\n", counter);
+        if (1 == unitTests[counter](1)) 
+        {
+            printf("passed test\n");
+            testsPassed++;
+        }
+        else 
+        {
+            printf("failed test, missing functionality, or incorrect test\n");
+        }
+        counter++;
+    }
+
+    printf("%d of %d tests passed\n", testsPassed, counter);
 
     return 0;
 }

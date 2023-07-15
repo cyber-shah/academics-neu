@@ -6,8 +6,6 @@
 
 #include "my_bst.h"
 
-
-
 /**
  * Checks to see if the tree is empty
  * by looking at the tree size.
@@ -55,24 +53,27 @@ bool bst_exists(BST *tree, int value)
     return false;
 }
 
-
 bool bst_exists_helper(Node *current, int value) {
-    if (current->data == value) {
+    if (current == NULL) {
+        return false;
+    }
+    else if (current->data == value) {
         return true;
     }
     else if (value < current->data) {
-        bsl_exists_helper(current->left, value);
+        return bst_exists_helper(current->left, value);
     }
     else if (value > current->data) {
-        bst_exists_helper(current->right, value);
+        return bst_exists_helper(current->right, value);
     }
+    return false;
 }
 
 /**
  * Returns the size of the tree.
 */
 unsigned int bst_size(BST *tree) {
-    return 0;
+    return tree->size;
 }
 
 /**
@@ -82,7 +83,49 @@ unsigned int bst_size(BST *tree) {
  * returns -1 if the value could not be added due to errors. (malloc failed)
 */
 int bst_add(BST *tree, int value) {
-    return 0;
+    Node *new_node = (Node *)malloc(sizeof(Node));
+
+    // 0. check if tree is empty
+    if (tree->root == NULL) {
+        tree->root = new_node;
+    }
+    else {
+        // 1. start traversing the tree
+        Node *current = tree->root;
+        if (current->data == value) {
+            return 0;
+        }
+        // 2. find a location
+        else if (value < current->data) {
+            return bst_add_helper(current->left, value);
+        }
+        // 2. find a location
+        else if (value > current->data) {
+            return bst_add_helper(current->right, value);
+        }
+    }
+}
+
+int bst_add_helper(Node *current, int value) {
+    // base case - next node is null
+    // 3. place it there
+    if (current == NULL) {
+        Node *new_node = (Node *)malloc(sizeof(Node));
+        new_node->data = value;
+        current = new_node;
+        // return 1 if successful
+        return 1;
+    }
+    // if a duplicate data is found return 0
+    else if (current->data == value) {
+        return 0;
+    }
+    else if (value < current->data) {
+        return bst_add_helper(current->left, value);
+    }
+    else if (value > current->data) {
+        return bst_add_helper(current->right, value);
+    }
 }
 
 /**
@@ -91,7 +134,18 @@ int bst_add(BST *tree, int value) {
  * can help you free the memory
 */
 void bst_free(BST *tree) {
+    bst_free_helper(tree->root);
+}
 
+void bst_free_helper(Node *current) {
+    if (current == NULL) {
+        return;
+    }
+    // post order traversal
+    // to ensure that the children are freed before the parent
+    bst_free_helper(current->left);
+    bst_free_helper(current->right);
+    free(current);
 }
 
 /**
@@ -100,6 +154,8 @@ void bst_free(BST *tree) {
  * The root node will still be NULL until the first bst_add is called
 */
 BST *create_bst() {
-    return NULL;
+    BST *new_bst = (BST *)malloc(sizeof(BST));
+    new_bst->root = NULL;
+    new_bst->size = 0;
+    return new_bst;
 }
-
