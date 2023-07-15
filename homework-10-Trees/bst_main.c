@@ -16,7 +16,10 @@
 #include <stdlib.h>
 
 #include "my_bst.h"
+#include "my_bst.c"
 #include "my_bst_util.h"
+
+
 
 
 // a helper to get a range  of numbers
@@ -39,17 +42,207 @@ int *get_random_array(int size) {
     return arr;
 }
 
-int (*unitTests)[] = {
-    test_bst_exists,
-    test_bst_size,
-    test_bst_add,
-    test_bst_sum,
-    test_bst_min,
-    test_bst_max,
-    test_bst_to_array,
-    test_bst_to_array_sorted,
-    test_bst_remove,
-    test_bst_remove_all,
+
+/**
+ * Unit Tests
+ * 
+ * 1. Create a BST
+ *    1.1 check the function bst_is_empty
+ *    1.2 check the function bst_size
+ * 
+ * 2. Add a value to the BST
+ * 2.1 Add at root
+ * 2.2 Add at left
+ * 2.3 Add at right
+ * 2.4 Add in any order
+ * 2.4 Add a duplicate value
+ * 2.5 add 5 values
+ * 2.6 add 100 values
+ * 
+ * 3. Check if a value exists in the BST (check get size too)
+ * 3.1 check if a value exists in an empty tree
+ * 3.2 check if a value exists in a tree with 1 value
+ * 3.3 find the value in a tree with 10 values
+ *      3.3.1 find the value at the root
+ *      3.3.2 find the value at the left
+ *      3.3.3 find the value at the right
+ * 3.4 find a value that doesn't exist
+ * 3.5 find a value in a tree with 100 values
+ * 
+ * 4. Get the sum of the BST
+ * 4.1 get the sum of an empty tree
+ * 4.2 get the sum of a tree with 1 value
+ * 4.3 get the sum of a tree with 10 values
+ * 
+ * 5. Get the min value of the BST
+ * 5.1 get the min of an empty tree
+ * 5.2 get the min of a tree with 1 value
+ * 5.3 get the min of a tree with 10 values
+ * 
+ * 
+ * 6. Get the max value of the BST
+ * 6.1 get the max of an empty tree
+ * 6.2 get the max of a tree with 1 value
+ * 6.3 get the max of a tree with 10 values
+ * 
+ * 
+*/
+
+int test_create_bst() {
+    BST *tree = (BST *)create_bst();
+
+    if (bst_is_empty(tree) == true && bst_size(tree) == 0) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+
+}
+
+int test_add_bst_one() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 5);
+
+    if (bst_is_empty(tree) == 0 && bst_size(tree) == 1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_add_bst_increasing() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 15);
+    bst_add(tree, 20);
+    bst_add(tree, 25);
+
+    if (bst_size(tree) == 4) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_add_bst_noOrder() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 5);
+    bst_add(tree, 25);
+    bst_add(tree, 15);
+    bst_add(tree, 20);
+
+    if (bst_size(tree) == 5) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_add_bst_duplicate() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 5);
+    bst_add(tree, 5);
+    bst_add(tree, 10);
+
+    if (bst_size(tree) == 2) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_add_bst_100() {
+    BST *tree = (BST *)create_bst();
+    int *arr = get_range_array(0, 100);
+    for (int i = 0; i < 100; i++) {
+        bst_add(tree, arr[i]);
+    }
+
+    if (bst_size(tree) == 100) {
+        free(tree);
+        free(arr);
+        return 1;
+    }
+    free(tree);
+    free(arr);
+    return 0;
+}
+
+int test_find_bst_empty() {
+    BST *tree = (BST *)create_bst();
+    if (bst_exists(tree, 10) == true) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_find_bst_one() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    if (bst_exists(tree, 10) == true) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_find_bst_10() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 5);
+    bst_add(tree, 25);
+    bst_add(tree, 15);
+    bst_add(tree, 20);
+    if (bst_exists(tree, 10) == true && bst_exists(tree, 5) == true && 
+        bst_exists(tree, 25) == true && bst_exists(tree, 15) == true && 
+        bst_exists(tree, 20) == true) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_find_bst_100() {
+    BST *tree = (BST *)create_bst();
+    int *arr = get_range_array(0, 100);
+    for (int i = 0; i < 100; i++) {
+        bst_add(tree, arr[i]);
+    }
+
+    for (int i = 0; i < 100; i++) {
+        if (bst_exists(tree, arr[i]) == true) {
+            free(tree);
+            free(arr);
+            return 0;
+        }
+    }
+    free(tree);
+    free(arr);
+    return 1;
+}
+
+int (*unitTests[])(int) = {
+    test_create_bst,
+    test_add_bst_one,
+    test_add_bst_increasing,
+    test_add_bst_noOrder,
+    test_add_bst_duplicate,
+    test_add_bst_100,
+    test_find_bst_empty,
+    test_find_bst_one,
+    test_find_bst_10,
+    test_find_bst_100,
     NULL
 };
 

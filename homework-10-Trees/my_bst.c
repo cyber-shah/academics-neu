@@ -21,6 +21,7 @@ bool bst_is_empty(BST *tree) {
     }
 }
 
+
 /**
  * Checks to see if the value exists in the tree.
  * returns true if the value exists in the tree.
@@ -69,12 +70,14 @@ bool bst_exists_helper(Node *current, int value) {
     return false;
 }
 
+
 /**
  * Returns the size of the tree.
 */
 unsigned int bst_size(BST *tree) {
     return tree->size;
 }
+
 
 /**
  * Adds a value to the tree.
@@ -128,6 +131,7 @@ int bst_add_helper(Node *current, int value) {
     }
 }
 
+
 /**
  * Frees the memory allocated for the tree.
  * hint: Think about which order works for traversal (pre, in, post) and how that
@@ -147,6 +151,7 @@ void bst_free_helper(Node *current) {
     bst_free_helper(current->right);
     free(current);
 }
+
 
 /**
  * Creates a new BST.
