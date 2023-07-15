@@ -6,6 +6,7 @@
 
 #include "hashmap.h"
 #include <time.h>
+#include <stdio.h>
 
 int test_create_1() {
     hashmap* map = map_create(5);

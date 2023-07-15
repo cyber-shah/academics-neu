@@ -10,7 +10,6 @@
  * (don't forget to check what happens in the null cases such as trying to find nodes that don't exist,
  * or any action on an empty tree...)
 */
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>

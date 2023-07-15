@@ -14,10 +14,10 @@
 */
 bool bst_is_empty(BST *tree) {
     if (tree->size < 1) {
-        return false;
+        return true;
     } 
     else {
-        return true;
+        return false;
     }
 }
 
@@ -42,10 +42,10 @@ bool bst_exists(BST *tree, int value)
         // 2. if not check if bigger or smaller than root
         // 3. iterate on left / right depending on 2. bst_exists_helper(node, value)
         else if (value < tree->root->data) {
-            bst_exists_helper(tree->root->left, value);
+            return bst_exists_helper(tree->root->left, value);
         }
         else if (value > tree->root->data) {
-            bst_exists_helper(tree->root->right, value);
+            return bst_exists_helper(tree->root->right, value);
         }
     }
     
@@ -87,48 +87,31 @@ unsigned int bst_size(BST *tree) {
 */
 int bst_add(BST *tree, int value) {
     Node *new_node = (Node *)malloc(sizeof(Node));
+    if (new_node == NULL) {
+        return -1; // Check if malloc failed
+    }
+    new_node->data = value; // Set the value for the new node
 
-    // 0. check if tree is empty
     if (tree->root == NULL) {
         tree->root = new_node;
-    }
-    else {
-        // 1. start traversing the tree
-        Node *current = tree->root;
-        if (current->data == value) {
-            return 0;
-        }
-        // 2. find a location
-        else if (value < current->data) {
-            return bst_add_helper(current->left, value);
-        }
-        // 2. find a location
-        else if (value > current->data) {
-            return bst_add_helper(current->right, value);
-        }
+        tree->size++;
+        return 1;
+    } else {
+        return bst_add_helper(tree->root, new_node, value);
     }
 }
 
-int bst_add_helper(Node *current, int value) {
-    // base case - next node is null
-    // 3. place it there
+int bst_add_helper(Node *current, Node *new_node, int value) {
     if (current == NULL) {
-        Node *new_node = (Node *)malloc(sizeof(Node));
-        new_node->data = value;
+        // Place the new node at the current position
         current = new_node;
-        // return 1 if successful
-        return 1;
+        return 1; // Return 1 if successful
+    } else if (value < current->data) {
+        return bst_add_helper(current->left, new_node, value);
+    } else if (value > current->data) {
+        return bst_add_helper(current->right, new_node, value);
     }
-    // if a duplicate data is found return 0
-    else if (current->data == value) {
-        return 0;
-    }
-    else if (value < current->data) {
-        return bst_add_helper(current->left, value);
-    }
-    else if (value > current->data) {
-        return bst_add_helper(current->right, value);
-    }
+    return 0; // Return 0 if the value already exists
 }
 
 

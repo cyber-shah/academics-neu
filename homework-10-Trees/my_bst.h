@@ -47,7 +47,7 @@ BST * create_bst();
 // implemented in my_bst_printer.c - deals with the 'view' of the tree
 void bst_print(BST *tree, char* print_type); 
 void bst_free_helper(Node *current);
-int bst_add_helper(Node *current, int value);
+int bst_add_helper(Node *current, Node *new_node, int value);
 bool bst_exists_helper(Node *current, int value);
 
 
