@@ -5,6 +5,7 @@
 */
 
 #include "hashmap.h"
+#include <time.h>
 
 int test_create_1() {
     hashmap* map = map_create(5);
@@ -236,6 +237,71 @@ int test_del_3() {
     return 1;
 }
 
+
+    /** psuedo code
+     * 1. sizes to test: data_size[] = {100, 500, 1000, 5000, 10000};
+     * for each item in data_size
+     * 2. time the following
+     *      2.1 create: hashmap* map = map_create(i);
+     *      2.2 put: map_put(map, 50, "fifty");
+     *      2.3 get: float value = map_get(map, 50);
+     *      2.4 del: float value = map_del(map, 50);
+    */
+
+void printResultsTable() {
+    int data_size[] = {100, 500, 1000, 5000, 10000};
+    int array_size = sizeof(data_size)/ sizeof(data_size[0]);
+
+    printf("| N | create | put | get | delete |\n");
+    printf("|---|--------|-----|-----|--------|\n");
+
+    for (int i = 0; i < array_size; i++) {
+        clock_t start, end;
+        double cpu_time_used;
+
+        // time create ------------------------------
+        start = clock();
+        hashmap* map = map_create(data_size[i]);
+        end = clock();
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+        printf("| %d | %.6f |", data_size[i], cpu_time_used);
+
+        // time put ------------------------------
+        start = clock();
+        map_put(map, "fifty", 50.000);
+        end = clock();
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+        printf(" %.6f |", cpu_time_used);
+
+        // time get ------------------------------
+        start = clock();
+        float value = map_get(map, "fifty");
+        if (value != 50.000) {
+            printf(" ERROR |");
+        } else {
+            end = clock();
+            cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+            printf(" %.6f |", cpu_time_used);
+        }
+
+        // time del ------------------------------
+        start = clock();
+        float del_value = map_del(map, "fifty");
+        if (del_value != 50.000) {
+            printf(" ERROR |");
+        } else {
+            end = clock();
+            cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+            printf(" %.6f |", cpu_time_used);
+        }
+
+        printf("\n");
+    }
+}
+
+
+
+    
 /**
  * CREATE
  * 1. create a hash map and check if size is correct
@@ -286,7 +352,6 @@ int (*unitTests[])(int) = {
     NULL
 };
 
-
 /** use this file for tests. 
  * 
  * Below isn't actually any 'real' tests, it
@@ -325,5 +390,9 @@ int main() {
     }
 
     printf("%d of %d tests passed\n", testsPassed, counter);
+
+    // lets time all the functions
+    printResultsTable();
+
     return 0;
 }
