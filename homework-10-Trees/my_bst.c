@@ -1,7 +1,7 @@
 /** Implementation of the BST data structure 
  * 
- * @author YOUR NAME
- * Semester YOUR SEMESTER
+ * @author Pranchal Shah
+ * Semester Summer 2023 Online
 */
 
 #include "my_bst.h"
@@ -15,7 +15,12 @@
  * False otherwise.
 */
 bool bst_is_empty(BST *tree) {
-    return false;
+    if (tree->size < 1) {
+        return false;
+    } 
+    else {
+        return true;
+    }
 }
 
 /**
@@ -25,7 +30,42 @@ bool bst_is_empty(BST *tree) {
 */
 bool bst_exists(BST *tree, int value)
 {
+    
+    if (tree->root == NULL) {
+        return false;
+    }
+    
+    else {
+        // 1. check root
+        if (tree->root->data == value) {
+            return true;
+        }
+        // 2. if not check if bigger or smaller than root
+        // 3. iterate on left / right depending on 2. bst_exists_helper(node, value)
+        else if (value < tree->root->data) {
+            bst_exists_helper(tree->root->left, value);
+        }
+        else if (value > tree->root->data) {
+            bst_exists_helper(tree->root->right, value);
+        }
+    }
+    
+    // 4. if you reach the end, return false
+    // 5. true if you found the value somewhere
     return false;
+}
+
+
+bool bst_exists_helper(Node *current, int value) {
+    if (current->data == value) {
+        return true;
+    }
+    else if (value < current->data) {
+        bsl_exists_helper(current->left, value);
+    }
+    else if (value > current->data) {
+        bst_exists_helper(current->right, value);
+    }
 }
 
 /**
