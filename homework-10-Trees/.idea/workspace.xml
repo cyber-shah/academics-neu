@@ -22,6 +22,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c26f6bd3-cb50-4686-bb69-868339b0e8cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bst_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/bst_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/homework_09_HashMaps___Copy.dir/bst_main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/homework_09_HashMaps___Copy.dir/bst_main.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/homework_09_HashMaps___Copy.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/homework_09_HashMaps___Copy.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_bst_util.c" beforeDir="false" afterPath="$PROJECT_DIR$/my_bst_util.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +96,7 @@
       <updated>1689491541453</updated>
       <workItem from="1689491542492" duration="3220000" />
       <workItem from="1689504195171" duration="2255000" />
-      <workItem from="1689506486359" duration="3331000" />
+      <workItem from="1689506486359" duration="5409000" />
     </task>
     <servers />
   </component>
@@ -104,17 +111,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/bst_main.c</url>
-          <line>336</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

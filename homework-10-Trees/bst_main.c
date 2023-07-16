@@ -344,7 +344,7 @@ int test_sum() {
 
 int test_sum_empty() {
     BST *tree = (BST *)create_bst();
-    if (sum(tree) == -1) {
+    if (sum(tree) == 0) {
         free(tree);
         return 1;
     }
@@ -354,7 +354,7 @@ int test_sum_empty() {
 
 int test_sum_null() {
     BST *tree = NULL;
-    if (sum(tree) == -1) {
+    if (sum(tree) == 0) {
         free(tree);
         return 1;
     }

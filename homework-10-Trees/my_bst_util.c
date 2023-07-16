@@ -14,7 +14,7 @@
 int sum(BST *tree) {
     // 1. if tree is NULL or if root is NULL
     if (tree == NULL || tree->root == NULL) {
-        return -1;
+        return 0;
     }
 
     int sum = 0;
