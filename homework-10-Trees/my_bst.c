@@ -29,11 +29,10 @@ bool bst_is_empty(BST *tree) {
 */
 bool bst_exists(BST *tree, int value)
 {
-    
-    if (tree->root == NULL) {
+    // 0. check if tree is empty
+    if (tree->root == NULL || tree == NULL) {
         return false;
     }
-    
     else {
         // 1. check root
         if (tree->root->data == value) {
@@ -55,19 +54,26 @@ bool bst_exists(BST *tree, int value)
 }
 
 bool bst_exists_helper(Node *current, int value) {
+    // 1. check if current is null, not found
     if (current == NULL) {
         return false;
     }
+    // 2. check if current is the value, found
     else if (current->data == value) {
         return true;
     }
+    // 3. check if value is smaller or bigger than current
     else if (value < current->data) {
         return bst_exists_helper(current->left, value);
     }
+    // 4. iterate on left or right depending on 3.
     else if (value > current->data) {
         return bst_exists_helper(current->right, value);
     }
-    return false;
+    // 5. if you reach the end, return false
+    else {
+        return false;
+    }
 }
 
 /**

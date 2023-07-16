@@ -184,10 +184,20 @@ int test_find_bst_empty() {
     return 0;
 }
 
+int test_find_bst_null() {
+    BST *tree = NULL;
+    if (bst_exists(tree, 10) == false) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
 int test_find_bst_one() {
     BST *tree = (BST *)create_bst();
     bst_add(tree, 10);
-    if (bst_exists(tree, 10) == true) {
+    if (bst_exists(tree, 10) == true && bst_exists(tree, 5) == false) {
         free(tree);
         return 1;
     }
@@ -204,7 +214,8 @@ int test_find_bst_10() {
     bst_add(tree, 20);
     if (bst_exists(tree, 10) == true && bst_exists(tree, 5) == true && 
         bst_exists(tree, 25) == true && bst_exists(tree, 15) == true && 
-        bst_exists(tree, 20) == true) {
+        bst_exists(tree, 20) == true && bst_exists(tree, 30) == false &&
+        bst_exists(tree, 0) == false && bst_exists(tree, 100) == false) {
         free(tree);
         return 1;
     }
@@ -212,7 +223,26 @@ int test_find_bst_10() {
     return 0;
 }
 
-int test_find_bst_100() {
+int testFindBst_OneSided() {
+    BST *tree = (BST *)create_bst();
+    int *arr = get_range_array(0,99);
+    for (int i = 0; i < 100; i++) {
+        bst_add(tree, arr[i]);
+    }
+
+    for (int i = 0; i < 100; i++) {
+        if (bst_exists(tree, arr[i]) == true) {
+            free(tree);
+            free(arr);
+            return 1;
+        }
+    }
+    free(tree);
+    free(arr);
+    return 0;
+}
+
+int test_find_bst_random_100() {
     BST *tree = (BST *)create_bst();
     int *arr = get_random_array(100);
     for (int i = 0; i < 100; i++) {
@@ -232,17 +262,19 @@ int test_find_bst_100() {
 }
 
 int (*unitTests[])(int) = {
-    test_create_bst,
-    test_add_bst_one,
-    test_add_bst_increasing,
-    test_add_bst_noOrder,
-    test_add_bst_duplicate,
-    test_add_bst_100,
-    test_find_bst_empty,
-    test_find_bst_one,
-    test_find_bst_10,
-    test_find_bst_100,
-    NULL
+        test_create_bst,
+        test_add_bst_one,
+        test_add_bst_increasing,
+        test_add_bst_noOrder,
+        test_add_bst_duplicate,
+        test_add_bst_100,
+        test_find_bst_empty,
+        test_find_bst_null,
+        test_find_bst_one,
+        test_find_bst_10,
+        testFindBst_OneSided,
+        test_find_bst_random_100,
+        NULL
 };
 
 int main(int argc, char const *argv[])

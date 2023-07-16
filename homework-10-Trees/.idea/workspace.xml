@@ -21,6 +21,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c26f6bd3-cb50-4686-bb69-868339b0e8cb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.idea/homework-09.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/.vscode/tasks.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/bst_main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/instructions/InsertNaive.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/instructions/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/instructions/bst_add_2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/my_bst.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/my_bst.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/my_bst_printer.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/my_bst_util.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../homework-09-HashMaps - Copy/my_bst_util.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bst_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/bst_main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -97,7 +119,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1689491541453</updated>
-      <workItem from="1689491542492" duration="1471000" />
+      <workItem from="1689491542492" duration="2546000" />
     </task>
     <servers />
   </component>
