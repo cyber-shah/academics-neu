@@ -22,14 +22,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c26f6bd3-cb50-4686-bb69-868339b0e8cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bst_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/bst_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/homework_09_HashMaps___Copy.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/homework_09_HashMaps___Copy.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_bst.c" beforeDir="false" afterPath="$PROJECT_DIR$/my_bst.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_bst_util.c" beforeDir="false" afterPath="$PROJECT_DIR$/my_bst_util.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_bst_util.h" beforeDir="false" afterPath="$PROJECT_DIR$/my_bst_util.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +89,7 @@
       <updated>1689491541453</updated>
       <workItem from="1689491542492" duration="3220000" />
       <workItem from="1689504195171" duration="2255000" />
-      <workItem from="1689506486359" duration="2388000" />
+      <workItem from="1689506486359" duration="3331000" />
     </task>
     <servers />
   </component>

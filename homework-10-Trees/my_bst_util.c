@@ -22,8 +22,16 @@ int sum(BST *tree) {
     return sum_helper(tree->root, sum);
 }
 
+/**
+ * Helper function for sum
+ *
+ * @param current current node.
+ * @param sum sum of all the values.
+ * @return sum of all the values.
+ */
 int sum_helper (Node* current, int sum) {
     // 1. check if current is null, not found
+    // base case
     if (current == NULL) {
         return sum;
     }
