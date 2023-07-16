@@ -78,13 +78,14 @@ unsigned int bst_size(BST *tree) {
     return tree->size;
 }
 
-
+// OLD CODE
 /**
  * Adds a value to the tree.
  * returns 1 if the value was added successfully.
  * returns 0 if the value already exists in the tree.
  * returns -1 if the value could not be added due to errors. (malloc failed)
 */
+/*
 int bst_add(BST *tree, int value) {
     Node *new_node = create_node(value);
 
@@ -120,8 +121,58 @@ int bst_add_helper(BST* tree, Node *current, Node *new_node, int value) {
         return 0;
     }
     return 0;
-}
+}*/
 
+/**
+ * Adds a value to the tree.
+ * returns 1 if the value was added successfully.
+ * returns 0 if the value already exists in the tree.
+ * returns -1 if the value could not be added due to errors. (malloc failed)
+*/
+int bst_add(BST *tree, int value) {
+    Node *new_node = create_node(value);
+
+    // if malloc failed
+    if (new_node == NULL) {
+        return -1;
+    }
+
+    // if no root, set the new node as the root
+    if (tree->root == NULL) {
+        tree->root = new_node;
+        tree->size++;
+        return 1;
+    } else {
+        // pass a (pointer to a (pointer that points to the root))
+        return bst_add_helper(tree, &(tree->root), new_node, value);
+    }
+}
+/**
+ * Adds a value to the tree.
+ * @param tree pointer to BST.
+ * @param current  pointer to a pointer that points to the node.
+ * @param new_node pointer to the new node.
+ * @param value value to be added.
+ * @return 1 if the value was added successfully.
+ */
+int bst_add_helper(BST* tree, Node **current, Node *new_node, int value) {
+    if (current == NULL) {
+        // Place the new node at the current position
+        *current = new_node;
+        tree->size++;
+        return 1;
+    }
+    else if (value < (*current)->data) {
+        return bst_add_helper(tree, (Node **) &(*current)->left, new_node, value);
+    }
+    else if (value > (*current)->data) {
+        return bst_add_helper(tree, (Node **) &(*current)->right, new_node, value);
+    }
+    else if (value == (*current)->data) {
+        return 0;
+    }
+    return 0;
+}
 
 
 /**
