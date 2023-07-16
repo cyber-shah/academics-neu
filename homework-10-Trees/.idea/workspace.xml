@@ -21,8 +21,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c26f6bd3-cb50-4686-bb69-868339b0e8cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bst_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/bst_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/homework_09_HashMaps___Copy.dir/bst_main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/homework_09_HashMaps___Copy.dir/bst_main.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/homework_09_HashMaps___Copy.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/homework_09_HashMaps___Copy.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_bst.c" beforeDir="false" afterPath="$PROJECT_DIR$/my_bst.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +97,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1689491541453</updated>
-      <workItem from="1689491542492" duration="474000" />
+      <workItem from="1689491542492" duration="1471000" />
     </task>
     <servers />
   </component>

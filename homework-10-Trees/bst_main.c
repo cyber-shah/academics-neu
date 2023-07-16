@@ -176,7 +176,7 @@ int test_add_bst_100() {
 
 int test_find_bst_empty() {
     BST *tree = (BST *)create_bst();
-    if (bst_exists(tree, 10) == true) {
+    if (bst_exists(tree, 10) == false) {
         free(tree);
         return 1;
     }
@@ -214,7 +214,7 @@ int test_find_bst_10() {
 
 int test_find_bst_100() {
     BST *tree = (BST *)create_bst();
-    int *arr = get_range_array(0, 100);
+    int *arr = get_random_array(100);
     for (int i = 0; i < 100; i++) {
         bst_add(tree, arr[i]);
     }
@@ -223,12 +223,12 @@ int test_find_bst_100() {
         if (bst_exists(tree, arr[i]) == true) {
             free(tree);
             free(arr);
-            return 0;
+            return 1;
         }
     }
     free(tree);
     free(arr);
-    return 1;
+    return 0;
 }
 
 int (*unitTests[])(int) = {
@@ -244,8 +244,6 @@ int (*unitTests[])(int) = {
     test_find_bst_100,
     NULL
 };
-
-
 
 int main(int argc, char const *argv[])
 {

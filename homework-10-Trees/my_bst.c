@@ -70,7 +70,6 @@ bool bst_exists_helper(Node *current, int value) {
     return false;
 }
 
-
 /**
  * Returns the size of the tree.
 */
@@ -147,6 +146,7 @@ int bst_add(BST *tree, int value) {
         return bst_add_helper(tree, &(tree->root), new_node, value);
     }
 }
+
 /**
  * Adds a value to the tree.
  * @param tree pointer to BST.
@@ -156,24 +156,20 @@ int bst_add(BST *tree, int value) {
  * @return 1 if the value was added successfully.
  */
 int bst_add_helper(BST* tree, Node **current, Node *new_node, int value) {
-    if (current == NULL) {
-        // Place the new node at the current position
+    if (*current == NULL) {
+        // go to the pointer2 that is a pointer1 to current and set it to new_node
         *current = new_node;
         tree->size++;
         return 1;
-    }
-    else if (value < (*current)->data) {
+    } else if (value < (*current)->data) {
         return bst_add_helper(tree, (Node **) &(*current)->left, new_node, value);
-    }
-    else if (value > (*current)->data) {
+    } else if (value > (*current)->data) {
         return bst_add_helper(tree, (Node **) &(*current)->right, new_node, value);
-    }
-    else if (value == (*current)->data) {
+    } else if (value == (*current)->data) {
         return 0;
     }
     return 0;
 }
-
 
 /**
  * Frees the memory allocated for the tree.
