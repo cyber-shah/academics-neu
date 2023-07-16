@@ -86,33 +86,42 @@ unsigned int bst_size(BST *tree) {
  * returns -1 if the value could not be added due to errors. (malloc failed)
 */
 int bst_add(BST *tree, int value) {
-    Node *new_node = (Node *)malloc(sizeof(Node));
-    if (new_node == NULL) {
-        return -1; // Check if malloc failed
-    }
-    new_node->data = value; // Set the value for the new node
+    Node *new_node = create_node(value);
 
+    // if malloc failed
+    if (new_node == NULL) {
+        return -1;
+    }
+
+    // if no root, set the new node as the root
     if (tree->root == NULL) {
         tree->root = new_node;
         tree->size++;
         return 1;
     } else {
-        return bst_add_helper(tree->root, new_node, value);
+        return bst_add_helper(tree, tree->root, new_node, value);
     }
 }
 
-int bst_add_helper(Node *current, Node *new_node, int value) {
+int bst_add_helper(BST* tree, Node *current, Node *new_node, int value) {
     if (current == NULL) {
         // Place the new node at the current position
         current = new_node;
-        return 1; // Return 1 if successful
-    } else if (value < current->data) {
-        return bst_add_helper(current->left, new_node, value);
-    } else if (value > current->data) {
-        return bst_add_helper(current->right, new_node, value);
+        tree->size++;
+        return 1;
     }
-    return 0; // Return 0 if the value already exists
+    else if (value < current->data) {
+        return bst_add_helper(tree, current->left, new_node, value);
+    }
+    else if (value > current->data) {
+        return bst_add_helper(tree, current->right, new_node, value);
+    }
+    else if (value == current->data) {
+        return 0;
+    }
+    return 0;
 }
+
 
 
 /**
@@ -146,4 +155,12 @@ BST *create_bst() {
     new_bst->root = NULL;
     new_bst->size = 0;
     return new_bst;
+}
+
+Node* create_node(int value) {
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    new_node->data = value;
+    new_node->left = NULL;
+    new_node->right = NULL;
+    return new_node;
 }
