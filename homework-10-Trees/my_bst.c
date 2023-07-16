@@ -30,7 +30,7 @@ bool bst_is_empty(BST *tree) {
 bool bst_exists(BST *tree, int value)
 {
     // 0. check if tree is empty
-    if (tree->root == NULL || tree == NULL) {
+    if (tree == NULL || tree->root == NULL) {
         return false;
     }
     else {
@@ -76,6 +76,7 @@ bool bst_exists_helper(Node *current, int value) {
     }
 }
 
+
 /**
  * Returns the size of the tree.
 */
@@ -83,50 +84,6 @@ unsigned int bst_size(BST *tree) {
     return tree->size;
 }
 
-// OLD CODE
-/**
- * Adds a value to the tree.
- * returns 1 if the value was added successfully.
- * returns 0 if the value already exists in the tree.
- * returns -1 if the value could not be added due to errors. (malloc failed)
-*/
-/*
-int bst_add(BST *tree, int value) {
-    Node *new_node = create_node(value);
-
-    // if malloc failed
-    if (new_node == NULL) {
-        return -1;
-    }
-
-    // if no root, set the new node as the root
-    if (tree->root == NULL) {
-        tree->root = new_node;
-        tree->size++;
-        return 1;
-    } else {
-        return bst_add_helper(tree, tree->root, new_node, value);
-    }
-}
-
-int bst_add_helper(BST* tree, Node *current, Node *new_node, int value) {
-    if (current == NULL) {
-        // Place the new node at the current position
-        current = new_node;
-        tree->size++;
-        return 1;
-    }
-    else if (value < current->data) {
-        return bst_add_helper(tree, current->left, new_node, value);
-    }
-    else if (value > current->data) {
-        return bst_add_helper(tree, current->right, new_node, value);
-    }
-    else if (value == current->data) {
-        return 0;
-    }
-    return 0;
-}*/
 
 /**
  * Adds a value to the tree.
@@ -153,6 +110,7 @@ int bst_add(BST *tree, int value) {
     }
 }
 
+
 /**
  * Adds a value to the tree.
  * @param tree pointer to BST.
@@ -176,6 +134,7 @@ int bst_add_helper(BST* tree, Node **current, Node *new_node, int value) {
     }
     return 0;
 }
+
 
 /**
  * Frees the memory allocated for the tree.

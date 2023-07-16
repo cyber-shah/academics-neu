@@ -1,7 +1,7 @@
 /**
  * Some standard utility functions for binary search trees.
- * @author YOUR NAME
- * Semester YOUR SEMESTER
+ * @author Pranchal Shah
+ * Semester Summer 2023 Online
  */
 #ifndef MYBSTUTIL_H
 #define MYBSTUTIL_H
@@ -12,6 +12,7 @@
 int sum(BST* tree);
 int min(BST* tree);
 int max(BST* tree);
+int sum_helper (Node* current, int sum);
 
 
 #endif

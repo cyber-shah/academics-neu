@@ -16,10 +16,7 @@
 
 #include "my_bst.h"
 #include "my_bst.c"
-#include "my_bst_util.h"
-
-
-
+#include "my_bst_util.c"
 
 // a helper to get a range  of numbers
 int *get_range_array(int start, int end) {
@@ -40,7 +37,6 @@ int *get_random_array(int size) {
 
     return arr;
 }
-
 
 /**
  * Unit Tests
@@ -261,6 +257,113 @@ int test_find_bst_random_100() {
     return 0;
 }
 
+int test_min() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 5);
+    bst_add(tree, 25);
+    bst_add(tree, 15);
+    bst_add(tree, 20);
+    if (min(tree) == 5) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_min_empty() {
+    BST *tree = (BST *)create_bst();
+    if (min(tree) == -1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_min_null() {
+    BST *tree = NULL;
+    if (min(tree) == -1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_max() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 5);
+    bst_add(tree, 25);
+    bst_add(tree, 15);
+    bst_add(tree, 20);
+    if (max(tree) == 25) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_max_empty() {
+    BST *tree = (BST *)create_bst();
+    if (max(tree) == -1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_max_null() {
+    BST *tree = NULL;
+    if (max(tree) == -1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_sum() {
+    BST *tree = (BST *)create_bst();
+    bst_add(tree, 10);
+    bst_add(tree, 5);
+    bst_add(tree, 25);
+    bst_add(tree, 15);
+    bst_add(tree, 20);
+    if (sum(tree) == 75) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_sum_empty() {
+    BST *tree = (BST *)create_bst();
+    if (sum(tree) == -1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+int test_sum_null() {
+    BST *tree = NULL;
+    if (sum(tree) == -1) {
+        free(tree);
+        return 1;
+    }
+    free(tree);
+    return 0;
+}
+
+// --------------------------------------------------
+
 int (*unitTests[])(int) = {
         test_create_bst,
         test_add_bst_one,
@@ -274,6 +377,16 @@ int (*unitTests[])(int) = {
         test_find_bst_10,
         testFindBst_OneSided,
         test_find_bst_random_100,
+        test_min,
+        test_min_empty,
+        test_min_null,
+        test_max,
+        test_max_empty,
+        test_max_null,
+        test_sum,
+        test_sum_empty,
+        test_sum_null,
+
         NULL
 };
 
