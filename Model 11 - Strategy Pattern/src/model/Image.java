@@ -57,4 +57,16 @@ public class Image {
   public Pixel getPixel(int i) {
     return this.pixelsList[i];
   }
+
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("Width:").append(this.width).append("\n");
+    stringBuilder.append("Height:").append(this.height).append("\n");
+
+    for (Pixel pixel : this.pixelsList) {
+      stringBuilder.append(pixel.toString()).append("\n");
+    }
+    return stringBuilder.toString();
+  }
 }
