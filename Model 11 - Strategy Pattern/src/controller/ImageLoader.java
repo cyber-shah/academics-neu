@@ -51,7 +51,12 @@ public class ImageLoader {
         String[] dimensions = line.split(" ");
         width = Integer.parseInt(dimensions[0]);
         height = Integer.parseInt(dimensions[1]);
-        image = new Image(width, height);
+        try {
+          image = new Image(width, height);
+        }
+        catch (NullPointerException e) {
+          e.getStackTrace();
+        }
       }
 
       // 5. once that is done
@@ -66,9 +71,14 @@ public class ImageLoader {
         }
         catch (NoSuchElementException e) {
           e.getStackTrace();
+          // end of file
+          break;
+        }
+        catch (NumberFormatException f) {
+          f.getStackTrace();
+          break;
         }
       }
-
       // 6. increment the line count
       lineCount++;
     }
@@ -117,8 +127,6 @@ public class ImageLoader {
   }
 }
 */
-
-
 
 /*
     // 1. Split the data into lines
