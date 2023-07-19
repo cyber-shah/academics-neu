@@ -15,8 +15,13 @@ public class Image {
   public Image(int width, int height) {
     this.width = width;
     this.height = height;
+
+    // Initialize the pixelsList to null values
     int i = width * height;
     this.pixelsList = new Pixel[i];
+    for (int j = 0; j < i; j++) {
+      this.pixelsList[j] = null;
+    }
   }
 
   /**

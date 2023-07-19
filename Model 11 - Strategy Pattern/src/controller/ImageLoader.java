@@ -7,15 +7,24 @@ import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+
 /**
  * This class represents an ImageLoader.
- * It creates an Image object from a given String called data.
+ * It creates an Image object from a given File.
  */
 public class ImageLoader {
 
-  private File file;
-  private BufferedReader reader;
+  private final File file;
+//  private BufferedReader reader;
 
+  /**
+   * Constructor for ImageLoader.
+   * It takes a String filePath and creates a File object.
+   * If the file does not exist, it throws an IllegalArgumentException.
+   *
+   * @param filePath String value of filePath.
+   * @throws IllegalArgumentException if the file does not exist.
+   */
   public ImageLoader(String filePath) throws IllegalArgumentException {
     this.file = new File(filePath);
     if (!file.exists()) {
@@ -23,6 +32,13 @@ public class ImageLoader {
     }
   }
 
+  /**
+   * This method loads the image from the file.
+   * It creates an Image object from the file.
+   *
+   * @return Image object.
+   * @throws FileNotFoundException if the file is not found.
+   */
   public Image load() throws FileNotFoundException {
     Image image = null;
 

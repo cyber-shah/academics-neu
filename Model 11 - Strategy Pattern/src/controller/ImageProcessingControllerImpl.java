@@ -12,11 +12,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
   private ImageLoader imageLoader;
   private CommandParser commandParser;
 
-  public ImageProcessingControllerImpl(String data) throws FileNotFoundException {
-    this.imageLoader = new ImageLoader(data);
-    this.image = this.imageLoader.load();
-
-    System.out.println(this.image.toString());
+  public ImageProcessingControllerImpl() throws FileNotFoundException {
   }
 
   // 1. ImageLoader Load the image
