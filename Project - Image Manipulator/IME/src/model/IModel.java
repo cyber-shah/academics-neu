@@ -4,7 +4,7 @@ package model;
 // as per the user's request and strategies
 public interface IModel {
 
-
   void loadImages(String path);
+
 
 }

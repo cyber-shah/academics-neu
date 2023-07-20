@@ -1,4 +1,4 @@
-package model;
+package model.Image;
 
 public class Image implements IImageState {
   private final int width;

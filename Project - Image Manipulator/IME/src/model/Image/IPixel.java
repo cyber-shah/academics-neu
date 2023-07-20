@@ -1,4 +1,4 @@
-package model;
+package model.Image;
 
 public interface IPixel extends IPixelState {
   void setRed(int red);

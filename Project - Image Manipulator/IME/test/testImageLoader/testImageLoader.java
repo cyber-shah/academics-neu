@@ -1,8 +1,7 @@
 package testImageLoader;
 
-import model.Image;
+import model.Image.Image;
 import model.ImageLoader;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;

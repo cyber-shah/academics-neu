@@ -1,4 +1,4 @@
-package model;
+package model.Image;
 
 public interface IImageState {
 
