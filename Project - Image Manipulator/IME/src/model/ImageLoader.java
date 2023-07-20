@@ -30,8 +30,20 @@ public class ImageLoader {
       throw new FileNotFoundException("File " + filename + " not found!");
     }
 
-    // 1. get the image parameters, and check if they are valid
+    // 0. read the file into a string
+    // and convert it to a format that we can use
+    StringBuilder builder = new StringBuilder();
+    //read the file line by line, and populate a string. This will throw away any comment lines
+    while (scanner.hasNextLine()) {
+      String s = scanner.nextLine();
+      if (s.charAt(0)!='#') {
+        builder.append(s+System.lineSeparator());
+      }
+    }
+    //now set up the scanner to read from the string we just built
+    scanner = new Scanner(builder.toString());
 
+    // 1. get the image parameters, and check if they are valid
     int[] imageParameters = readImageParameters(scanner);
     int width; int height; int maxValue;
     width = imageParameters[0];
@@ -39,8 +51,20 @@ public class ImageLoader {
     maxValue = imageParameters[2];
 
     // 2. if valid parameters, create the image
-    return new Image(width, height, maxValue);
+    Image image = new Image(width, height, maxValue);
+
+    // 3. read the pixels
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < image.getWidth(); j++) {
+        int red = scanner.nextInt();
+        int green = scanner.nextInt();
+        int blue = scanner.nextInt();
+        image.setPixel(j, i, new Pixel(red, green, blue, maxValue));
+      }
+    }
+    return image;
   }
+
 
   /**
    * Reads the image parameters from the PPM file.
@@ -89,6 +113,7 @@ public class ImageLoader {
       throw new NoSuchElementException("Invalid PPM file: not enough lines to read");
     }
   }
+
 
   /*    Image image = null;
     Scanner scanner;

@@ -47,6 +47,10 @@ public class testImageLoader {
     this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testImageLoader\\test4x4.ppm";
     this.image = new ImageLoader().loadPPM(path);
 
-    assertEquals(255, image.getPixel(0,0).getRed());
+    assertEquals(11, image.getPixel(0,0).getRed());
+
+    assertEquals(12, image.getPixel(1,0).getRed());
+
+    assertEquals(13, image.getPixel(3,0).getRed());
   }
 }
