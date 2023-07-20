@@ -1,23 +1,21 @@
-package model;
-
-import model.commands.Command;
+package model.commands;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * model.CommandRegistry class.
+ * model.commands.CommandRegistry class.
  *
  * <p>Stores all commands and allows for registering, getting, and unregistering commands.
- * Managing commands is done through the model.CommandRegistry.
+ * Managing commands is done through the model.commands.CommandRegistry.
  */
-public class CommandRegistry {
+public class CommandRegistryManager {
   private Map<String, Command> commands;
 
   /**
    * Constructor.
    */
-  public CommandRegistry() {
+  public CommandRegistryManager() {
     commands = new HashMap<String, Command>();
   }
 

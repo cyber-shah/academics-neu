@@ -1,4 +1,4 @@
-package model;
+package model.Image;
 
 import model.Image.Image;
 import model.Image.Pixel;
@@ -67,7 +67,6 @@ public class ImageLoader {
     }
     return image;
   }
-
 
   /**
    * Reads the image parameters from the PPM file.
