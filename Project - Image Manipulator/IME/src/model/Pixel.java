@@ -4,6 +4,7 @@ public class Pixel implements IPixel {
   private int Red;
   private int Green;
   private int Blue;
+  private int maxValue;
 
   /**
    * Constructor for Pixel.
@@ -24,20 +25,14 @@ public class Pixel implements IPixel {
    * @param Red int value of Red.
    * @param Green int value of Green.
    * @param Blue int value of Blue.
-   * @param maxColor int value of maxColor.
+   * @param maxValue int value of maxColor.
    */
-  public Pixel(int Red, int Green, int Blue, int maxColor) {
+  public Pixel(int Red, int Green, int Blue, int maxValue) {
     this.Red = Red;
     this.Green = Green;
     this.Blue = Blue;
-    if (this.Red > maxColor) {
-      this.Red = maxColor;
-    }
-    if (this.Green > maxColor) {
-      this.Green = maxColor;
-    }
-    if (this.Blue > maxColor) {
-      this.Blue = maxColor;
+    if (this.Red > maxValue || this.Green > maxValue || this.Blue > maxValue) {
+      throw new IllegalArgumentException("The value of Red, Green, Blue should be less than maxValue.");
     }
   }
 
@@ -66,6 +61,15 @@ public class Pixel implements IPixel {
    */
   public int getBlue() {
     return this.Blue;
+  }
+
+  /**
+   * Getter for maxValue.
+   *
+   * @return int value of maxValue.
+   */
+  public int getMaxValue() {
+    return this.maxValue;
   }
 
   /**
