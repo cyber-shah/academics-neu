@@ -1,12 +1,13 @@
 package model;
 
 import model.Image.Image;
+import model.Image.ImageState;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ImageDatabase implements ImageDatabaseInterface {
-  private Map<String, Image> imagesMap;
+  private Map<String, ImageState> imagesMap;
 
 
   /**
@@ -23,7 +24,7 @@ public class ImageDatabase implements ImageDatabaseInterface {
    * @param image Image value of image.
    */
   @Override
-  public void addImage(String name, Image image) {
+  public void addImage(String name, ImageState image) {
     if (this.imagesMap.containsKey(name)) {
       throw new IllegalArgumentException("addImage " + name + " already exists.");
     }
@@ -40,8 +41,8 @@ public class ImageDatabase implements ImageDatabaseInterface {
    * @return Image value of image.
    */
   @Override
-  public Image getImage(String name) {
-    if (!this.imagesMap.containsKey(name)) {
+  public ImageState getImage(String name) {
+    if (!this.imagesMap.containsKey(name) || name == null) {
       throw new IllegalArgumentException("getImage " + name + " not found.");
     }
     return this.imagesMap.get(name);

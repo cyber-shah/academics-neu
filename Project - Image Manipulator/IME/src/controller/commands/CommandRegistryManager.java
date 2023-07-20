@@ -1,4 +1,4 @@
-package model.commands;
+package controller.commands;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +10,13 @@ import java.util.Map;
  * Managing commands is done through the model.commands.CommandRegistry.
  */
 public class CommandRegistryManager {
-  private Map<String, Command> commands;
+  private final Map<String, Command> commandsMap;
 
   /**
    * Constructor.
    */
   public CommandRegistryManager() {
-    commands = new HashMap<String, Command>();
+    commandsMap = new HashMap<String, Command>();
   }
 
   /**
@@ -26,10 +26,10 @@ public class CommandRegistryManager {
    * @param command Command to register.
    */
   public void registerCommand(String name, Command command) {
-    if (commands.containsKey(name)) {
+    if (commandsMap.containsKey(name)) {
       throw new IllegalArgumentException("registerCommand " + name + " already exists.");
     }
-    commands.put(name, command);
+    commandsMap.put(name, command);
   }
 
   /**
@@ -40,10 +40,10 @@ public class CommandRegistryManager {
    * @throws IllegalArgumentException If command not found.
    */
   public Command getCommand(String name) {
-    if (!commands.containsKey(name)) {
+    if (!commandsMap.containsKey(name)) {
       throw new IllegalArgumentException("getCommand " + name + " not found.");
     }
-    return commands.get(name);
+    return commandsMap.get(name);
   }
 
   /**
@@ -53,10 +53,10 @@ public class CommandRegistryManager {
    * @throws IllegalArgumentException If command not found.
    */
   public void unregisterCommand(String name) throws IllegalArgumentException {
-    if (!commands.containsKey(name)) {
+    if (!commandsMap.containsKey(name)) {
       throw new IllegalArgumentException("unregisterCommand " + name + " not found.");
     }
-    commands.remove(name);
+    commandsMap.remove(name);
   }
 
   /**
@@ -66,9 +66,13 @@ public class CommandRegistryManager {
    */
   public String listCommands() {
     StringBuilder sb = new StringBuilder();
-    for (String key : commands.keySet()) {
+    for (String key : commandsMap.keySet()) {
       sb.append(key + "\n");
     }
     return sb.toString();
+  }
+
+  public Map<String, Command> getCommandMap() {
+    return commandsMap;
   }
 }

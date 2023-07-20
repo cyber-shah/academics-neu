@@ -1,5 +1,4 @@
 import controller.ControllerImplementation;
-import model.ModelImplementation;
 import view.ViewImplementation;
 
 public class IME {

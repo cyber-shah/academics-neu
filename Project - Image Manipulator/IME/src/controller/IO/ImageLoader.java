@@ -1,4 +1,4 @@
-package model.Image;
+package controller.IO;
 
 import model.Image.Image;
 import model.Image.Pixel;

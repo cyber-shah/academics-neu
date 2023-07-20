@@ -1,7 +1,5 @@
 import controller.ControllerImplementation;
 import controller.ControllerInterface;
-import model.ModelImplementation;
-import model.ModelInterface;
 import org.junit.Before;
 import view.ViewImplementation;
 import view.ViewInterface;

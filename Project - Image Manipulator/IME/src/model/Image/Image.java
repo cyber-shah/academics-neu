@@ -1,6 +1,6 @@
 package model.Image;
 
-public class Image implements IImageState {
+public class Image implements ImageState {
   private final int width;
   private final int height;
   private final int maxValue;

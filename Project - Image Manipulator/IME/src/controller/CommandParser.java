@@ -1,6 +1,6 @@
 package controller;
 
-import model.commands.*;
+import controller.commands.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;

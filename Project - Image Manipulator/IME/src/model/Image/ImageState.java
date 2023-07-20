@@ -1,6 +1,6 @@
 package model.Image;
 
-public interface IImageState {
+public interface ImageState {
 
     int getWidth();
 
@@ -10,5 +10,5 @@ public interface IImageState {
 
     Pixel getPixel(int x, int y);
 
-    void setPixel(int x, int y, Pixel pixel);
+    int getMaxValue();
 }
