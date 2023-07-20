@@ -36,13 +36,14 @@ public class CommandRegistryManager {
    * Get a command by name.
    *
    * @param name Name of command to get.
+   * @return Command object.
    * @throws IllegalArgumentException If command not found.
    */
-  public void getCommand(String name) {
+  public Command getCommand(String name) {
     if (!commands.containsKey(name)) {
       throw new IllegalArgumentException("getCommand " + name + " not found.");
     }
-    commands.get(name).execute();
+    return commands.get(name);
   }
 
   /**

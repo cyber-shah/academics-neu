@@ -5,5 +5,9 @@ import model.commands.CommandRegistryManager;
 public class ModelImplementation implements ModelInterface {
 
   private CommandRegistryManager commandRegistryManager;
-  private
+
+  @Override
+  public void loadImages(String path) {
+
+  }
 }

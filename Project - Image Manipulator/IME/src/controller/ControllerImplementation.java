@@ -1,11 +1,14 @@
 package controller;
 
+import model.ImageDatabaseInterface;
 import model.ModelInterface;
 import view.ViewInterface;
 
+import java.util.Scanner;
+
 public class ControllerImplementation implements ControllerInterface {
-  private final ModelInterface model;
-  private final ViewInterface view;
+  private final ImageDatabaseInterface model;
+  private final Appendable view;
   private final Readable inReadable;
   private CommandParser commandParser;
 
@@ -16,7 +19,7 @@ public class ControllerImplementation implements ControllerInterface {
    * @param inReadable Readable object.
    * @throws IllegalArgumentException if any of the arguments are null.
    */
-  public ControllerImplementation(ModelInterface model, ViewInterface view, Readable inReadable)
+  public ControllerImplementation(ImageDatabaseInterface model, Appendable view, Readable inReadable)
           throws IllegalArgumentException {
     if (model == null || view == null || inReadable == null) {
       throw new IllegalArgumentException("Arguments cannot be null.");
@@ -27,7 +30,14 @@ public class ControllerImplementation implements ControllerInterface {
   }
 
 
-  public void execute() {
-    // TODO implement here
+  public void go() {
+    Scanner scanner = new Scanner(this.inReadable);
+
+    while (scanner.hasNextLine()) {
+      String command = scanner.next();
+      // TODO: Here goes the command pattern
+    }
+
+
   }
 }
