@@ -9,6 +9,18 @@ import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class for PPMImageLoader.
+ * It tests the following:
+ * 1. SetParams
+ * 2. SetParamsIncomplete
+ * 3. NoIntegers
+ * 4. NotP3
+ * 5. Pixels
+ * 6. PixelsIncomplete
+ * 7. PixelsNoIntegers
+ *
+ */
 public class testPPMImageLoader {
 
   private Image image;

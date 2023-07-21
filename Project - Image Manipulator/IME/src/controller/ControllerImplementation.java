@@ -1,9 +1,8 @@
 package controller;
 
-import model.ImageDatabaseInterface;
 import controller.commandsStrategy.CommandStrategyInterface;
+import model.ImageDatabaseInterface;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
