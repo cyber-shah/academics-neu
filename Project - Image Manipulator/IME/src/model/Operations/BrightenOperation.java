@@ -20,27 +20,45 @@ public class BrightenOperation implements OperationInterface {
     int maxValue = image.getMaxValue();
     Image newImage = new Image(width, height, maxValue);
 
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j ++) {
-        int red = image.getPixel(i, j).getRed();
-        int green = image.getPixel(i, j).getGreen();
-        int blue = image.getPixel(i, j).getBlue();
+    int i = 0;
+    int j = 0;
+    try {
+      for (i = 0; i < width; i++) {
+        for (j = 0; j < height; j++) {
+          // get the rgb values of the pixel
+          int red = image.getPixel(i, j).getRed();
+          int green = image.getPixel(i, j).getGreen();
+          int blue = image.getPixel(i, j).getBlue();
 
-        int newRed = red + this.value;
-        int newGreen = green + this.value;
-        int newBlue = blue + this.value;
+          // add the value to each rgb value
+          int newRed = red + this.value;
+          int newGreen = green + this.value;
+          int newBlue = blue + this.value;
 
-        if (newRed > maxValue) {
-          newRed = maxValue;
-        } if (newGreen > maxValue) {
-          newGreen = maxValue;
-        } if (newBlue > maxValue) {
-          newBlue = maxValue;
+          // if greater than maxValue, set to maxValue
+          if (newRed > maxValue) {
+            newRed = maxValue;
+          } if (newGreen > maxValue) {
+            newGreen = maxValue;
+          } if (newBlue > maxValue) {
+            newBlue = maxValue;
+          }
+
+          // if less than 0, set to 0
+          if (newRed < 0) {
+            newRed = 0;
+          } if (newGreen < 0) {
+            newGreen = 0;
+          } if (newBlue < 0) {
+            newBlue = 0;
+          }
+
+          Pixel newPixel = new Pixel(newRed, newGreen, newBlue);
+          newImage.setPixel(i, j, newPixel);
         }
-
-        Pixel newPixel = new Pixel(newRed, newGreen, newBlue);
-        newImage.setPixel(i, j, newPixel);
       }
+    } catch (NullPointerException e) {
+      throw new NullPointerException("Pixel " + i + ", " + j + " is null");
     }
     return newImage;
   }

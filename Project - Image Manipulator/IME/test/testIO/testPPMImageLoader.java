@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
  * 5. Pixels
  * 6. PixelsIncomplete
  * 7. PixelsNoIntegers
- *
  */
 public class testPPMImageLoader {
 

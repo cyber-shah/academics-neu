@@ -6,9 +6,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestImage {
-
-  /**
+/**
+ * Test class for Image.
    * 1. Test the constructor.
    * 2. Test the constructor with a null argument.
    * 3. Test with invalid width.
@@ -22,7 +21,8 @@ public class TestImage {
    * 11. Test setPixel with invalid coordinates.
    * 12. Test setPixel with a null pixel.
    * 13. Test setPixel with a pixel with invalid maxValue.
-   */
+ */
+public class TestImage {
 
   @Test
   public void testParams() {

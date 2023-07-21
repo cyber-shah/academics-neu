@@ -1,5 +1,10 @@
 package model.Image;
 
+/**
+ * This class represents a Image.
+ * Built up by a 2D array of Pixels.
+ * The value of each channel should be greater than 0.
+ */
 public class Image implements ImageState {
   private final int width;
   private final int height;

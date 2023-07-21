@@ -1,5 +1,11 @@
 package model.Image;
 
+/**
+ * This class represents a Pixel.
+ * A Pixel has three channels: Red, Green, Blue.
+ * The value of each channel should be greater than 0.
+ * The value of each channel should be less than maxValue.
+ */
 public class Pixel implements IPixel {
   private int Red;
   private int Green;
@@ -15,8 +21,7 @@ public class Pixel implements IPixel {
    * @param Blue int value of Blue.
    */
   public Pixel(int Red, int Green, int Blue) {
-    Pixel pixel = new Pixel(Red, Green, Blue, 255);
-    this.maxValue = 255;
+    this(Red, Green, Blue, 255);
   }
 
   /**

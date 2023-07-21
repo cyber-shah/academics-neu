@@ -13,13 +13,15 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
+
+/**
+ * Test class for PPMImageSaver.
+ *    * 1. test savePPMImage() with a valid file name
+ *    * 2. test savePPMImage() with an invalid file name
+ *    * 3. test savePPMImage() with a null file name
+ *    * 4. test savePPMImage() with a null image
+ */
 public class testPPMImageSaver {
-  /**
-   * 1. test savePPMImage() with a valid file name
-   * 2. test savePPMImage() with an invalid file name
-   * 3. test savePPMImage() with a null file name
-   * 4. test savePPMImage() with a null image
-   */
 
   private Image loadImage;
   private String loadPath;

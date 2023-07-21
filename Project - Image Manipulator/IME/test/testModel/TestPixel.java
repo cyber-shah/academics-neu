@@ -5,30 +5,28 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class for Pixel.
+ *    * 1. Test the constructor.
+ *    * 2. Test the constructor with a null argument.
+ *    * 3. Test with invalid red value.
+ *    * 4. Test with invalid green value.
+ *    * 5. Test with invalid blue value.
+ *    * 6. Test getRed. 7. Test getGreen. 8. Test getBlue.
+ *    * 9. Test setRed. 10. Test setGreen. 11. Test setBlue.
+ *    * 12. Test setRed with an invalid value.
+ *    * 13. Test setGreen with an invalid value.
+ *    * 14. Test setBlue with an invalid value.
+ */
 public class TestPixel {
 
-  /**
-   * 1. Test the constructor.
-   * 2. Test the constructor with a null argument.
-   * 3. Test with invalid red value.
-   * 4. Test with invalid green value.
-   * 5. Test with invalid blue value.
-   * 6. Test getRed. 7. Test getGreen. 8. Test getBlue.
-   * 9. Test setRed. 10. Test setGreen. 11. Test setBlue.
-   * 12. Test setRed with an invalid value.
-   * 13. Test setGreen with an invalid value.
-   * 14. Test setBlue with an invalid value.
-   * 15. Test toString.
-   * 16. Test equals.
-   * 17. Test equals with a null argument.
-   */
 
   @Test
   public void testParams() {
-    Pixel pixel = new Pixel(0, 0, 0);
-    assertEquals(0, pixel.getRed());
-    assertEquals(0, pixel.getGreen());
-    assertEquals(0, pixel.getBlue());
+    Pixel pixel = new Pixel(1, 2, 3);
+    assertEquals(1, pixel.getRed());
+    assertEquals(2, pixel.getGreen());
+    assertEquals(3, pixel.getBlue());
   }
 
   @Test(expected = IllegalArgumentException.class)
