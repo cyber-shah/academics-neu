@@ -25,47 +25,53 @@ public class PPMImageLoader implements ImageLoaderInterface {
    * @throws IllegalArgumentException if the file is not a 'P3' PPM file.
    */
   public Image load(String filePath) throws FileNotFoundException {
-    Scanner scanner;
-    try {
-      scanner = new Scanner(new FileInputStream(filePath));
-    }
-    catch (FileNotFoundException e) {
-      throw new FileNotFoundException("From ImageLoader: File " + filePath + " not found!");
-    }
 
-    // 0. read the file into a string
-    // and convert it to a format that we can use
-    StringBuilder builder = new StringBuilder();
-    //read the file line by line, and populate a string. This will throw away any comment lines
-    while (scanner.hasNextLine()) {
-      String s = scanner.nextLine();
-      if (s.charAt(0)!='#') {
-        builder.append(s+System.lineSeparator());
+    try (Scanner scanner = new Scanner(new FileInputStream(filePath))) {
+
+      // 0. read the file into a string
+      // and convert it to a format that we can use
+      StringBuilder builder = new StringBuilder();
+      //read the file line by line, and populate a string. This will throw away any comment lines
+      while (scanner.hasNextLine()) {
+        String s = scanner.nextLine();
+        if (s.charAt(0)!='#') {
+          builder.append(s+System.lineSeparator());
+        }
       }
-    }
-    //now set up the scanner to read from the string we just built
-    scanner = new Scanner(builder.toString());
+      //now set up the scanner to read from the string we just built
+      Scanner newScanner = new Scanner(builder.toString());
 
-    // 1. get the image parameters, and check if they are valid
-    int[] imageParameters = readImageParameters(scanner);
-    int width; int height; int maxValue;
-    width = imageParameters[0];
-    height = imageParameters[1];
-    maxValue = imageParameters[2];
+      // 1. get the image parameters, and check if they are valid
+      int[] imageParameters = readImageParameters(newScanner);
+      int width; int height; int maxValue;
+      width = imageParameters[0];
+      height = imageParameters[1];
+      maxValue = imageParameters[2];
 
-    // 2. if valid parameters, create the image
-    Image image = new Image(width, height, maxValue);
+      // 2. if valid parameters, create the image
+      Image image = new Image(width, height, maxValue);
 
-    // 3. read the pixels
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < image.getWidth(); j++) {
-        int red = scanner.nextInt();
-        int green = scanner.nextInt();
-        int blue = scanner.nextInt();
-        image.setPixel(j, i, new Pixel(red, green, blue, maxValue));
+      // 3. read the pixels
+      try {
+        for (int i = 0; i < image.getHeight(); i++) {
+          for (int j = 0; j < image.getWidth(); j++) {
+            int red = newScanner.nextInt();
+            int green = newScanner.nextInt();
+            int blue = newScanner.nextInt();
+            image.setPixel(j, i, new Pixel(red, green, blue, maxValue));
+          }
+        }
       }
+      catch (NoSuchElementException e) {
+        throw new NoSuchElementException("From ImageLoader: File " + filePath +
+                " is not a complete PPM file!");
+      }
+      return image;
     }
-    return image;
+    catch (FileNotFoundException e)  {
+      throw new IllegalArgumentException("From ImageLoader: File " + filePath +
+              " not found!");
+    }
   }
 
   /**

@@ -15,6 +15,9 @@ public class Image implements ImageState {
    * @param maxValue int value of maxValue.
    */
   public Image(int width, int height, int maxValue) {
+    if (width <= 0 || height <= 0 || maxValue <= 0) {
+      throw new IllegalArgumentException("Invalid image parameters");
+    }
     this.width = width;
     this.height = height;
     this.maxValue = maxValue;

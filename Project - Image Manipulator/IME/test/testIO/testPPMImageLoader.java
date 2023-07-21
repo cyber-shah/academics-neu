@@ -1,4 +1,4 @@
-package testImageLoader;
+package testIO;
 
 import model.Image.Image;
 import controller.IO.PPMImageLoader;
@@ -28,7 +28,7 @@ public class testPPMImageLoader {
 
   @Test
   public void testSetParams() throws FileNotFoundException {
-    this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testImageLoader\\test4x4.ppm";
+    this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
     this.image = new PPMImageLoader().load(path);
     assertEquals(4, image.getWidth());
     assertEquals(4, image.getHeight());
@@ -37,7 +37,7 @@ public class testPPMImageLoader {
 
   @Test (expected = NoSuchElementException.class)
   public void testSetParamsIncompelete() throws FileNotFoundException {
-    this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testImageLoader\\testIncompleteFile.ppm";
+    this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testIO\\testIncompleteFile.ppm";
     this.image = new PPMImageLoader().load(path);
   }
 
@@ -55,7 +55,7 @@ public class testPPMImageLoader {
 
   @Test
   public void testPixels() throws FileNotFoundException {
-    this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testImageLoader\\test4x4.ppm";
+    this.path = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
     this.image = new PPMImageLoader().load(path);
 
     assertEquals(11, image.getPixel(0,0).getRed());

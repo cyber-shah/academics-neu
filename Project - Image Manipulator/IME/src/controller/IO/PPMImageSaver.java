@@ -21,7 +21,7 @@ public class PPMImageSaver implements ImageSaverInterface{
     // 1. add the header and the dimensions of the image.
     sb.append("P3\n");
     sb.append(image.getWidth() + " " + image.getHeight() + "\n");
-    sb.append(image.getMaxValue());
+    sb.append(image.getMaxValue() + "\n");
 
     // 2. add the pixels.
     for (int i = 0; i < image.getHeight(); i++) {
