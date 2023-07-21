@@ -33,11 +33,6 @@ public class TestImage {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testNullParams() {
-    Image image = new Image(null, null , null);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
   public void testInvalidWidth() {
     Image image = new Image(-1, 4, 255);
   }
@@ -59,5 +54,56 @@ public class TestImage {
     image.setPixel(0, 0, pixel);
     assertEquals(pixel, image.getPixel(0, 0));
   }
+
+  @Test(expected = NullPointerException.class)
+  public void testGetPixelInvalidCoordinates() {
+    Image image = new Image(4, 4, 255);
+    Pixel pixel = new Pixel(0, 0, 0);
+    image.setPixel(0, 0, pixel);
+    image.getPixel(4, 4);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testGetPixelNullPixel() {
+    Image image = new Image(4, 4, 255);
+    image.getPixel(0, 0);
+  }
+
+  @Test
+  public void testGetPixelsList() {
+    Image image = new Image(4, 4, 255);
+    Pixel pixel = new Pixel(0, 0, 0);
+    image.setPixel(0, 0, pixel);
+    assertEquals(pixel, image.getPixelsList()[0][0]);
+  }
+
+  @Test
+  public void testSetPixel() {
+    Image image = new Image(4, 4, 255);
+    Pixel pixel = new Pixel(0, 0, 0);
+    image.setPixel(0, 0, pixel);
+    assertEquals(pixel, image.getPixel(0, 0));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetPixelInvalidCoordinates() {
+    Image image = new Image(4, 4, 255);
+    Pixel pixel = new Pixel(0, 0, 0);
+    image.setPixel(4, 4, pixel);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetPixelNullPixel() {
+    Image image = new Image(4, 4, 255);
+    image.setPixel(0, 0, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetPixelInvalidMaxValue() {
+    Image image = new Image(4, 4, 255);
+    Pixel pixel = new Pixel(0, 0, 256);
+    image.setPixel(0, 0, pixel);
+  }
+
 
 }
