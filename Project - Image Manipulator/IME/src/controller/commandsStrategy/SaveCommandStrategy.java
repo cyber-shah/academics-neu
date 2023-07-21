@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SaveCommandStrategy implements CommandStrategyInterface {
 
   @Override
-  public void run(Scanner scanner, ImageDatabaseInterface model) {
+  public void run(String[] commandsList, ImageDatabaseInterface model) {
     // TODO implement here
   }
 }

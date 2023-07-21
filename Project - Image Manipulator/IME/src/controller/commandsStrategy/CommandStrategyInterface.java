@@ -12,6 +12,6 @@ import java.util.Scanner;
  * --------------------------------
  */
 public interface CommandStrategyInterface {
-  void run(Scanner scanner, ImageDatabaseInterface model);
+  void run(String[] commandsList, ImageDatabaseInterface model);
 
 }

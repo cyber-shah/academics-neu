@@ -13,16 +13,16 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
   /**
    * This method runs the command.
    *
-   * @param scanner Scanner object.
+   * @param commandsList    String[] a list of commands.
    * @param imageDatabase   ImageDatabaseInterface object.
    */
   @Override
-  public void run(Scanner scanner, ImageDatabaseInterface imageDatabase) {
+  public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
     // 1. Get the name of the file to load from the user.
     String[] args;
     // 0. Validate all the arguments.
     try {
-      args = validateArguments(scanner);
+      args = validateArguments(commandsList);
     } catch (IllegalStateException e) {
       throw new IllegalStateException(e.getMessage());
     }
@@ -48,10 +48,18 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
   /**
    * This method validates the arguments passed to the command.
    *
-   * @param scanner Scanner object.
+   * @param commandsList String[] a list of commands.
    */
-  private String[] validateArguments(Scanner scanner) throws IllegalStateException {
+  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
     String[] args = new String[2];
+    // 1. Validate the sourceImagePath.
+    if (commandsList.length < 2) {
+      throw new IllegalStateException("sourceImagePath not found.");
+    }
+    args[0] = commandsList[1];
+    args[1] = commandsList[2];
+    return args;
+    /*
     // 1. Validate the sourceImagePath.
     if (!scanner.hasNext()) {
       throw new IllegalStateException("sourceImagePath not found.");
@@ -68,6 +76,6 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
 //    if (scanner.hasNext()) {
 //      throw new IllegalStateException("Too many arguments.");
 //    }
-    return args;
+    return args;*/
   }
 }

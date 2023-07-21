@@ -63,9 +63,17 @@ public class ControllerImplementation implements ControllerInterface {
 
     while (scanner.hasNextLine()) {
       // 1. Read the command line
+      // NOTE : Changed it to next line beacuse next was taking in all extra commands after what was needed.
+      // eg. load koala.ppm koala 66272 was valid till koala but it was considering 66272 as a part of the next command.
       String commandList[] = scanner.nextLine().split(" ");
-      // 2. Get the command object from the command registry
+
       String command = commandList[0];
+      // ignore comments
+      if (command.startsWith("#")) {
+        continue;
+      }
+
+      // 2. Get the command object from the command registry
       CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command, null);
       if (commandStrategyObject == null) {
         write("Command not found.");
@@ -74,7 +82,7 @@ public class ControllerImplementation implements ControllerInterface {
 
       // 3. Run the command
       try {
-        commandStrategyObject.run(scanner, this.model);
+        commandStrategyObject.run(commandList, this.model);
       }
       catch (Exception e) {
         write(e.getMessage());

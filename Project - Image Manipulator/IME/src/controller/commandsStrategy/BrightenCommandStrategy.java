@@ -15,11 +15,11 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
    * @param imageDatabase ImageDatabaseInterface object.
    */
   @Override
-  public void run(Scanner scanner, ImageDatabaseInterface imageDatabase) {
+  public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.
     String[] args;
     try {
-      args = validateArguments(scanner);
+      args = validateArguments(commandsList);
     } catch (IllegalStateException e) {
       throw new IllegalStateException(e.getMessage());
     }
@@ -41,11 +41,12 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
   /**
    * This method validates the arguments passed to the command.
    *
-   * @param scanner Scanner object.
+   * @param commandsList commandsList object.
    */
-  private String[] validateArguments(Scanner scanner) {
+  private String[] validateArguments(String[] commandsList) {
     String[] args = new String[3];
-    // 1. Validate the sourceImageID.
+
+/*    // 1. Validate the sourceImageID.
     if (!scanner.hasNext()) {
       throw new IllegalStateException("SourceImageID not found.");
     }
@@ -66,7 +67,8 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     // 4. Validate that there are no more arguments.
     if (scanner.hasNext()) {
       throw new IllegalStateException("Too many arguments.");
-    }
+    }*/
+
     return args;
   }
 }
