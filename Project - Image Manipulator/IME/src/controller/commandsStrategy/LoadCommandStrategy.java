@@ -12,6 +12,8 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
 
   /**
    * This method runs the command.
+   * NOTE: this command calls on the ImageLoader from IO
+   *       to load the image.
    *
    * @param commandsList    String[] a list of commands.
    * @param imageDatabase   ImageDatabaseInterface object.

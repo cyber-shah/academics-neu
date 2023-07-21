@@ -15,7 +15,8 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
    * @param imageDatabase ImageDatabaseInterface object.
    */
   @Override
-  public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
+  public void run(String[] commandsList,
+                  ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.
     String[] args;
     try {
@@ -29,8 +30,6 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     String destinationID = args[2];
 
     // Once all the arguments are validated, call the brighten method.
-    // 1. Get the sourceImage from the imageDatabase using the sourceImageID.
-    // 2. Create a new BrightenTransformation object using the sourceImage and the value.
     ImageState newImage = new BrightenOperation(imageDatabase.getImage(sourceImageID), value).
             applyOperation();
 

@@ -2,18 +2,15 @@ package controller.commandsStrategy;
 
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
-import model.Operations.BrightenOperation;
-import model.Operations.ValueComponentOperation;
+import model.Operations.IntensityOperation;
 
-import java.util.Scanner;
-
-public class ValueCommandStrategy implements CommandStrategyInterface {
+public class IntensityCommandStrategy implements CommandStrategyInterface {
 
   /**
-   * This method parses the arguments and then calls the value method on the image.
+   * This method runs the intensity command.
    *
-   * @param commandsList  String[] list of inputs.
-   * @param imageDatabase ImageDatabaseInterface object.
+   * @param commandsList The list of commands.
+   * @param imageDatabase The image database.
    */
   @Override
   public void run(String[] commandsList,
@@ -26,12 +23,11 @@ public class ValueCommandStrategy implements CommandStrategyInterface {
       throw new IllegalStateException(e.getMessage());
     }
 
-    // 1. Validate the value.
     String sourceImageID = args[0];
     String destinationID = args[1];
 
-    // 2. Once all the arguments are validated, call the brighten method.
-    ImageState newImage = new ValueComponentOperation(imageDatabase.getImage(sourceImageID)).
+    // Once all the arguments are validated, call the intensity method.
+    ImageState newImage = new IntensityOperation(imageDatabase.getImage(sourceImageID)).
             applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.
@@ -39,12 +35,14 @@ public class ValueCommandStrategy implements CommandStrategyInterface {
   }
 
   /**
-   * This method validates the arguments passed to the command.
+   * This method checks if the command is valid.
    *
-   * @param commandsList commandsList object.
+   * @param commandsList The list of commands.
+   * @return True if the command is valid, false otherwise.
    */
-  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
-    String[] args = new String[2];
+  private String[] validateArguments(String[] commandsList)
+          throws IllegalStateException {
+    String[] args = new String[3];
 
     if (commandsList.length < 2) {
       throw new IllegalStateException("Too few arguments.");

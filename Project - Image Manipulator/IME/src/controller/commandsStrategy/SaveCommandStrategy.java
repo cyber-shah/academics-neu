@@ -4,10 +4,22 @@ import controller.IO.ImageSaverInterface;
 import controller.IO.PPMImageSaver;
 import model.ImageDatabaseInterface;
 
-import java.util.Scanner;
-
+/**
+ * This class implements the CommandStrategyInterface and is responsible for saving an image.
+ * @see CommandStrategyInterface
+ * @see ImageDatabaseInterface
+ */
 public class SaveCommandStrategy implements CommandStrategyInterface {
 
+  /**
+   * This method runs the command.
+   * NOTE: This method calls the ImageSaver to save the image.
+   *       from IO package.
+   *
+   * @param commandsList String[] a list of commands.
+   * @param model ImageDatabaseInterface the model to be used.
+   * @throws IllegalArgumentException if the image cannot be saved.
+   */
   @Override
   public void run(String[] commandsList, ImageDatabaseInterface model) {
     // 1. Get the name of the file to load from the user.

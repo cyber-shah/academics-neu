@@ -11,10 +11,9 @@ public class IME {
 
   public static void main(String[] args) {
     ImageDatabaseInterface model = new ImageDatabase();
-    Appendable out = System.out;
+    ViewImplementation view = new ViewImplementation(System.out);
     Readable in = new InputStreamReader(System.in);
-    ControllerImplementation controller = new ControllerImplementation(model, out, in);
-    ViewImplementation view = new ViewImplementation(controller, out);
+    ControllerImplementation controller = new ControllerImplementation(model, view, in);
     OperationInterface operations;
     controller.go();
   }

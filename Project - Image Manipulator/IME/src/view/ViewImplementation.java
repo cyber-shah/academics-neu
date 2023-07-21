@@ -2,21 +2,23 @@ package view;
 
 import controller.ControllerInterface;
 
+import java.io.IOException;
+
 public class ViewImplementation implements ViewInterface {
-  private ControllerInterface controller;
   private Appendable outAppendable;
 
-  public ViewImplementation(ControllerInterface controller, Appendable out) {
-    if (controller == null || out == null) {
-      throw new IllegalArgumentException("Controller and Appendable must not be null");
-    }
-    this.controller = controller;
+  public ViewImplementation(Appendable out) {
     this.outAppendable = out;
   }
 
   @Override
-  public void render() {
-
+  public void renderMessage(String message) throws IOException {
+    try {
+      this.outAppendable.append(message);
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new IOException("Failed to transmit message.", e);
+    }
   }
 }
 

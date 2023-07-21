@@ -5,19 +5,32 @@ import model.Image.ImageState;
 import model.Image.Pixel;
 
 public class BrightenOperation implements OperationInterface {
-  private ImageState image;
-  private int value;
+  private final ImageState sourceImage;
+  private final int value;
 
-  public BrightenOperation(ImageState image, int value) {
-    this.image = image;
+  /**
+   * This is the constructor for the BrightenOperation class.
+   *
+   * @param sourceImage The source image.
+   * @param value      The value to be added to the rgb values of the pixel.
+   */
+  public BrightenOperation(ImageState sourceImage, int value) {
+    this.sourceImage = sourceImage;
     this.value = value;
   }
 
+  /**
+   * This method applies the brighten operation on the image.
+   * It adds the value to each rgb value of the pixel.
+   * If the value is greater than the maxValue, it sets the value to the maxValue.
+   *
+   * @return newImage ImageState object.
+   */
   @Override
   public ImageState applyOperation() {
-    int width = image.getWidth();
-    int height = image.getHeight();
-    int maxValue = image.getMaxValue();
+    int width = sourceImage.getWidth();
+    int height = sourceImage.getHeight();
+    int maxValue = sourceImage.getMaxValue();
     Image newImage = new Image(width, height, maxValue);
 
     int i = 0;
@@ -26,9 +39,9 @@ public class BrightenOperation implements OperationInterface {
       for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
           // get the rgb values of the pixel
-          int red = image.getPixel(i, j).getRed();
-          int green = image.getPixel(i, j).getGreen();
-          int blue = image.getPixel(i, j).getBlue();
+          int red = sourceImage.getPixel(i, j).getRed();
+          int green = sourceImage.getPixel(i, j).getGreen();
+          int blue = sourceImage.getPixel(i, j).getBlue();
 
           // add the value to each rgb value
           int newRed = red + this.value;
@@ -53,8 +66,7 @@ public class BrightenOperation implements OperationInterface {
             newBlue = 0;
           }
 
-          Pixel newPixel = new Pixel(newRed, newGreen, newBlue);
-          newImage.setPixel(i, j, newPixel);
+          newImage.setPixel(i, j, new Pixel(newRed, newGreen, newBlue);
         }
       }
     } catch (NullPointerException e) {

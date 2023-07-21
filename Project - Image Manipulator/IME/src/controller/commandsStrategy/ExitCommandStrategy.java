@@ -9,6 +9,6 @@ public class ExitCommandStrategy implements CommandStrategyInterface {
 
     @Override
     public void run(String[] commandsList, ImageDatabaseInterface model) {
-        return;
+        System.exit(0);
     }
 }

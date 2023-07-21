@@ -2,19 +2,10 @@ package controller.commandsStrategy;
 
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
-import model.Operations.BrightenOperation;
-import model.Operations.ValueComponentOperation;
+import model.Operations.LumaOperation;
 
-import java.util.Scanner;
+public class LumaCommandStrategy implements CommandStrategyInterface {
 
-public class ValueCommandStrategy implements CommandStrategyInterface {
-
-  /**
-   * This method parses the arguments and then calls the value method on the image.
-   *
-   * @param commandsList  String[] list of inputs.
-   * @param imageDatabase ImageDatabaseInterface object.
-   */
   @Override
   public void run(String[] commandsList,
                   ImageDatabaseInterface imageDatabase) {
@@ -26,12 +17,12 @@ public class ValueCommandStrategy implements CommandStrategyInterface {
       throw new IllegalStateException(e.getMessage());
     }
 
-    // 1. Validate the value.
+    // 1. Set the sourceImageID and the destinationID.
     String sourceImageID = args[0];
     String destinationID = args[1];
 
-    // 2. Once all the arguments are validated, call the brighten method.
-    ImageState newImage = new ValueComponentOperation(imageDatabase.getImage(sourceImageID)).
+    // 2. Once all the arguments are validated, call the luma method.
+    ImageState newImage = new LumaOperation(imageDatabase.getImage(sourceImageID)).
             applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.
@@ -39,11 +30,13 @@ public class ValueCommandStrategy implements CommandStrategyInterface {
   }
 
   /**
-   * This method validates the arguments passed to the command.
+   * This method checks if the command is valid.
    *
-   * @param commandsList commandsList object.
+   * @param commandsList The list of commands.
+   * @return True if the command is valid, false otherwise.
    */
-  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
+  private String[] validateArguments(String[] commandsList)
+          throws IllegalStateException {
     String[] args = new String[2];
 
     if (commandsList.length < 2) {

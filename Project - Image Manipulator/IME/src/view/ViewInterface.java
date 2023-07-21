@@ -1,5 +1,7 @@
 package view;
 
+import java.io.IOException;
+
 public interface ViewInterface {
-  void render();
+  void renderMessage(String message) throws IOException;
 }

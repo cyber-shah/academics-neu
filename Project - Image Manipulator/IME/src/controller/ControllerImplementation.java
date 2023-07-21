@@ -2,7 +2,9 @@ package controller;
 
 import controller.commandsStrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
+import view.ViewImplementation;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,7 +18,7 @@ import java.util.Scanner;
  */
 public class ControllerImplementation implements ControllerInterface {
   private final ImageDatabaseInterface model;
-  private final Appendable view;
+  private final ViewImplementation view;
   private final Readable inReadable;
   private final Map<String, CommandStrategyInterface> commandRegistry;
 
@@ -27,7 +29,7 @@ public class ControllerImplementation implements ControllerInterface {
    * @param inReadable Readable object.
    * @throws IllegalArgumentException if any of the arguments are null.
    */
-  public ControllerImplementation(ImageDatabaseInterface model, Appendable view, Readable inReadable)
+  public ControllerImplementation(ImageDatabaseInterface model, ViewImplementation view, Readable inReadable)
           throws IllegalArgumentException {
     if (model == null || view == null || inReadable == null) {
       throw new IllegalArgumentException("Arguments cannot be null.");
@@ -48,13 +50,6 @@ public class ControllerImplementation implements ControllerInterface {
     commandRegistry.put("EXIT", new controller.commandsStrategy.ExitCommandStrategy());
   }
 
-  private void write(String string) {
-    try {
-      this.view.append(string);
-    } catch (Exception e) {
-      throw new IllegalStateException("Could not write to view.");
-    }
-  }
 
   /**
    * This method starts the controller.
@@ -79,7 +74,12 @@ public class ControllerImplementation implements ControllerInterface {
       // 2. Get the command object from the command registry
       CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command.toUpperCase(), null);
       if (commandStrategyObject == null) {
-        write("Command not found.\n");
+        try {
+          view.renderMessage("Command not found.\n");
+        }
+        catch (IOException e) {
+          throw new IllegalStateException ("Failed to transmit message. Command not found.\n");
+        }
         continue;
       }
 
@@ -87,12 +87,18 @@ public class ControllerImplementation implements ControllerInterface {
       try {
         commandStrategyObject.run(commandList, this.model);
         if (commandStrategyObject instanceof controller.commandsStrategy.ExitCommandStrategy) {
-          view.append("Exiting... Thank you for using the program.");
+          view.renderMessage("Exiting... Thank you for using the program.");
           break;
         }
       }
       catch (Exception e) {
-        write(e.getMessage());
+        try {
+          view.renderMessage(e.getMessage());
+        }
+        catch (Exception e1) {
+          e1.printStackTrace();
+          throw new IllegalStateException("Failed to transmit message.", e1);
+        }
       }
     }
   }
