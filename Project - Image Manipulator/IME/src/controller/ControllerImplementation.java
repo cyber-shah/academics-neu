@@ -47,7 +47,7 @@ public class ControllerImplementation implements ControllerInterface {
     commandRegistry.put("LOAD", new controller.commandsStrategy.LoadCommandStrategy());
     commandRegistry.put("SAVE", new controller.commandsStrategy.SaveCommandStrategy());
     commandRegistry.put("BRIGHTEN", new controller.commandsStrategy.BrightenCommandStrategy());
-    commandRegistry.put("LUMA", new controller.commandsStrategy.LoadCommandStrategy());
+    commandRegistry.put("LUMA", new controller.commandsStrategy.LumaCommandStrategy());
     commandRegistry.put("INTENSITY", new controller.commandsStrategy.IntensityCommandStrategy());
     commandRegistry.put("VALUE", new controller.commandsStrategy.ValueCommandStrategy());
     commandRegistry.put("COMPONENT", new controller.commandsStrategy.ComponentCommandStrategy());
@@ -62,6 +62,20 @@ public class ControllerImplementation implements ControllerInterface {
     Scanner scanner = new Scanner(this.inReadable);
     this.registerCommands();
 
+    try {
+      view.renderMessage("-----------------------------------------\n");
+      view.renderMessage("Welcome to the Image Manipulation Program.\n");
+      view.renderMessage("Enter a command or type \"list-all-commands\" to see all commands.\n"
+              + "Type \"exit\" to exit the program.\n"
+              + "Enter \"#\" before a command to comment it out.\n");
+      view.renderMessage("Enter a command: \n");
+      view.renderMessage(">>>");
+    }
+    catch (IOException e) {
+      throw new IllegalStateException("Failed to transmit message.", e);
+    }
+
+    // Start reading commands
     while (scanner.hasNextLine()) {
       // 1. Read the command line
       // NOTE: Changed it to next line because next was taking in all extra commands after what was needed.
@@ -70,18 +84,21 @@ public class ControllerImplementation implements ControllerInterface {
 
       String command = commandList[0];
       command = command.toUpperCase();
-      // ignore comments
-      if (command.startsWith("#")) {
-        continue;
-      }
-      else if (command.equals("EXIT")) {
-        System.exit(0);
-      }
-      else if (command.equals("LIST-ALL-IMAGES")) {
-        view.renderMessage(model.getAllImageNames());
-      }
-      else if (command.equals("LIST-ALL-COMMANDS")) {
-        view.renderMessage(this.listAllCommands());
+      // BASIC COMMANDS THAT DO NOT REQUIRE A COMMAND OBJECT
+      try {
+        if (command.startsWith("#")) {
+          continue;
+        } else if (command.equals("EXIT")) {
+          System.exit(0);
+        } else if (command.equals("LIST-ALL-IMAGES")) {
+          view.renderMessage(model.getAllImageNames() + "\n>>>");
+          continue;
+        } else if (command.equals("LIST-ALL-COMMANDS")) {
+          view.renderMessage(this.listAllCommands() + "\n>>>");
+          continue;
+        }
+      } catch (IOException e) {
+        throw new IllegalStateException("Failed to transmit message.", e);
       }
 
       // 2. Get the command object from the command registry
@@ -89,8 +106,7 @@ public class ControllerImplementation implements ControllerInterface {
       if (commandStrategyObject == null) {
         try {
           view.renderMessage("Command: " + command + " not found.\n");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
           throw new IllegalStateException ("Failed to transmit message. Command not found.\n");
         }
         continue;
@@ -99,13 +115,11 @@ public class ControllerImplementation implements ControllerInterface {
       // 3. Run the command
       try {
         commandStrategyObject.run(commandList, this.model);
-        view.renderMessage("Command " + command +" executed successfully.\n");
-      }
-      catch (Exception e) {
+        view.renderMessage("Command " + command +" executed successfully.\n>>>");
+      } catch (Exception e) {
         try {
-          view.renderMessage(e.getMessage());
-        }
-        catch (Exception e1) {
+          view.renderMessage(e.getMessage() + "\n>>>");
+        } catch (Exception e1) {
           e1.printStackTrace();
           throw new IllegalStateException("Failed to transmit message.", e1);
         }
