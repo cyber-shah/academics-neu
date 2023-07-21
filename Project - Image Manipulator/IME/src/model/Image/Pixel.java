@@ -16,6 +16,7 @@ public class Pixel implements IPixel {
    */
   public Pixel(int Red, int Green, int Blue) {
     Pixel pixel = new Pixel(Red, Green, Blue, 255);
+    this.maxValue = 255;
   }
 
   /**
@@ -28,9 +29,13 @@ public class Pixel implements IPixel {
    * @param maxValue int value of maxColor.
    */
   public Pixel(int Red, int Green, int Blue, int maxValue) {
+    if (Red < 0 || Green < 0 || Blue < 0) {
+      throw new IllegalArgumentException("The value of Red, Green, Blue should be greater than 0.");
+    }
     this.Red = Red;
     this.Green = Green;
     this.Blue = Blue;
+    this.maxValue = maxValue;
     if (this.Red > maxValue || this.Green > maxValue || this.Blue > maxValue) {
       throw new IllegalArgumentException("The value of Red, Green, Blue should be less than maxValue.");
     }
@@ -77,9 +82,12 @@ public class Pixel implements IPixel {
    *
    * @param Red int value of Red.
    */
-  public void setRed(int Red) {
-    if (Red > 255) {
-      Red = 255;
+  public void setRed(int Red) throws IllegalArgumentException {
+    if (Red > maxValue) {
+      Red = maxValue;
+    }
+    else if (Red < 0) {
+      throw new IllegalArgumentException("The value of Red should be greater than 0.");
     }
     this.Red = Red;
   }
@@ -89,9 +97,12 @@ public class Pixel implements IPixel {
    *
    * @param Green int value of Green.
    */
-  public void setGreen(int Green) {
-    if (Green > 255) {
-      Green = 255;
+  public void setGreen(int Green) throws IllegalArgumentException {
+    if (Green > maxValue) {
+      Green = maxValue;
+    }
+    else if (Green < 0) {
+      throw new IllegalArgumentException("The value of Green should be greater than 0.");
     }
     this.Green = Green;
   }
@@ -101,9 +112,12 @@ public class Pixel implements IPixel {
    *
    * @param Blue int value of Blue.
    */
-  public void setBlue(int Blue) {
-    if (Blue > 255) {
-      Blue = 255;
+  public void setBlue(int Blue) throws IllegalArgumentException {
+    if (Blue > maxValue) {
+      Blue = maxValue;
+    }
+    else if (Blue < 0) {
+      throw new IllegalArgumentException("The value of Blue should be greater than 0.");
     }
     this.Blue = Blue;
   }
