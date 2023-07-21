@@ -15,7 +15,7 @@ public class PPMImageSaver implements ImageSaverInterface{
    * @param path the path to the file.
    * @throws IOException if the file cannot be written to.
    */
-  public void save(ImageState image, Appendable path) throws IOException {
+  public void save(ImageState image, String path) throws IllegalArgumentException {
     StringBuilder sb = new StringBuilder();
 
     // 1. add the header and the dimensions of the image.
@@ -34,17 +34,19 @@ public class PPMImageSaver implements ImageSaverInterface{
     }
 
     // 3. write to the file.
-    File file = new File(path.toString());
+    File file = new File(path);
     try {
-      if (!file.exists()) {
-        file.createNewFile();
+      if (file.exists()) {
+        throw new IOException("File " + path + " already exists!");
       }
+      file.createNewFile();
       FileWriter writer = new FileWriter(file);
       writer.write(sb.toString());
       writer.close();
     }
     catch (IOException e) {
-      throw new IllegalArgumentException("File " + path.toString() + " cannot be written to!");
+      throw new IllegalArgumentException("File " + path + " cannot be written to!");
     }
+
   }
 }

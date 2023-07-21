@@ -17,6 +17,7 @@ public class LoadOperation implements OperationInterface {
   }
   @Override
   public Image applyOperation() {
+    // FIXME: If I'm loading images with IO operations what should this do?
     return null;
   }
 }

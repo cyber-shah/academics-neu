@@ -33,8 +33,8 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     // 3. call the ImageLoader to load the image.
     ImageState newImage;
     try {
-      // HACK: This is a hack. We need to use the ImageLoaderFactory to get the correct
-      // ImageLoader. in the future if more format are added, we need to use the factory.
+      // OPTIMIZE: We need to use the ImageLoaderFactory to get the correct ImageLoader.
+      //           In the future if more format are added..
       ImageLoaderInterface imageLoader = (ImageLoaderInterface) new PPMImageLoader();
       newImage = imageLoader.load(sourceImagePath);
     } catch (IOException e) {

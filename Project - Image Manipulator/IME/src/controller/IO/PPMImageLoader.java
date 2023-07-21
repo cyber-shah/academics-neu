@@ -30,7 +30,7 @@ public class PPMImageLoader implements ImageLoaderInterface {
       scanner = new Scanner(new FileInputStream(filePath));
     }
     catch (FileNotFoundException e) {
-      throw new FileNotFoundException("File " + filePath + " not found!");
+      throw new FileNotFoundException("From ImageLoader: File " + filePath + " not found!");
     }
 
     // 0. read the file into a string

@@ -68,7 +68,7 @@ public class ControllerImplementation implements ControllerInterface {
       // 1. Read the command line
       // NOTE: Changed it to next line because next was taking in all extra commands after what was needed.
       // eg. load koala.ppm koala 66272 was valid till koala it was considering 66272 as a part of the next command.
-      String commandList[] = scanner.nextLine().split(" ");
+      String[] commandList = scanner.nextLine().split(" ");
 
       String command = commandList[0];
       // ignore comments
@@ -79,13 +79,17 @@ public class ControllerImplementation implements ControllerInterface {
       // 2. Get the command object from the command registry
       CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command.toUpperCase(), null);
       if (commandStrategyObject == null) {
-        write("Command not found.");
+        write("Command not found.\n");
         continue;
       }
 
       // 3. Run the command
       try {
         commandStrategyObject.run(commandList, this.model);
+        if (commandStrategyObject instanceof controller.commandsStrategy.ExitCommandStrategy) {
+          view.append("Exiting... Thank you for using the program.");
+          break;
+        }
       }
       catch (Exception e) {
         write(e.getMessage());
