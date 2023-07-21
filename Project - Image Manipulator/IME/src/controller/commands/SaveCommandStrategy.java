@@ -4,7 +4,7 @@ import model.ImageDatabaseInterface;
 
 import java.util.Scanner;
 
-public class Value implements Command {
+public class SaveCommandStrategy implements CommandStrategyInterface {
 
   @Override
   public void run(Scanner scanner, ImageDatabaseInterface model) {

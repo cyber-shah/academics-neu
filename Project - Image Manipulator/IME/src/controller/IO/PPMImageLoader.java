@@ -12,7 +12,7 @@ import java.util.Scanner;
  * This class represents an ImageLoader.
  * It takes in the file path of a PPM file and returns an Image object.
  */
-public class ImageLoader {
+public class PPMImageLoader implements ImageLoaderInterface {
 
   /**
    * Loads a PPM file and returns an Image object.
@@ -24,7 +24,7 @@ public class ImageLoader {
    * @throws NoSuchElementException if the file is not a valid PPM file.
    * @throws IllegalArgumentException if the file is not a 'P3' PPM file.
    */
-  public Image loadPPM(String filename) throws FileNotFoundException {
+  public Image load(String filename) throws FileNotFoundException {
     Scanner scanner;
     try {
       scanner = new Scanner(new FileInputStream(filename));

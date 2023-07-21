@@ -1,7 +1,7 @@
 package controller;
 
 import model.ImageDatabaseInterface;
-import controller.commands.Command;
+import controller.commands.CommandStrategyInterface;
 import controller.commands.CommandRegistryManager;
 
 import java.util.Map;
@@ -11,7 +11,7 @@ public class ControllerImplementation implements ControllerInterface {
   private final ImageDatabaseInterface model;
   private final Appendable view;
   private final Readable inReadable;
-  private final Map<String, Command> commandRegistry;
+  private final Map<String, CommandStrategyInterface> commandRegistry;
 
   /**
    * Default constructor, initializes all fields.
@@ -45,22 +45,22 @@ public class ControllerImplementation implements ControllerInterface {
     Scanner scanner = new Scanner(this.inReadable);
 
     while (scanner.hasNextLine()) {
+      // 1. Read the command line
       String command = scanner.next();
-
-      Command commandObject = commandRegistry.getOrDefault(command, null);
-      if (commandObject == null) {
+      // 2. Get the command object from the command registry
+      CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command, null);
+      if (commandStrategyObject == null) {
         write("Command not found.");
         continue;
       }
 
+      // 3. Run the command
       try {
-        commandObject.run(scanner);
+        commandStrategyObject.run(scanner, this.model);
       }
       catch (Exception e) {
         write(e.getMessage());
       }
     }
-
-
   }
 }

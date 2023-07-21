@@ -3,7 +3,7 @@ package model.Operations;
 import model.Image.Image;
 import model.Image.ImageState;
 
-public interface Operation {
+public interface OperationInterface {
 
   Image applyOperation(ImageState image, int... args);
 }

@@ -31,15 +31,15 @@ public class CommandParser {
    * ---------------------
    */
   private void registerCommands() {
-    commandRegistryManager.registerCommand("LOAD", new Load());
-    commandRegistryManager.registerCommand("VALUE", new Value());
-    commandRegistryManager.registerCommand("SAVE", new Save());
-    commandRegistryManager.registerCommand("EXIT", new Exit());
+    commandRegistryManager.registerCommand("LOAD", new LoadCommandStrategy());
+    commandRegistryManager.registerCommand("VALUE", new ValueCommandStrategy());
+    commandRegistryManager.registerCommand("SAVE", new SaveCommandStrategy());
+    commandRegistryManager.registerCommand("EXIT", new ExitCommandStrategy());
   }
 
-  public ArrayList<Command> parse(String command) {
+  public ArrayList<CommandStrategyInterface> parse(String command) {
     Scanner scanner = new Scanner(this.inReadable);
-    ArrayList<Command> commands = new ArrayList<Command>();
+    ArrayList<CommandStrategyInterface> commandStrategies = new ArrayList<CommandStrategyInterface>();
 
     // 1. Read the command line
     while (scanner.hasNextLine()) {
@@ -52,13 +52,13 @@ public class CommandParser {
       String[] commandParts = commandLine.split(" ");
       String commandTypeString = commandParts[0].toUpperCase();
 
-      Command commandObj = commandRegistryManager.getCommand(commandTypeString);
-      if (commandObj == null) {
+      CommandStrategyInterface commandStrategyObj = commandRegistryManager.getCommand(commandTypeString);
+      if (commandStrategyObj == null) {
         throw new IllegalArgumentException("Invalid command");
       }
-      commands.add(commandObj);
+      commandStrategies.add(commandStrategyObj);
     }
-    return commands;
+    return commandStrategies;
   }
 
 }

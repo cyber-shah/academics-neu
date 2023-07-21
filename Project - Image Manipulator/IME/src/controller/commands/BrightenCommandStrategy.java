@@ -1,13 +1,11 @@
 package controller.commands;
 
-import model.Image.Image;
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
-import model.Operations.Operation;
 import model.Operations.BrightenOperation;
 import java.util.Scanner;
 
-public class Brighten implements Command {
+public class BrightenCommandStrategy implements CommandStrategyInterface {
 
   /**
    * This method parses the arguments and then calls the brighten method on the image.

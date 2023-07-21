@@ -4,13 +4,12 @@ import model.Image.Image;
 import model.Image.ImageState;
 import model.Image.Pixel;
 
-public class BrightenOperation implements Operation {
+public class BrightenOperation implements OperationInterface {
 
-  private int value;
 
   @Override
   public Image applyOperation(ImageState image, int... args) {
-    value = args[0];
+    int value = args[0];
     int width = image.getWidth();
     int height = image.getHeight();
     int maxValue = image.getMaxValue();

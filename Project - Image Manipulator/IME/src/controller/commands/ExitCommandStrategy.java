@@ -4,7 +4,7 @@ import model.ImageDatabaseInterface;
 
 import java.util.Scanner;
 
-public class Exit implements Command {
+public class ExitCommandStrategy implements CommandStrategyInterface {
 
     @Override
     public void run(Scanner scanner, ImageDatabaseInterface model) {

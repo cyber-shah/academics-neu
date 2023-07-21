@@ -10,26 +10,26 @@ import java.util.Map;
  * Managing commands is done through the model.commands.CommandRegistry.
  */
 public class CommandRegistryManager {
-  private final Map<String, Command> commandsMap;
+  private final Map<String, CommandStrategyInterface> commandsMap;
 
   /**
    * Constructor.
    */
   public CommandRegistryManager() {
-    commandsMap = new HashMap<String, Command>();
+    commandsMap = new HashMap<String, CommandStrategyInterface>();
   }
 
   /**
    * Register a command.
    *
    * @param name Name of command to register.
-   * @param command Command to register.
+   * @param commandStrategy Command to register.
    */
-  public void registerCommand(String name, Command command) {
+  public void registerCommand(String name, CommandStrategyInterface commandStrategy) {
     if (commandsMap.containsKey(name)) {
       throw new IllegalArgumentException("registerCommand " + name + " already exists.");
     }
-    commandsMap.put(name, command);
+    commandsMap.put(name, commandStrategy);
   }
 
   /**
@@ -39,7 +39,7 @@ public class CommandRegistryManager {
    * @return Command object.
    * @throws IllegalArgumentException If command not found.
    */
-  public Command getCommand(String name) {
+  public CommandStrategyInterface getCommand(String name) {
     if (!commandsMap.containsKey(name)) {
       throw new IllegalArgumentException("getCommand " + name + " not found.");
     }
@@ -72,7 +72,7 @@ public class CommandRegistryManager {
     return sb.toString();
   }
 
-  public Map<String, Command> getCommandMap() {
+  public Map<String, CommandStrategyInterface> getCommandMap() {
     return commandsMap;
   }
 }
