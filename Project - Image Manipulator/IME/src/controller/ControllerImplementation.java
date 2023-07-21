@@ -47,7 +47,10 @@ public class ControllerImplementation implements ControllerInterface {
     commandRegistry.put("LOAD", new controller.commandsStrategy.LoadCommandStrategy());
     commandRegistry.put("SAVE", new controller.commandsStrategy.SaveCommandStrategy());
     commandRegistry.put("BRIGHTEN", new controller.commandsStrategy.BrightenCommandStrategy());
-    commandRegistry.put("EXIT", new controller.commandsStrategy.ExitCommandStrategy());
+    commandRegistry.put("LUMA", new controller.commandsStrategy.LoadCommandStrategy());
+    commandRegistry.put("INTENSITY", new controller.commandsStrategy.IntensityCommandStrategy());
+    commandRegistry.put("VALUE", new controller.commandsStrategy.ValueCommandStrategy());
+    commandRegistry.put("COMPONENT", new controller.commandsStrategy.ComponentCommandStrategy());
   }
 
 
@@ -66,16 +69,26 @@ public class ControllerImplementation implements ControllerInterface {
       String[] commandList = scanner.nextLine().split(" ");
 
       String command = commandList[0];
+      command = command.toUpperCase();
       // ignore comments
       if (command.startsWith("#")) {
         continue;
       }
+      else if (command.equals("EXIT")) {
+        System.exit(0);
+      }
+      else if (command.equals("LIST-ALL-IMAGES")) {
+        view.renderMessage(model.getAllImageNames());
+      }
+      else if (command.equals("LIST-ALL-COMMANDS")) {
+        view.renderMessage(this.listAllCommands());
+      }
 
       // 2. Get the command object from the command registry
-      CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command.toUpperCase(), null);
+      CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command, null);
       if (commandStrategyObject == null) {
         try {
-          view.renderMessage("Command not found.\n");
+          view.renderMessage("Command: " + command + " not found.\n");
         }
         catch (IOException e) {
           throw new IllegalStateException ("Failed to transmit message. Command not found.\n");
@@ -86,10 +99,7 @@ public class ControllerImplementation implements ControllerInterface {
       // 3. Run the command
       try {
         commandStrategyObject.run(commandList, this.model);
-        if (commandStrategyObject instanceof controller.commandsStrategy.ExitCommandStrategy) {
-          view.renderMessage("Exiting... Thank you for using the program.");
-          break;
-        }
+        view.renderMessage("Command " + command +" executed successfully.\n");
       }
       catch (Exception e) {
         try {
@@ -101,5 +111,20 @@ public class ControllerImplementation implements ControllerInterface {
         }
       }
     }
+  }
+
+  /**
+   * This method returns a string containing all the commands.
+   * @return String containing all the commands.
+   */
+  private String listAllCommands() {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (String command : commandRegistry.keySet()) {
+      stringBuilder.append(command).append("\n");
+    }
+    stringBuilder.append("EXIT\n");
+    stringBuilder.append("LIST-ALL-IMAGES\n");
+    stringBuilder.append("LIST-ALL-COMMANDS\n");
+    return stringBuilder.toString();
   }
 }

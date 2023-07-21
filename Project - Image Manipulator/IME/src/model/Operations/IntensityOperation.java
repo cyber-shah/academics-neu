@@ -5,7 +5,7 @@ import model.Image.ImageState;
 import model.Image.Pixel;
 
 public class IntensityOperation implements OperationInterface {
-  private ImageState sourceImage;
+  private final ImageState sourceImage;
 
   /**
    * This is the constructor for the IntensityOperation class.

@@ -2,20 +2,19 @@ package controller.commandsStrategy;
 
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
-import model.Operations.BrightenOperation;
+import model.Operations.ColorComponentOperation;
 
-public class BrightenCommandStrategy implements CommandStrategyInterface {
+public class ComponentCommandStrategy implements CommandStrategyInterface {
 
   /**
-   * This method parses the arguments and then calls the brighten method on the image.
+   * This method parses the arguments and then calls the Component Operation method on the image.
    * Once the image is brightened, it is added to the imageDatabase.
    *
    * @param commandsList  String[] list of inputs.
    * @param imageDatabase ImageDatabaseInterface object.
    */
   @Override
-  public void run(String[] commandsList,
-                  ImageDatabaseInterface imageDatabase) {
+  public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.
     String[] args;
     try {
@@ -23,14 +22,14 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     } catch (IllegalStateException e) {
       throw new IllegalStateException(e.getMessage());
     }
-
-    int value = Integer.parseInt(args[0]);
+    String component = args[0];
     String sourceImageID = args[1];
     String destinationID = args[2];
 
-    // Once all the arguments are validated, call the brighten method.
-    ImageState newImage = new BrightenOperation(imageDatabase.getImage(sourceImageID), value).
-            applyOperation();
+
+    // Once all the arguments are validated, call the Color component method.
+    ImageState newImage = new ColorComponentOperation(
+            imageDatabase.getImage(sourceImageID), component).applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.
     imageDatabase.addImage(destinationID, newImage);
@@ -47,11 +46,17 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     if (commandsList.length < 3) {
       throw new IllegalStateException("Too few arguments.");
     }
-    // 1. Validate the sourceImageID.
+
+    // 1. Validate the color component.
     args[0] = commandsList[1];
-    // 2. Validate the value.
+    if (!args[0].equals("red") && !args[0].equals("green") && !args[0].equals("blue")) {
+      throw new IllegalStateException("Invalid color component.");
+    }
+
+    // 2. Set the ImageID.
     args[1] = commandsList[2];
-    // 3. Validate the newImageID.
+
+    // 3. Set the newImageID.
     args[2] = commandsList[3];
     return args;
   }
