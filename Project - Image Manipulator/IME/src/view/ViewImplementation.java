@@ -1,7 +1,5 @@
 package view;
 
-import controller.ControllerInterface;
-
 import java.io.IOException;
 
 public class ViewImplementation implements ViewInterface {

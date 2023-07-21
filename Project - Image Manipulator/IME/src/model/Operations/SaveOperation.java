@@ -1,6 +1,5 @@
 package model.Operations;
 
-import model.Image.Image;
 import model.Image.ImageState;
 
 public class SaveOperation implements OperationInterface {

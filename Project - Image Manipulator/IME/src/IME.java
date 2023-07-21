@@ -4,7 +4,6 @@ import model.ImageDatabaseInterface;
 import model.Operations.OperationInterface;
 import view.ViewImplementation;
 
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class IME {

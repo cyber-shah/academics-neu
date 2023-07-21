@@ -66,7 +66,7 @@ public class BrightenOperation implements OperationInterface {
             newBlue = 0;
           }
 
-          newImage.setPixel(i, j, new Pixel(newRed, newGreen, newBlue);
+          newImage.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
         }
       }
     } catch (NullPointerException e) {

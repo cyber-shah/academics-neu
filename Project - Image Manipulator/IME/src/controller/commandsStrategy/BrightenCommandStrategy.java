@@ -3,7 +3,6 @@ package controller.commandsStrategy;
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
 import model.Operations.BrightenOperation;
-import java.util.Scanner;
 
 public class BrightenCommandStrategy implements CommandStrategyInterface {
 

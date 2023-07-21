@@ -6,7 +6,6 @@ import model.Image.ImageState;
 import model.ImageDatabaseInterface;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class LoadCommandStrategy implements CommandStrategyInterface {
 

@@ -2,10 +2,7 @@ package controller.commandsStrategy;
 
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
-import model.Operations.BrightenOperation;
 import model.Operations.ValueComponentOperation;
-
-import java.util.Scanner;
 
 public class ValueCommandStrategy implements CommandStrategyInterface {
 

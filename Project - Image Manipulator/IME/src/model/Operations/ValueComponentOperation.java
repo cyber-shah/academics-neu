@@ -8,6 +8,11 @@ public class ValueComponentOperation implements OperationInterface {
 
   private final ImageState sourceImage;
 
+  /**
+   * This is the constructor for the ValueComponentOperation class.
+   *
+   * @param sourceImage The source image.
+   */
   public ValueComponentOperation(ImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
@@ -33,17 +38,12 @@ public class ValueComponentOperation implements OperationInterface {
           int red = sourceImage.getPixel(i, j).getRed();
           int green = sourceImage.getPixel(i, j).getGreen();
           int blue = sourceImage.getPixel(i, j).getBlue();
+          int value_component = Math.max(red, green);
+          value_component = Math.max(value_component, blue);
 
-          if (red > green && red > blue) {
-            red = maxValue;
-          } else if (green > red && green > blue) {
-            green = maxValue;
-          } else if (blue > red && blue > green) {
-            blue = maxValue;
-          }
 
           // set the new rgb values to the pixel
-          newImage.setPixel(i, j, new Pixel(red, green, blue));
+          newImage.setPixel(i, j, new Pixel(value_component, value_component, value_component));
         }
       }
     } catch (IllegalArgumentException e) {
@@ -51,4 +51,5 @@ public class ValueComponentOperation implements OperationInterface {
     }
     return newImage;
   }
+
 }
