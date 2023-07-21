@@ -1,4 +1,4 @@
-package controller.commands;
+package controller.commandsStrategy;
 
 import model.ImageDatabaseInterface;
 

@@ -5,11 +5,16 @@ import model.Image.ImageState;
 import model.Image.Pixel;
 
 public class BrightenOperation implements OperationInterface {
+  private ImageState image;
+  private int value;
 
+  public BrightenOperation(ImageState image, int value) {
+    this.image = image;
+    this.value = value;
+  }
 
   @Override
-  public Image applyOperation(ImageState image, int... args) {
-    int value = args[0];
+  public ImageState applyOperation() {
     int width = image.getWidth();
     int height = image.getHeight();
     int maxValue = image.getMaxValue();
@@ -21,9 +26,9 @@ public class BrightenOperation implements OperationInterface {
         int green = image.getPixel(i, j).getGreen();
         int blue = image.getPixel(i, j).getBlue();
 
-        int newRed = red + value;
-        int newGreen = green + value;
-        int newBlue = blue + value;
+        int newRed = red + this.value;
+        int newGreen = green + this.value;
+        int newBlue = blue + this.value;
 
         if (newRed > maxValue) {
           newRed = maxValue;

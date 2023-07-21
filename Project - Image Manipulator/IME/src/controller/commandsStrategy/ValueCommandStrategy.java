@@ -1,10 +1,10 @@
-package controller.commands;
+package controller.commandsStrategy;
 
 import model.ImageDatabaseInterface;
 
 import java.util.Scanner;
 
-public class SaveCommandStrategy implements CommandStrategyInterface {
+public class ValueCommandStrategy implements CommandStrategyInterface {
 
   @Override
   public void run(Scanner scanner, ImageDatabaseInterface model) {

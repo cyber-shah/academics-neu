@@ -17,20 +17,20 @@ public class PPMImageLoader implements ImageLoaderInterface {
   /**
    * Loads a PPM file and returns an Image object.
    *
-   * @param filename String value of the file path.
+   * @param filePath String value of the file path.
    * @return Image object.
    *
    * @throws FileNotFoundException if the file is not found.
    * @throws NoSuchElementException if the file is not a valid PPM file.
    * @throws IllegalArgumentException if the file is not a 'P3' PPM file.
    */
-  public Image load(String filename) throws FileNotFoundException {
+  public Image load(String filePath) throws FileNotFoundException {
     Scanner scanner;
     try {
-      scanner = new Scanner(new FileInputStream(filename));
+      scanner = new Scanner(new FileInputStream(filePath));
     }
     catch (FileNotFoundException e) {
-      throw new FileNotFoundException("File " + filename + " not found!");
+      throw new FileNotFoundException("File " + filePath + " not found!");
     }
 
     // 0. read the file into a string

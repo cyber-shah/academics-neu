@@ -89,7 +89,6 @@ public class Image implements ImageState {
    * @param y     int value of y.
    * @param pixel Pixel value of pixel.
    */
-  @Override
   public void setPixel(int x, int y, Pixel pixel) {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       throw new IllegalArgumentException("Invalid pixel coordinates");

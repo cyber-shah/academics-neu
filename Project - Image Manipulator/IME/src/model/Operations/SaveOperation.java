@@ -5,7 +5,7 @@ import model.Image.ImageState;
 
 public class SaveOperation implements OperationInterface {
   @Override
-  public Image applyOperation(ImageState image, int... args) {
+  public ImageState applyOperation() {
     return null;
   }
 }

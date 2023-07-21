@@ -15,8 +15,8 @@ public class ViewImplementation implements ViewInterface {
   }
 
   @Override
-  public void render(Formats outputFormat) {
-    // TODO implement here
+  public void render() {
+
   }
 }
 

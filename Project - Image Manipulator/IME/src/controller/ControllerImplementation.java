@@ -1,12 +1,20 @@
 package controller;
 
 import model.ImageDatabaseInterface;
-import controller.commands.CommandStrategyInterface;
-import controller.commands.CommandRegistryManager;
+import controller.commandsStrategy.CommandStrategyInterface;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This class implements the ControllerInterface and is responsible for taking in user input and
+ * running the appropriate command.
+ * @see ControllerInterface
+ * @see ImageDatabaseInterface
+ * @see CommandStrategyInterface
+ */
 public class ControllerImplementation implements ControllerInterface {
   private final ImageDatabaseInterface model;
   private final Appendable view;
@@ -28,10 +36,18 @@ public class ControllerImplementation implements ControllerInterface {
     this.model = model;
     this.view = view;
     this.inReadable = inReadable;
-
-    this.commandRegistry = new CommandRegistryManager().getCommandMap();
+    this.commandRegistry = new HashMap<>();
   }
 
+  /**
+   * Registers all commands.
+   */
+  private void registerCommands() {
+    commandRegistry.put("load", new controller.commandsStrategy.LoadCommandStrategy());
+    commandRegistry.put("save", new controller.commandsStrategy.SaveCommandStrategy());
+    commandRegistry.put("brighten", new controller.commandsStrategy.BrightenCommandStrategy());
+    commandRegistry.put("exit", new controller.commandsStrategy.ExitCommandStrategy());
+  }
 
   private void write(String string) {
     try {
@@ -43,11 +59,13 @@ public class ControllerImplementation implements ControllerInterface {
 
   public void go() {
     Scanner scanner = new Scanner(this.inReadable);
+    this.registerCommands();
 
     while (scanner.hasNextLine()) {
       // 1. Read the command line
-      String command = scanner.next();
+      String commandList[] = scanner.nextLine().split(" ");
       // 2. Get the command object from the command registry
+      String command = commandList[0];
       CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command, null);
       if (commandStrategyObject == null) {
         write("Command not found.");

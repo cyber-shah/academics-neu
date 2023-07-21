@@ -1,4 +1,4 @@
-package controller.commands;
+package controller.commandsStrategy;
 
 import model.Image.ImageState;
 import model.ImageDatabaseInterface;
@@ -31,8 +31,8 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     // Once all the arguments are validated, call the brighten method.
     // 1. Get the sourceImage from the imageDatabase using the sourceImageID.
     // 2. Create a new BrightenTransformation object using the sourceImage and the value.
-    ImageState newImage = new BrightenOperation().
-            applyOperation(imageDatabase.getImage(sourceImageID), value);
+    ImageState newImage = new BrightenOperation(imageDatabase.getImage(sourceImageID), value).
+            applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.
     imageDatabase.addImage(destinationID, newImage);

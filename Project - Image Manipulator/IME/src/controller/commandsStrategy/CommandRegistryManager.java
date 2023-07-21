@@ -1,14 +1,9 @@
-package controller.commands;
+package controller.commandsStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * model.commands.CommandRegistry class.
- *
- * <p>Stores all commands and allows for registering, getting, and unregistering commands.
- * Managing commands is done through the model.commands.CommandRegistry.
- */
+
 public class CommandRegistryManager {
   private final Map<String, CommandStrategyInterface> commandsMap;
 

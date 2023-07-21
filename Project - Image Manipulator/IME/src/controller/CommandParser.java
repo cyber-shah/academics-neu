@@ -1,6 +1,6 @@
 package controller;
 
-import controller.commands.*;
+import controller.commandsStrategy.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;

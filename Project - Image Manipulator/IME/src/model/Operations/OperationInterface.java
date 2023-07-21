@@ -5,5 +5,5 @@ import model.Image.ImageState;
 
 public interface OperationInterface {
 
-  Image applyOperation(ImageState image, int... args);
+  ImageState applyOperation();
 }
