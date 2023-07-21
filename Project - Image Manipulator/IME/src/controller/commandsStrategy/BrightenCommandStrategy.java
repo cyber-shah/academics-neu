@@ -11,7 +11,7 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
    * This method parses the arguments and then calls the brighten method on the image.
    * Once the image is brightened, it is added to the imageDatabase.
    *
-   * @param scanner       Scanner object.
+   * @param commandsList  String[] list of inputs.
    * @param imageDatabase ImageDatabaseInterface object.
    */
   @Override
@@ -43,10 +43,22 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
    *
    * @param commandsList commandsList object.
    */
-  private String[] validateArguments(String[] commandsList) {
+  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
     String[] args = new String[3];
 
-/*    // 1. Validate the sourceImageID.
+    if (commandsList.length < 3) {
+      throw new IllegalStateException("Too few arguments.");
+    }
+    // 1. Validate the sourceImageID.
+    args[0] = commandsList[1];
+    // 2. Validate the value.
+    args[1] = commandsList[2];
+    // 3. Validate the newImageID.
+    args[2] = commandsList[3];
+    return args;
+  }
+
+  /*    // 1. Validate the sourceImageID.
     if (!scanner.hasNext()) {
       throw new IllegalStateException("SourceImageID not found.");
     }
@@ -68,7 +80,4 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     if (scanner.hasNext()) {
       throw new IllegalStateException("Too many arguments.");
     }*/
-
-    return args;
-  }
 }

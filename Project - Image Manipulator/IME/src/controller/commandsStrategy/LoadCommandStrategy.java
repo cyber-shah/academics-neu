@@ -56,8 +56,12 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     if (commandsList.length < 2) {
       throw new IllegalStateException("sourceImagePath not found.");
     }
+    // 2. Set the imageName
     args[0] = commandsList[1];
+    // 2. Set the imageName
     args[1] = commandsList[2];
+
+    // OPTIMIZE: find a way to allow image path with the format " " and spaces in it.
     return args;
     /*
     // 1. Validate the sourceImagePath.

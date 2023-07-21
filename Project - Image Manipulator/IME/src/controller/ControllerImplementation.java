@@ -43,10 +43,10 @@ public class ControllerImplementation implements ControllerInterface {
    * Registers all commands.
    */
   private void registerCommands() {
-    commandRegistry.put("load", new controller.commandsStrategy.LoadCommandStrategy());
-    commandRegistry.put("save", new controller.commandsStrategy.SaveCommandStrategy());
-    commandRegistry.put("brighten", new controller.commandsStrategy.BrightenCommandStrategy());
-    commandRegistry.put("exit", new controller.commandsStrategy.ExitCommandStrategy());
+    commandRegistry.put("LOAD", new controller.commandsStrategy.LoadCommandStrategy());
+    commandRegistry.put("SAVE", new controller.commandsStrategy.SaveCommandStrategy());
+    commandRegistry.put("BRIGHTEN", new controller.commandsStrategy.BrightenCommandStrategy());
+    commandRegistry.put("EXIT", new controller.commandsStrategy.ExitCommandStrategy());
   }
 
   private void write(String string) {
@@ -57,14 +57,18 @@ public class ControllerImplementation implements ControllerInterface {
     }
   }
 
+  /**
+   * This method starts the controller.
+   * It takes in user input and runs the appropriate command.
+   */
   public void go() {
     Scanner scanner = new Scanner(this.inReadable);
     this.registerCommands();
 
     while (scanner.hasNextLine()) {
       // 1. Read the command line
-      // NOTE : Changed it to next line beacuse next was taking in all extra commands after what was needed.
-      // eg. load koala.ppm koala 66272 was valid till koala but it was considering 66272 as a part of the next command.
+      // NOTE: Changed it to next line because next was taking in all extra commands after what was needed.
+      // eg. load koala.ppm koala 66272 was valid till koala it was considering 66272 as a part of the next command.
       String commandList[] = scanner.nextLine().split(" ");
 
       String command = commandList[0];
@@ -74,7 +78,7 @@ public class ControllerImplementation implements ControllerInterface {
       }
 
       // 2. Get the command object from the command registry
-      CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command, null);
+      CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command.toUpperCase(), null);
       if (commandStrategyObject == null) {
         write("Command not found.");
         continue;
