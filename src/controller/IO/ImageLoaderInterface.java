@@ -6,5 +6,5 @@ import java.io.FileNotFoundException;
 
 public interface ImageLoaderInterface {
 
-  public Image load(String filePath) throws FileNotFoundException;
+  Image load(String filePath) throws FileNotFoundException;
 }

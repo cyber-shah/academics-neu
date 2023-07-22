@@ -51,6 +51,7 @@ public class Pixel implements IPixel {
    *
    * @return int value of Red.
    */
+  @Override
   public int getRed() {
     return this.Red;
   }
@@ -60,6 +61,7 @@ public class Pixel implements IPixel {
    *
    * @return int value of Green.
    */
+  @Override
   public int getGreen() {
     return this.Green;
   }
@@ -69,6 +71,7 @@ public class Pixel implements IPixel {
    *
    * @return int value of Blue.
    */
+  @Override
   public int getBlue() {
     return this.Blue;
   }
@@ -78,6 +81,7 @@ public class Pixel implements IPixel {
    *
    * @return int value of maxValue.
    */
+  @Override
   public int getMaxValue() {
     return this.maxValue;
   }
@@ -87,6 +91,7 @@ public class Pixel implements IPixel {
    *
    * @param Red int value of Red.
    */
+  @Override
   public void setRed(int Red) throws IllegalArgumentException {
     if (Red > maxValue) {
       Red = maxValue;
@@ -102,6 +107,7 @@ public class Pixel implements IPixel {
    *
    * @param Green int value of Green.
    */
+  @Override
   public void setGreen(int Green) throws IllegalArgumentException {
     if (Green > maxValue) {
       Green = maxValue;
@@ -117,6 +123,7 @@ public class Pixel implements IPixel {
    *
    * @param Blue int value of Blue.
    */
+  @Override
   public void setBlue(int Blue) throws IllegalArgumentException {
     if (Blue > maxValue) {
       Blue = maxValue;

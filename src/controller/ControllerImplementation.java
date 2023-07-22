@@ -53,7 +53,6 @@ public class ControllerImplementation implements ControllerInterface {
     commandRegistry.put("COMPONENT", new controller.commandsStrategy.ComponentCommandStrategy());
   }
 
-
   /**
    * This method starts the controller.
    * It takes in user input and runs the appropriate command.
