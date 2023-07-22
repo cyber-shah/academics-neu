@@ -1,8 +1,8 @@
 package controller;
 
-import controller.commandsStrategy.CommandStrategyInterface;
+import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
-import view.ViewImplementation;
+import view.ViewInterface;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,24 +17,27 @@ import java.util.Scanner;
  * @see CommandStrategyInterface
  */
 public class ControllerImplementation implements ControllerInterface {
-  private final ImageDatabaseInterface model;
-  private final ViewImplementation view;
+  private final ImageDatabaseInterface imageDatabase;
+  private final ViewInterface view;
   private final Readable inReadable;
+  // OPTIMIZE : can create a class called commandRegistry to do everything below, instead of calling
+  // the commandRegistry map directly.
   private final Map<String, CommandStrategyInterface> commandRegistry;
 
   /**
    * Default constructor, initializes all fields.
-   * @param model IModel object.
+   * @param imageDatabase IModel object.
    * @param view IView object.
    * @param inReadable Readable object.
    * @throws IllegalArgumentException if any of the arguments are null.
    */
-  public ControllerImplementation(ImageDatabaseInterface model, ViewImplementation view, Readable inReadable)
+  public ControllerImplementation
+  (ImageDatabaseInterface imageDatabase, ViewInterface view, Readable inReadable)
           throws IllegalArgumentException {
-    if (model == null || view == null || inReadable == null) {
+    if (imageDatabase == null || view == null || inReadable == null) {
       throw new IllegalArgumentException("Arguments cannot be null.");
     }
-    this.model = model;
+    this.imageDatabase = imageDatabase;
     this.view = view;
     this.inReadable = inReadable;
     this.commandRegistry = new HashMap<>();
@@ -44,20 +47,20 @@ public class ControllerImplementation implements ControllerInterface {
    * Registers all commands.
    */
   private void registerCommands() {
-    commandRegistry.put("LOAD", new controller.commandsStrategy.LoadCommandStrategy());
-    commandRegistry.put("SAVE", new controller.commandsStrategy.SaveCommandStrategy());
-    commandRegistry.put("BRIGHTEN", new controller.commandsStrategy.BrightenCommandStrategy());
-    commandRegistry.put("LUMA", new controller.commandsStrategy.LumaCommandStrategy());
-    commandRegistry.put("INTENSITY", new controller.commandsStrategy.IntensityCommandStrategy());
-    commandRegistry.put("VALUE", new controller.commandsStrategy.ValueCommandStrategy());
-    commandRegistry.put("COMPONENT", new controller.commandsStrategy.ComponentCommandStrategy());
+    commandRegistry.put("LOAD", new controller.commandsstrategy.LoadCommandStrategy());
+    commandRegistry.put("SAVE", new controller.commandsstrategy.SaveCommandStrategy());
+    commandRegistry.put("BRIGHTEN", new controller.commandsstrategy.BrightenCommandStrategy());
+    commandRegistry.put("LUMA", new controller.commandsstrategy.LumaCommandStrategy());
+    commandRegistry.put("INTENSITY", new controller.commandsstrategy.IntensityCommandStrategy());
+    commandRegistry.put("VALUE", new controller.commandsstrategy.ValueCommandStrategy());
+    commandRegistry.put("COMPONENT", new controller.commandsstrategy.ComponentCommandStrategy());
   }
 
   /**
    * This method starts the controller.
    * It takes in user input and runs the appropriate command.
    */
-  public void go() {
+  public void runProgram() {
     Scanner scanner = new Scanner(this.inReadable);
     this.registerCommands();
 
@@ -77,8 +80,6 @@ public class ControllerImplementation implements ControllerInterface {
     // Start reading commands
     while (scanner.hasNextLine()) {
       // 1. Read the command line
-      // NOTE: Changed it to next line because next was taking in all extra commands after what was needed.
-      // eg. load koala.ppm koala 66272 was valid till koala it was considering 66272 as a part of the next command.
       String[] commandList = scanner.nextLine().split(" ");
 
       String command = commandList[0];
@@ -90,7 +91,7 @@ public class ControllerImplementation implements ControllerInterface {
         } else if (command.equals("EXIT")) {
           System.exit(0);
         } else if (command.equals("LIST-ALL-IMAGES")) {
-          view.renderMessage(model.getAllImageNames() + "\n>>>");
+          view.renderMessage(imageDatabase.getAllImageNames() + "\n>>>");
           continue;
         } else if (command.equals("LIST-ALL-COMMANDS")) {
           view.renderMessage(this.listAllCommands() + "\n>>>");
@@ -106,15 +107,15 @@ public class ControllerImplementation implements ControllerInterface {
         try {
           view.renderMessage("Command: " + command + " not found.\n");
         } catch (IOException e) {
-          throw new IllegalStateException ("Failed to transmit message. Command not found.\n");
+          throw new IllegalStateException("Failed to transmit message. Command not found.\n");
         }
         continue;
       }
 
       // 3. Run the command
       try {
-        commandStrategyObject.run(commandList, this.model);
-        view.renderMessage("Command " + command +" executed successfully.\n\n>>>");
+        commandStrategyObject.run(commandList, this.imageDatabase);
+        view.renderMessage("Command " + command + " executed successfully.\n\n>>>");
       } catch (Exception e) {
         try {
           view.renderMessage(e.getMessage() + "\n>>>");
@@ -128,7 +129,7 @@ public class ControllerImplementation implements ControllerInterface {
 
   /**
    * This method returns a string containing all the commands.
-   * @return String containing all the commands.
+   * @return Strings separated by newlines.
    */
   private String listAllCommands() {
     StringBuilder stringBuilder = new StringBuilder();

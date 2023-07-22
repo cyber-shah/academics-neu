@@ -3,17 +3,17 @@
 ## Description
 
 This program is a command line image manipulation program. It allows the user to load, save, and manipulate images. The program supports the following commands:
-- load  <image-path> <image-name>
-- save  <output-file-path> <image-name> 
-- component <red|green|blue> <image-name> <new-image-name>
-- luma <image-name> <new-image-name>
-- value <image-name> <new-image-name>
-- intensity <image-name> <new-image-name>
-- brighten <value ><image-name> <new-image-name>
+- **load** _image-path image-name_
+- **save** _output-file-path image-name_
+- **component** _red|green|blue image-name new-image-name_
+- **luma** _image-name new-image-name_
+- **value** _image-name new-image-name_
+- **intensity** _image-name new-image-name_
+- **brighten** _value image-name new-image-name_
   (also supports darkening with negative values)
-- exit
-- list-all-commands
-- list-all-images
+- **exit**
+- **list-all-commands**
+- **list-all-images**
 
 ## Design
 The design follows Model View Controller (MVC) architecture. The model is the ImageDatabase, which stores all the images. The view is the ViewImplementation, which is responsible for displaying messages to the user. The controller is the ControllerImplementation, which is responsible for parsing user input and calling the appropriate methods in the model and view. The controller also contains the main method, which is responsible for initializing the model, view, and controller, and starting the program.
@@ -269,6 +269,8 @@ Broadly there are two main packages in the controller:
    > and the existing code would not need to be modified.
 
 
-# Citation
+A sample run can be found in this file: [Sample-Output](SampleOutput.txt)
+
+# Citations
 1. [StackOverflow](https://stackoverflow.com/questions/74620396/how-to-convert-images-from-the-jpg-format-to-ppmp3) The image used for testing purposes is from StackOverflow and can be found here.
 2. [GeeksforGeeks](https://www.geeksforgeeks.org/ood-principles-solid/) Principles of Object Oriented Design

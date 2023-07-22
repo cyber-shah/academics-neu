@@ -1,10 +1,14 @@
 package model;
 
-import model.Image.ImageState;
+import model.image.ImageState;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents a ImageDatabase.
+ * It represents a database of images.
+ */
 public class ImageDatabase implements ImageDatabaseInterface {
   private Map<String, ImageState> imagesMap;
 
