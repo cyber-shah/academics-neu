@@ -7,15 +7,10 @@ import model.ImageDatabaseInterface;
  * This class is a mock image database to be used for testing.
  */
 public class MockImageDatabase implements ImageDatabaseInterface {
-  private StringBuilder log;
-
-  MockImageDatabase(StringBuilder log) {
-    this.log = log;
-  }
+  private final StringBuilder log = new StringBuilder();
 
   @Override
   public void addImage(String name, ImageState image) {
-    log.append("addImage called with name: ").append(name).append(" and image: ").append(image);
   }
 
   @Override
@@ -36,5 +31,26 @@ public class MockImageDatabase implements ImageDatabaseInterface {
   @Override
   public String getAllImageNames() {
     return null;
+  }
+
+  /**
+   * EXTRA method to get the log.
+   *
+   * @return the log.
+   */
+  public String getLog() {
+    return log.toString();
+  }
+
+  /**
+   * EXTRA method to add an image to the log.
+   *
+   * @param name  the name of the image.
+   * @param image the image.
+   */
+  public void addImage(String[] commandsList) {
+    for (int i = 0; i < commandsList.length; i++) {
+      log.append("Args " + i + commandsList[i]);
+    }
   }
 }

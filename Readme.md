@@ -31,193 +31,206 @@ The design can be seen in the following UML diagram:
 classDiagram
 direction BT
 class BrightenCommandStrategy {
-+ BrightenCommandStrategy()
-+ run(String[], ImageDatabaseInterface) void
-- validateArguments(String[]) String[]
-  }
-  class BrightenOperation {
-+ BrightenOperation(ImageState, int)
-+ applyOperation() ImageState
-  }
-  class ColorComponentOperation {
-+ ColorComponentOperation(ImageState, String)
-+ applyOperation() ImageState
-  }
-  class CommandStrategyInterface {
-  <<Interface>>
-+ run(String[], ImageDatabaseInterface) void
-  }
-  class ComponentCommandStrategy {
-+ ComponentCommandStrategy()
-- validateArguments(String[]) String[]
-+ run(String[], ImageDatabaseInterface) void
-  }
-  class ControllerImplementation {
-+ ControllerImplementation(ImageDatabaseInterface, ViewImplementation, Readable)
-- registerCommands() void
-+ go() void
-- listAllCommands() String
-  }
-  class ControllerInterface {
-  <<Interface>>
-+ go() void
-  }
-  class IME {
-+ IME()
-+ main(String[]) void
-  }
-  class IPixel {
-  <<Interface>>
-  int red
-  int green
-  int blue
-  }
-  class IPixelState {
-  <<Interface>>
-  int red
-  int green
-  int blue
-  int maxValue
-  }
-  class Image {
-+ Image(int, int, int)
-- int width
-- int height
-- int maxValue
-- IPixel[][] pixelsList
-+ getPixel(int, int) Pixel
-+ setPixel(int, int, Pixel) void
-  int width
-  int height
-  IPixel[][] pixelsList
-  int maxValue
-  }
-  class ImageDatabase {
-+ ImageDatabase()
-+ getImage(String) ImageState
-+ removeImage(String) void
-+ addImage(String, ImageState) void
-  int numImages
-  String allImageNames
-  }
-  class ImageDatabaseInterface {
-  <<Interface>>
-+ removeImage(String) void
-+ getImage(String) ImageState
-+ addImage(String, ImageState) void
-  int numImages
-  String allImageNames
-  }
-  class ImageLoaderInterface {
-  <<Interface>>
-+ load(String) Image
-  }
-  class ImageSaverInterface {
-  <<Interface>>
-+ save(ImageState, String) void
-  }
-  class ImageState {
-  <<Interface>>
-+ getPixel(int, int) Pixel
-  int width
-  int height
-  IPixel[][] pixelsList
-  int maxValue
-  }
-  class IntensityCommandStrategy {
-+ IntensityCommandStrategy()
-+ run(String[], ImageDatabaseInterface) void
-- validateArguments(String[]) String[]
-  }
-  class IntensityOperation {
-+ IntensityOperation(ImageState)
-+ applyOperation() ImageState
-  }
-  class LoadCommandStrategy {
-+ LoadCommandStrategy()
-- validateArguments(String[]) String[]
-+ run(String[], ImageDatabaseInterface) void
-  }
-  class LumaCommandStrategy {
-+ LumaCommandStrategy()
-+ run(String[], ImageDatabaseInterface) void
-- validateArguments(String[]) String[]
-  }
-  class LumaOperation {
-+ LumaOperation(ImageState)
-+ applyOperation() ImageState
-  }
-  class OperationInterface {
-  <<Interface>>
-+ applyOperation() ImageState
-  }
-  class PPMImageLoader {
-+ PPMImageLoader()
-+ load(String) Image
-- readImageParameters(Scanner) int[]
-  }
-  class PPMImageSaver {
-+ PPMImageSaver()
-+ save(ImageState, String) void
-  }
-  class Pixel {
-+ Pixel(int, int, int, int)
-+ Pixel(int, int, int)
-- int Green
-- int Blue
-- int Red
-- int maxValue
-+ toString() String
-+ setAll(int, int, int) void
-  int Blue
-  int channel
-  int Green
-  int Red
-  int maxValue
-  }
-  class SaveCommandStrategy {
-+ SaveCommandStrategy()
-+ run(String[], ImageDatabaseInterface) void
-- validateArguments(String[]) String[]
-  }
-  class ValueCommandStrategy {
-+ ValueCommandStrategy()
-+ run(String[], ImageDatabaseInterface) void
-- validateArguments(String[]) String[]
-  }
-  class ValueComponentOperation {
-+ ValueComponentOperation(ImageState)
-+ applyOperation() ImageState
-  }
-  class ViewImplementation {
-+ ViewImplementation(Appendable)
-+ renderMessage(String) void
-  }
-  class ViewInterface {
-  <<Interface>>
-+ renderMessage(String) void
-  }
+  + BrightenCommandStrategy() 
+  + run(String[], ImageDatabaseInterface) void
+  - validateArguments(String[]) String[]
+}
+class BrightenOperation {
+  + BrightenOperation(ImageState, int) 
+  + applyOperation() ImageState
+}
+class ColorComponentOperation {
+  + ColorComponentOperation(ImageState, String) 
+  + applyOperation() ImageState
+}
+class CommandStrategyInterface {
+<<Interface>>
+  + run(String[], ImageDatabaseInterface) void
+}
+class CommandsManager {
+  + CommandsManager() 
+  + registerAllCommands() void
+  + getCommandStrategy(String) CommandStrategyInterface
+  + registerCommand(String, CommandStrategyInterface) void
+  + listAllCommands() String
+}
+class CommandsManagerInterface {
+<<Interface>>
+  + getCommandStrategy(String) CommandStrategyInterface
+  + registerCommand(String, CommandStrategyInterface) void
+  + listAllCommands() String
+  + registerAllCommands() void
+}
+class ComponentCommandStrategy {
+  + ComponentCommandStrategy() 
+  + run(String[], ImageDatabaseInterface) void
+  - validateArguments(String[]) String[]
+}
+class ControllerImplementation {
+  + ControllerImplementation(ImageDatabaseInterface, ViewInterface, Readable, CommandsManagerInterface) 
+  + runProgram() void
+}
+class ControllerInterface {
+<<Interface>>
+  + runProgram() void
+}
+class IME {
+  + IME() 
+  + main(String[]) void
+}
+class IPixel {
+<<Interface>>
+   int red
+   int green
+   int blue
+}
+class IPixelState {
+<<Interface>>
+   int red
+   int maxValue
+   int green
+   int blue
+}
+class Image {
+  + Image(int, int, int) 
+  - int width
+  - IPixel[][] pixelsList
+  - int height
+  - int maxValue
+  + getPixel(int, int) Pixel
+  + setPixel(int, int, Pixel) void
+   int height
+   int width
+   IPixel[][] pixelsList
+   int maxValue
+}
+class ImageDatabase {
+  + ImageDatabase() 
+  + removeImage(String) void
+  + addImage(String, ImageState) void
+  + getImage(String) ImageState
+   String allImageNames
+   int numImages
+}
+class ImageDatabaseInterface {
+<<Interface>>
+  + addImage(String, ImageState) void
+  + getImage(String) ImageState
+  + removeImage(String) void
+   String allImageNames
+   int numImages
+}
+class ImageLoaderInterface {
+<<Interface>>
+  + load(String) Image
+}
+class ImageSaverInterface {
+<<Interface>>
+  + save(ImageState, String) void
+}
+class ImageState {
+<<Interface>>
+  + getPixel(int, int) Pixel
+   int height
+   int width
+   IPixel[][] pixelsList
+   int maxValue
+}
+class IntensityCommandStrategy {
+  + IntensityCommandStrategy() 
+  - validateArguments(String[]) String[]
+  + run(String[], ImageDatabaseInterface) void
+}
+class IntensityOperation {
+  + IntensityOperation(ImageState) 
+  + applyOperation() ImageState
+}
+class LoadCommandStrategy {
+  + LoadCommandStrategy() 
+  + run(String[], ImageDatabaseInterface) void
+  - validateArguments(String[]) String[]
+}
+class LumaCommandStrategy {
+  + LumaCommandStrategy() 
+  + run(String[], ImageDatabaseInterface) void
+  - validateArguments(String[]) String[]
+}
+class LumaOperation {
+  + LumaOperation(ImageState) 
+  + applyOperation() ImageState
+}
+class OperationInterface {
+<<Interface>>
+  + applyOperation() ImageState
+}
+class PPMImageLoader {
+  + PPMImageLoader() 
+  + load(String) Image
+  - readImageParameters(Scanner) int[]
+}
+class PPMImageSaver {
+  + PPMImageSaver() 
+  + save(ImageState, String) void
+}
+class Pixel {
+  + Pixel(int, int, int) 
+  + Pixel(int, int, int, int) 
+  - int green
+  - int maxValue
+  - int red
+  - int blue
+  + setAll(int, int, int) void
+  + toString() String
+   int red
+   int channel
+   int maxValue
+   int green
+   int blue
+}
+class SaveCommandStrategy {
+  + SaveCommandStrategy() 
+  + run(String[], ImageDatabaseInterface) void
+  - validateArguments(String[]) String[]
+}
+class ValueCommandStrategy {
+  + ValueCommandStrategy() 
+  + run(String[], ImageDatabaseInterface) void
+  - validateArguments(String[]) String[]
+}
+class ValueComponentOperation {
+  + ValueComponentOperation(ImageState) 
+  + applyOperation() ImageState
+}
+class ViewImplementation {
+  + ViewImplementation(Appendable) 
+  + renderMessage(String) void
+}
+class ViewInterface {
+<<Interface>>
+  + renderMessage(String) void
+}
 
-BrightenCommandStrategy  ..>  CommandStrategyInterface
-BrightenOperation  ..>  OperationInterface
-ColorComponentOperation  ..>  OperationInterface
-ComponentCommandStrategy  ..>  CommandStrategyInterface
-ControllerImplementation  ..>  ControllerInterface
-IPixel  -->  IPixelState
-Image  ..>  ImageState
-ImageDatabase  ..>  ImageDatabaseInterface
-IntensityCommandStrategy  ..>  CommandStrategyInterface
-IntensityOperation  ..>  OperationInterface
-LoadCommandStrategy  ..>  CommandStrategyInterface
-LumaCommandStrategy  ..>  CommandStrategyInterface
-LumaOperation  ..>  OperationInterface
-PPMImageLoader  ..>  ImageLoaderInterface
-PPMImageSaver  ..>  ImageSaverInterface
-Pixel  ..>  IPixel
-SaveCommandStrategy  ..>  CommandStrategyInterface
-ValueCommandStrategy  ..>  CommandStrategyInterface
-ValueComponentOperation  ..>  OperationInterface
-ViewImplementation  ..>  ViewInterface 
+BrightenCommandStrategy  ..>  CommandStrategyInterface 
+BrightenOperation  ..>  OperationInterface 
+ColorComponentOperation  ..>  OperationInterface 
+CommandsManager  ..>  CommandsManagerInterface 
+ComponentCommandStrategy  ..>  CommandStrategyInterface 
+ControllerImplementation  ..>  ControllerInterface 
+IPixel  -->  IPixelState 
+Image  ..>  ImageState 
+ImageDatabase  ..>  ImageDatabaseInterface 
+IntensityCommandStrategy  ..>  CommandStrategyInterface 
+IntensityOperation  ..>  OperationInterface 
+LoadCommandStrategy  ..>  CommandStrategyInterface 
+LumaCommandStrategy  ..>  CommandStrategyInterface 
+LumaOperation  ..>  OperationInterface 
+PPMImageLoader  ..>  ImageLoaderInterface 
+PPMImageSaver  ..>  ImageSaverInterface 
+Pixel  ..>  IPixel 
+SaveCommandStrategy  ..>  CommandStrategyInterface 
+ValueCommandStrategy  ..>  CommandStrategyInterface 
+ValueComponentOperation  ..>  OperationInterface 
+ViewImplementation  ..>  ViewInterface
 ```
 
 ![Class Diagram](./UML.png)
@@ -267,7 +280,14 @@ Broadly there are two main packages in the controller:
    > This follows the open closed principle as the controller is open for extension but closed for modification.
    > Which means that whenever we would need to add more image formats we can simply add more classes which implement the ImageLoaderInterface and ImageSaverInterface 
    > and the existing code would not need to be modified.
-
+3. CommandManager package - this is responsible for managing the supported commands and their corresponding operations.
+   * It contains the CommandManager class which is responsible for registering the commands and their corresponding operations.
+   * It also contains the CommandManagerInterface which is responsible for registering the commands and their corresponding operations.
+   > This follows the open closed principle as the controller is open for extension but closed for modification.
+   > Which means that whenever we would need to add more commands:
+   > 1. we create a class which implements the CommandStrategyInterface
+   > 2. we create a class that implements the OperationInterface
+   > 3. we register the command and operation in the CommandManager class
 
 A sample run can be found in this file: [Sample-Output](SampleOutput.txt)
 

@@ -1,10 +1,12 @@
 package controller;
 
+import commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
 import view.ViewInterface;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -87,7 +89,9 @@ public class ControllerImplementation implements ControllerInterface {
       }
 
       // 2. Get the command object from the command registry
-      CommandStrategyInterface commandStrategyObject = commandsManager.getCommandStrategy(command);
+      // NOTE: modified this to the entire list of commands passed in.
+      //       just because it becomes easier to test!
+      CommandStrategyInterface commandStrategyObject = commandsManager.getCommandStrategy(commandList);
       if (commandStrategyObject == null) {
         try {
           view.renderMessage("Command: " + command + " not found.\n");

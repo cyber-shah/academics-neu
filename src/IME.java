@@ -1,3 +1,5 @@
+import commandmanager.CommandsManager;
+import commandmanager.CommandsManagerInterface;
 import controller.ControllerImplementation;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
@@ -20,7 +22,8 @@ public class IME {
     ImageDatabaseInterface model = new ImageDatabase();
     ViewImplementation view = new ViewImplementation(System.out);
     Readable in = new InputStreamReader(System.in);
-    ControllerImplementation controller = new ControllerImplementation(model, view, in);
+    CommandsManagerInterface commandsManager = new CommandsManager();
+    ControllerImplementation controller = new ControllerImplementation(model, view, in, commandsManager);
     OperationInterface operations;
     controller.runProgram();
   }

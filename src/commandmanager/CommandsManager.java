@@ -1,4 +1,4 @@
-package controller;
+package commandmanager;
 
 import controller.commandsstrategy.CommandStrategyInterface;
 
@@ -47,12 +47,13 @@ public class CommandsManager implements CommandsManagerInterface{
 
   /**
    * This method returns the command strategy.
-   * @param commandName The name of the command.
+   * @param commandList the entire list of commands passed in.
    * @return The command strategy if it exists, null otherwise.
    */
   @Override
-  public CommandStrategyInterface getCommandStrategy(String commandName)
+  public CommandStrategyInterface getCommandStrategy(String[] commandList)
           throws IllegalArgumentException {
+    String commandName = commandList[0];
     CommandStrategyInterface command = commandsMap.getOrDefault(commandName, null);
     if (command == null) {
       return null;

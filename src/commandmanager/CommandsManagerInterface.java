@@ -1,4 +1,4 @@
-package controller;
+package commandmanager;
 
 import controller.commandsstrategy.CommandStrategyInterface;
 
@@ -10,7 +10,7 @@ public interface CommandsManagerInterface {
 
   void registerCommand(String commandName, CommandStrategyInterface commandStrategy);
 
-  CommandStrategyInterface getCommandStrategy(String commandName)
+  CommandStrategyInterface getCommandStrategy(String[] commandsList)
           throws IllegalArgumentException;
 
   String listAllCommands();
