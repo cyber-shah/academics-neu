@@ -5,7 +5,7 @@ import model.ImageDatabaseInterface;
 import model.operations.IntensityOperation;
 
 /**
- * This class represents the IntensityCommandStrategy class that implements the CommandStrategyInterface.
+ * This class represents the IntensityCommandStrategy.
  * It is responsible for parsing the arguments and then calling the intensity method on the image.
  */
 public class IntensityCommandStrategy implements CommandStrategyInterface {

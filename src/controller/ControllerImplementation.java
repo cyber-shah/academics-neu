@@ -31,8 +31,8 @@ public class ControllerImplementation implements ControllerInterface {
    * @param inReadable Readable object.
    * @throws IllegalArgumentException if any of the arguments are null.
    */
-  public ControllerImplementation
-  (ImageDatabaseInterface imageDatabase, ViewInterface view, Readable inReadable)
+  public ControllerImplementation(ImageDatabaseInterface imageDatabase,
+                                  ViewInterface view, Readable inReadable)
           throws IllegalArgumentException {
     if (imageDatabase == null || view == null || inReadable == null) {
       throw new IllegalArgumentException("Arguments cannot be null.");
@@ -127,10 +127,7 @@ public class ControllerImplementation implements ControllerInterface {
     }
   }
 
-  /**
-   * This method returns a string containing all the commands.
-   * @return Strings separated by newlines.
-   */
+
   private String listAllCommands() {
     StringBuilder stringBuilder = new StringBuilder();
     for (String command : commandRegistry.keySet()) {

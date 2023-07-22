@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
  * 6. PixelsIncomplete
  * 7. PixelsNoIntegers
  */
-public class testPPMImageLoader {
+public class TestPPMImageLoader {
 
   private Image image;
   private String path;

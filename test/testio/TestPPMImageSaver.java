@@ -62,19 +62,22 @@ public class TestPPMImageSaver {
   @Test (expected = IllegalArgumentException.class)
   public void testSavePPMImageInvalidFileName() throws IOException {
     // 0. create the image to save
-    this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
+    this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
+            + "Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
     this.loadImage = new PPMImageLoader().load(loadPath);
 
     ImageSaverInterface saver = new PPMImageSaver();
     // 1. save the image
-    this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testSavePPMImage4x4";
+    this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
+            + "Project - Image Manipulator\\IME\\test\\testSavePPMImage4x4";
     saver.save(loadImage, savePath);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testSavePPMImageNullFileName() throws IOException {
     // 0. create the image to save
-    this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
+    this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
+            + "Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
     this.loadImage = new PPMImageLoader().load(loadPath);
 
     ImageSaverInterface saver = new PPMImageSaver();
@@ -91,7 +94,8 @@ public class TestPPMImageSaver {
 
     ImageSaverInterface saver = new PPMImageSaver();
     // 1. save the image
-    this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\Project - Image Manipulator\\IME\\test\\testSavePPMImage4x4.ppm";
+    this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
+            + "Project - Image Manipulator\\IME\\test\\testSavePPMImage4x4.ppm";
     saver.save(loadImage, savePath);
   }
 }

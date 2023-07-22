@@ -5,7 +5,7 @@ import model.ImageDatabaseInterface;
 import model.operations.ValueComponentOperation;
 
 /**
- * This class represents the ValueCommandStrategy class that implements the CommandStrategyInterface.
+ * This class represents the ValueCommandStrategy.
  * It is responsible for parsing the arguments and then calling the value method on the image.
  */
 public class ValueCommandStrategy implements CommandStrategyInterface {

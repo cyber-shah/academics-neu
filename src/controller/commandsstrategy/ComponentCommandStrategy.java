@@ -6,7 +6,8 @@ import model.operations.ColorComponentOperation;
 
 /**
  * This class represents the component command that implements the CommandStrategyInterface.
- * It is responsible for parsing the arguments and then calling the Component Operation method on the image.
+ * It is responsible for parsing the arguments.
+ * Then calling the Component Operation method on the image.
  */
 public class ComponentCommandStrategy implements CommandStrategyInterface {
 

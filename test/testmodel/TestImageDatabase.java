@@ -10,19 +10,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests the ImageDatabase class.
- *  @see ImageDatabase
- *  1. Test for addImage with a valid image and a valid name.
- *  2. Test for addImage with a valid image and a null name.
- *  3. Test for addImage with a valid image and a duplicate name.
- *  4. Test for addImage with a null image and a valid name.
- *  5. Test for addImage with a null image and a null name.
- *  6. Test for addImage with a null image and a duplicate name.
- *  7. Test for getImage with a valid name.
- *  8. Test for getImage with a null name.
- *  9. Test for getImage with a name that does not exist.
- *  10. Test for removeImage with a valid name.
- *  11. Test for removeImage with a null name.
- *  12. Test for removeImage with a name that does not exist.
  */
 public class TestImageDatabase {
   private ImageDatabaseInterface model;

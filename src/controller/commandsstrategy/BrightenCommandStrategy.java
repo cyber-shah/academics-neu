@@ -5,7 +5,8 @@ import model.ImageDatabaseInterface;
 import model.operations.BrightenOperation;
 
 /**
- * This class represents the BrightenCommandStrategy class that implements the CommandStrategyInterface.
+ * This class represents the BrightenCommandStrategy.
+ * implements the CommandStrategyInterface.
  * It is responsible for parsing the arguments and then calling the brighten method on the image.
  * Once the image is brightened, it is added to the imageDatabase.
  */
