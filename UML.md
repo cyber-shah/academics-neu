@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction BT
 class BrightenCommandStrategy {
@@ -188,3 +189,4 @@ SaveCommandStrategy  ..>  CommandStrategyInterface
 ValueCommandStrategy  ..>  CommandStrategyInterface 
 ValueComponentOperation  ..>  OperationInterface 
 ViewImplementation  ..>  ViewInterface 
+```
