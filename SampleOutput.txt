@@ -3,59 +3,65 @@ Welcome to the Image Manipulation Program.
 Enter a command or type "list-all-commands" to see all commands.
 Type "exit" to exit the program.
 Enter "#" before a command to comment it out.
-Enter a command: 
->>>load test/testImage/blackbuck.ascii.ppm blackbuck
-Command LOAD executed successfully.
->>>brighten 50 blackbuck blackbuckbrighter
-Command BRIGHTEN executed successfully.
->>>save test/testImage/blackbuckbrighter.ppm blackbuckbrighter
-Command SAVE executed successfully.
->>>value blackbuck blackbuckvalue
-Command VALUE executed successfully.
->>>save test/testImage/blackbuckvalue.ppm blackbuckvalue
-Command SAVE executed successfully.
->>>component blackbuck blackbuckcomponent
-Invalid color component.
->>>component red blackbuck blackbuckred
-Command COMPONENT executed successfully.
->>>component red blackbuck blackbuckblue
-Command COMPONENT executed successfully.
->>>component green blackbuck blackbuckgreen
-Command COMPONENT executed successfully.
->>>save test/testImage/blackbuckred.ppm blackbuckred
-Command SAVE executed successfully.
->>>save test/testImage/blackbuckgreen.ppm blackbuckgreen
-Command SAVE executed successfully.
->>>save test/testImage/blackbuckblue.ppm blackbuckblue
-Command SAVE executed successfully.
->>>luma blackbuck blackbuckluma
-Command LUMA executed successfully.
->>>save test/testImage/blackbuckluma.ppm blackbuckluma
-Command SAVE executed successfully.
->>>intensity blackbuck blackbuckintensity
-Command INTENSITY executed successfully.
->>>save test/testImage/blackbuckintensity.ppm blackbuckintensity
-Command SAVE executed successfully.
->>>list-all-images
-blackbuckluma
-blackbuckred
-blackbuckgreen
-blackbuck
-blackbuckblue
-blackbuckbrighter
-blackbuckintensity
-blackbuckvalue
 
->>>list-all-commands
-LOAD
-INTENSITY
-COMPONENT
-SAVE
-BRIGHTEN
-VALUE
-LUMA
-EXIT
-LIST-ALL-IMAGES
-LIST-ALL-COMMANDS
+Enter a command: 
+>>>load resources/testimage.ppm test
+Command LOAD executed successfully.
+
+>>>brighten 50 test testbright
+Command BRIGHTEN executed successfully.
+
+>>>save resources/testbright.ppm testbright
+Command SAVE executed successfully.
+
+>>>value test testvalue
+Command VALUE executed successfully.
+
+>>>save resources/testvalue.ppm testvalue
+Command SAVE executed successfully.
+
+>>>component red test testred
+Command COMPONENT executed successfully.
+
+>>>component blue test testblue
+Command COMPONENT executed successfully.
+
+>>>component green test testgreen
+Command COMPONENT executed successfully.
+
+>>># get some space
+save resources/testred.ppm testred
+Command SAVE executed successfully.
+
+>>>save resources/testblue.ppm testblue
+Command SAVE executed successfully.
+
+>>>save resources/testgreen.ppm testgreen
+Command SAVE executed successfully.
+
+>>>luma test testluma
+Command LUMA executed successfully.
+
+>>>save resources/testluma.ppm testluma
+Command SAVE executed successfully.
+
+>>>intensity test testintensity
+Command INTENSITY executed successfully.
+
+>>>save resources/testintensity.ppm testintensity
+Command SAVE executed successfully.
+
+>>>list-all-images
+test
+testblue
+testred
+testgreen
+testintensity
+testvalue
+testbright
+testluma
 
 >>>exit
+Disconnected from the target VM, address: '127.0.0.1:59475', transport: 'socket'
+
+Process finished with exit code 0

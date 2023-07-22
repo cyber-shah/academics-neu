@@ -68,7 +68,7 @@ public class Image implements ImageState {
   @Override
   public Pixel getPixel(int x, int y) throws NullPointerException {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-      String message = "Coordinates " + x + ", " + y + " are out of bounds"
+      String message = "From Image: Coordinates " + x + ", " + y + " are out of bounds"
               + " for an image of size " + this.width + " x " + this.height;
       throw new NullPointerException(message);
     }

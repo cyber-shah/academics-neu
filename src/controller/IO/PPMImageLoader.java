@@ -53,12 +53,12 @@ public class PPMImageLoader implements ImageLoaderInterface {
 
       // 3. read the pixels
       try {
-        for (int i = 0; i < image.getHeight(); i++) {
-          for (int j = 0; j < image.getWidth(); j++) {
+        for (int i = 0; i < image.getWidth(); i++) {
+          for (int j = 0; j < image.getHeight(); j++) {
             int red = newScanner.nextInt();
             int green = newScanner.nextInt();
             int blue = newScanner.nextInt();
-            image.setPixel(j, i, new Pixel(red, green, blue, maxValue));
+            image.setPixel(i, j, new Pixel(red, green, blue, maxValue));
           }
         }
       }

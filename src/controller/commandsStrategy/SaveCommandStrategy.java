@@ -32,13 +32,13 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
     }
 
     // 2. Get the ID to be used with the image.
-    String sourceImagePath = args[0];
+    String destImagePath = args[0];
     String imageID = args[1];
 
     // 3. call the ImageSaver to save the image.
     ImageSaverInterface imageSaver = new PPMImageSaver();
     try {
-      imageSaver.save(model.getImage(imageID), sourceImagePath);
+      imageSaver.save(model.getImage(imageID), destImagePath);
     } catch (Exception e) {
       throw new IllegalArgumentException(e.getMessage());
     }

@@ -114,7 +114,7 @@ public class ControllerImplementation implements ControllerInterface {
       // 3. Run the command
       try {
         commandStrategyObject.run(commandList, this.model);
-        view.renderMessage("Command " + command +" executed successfully.\n>>>");
+        view.renderMessage("Command " + command +" executed successfully.\n\n>>>");
       } catch (Exception e) {
         try {
           view.renderMessage(e.getMessage() + "\n>>>");

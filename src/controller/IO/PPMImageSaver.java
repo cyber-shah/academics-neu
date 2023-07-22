@@ -24,8 +24,8 @@ public class PPMImageSaver implements ImageSaverInterface{
     sb.append(image.getMaxValue() + "\n");
 
     // 2. add the pixels.
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < image.getWidth(); j++) {
+    for (int i = 0; i < image.getWidth(); i++) {
+      for (int j = 0; j < image.getHeight(); j++) {
         sb.append(image.getPixel(i, j).getRed() + " ");
         sb.append(image.getPixel(i, j).getGreen() + " ");
         sb.append(image.getPixel(i, j).getBlue() + " ");
