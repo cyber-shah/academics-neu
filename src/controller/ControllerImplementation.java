@@ -5,8 +5,6 @@ import model.ImageDatabaseInterface;
 import view.ViewInterface;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -20,9 +18,7 @@ public class ControllerImplementation implements ControllerInterface {
   private final ImageDatabaseInterface imageDatabase;
   private final ViewInterface view;
   private final Readable inReadable;
-  // OPTIMIZE : can create a class called commandRegistry to do everything below, instead of calling
-  // the commandRegistry map directly.
-  private final Map<String, CommandStrategyInterface> commandRegistry;
+  private final CommandsManagerInterface commandsManager;
 
   /**
    * Default constructor, initializes all fields.
@@ -32,7 +28,7 @@ public class ControllerImplementation implements ControllerInterface {
    * @throws IllegalArgumentException if any of the arguments are null.
    */
   public ControllerImplementation(ImageDatabaseInterface imageDatabase,
-                                  ViewInterface view, Readable inReadable)
+                                  ViewInterface view, Readable inReadable, CommandsManagerInterface register)
           throws IllegalArgumentException {
     if (imageDatabase == null || view == null || inReadable == null) {
       throw new IllegalArgumentException("Arguments cannot be null.");
@@ -40,21 +36,9 @@ public class ControllerImplementation implements ControllerInterface {
     this.imageDatabase = imageDatabase;
     this.view = view;
     this.inReadable = inReadable;
-    this.commandRegistry = new HashMap<>();
+    this.commandsManager = register;
   }
 
-  /**
-   * Registers all commands.
-   */
-  private void registerCommands() {
-    commandRegistry.put("LOAD", new controller.commandsstrategy.LoadCommandStrategy());
-    commandRegistry.put("SAVE", new controller.commandsstrategy.SaveCommandStrategy());
-    commandRegistry.put("BRIGHTEN", new controller.commandsstrategy.BrightenCommandStrategy());
-    commandRegistry.put("LUMA", new controller.commandsstrategy.LumaCommandStrategy());
-    commandRegistry.put("INTENSITY", new controller.commandsstrategy.IntensityCommandStrategy());
-    commandRegistry.put("VALUE", new controller.commandsstrategy.ValueCommandStrategy());
-    commandRegistry.put("COMPONENT", new controller.commandsstrategy.ComponentCommandStrategy());
-  }
 
   /**
    * This method starts the controller.
@@ -62,8 +46,9 @@ public class ControllerImplementation implements ControllerInterface {
    */
   public void runProgram() {
     Scanner scanner = new Scanner(this.inReadable);
-    this.registerCommands();
+    this.commandsManager.registerAllCommands();
 
+    // 0. Greet and kickoff the program.
     try {
       view.renderMessage("-----------------------------------------\n");
       view.renderMessage("Welcome to the Image Manipulation Program.\n");
@@ -94,7 +79,7 @@ public class ControllerImplementation implements ControllerInterface {
           view.renderMessage(imageDatabase.getAllImageNames() + "\n>>>");
           continue;
         } else if (command.equals("LIST-ALL-COMMANDS")) {
-          view.renderMessage(this.listAllCommands() + "\n>>>");
+          view.renderMessage(this.commandsManager.listAllCommands() + "\n>>>");
           continue;
         }
       } catch (IOException e) {
@@ -102,7 +87,7 @@ public class ControllerImplementation implements ControllerInterface {
       }
 
       // 2. Get the command object from the command registry
-      CommandStrategyInterface commandStrategyObject = commandRegistry.getOrDefault(command, null);
+      CommandStrategyInterface commandStrategyObject = commandsManager.getCommandStrategy(command);
       if (commandStrategyObject == null) {
         try {
           view.renderMessage("Command: " + command + " not found.\n");
@@ -127,15 +112,4 @@ public class ControllerImplementation implements ControllerInterface {
     }
   }
 
-
-  private String listAllCommands() {
-    StringBuilder stringBuilder = new StringBuilder();
-    for (String command : commandRegistry.keySet()) {
-      stringBuilder.append(command).append("\n");
-    }
-    stringBuilder.append("EXIT\n");
-    stringBuilder.append("LIST-ALL-IMAGES\n");
-    stringBuilder.append("LIST-ALL-COMMANDS\n");
-    return stringBuilder.toString();
-  }
 }

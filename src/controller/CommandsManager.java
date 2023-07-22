@@ -6,18 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is responsible for registering all the commands.
+ * This class is the single source for CommandManagement all the commands.
  * Commands registered are of the type CommandStrategyInterface.
  * @see CommandStrategyInterface
  */
-public class CommandsRegister {
+public class CommandsManager implements CommandsManagerInterface{
 
   private Map<String, CommandStrategyInterface> commandsMap;
 
   /**
    * Default constructor, initializes the commandsMap.
    */
-  public CommandsRegister() {
+  public CommandsManager() {
     commandsMap = new HashMap<>();
   }
 
@@ -26,13 +26,15 @@ public class CommandsRegister {
    * @param commandName The name of the command.
    * @param commandStrategy The command strategy.
    */
-  public void registerCommands(String commandName, CommandStrategyInterface commandStrategy) {
+  @Override
+  public void registerCommand(String commandName, CommandStrategyInterface commandStrategy) {
     commandsMap.put(commandName, commandStrategy);
   }
 
   /**
    * This method registers all the commands.
    */
+  @Override
   public void registerAllCommands() {
     commandsMap.put("LOAD", new controller.commandsstrategy.LoadCommandStrategy());
     commandsMap.put("SAVE", new controller.commandsstrategy.SaveCommandStrategy());
@@ -48,6 +50,7 @@ public class CommandsRegister {
    * @param commandName The name of the command.
    * @return The command strategy if it exists, null otherwise.
    */
+  @Override
   public CommandStrategyInterface getCommandStrategy(String commandName)
           throws IllegalArgumentException {
     CommandStrategyInterface command = commandsMap.getOrDefault(commandName, null);
@@ -61,19 +64,8 @@ public class CommandsRegister {
    * This method returns a list of all the commands.
    * @return A list of all the commands.
    */
+  @Override
   public String listAllCommands() {
-    StringBuilder sb = new StringBuilder();
-    for (String commandName : commandsMap.keySet()) {
-      sb.append(commandName).append("\n");
-    }
-    return sb.toString();
-  }
-
-  /**
-   * This method returns a list of all the commands.
-   * @return A list of all the commands.
-   */
-  public String listAllCommandsAndDescriptions() {
     StringBuilder stringBuilder = new StringBuilder();
     for (String command : this.commandsMap.keySet()) {
       stringBuilder.append(command).append("\n");
@@ -83,6 +75,5 @@ public class CommandsRegister {
     stringBuilder.append("LIST-ALL-COMMANDS\n");
     return stringBuilder.toString();
   }
-
 
 }

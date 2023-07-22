@@ -1,4 +1,4 @@
-package testcontroller;
+package testcontroller.mocks;
 
 import model.image.ImageState;
 import model.ImageDatabaseInterface;
