@@ -6,7 +6,6 @@ import model.ImageDatabaseInterface;
 import view.ViewInterface;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -30,7 +29,8 @@ public class ControllerImplementation implements ControllerInterface {
    * @throws IllegalArgumentException if any of the arguments are null.
    */
   public ControllerImplementation(ImageDatabaseInterface imageDatabase,
-                                  ViewInterface view, Readable inReadable, CommandsManagerInterface register)
+                                  ViewInterface view, Readable inReadable,
+                                  CommandsManagerInterface register)
           throws IllegalArgumentException {
     if (imageDatabase == null || view == null || inReadable == null) {
       throw new IllegalArgumentException("Arguments cannot be null.");
@@ -91,7 +91,8 @@ public class ControllerImplementation implements ControllerInterface {
       // 2. Get the command object from the command registry
       // NOTE: modified this to the entire list of commands passed in.
       //       just because it becomes easier to test!
-      CommandStrategyInterface commandStrategyObject = commandsManager.getCommandStrategy(commandList);
+      CommandStrategyInterface commandStrategyObject =
+              commandsManager.getCommandStrategy(commandList);
       if (commandStrategyObject == null) {
         try {
           view.renderMessage("Command: " + command + " not found.\n");

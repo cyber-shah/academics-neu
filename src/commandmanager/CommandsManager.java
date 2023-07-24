@@ -10,7 +10,7 @@ import java.util.Map;
  * Commands registered are of the type CommandStrategyInterface.
  * @see CommandStrategyInterface
  */
-public class CommandsManager implements CommandsManagerInterface{
+public class CommandsManager implements CommandsManagerInterface {
 
   private Map<String, CommandStrategyInterface> commandsMap;
 
@@ -22,7 +22,7 @@ public class CommandsManager implements CommandsManagerInterface{
   }
 
   /**
-   * This method registers the commands.
+   * This method registers the command passed.
    * @param commandName The name of the command.
    * @param commandStrategy The command strategy.
    */
@@ -46,24 +46,19 @@ public class CommandsManager implements CommandsManagerInterface{
   }
 
   /**
-   * This method returns the command strategy.
-   * @param commandList the entire list of commands passed in.
-   * @return The command strategy if it exists, null otherwise.
+   * This method is a getter for the command strategy.
+   * @param commandList The command list.
+   * @return The command strategy if found, null otherwise.
    */
   @Override
-  public CommandStrategyInterface getCommandStrategy(String[] commandList)
-          throws IllegalArgumentException {
+  public CommandStrategyInterface getCommandStrategy(String[] commandList) {
     String commandName = commandList[0];
-    CommandStrategyInterface command = commandsMap.getOrDefault(commandName, null);
-    if (command == null) {
-      return null;
-    }
-    return command;
+    return commandsMap.getOrDefault(commandName, null);
   }
 
   /**
-   * This method returns a list of all the commands.
-   * @return A list of all the commands.
+   * This method converts the commandsMap to a string.
+   * @return String of all the commands registered.
    */
   @Override
   public String listAllCommands() {

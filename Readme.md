@@ -15,6 +15,8 @@ This program is a command line image manipulation program. It allows the user to
 - **list-all-commands**
 - **list-all-images**
 
+Provide the command line arguments in the file - [command-line-arguments.txt](command-line-args.txt)
+
 ## Design
 The design follows Model View Controller (MVC) architecture. The model is the ImageDatabase, which stores all the images. The view is the ViewImplementation, which is responsible for displaying messages to the user. The controller is the ControllerImplementation, which is responsible for parsing user input and calling the appropriate methods in the model and view. The controller also contains the main method, which is responsible for initializing the model, view, and controller, and starting the program.
 

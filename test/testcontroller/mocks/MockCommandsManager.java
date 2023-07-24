@@ -6,20 +6,26 @@ import controller.commandsstrategy.CommandStrategyInterface;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class implements the CommandsManagerInterface.
+ * It is used to test the ControllerImplementation class.
+ */
 public class MockCommandsManager implements CommandsManagerInterface {
   private final StringBuilder log = new StringBuilder();
   private final Map<String, CommandStrategyInterface> commandsMap = new HashMap<>();
 
   @Override
   public void registerCommand(String commandName, CommandStrategyInterface commandStrategy) {
+    // do nothing
   }
 
   @Override
-  public CommandStrategyInterface getCommandStrategy(String[] commandsList) throws IllegalArgumentException {
+  public CommandStrategyInterface getCommandStrategy(String[] commandsList)
+          throws IllegalArgumentException {
     for (int i = 0; i < commandsList.length; i++) {
       log.append("Args " + i + ": " + commandsList[i] + " ");
     }
-    return new MockCommandStrategy();
+    return null;
   }
 
   @Override
@@ -29,13 +35,7 @@ public class MockCommandsManager implements CommandsManagerInterface {
 
   @Override
   public void registerAllCommands() {
-    commandsMap.put("LOAD", new MockCommandStrategy());
-    commandsMap.put("SAVE", new MockCommandStrategy());
-    commandsMap.put("BRIGHTEN", new MockCommandStrategy());
-    commandsMap.put("LUMA", new MockCommandStrategy());
-    commandsMap.put("INTENSITY", new MockCommandStrategy());
-    commandsMap.put("VALUE", new MockCommandStrategy());
-    commandsMap.put("COMPONENT", new MockCommandStrategy());
+    // do nothing
   }
 
   /**

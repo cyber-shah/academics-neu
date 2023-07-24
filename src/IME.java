@@ -23,7 +23,8 @@ public class IME {
     ViewImplementation view = new ViewImplementation(System.out);
     Readable in = new InputStreamReader(System.in);
     CommandsManagerInterface commandsManager = new CommandsManager();
-    ControllerImplementation controller = new ControllerImplementation(model, view, in, commandsManager);
+    ControllerImplementation controller = new ControllerImplementation(model, view,
+            in, commandsManager);
     OperationInterface operations;
     controller.runProgram();
   }

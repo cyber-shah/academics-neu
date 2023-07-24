@@ -1,15 +1,12 @@
 package testcontroller;
 
-import commandmanager.CommandsManagerInterface;
 import controller.ControllerImplementation;
 import controller.ControllerInterface;
+import model.ImageDatabase;
 import model.ImageDatabaseInterface;
-import org.junit.Before;
 import org.junit.Test;
-import testcontroller.mocks.MockCommandStrategy;
 import testcontroller.mocks.MockCommandsManager;
-import testcontroller.mocks.MockImageDatabase;
-import testcontroller.mocks.MockViewImplementation;
+import view.ViewImplementation;
 import view.ViewInterface;
 
 import java.io.StringReader;
@@ -20,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  * This class tests the ControllerImplementation class.
  */
 public class TestContoller {
-  private MockViewImplementation mockView;
+  private ViewInterface mockView;
   private final MockCommandsManager mockCommandsManager = new MockCommandsManager();
 
   /**
@@ -35,6 +32,18 @@ public class TestContoller {
    * 7. add the new image to the imageDatabase
    * 8. wait for the next command
    */
+  @Test
+  public void testLoadCommand() {
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface imageDatabase = new ImageDatabase();
+    // 1. put the commands in a string
+    Readable inReadable = new StringReader("LOAD abc.ppm abc\n");
+    // 2. pass the string to the controller
+    ControllerInterface controller = new ControllerImplementation(imageDatabase,
+            mockView, inReadable, mockCommandsManager);
+    controller.runProgram();
+    assertEquals("Args 0: LOAD Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
+  }
 
   /**
    * Here's how we will test it:
@@ -50,86 +59,81 @@ public class TestContoller {
    *
    */
   @Test
-  public void testLoadCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
-    // 1. put the commands in a string
-    Readable inReadable = new StringReader("LOAD abc.ppm abc\n");
-    // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
-    controller.runProgram();
-    assertEquals("Args 0: LOAD Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
-  }
-
-  @Test
   public void testSaveCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface imageDatabase = new ImageDatabase();
     // 1. put the commands in a string
     Readable inReadable = new StringReader("SAVE abc.ppm abc\n");
     // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
+    ControllerInterface controller = new ControllerImplementation(imageDatabase,
+            mockView, inReadable, mockCommandsManager);
     controller.runProgram();
     assertEquals("Args 0: SAVE Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
   }
 
   @Test
   public void testBrightenCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface mockImageDatabase = new ImageDatabase();
     // 1. put the commands in a string
     Readable inReadable = new StringReader("BRIGHTEN abc.ppm abc\n");
     // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
+    ControllerInterface controller = new ControllerImplementation(mockImageDatabase,
+            mockView, inReadable, mockCommandsManager);
     controller.runProgram();
     assertEquals("Args 0: BRIGHTEN Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
   }
 
   @Test
   public void testLumaCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface mockImageDatabase = new ImageDatabase();
     // 1. put the commands in a string
     Readable inReadable = new StringReader("LUMA abc.ppm abc\n");
     // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
+    ControllerInterface controller = new ControllerImplementation(mockImageDatabase,
+            mockView, inReadable, mockCommandsManager);
     controller.runProgram();
     assertEquals("Args 0: LUMA Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
   }
 
   @Test
   public void testIntensityCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface mockImageDatabase = new ImageDatabase();
     // 1. put the commands in a string
     Readable inReadable = new StringReader("INTENSITY abc.ppm abc\n");
     // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
+    ControllerInterface controller = new ControllerImplementation(mockImageDatabase,
+            mockView, inReadable, mockCommandsManager);
     controller.runProgram();
     assertEquals("Args 0: INTENSITY Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
   }
 
   @Test
   public void testValueCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface mockImageDatabase = new ImageDatabase();
     // 1. put the commands in a string
     Readable inReadable = new StringReader("VALUE abc.ppm abc\n");
     // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
+    ControllerInterface controller = new ControllerImplementation(mockImageDatabase,
+            mockView, inReadable, mockCommandsManager);
     controller.runProgram();
     assertEquals("Args 0: VALUE Args 1: abc.ppm Args 2: abc ", mockCommandsManager.getLog());
   }
 
   @Test
   public void testComponentCommand() {
-    mockView = new MockViewImplementation();
-    MockImageDatabase mockImageDatabase = new MockImageDatabase();
+    mockView = new ViewImplementation(System.out);
+    ImageDatabaseInterface mockImageDatabase = new ImageDatabase();
     // 1. put the commands in a string
     Readable inReadable = new StringReader("COMPONENT red abc.ppm abc\n");
     // 2. pass the string to the controller
-    ControllerInterface controller = new ControllerImplementation(mockImageDatabase, mockView, inReadable, mockCommandsManager);
+    ControllerInterface controller = new ControllerImplementation(mockImageDatabase,
+            mockView, inReadable, mockCommandsManager);
     controller.runProgram();
-    assertEquals("Args 0: COMPONENT Args 1: red Args 2: abc.ppm Args 3: abc ", mockCommandsManager.getLog());
+    assertEquals("Args 0: COMPONENT Args 1: red Args 2: abc.ppm Args 3: abc ",
+            mockCommandsManager.getLog());
   }
 }
