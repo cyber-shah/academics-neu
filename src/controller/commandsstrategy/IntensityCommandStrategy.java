@@ -1,6 +1,6 @@
 package controller.commandsstrategy;
 
-import model.image.ImageState;
+import model.image.CImageState;
 import model.ImageDatabaseInterface;
 import model.operations.IntensityOperation;
 
@@ -31,7 +31,7 @@ public class IntensityCommandStrategy implements CommandStrategyInterface {
     String destinationID = args[1];
 
     // Once all the arguments are validated, call the intensity method.
-    ImageState newImage = new IntensityOperation(imageDatabase.getImage(sourceImageID))
+    CImageState newImage = new IntensityOperation(imageDatabase.getImage(sourceImageID))
             .applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.

@@ -3,7 +3,7 @@ package testio;
 import controller.io.ImageSaverInterface;
 import controller.io.PPMImageLoader;
 import controller.io.PPMImageSaver;
-import model.image.Image;
+import model.image.CImage;
 import org.junit.Test;
 
 import java.io.File;
@@ -19,11 +19,11 @@ import static org.junit.Assert.assertEquals;
  *    * 3. test savePPMImage() with a null file name
  *    * 4. test savePPMImage() with a null image
  */
-public class TestPPMImageSaver {
+public class TestPPMCustomImageSaver {
 
-  private Image loadImage;
+  private CImage loadCustomImage;
   private String loadPath;
-  private Image saveImage;
+  private CImage saveCustomImage;
   private String savePath;
   private ImageSaverInterface saver;
 
@@ -33,22 +33,22 @@ public class TestPPMImageSaver {
     // 0. create the image to save
     this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
-    this.loadImage = new PPMImageLoader().load(loadPath);
+    this.loadCustomImage = new PPMImageLoader().load(loadPath);
 
     ImageSaverInterface saver = new PPMImageSaver();
     // 1. save the image
     this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testIO\\testSavePPMImage4x4.ppm";
-    saver.save(loadImage, savePath);
+    saver.save(loadCustomImage, savePath);
 
     // 2. load the saved image to check if it is the same as the original image
     this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testIO\\testSavePPMImage4x4.ppm";
-    this.loadImage = new PPMImageLoader().load(loadPath);
-    assertEquals(4, loadImage.getWidth());
-    assertEquals(4, loadImage.getHeight());
-    assertEquals(255, loadImage.getMaxValue());
-    assertEquals(21, loadImage.getPixel(1, 1).getRed());
+    this.loadCustomImage = new PPMImageLoader().load(loadPath);
+    assertEquals(4, loadCustomImage.getWidth());
+    assertEquals(4, loadCustomImage.getHeight());
+    assertEquals(255, loadCustomImage.getMaxValue());
+    assertEquals(21, loadCustomImage.getPixel(1, 1).getRed());
 
     // 3. Delete the file
     File fileToDelete = new File(loadPath);
@@ -64,13 +64,13 @@ public class TestPPMImageSaver {
     // 0. create the image to save
     this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
-    this.loadImage = new PPMImageLoader().load(loadPath);
+    this.loadCustomImage = new PPMImageLoader().load(loadPath);
 
     ImageSaverInterface saver = new PPMImageSaver();
     // 1. save the image
     this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testSavePPMImage4x4";
-    saver.save(loadImage, savePath);
+    saver.save(loadCustomImage, savePath);
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -78,24 +78,24 @@ public class TestPPMImageSaver {
     // 0. create the image to save
     this.loadPath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testIO\\test4x4.ppm";
-    this.loadImage = new PPMImageLoader().load(loadPath);
+    this.loadCustomImage = new PPMImageLoader().load(loadPath);
 
     ImageSaverInterface saver = new PPMImageSaver();
     // 1. save the image
     this.savePath = null;
-    saver.save(loadImage, savePath);
+    saver.save(loadCustomImage, savePath);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testSavePPMImageNullImage() throws IOException {
     // 0. create the image to save
     this.loadPath = null;
-    this.loadImage = new PPMImageLoader().load(loadPath);
+    this.loadCustomImage = new PPMImageLoader().load(loadPath);
 
     ImageSaverInterface saver = new PPMImageSaver();
     // 1. save the image
     this.savePath = "C:\\Users\\shahp\\OneDrive - Northeastern University\\NEU\\CS-5004\\"
             + "Project - Image Manipulator\\IME\\test\\testSavePPMImage4x4.ppm";
-    saver.save(loadImage, savePath);
+    saver.save(loadCustomImage, savePath);
   }
 }

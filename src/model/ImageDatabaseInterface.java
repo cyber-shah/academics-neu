@@ -1,6 +1,6 @@
 package model;
 
-import model.image.ImageState;
+import model.image.CImageState;
 
 /**
  * This interface represents an ImageDatabase.
@@ -8,9 +8,9 @@ import model.image.ImageState;
  */
 public interface ImageDatabaseInterface {
 
-  void addImage(String name, ImageState image);
+  void addImage(String name, CImageState image);
 
-  ImageState getImage(String name);
+  CImageState getImage(String name);
 
   void removeImage(String name);
 

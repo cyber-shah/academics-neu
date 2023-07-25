@@ -1,6 +1,6 @@
 package model.operations;
 
-import model.image.ImageState;
+import model.image.CImageState;
 
 /**
  * This interface represents an Operation.
@@ -8,5 +8,5 @@ import model.image.ImageState;
  */
 public interface OperationInterface {
 
-  ImageState applyOperation();
+  CImageState applyOperation();
 }

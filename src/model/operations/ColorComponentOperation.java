@@ -1,15 +1,15 @@
 package model.operations;
 
-import model.image.Image;
-import model.image.ImageState;
-import model.image.Pixel;
+import model.image.CImage;
+import model.image.CImageState;
+import model.image.CPixel;
 
 /**
  * This class represents the color component operation.
  */
 public class ColorComponentOperation implements OperationInterface {
 
-  private final ImageState sourceImage;
+  private final CImageState sourceImage;
   private final String component;
 
   /**
@@ -18,7 +18,7 @@ public class ColorComponentOperation implements OperationInterface {
    * @param sourceImage The source image.
    * @param component      The component to be added to the rgb values of the pixel.
    */
-  public ColorComponentOperation(ImageState sourceImage, String component) {
+  public ColorComponentOperation(CImageState sourceImage, String component) {
     this.sourceImage = sourceImage;
     this.component = component;
   }
@@ -30,11 +30,11 @@ public class ColorComponentOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public ImageState applyOperation() {
+  public CImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    Image newImage = new Image(width, height, maxValue);
+    CImage newCustomImage = new CImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -54,12 +54,12 @@ public class ColorComponentOperation implements OperationInterface {
           } else if (component.equalsIgnoreCase("blue")) {
             value = blue;
           }
-          newImage.setPixel(i, j, new Pixel(value, value, value));
+          newCustomImage.setPixel(i, j, new CPixel(value, value, value));
         }
       }
     } catch (Exception e) {
       throw new IllegalArgumentException("Invalid component");
     }
-    return newImage;
+    return newCustomImage;
   }
 }

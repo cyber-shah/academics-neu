@@ -5,11 +5,11 @@ package model.image;
  * Built up by a 2D array of Pixels.
  * The value of each channel should be greater than 0.
  */
-public class Image implements ImageState {
+public class CImage implements CImageState {
   private final int width;
   private final int height;
   private final int maxValue;
-  private final IPixel[][] pixelsList;
+  private final CPixelInterface[][] pixelsList;
 
 
   /**
@@ -19,14 +19,14 @@ public class Image implements ImageState {
    * @param height int value of height.
    * @param maxValue int value of maxValue.
    */
-  public Image(int width, int height, int maxValue) {
+  public CImage(int width, int height, int maxValue) {
     if (width <= 0 || height <= 0 || maxValue <= 0) {
       throw new IllegalArgumentException("Invalid image parameters");
     }
     this.width = width;
     this.height = height;
     this.maxValue = maxValue;
-    this.pixelsList = new IPixel[width][height];
+    this.pixelsList = new CPixelInterface[width][height];
   }
 
   /**
@@ -66,7 +66,7 @@ public class Image implements ImageState {
    * @return Pixel value of pixel.
    */
   @Override
-  public Pixel getPixel(int x, int y) throws IllegalArgumentException {
+  public CPixel getPixel(int x, int y) throws IllegalArgumentException {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       String message = "From Image: Coordinates " + x + ", " + y + " are out of bounds"
               + " for an image of size " + this.width + " x " + this.height;
@@ -76,7 +76,7 @@ public class Image implements ImageState {
       throw new IllegalArgumentException("Pixel at " + x + ", " + y + " is null");
     }
     else {
-      return (Pixel) this.pixelsList[x][y];
+      return (CPixel) this.pixelsList[x][y];
     }
   }
 
@@ -86,7 +86,7 @@ public class Image implements ImageState {
    * @return Pixel[] value of pixelsList.
    */
   @Override
-  public IPixel[][] getPixelsList() {
+  public CPixelInterface[][] getPixelsList() {
     return this.pixelsList;
   }
 
@@ -97,7 +97,7 @@ public class Image implements ImageState {
    * @param y     int value of y.
    * @param pixel Pixel value of pixel.
    */
-  public void setPixel(int x, int y, Pixel pixel) {
+  public void setPixel(int x, int y, CPixel pixel) {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       throw new IllegalArgumentException("Invalid pixel coordinates");
     }

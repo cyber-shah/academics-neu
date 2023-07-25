@@ -1,22 +1,22 @@
 package model.operations;
 
-import model.image.Image;
-import model.image.ImageState;
-import model.image.Pixel;
+import model.image.CImage;
+import model.image.CImageState;
+import model.image.CPixel;
 
 /**
  * This class represents the IntensityOperation.
  * It extends the abstract class OperationAbstract.
  */
 public class IntensityOperation implements OperationInterface {
-  private final ImageState sourceImage;
+  private final CImageState sourceImage;
 
   /**
    * This is the constructor for the IntensityOperation class.
    *
    * @param sourceImage The source image.
    */
-  public IntensityOperation(ImageState sourceImage) {
+  public IntensityOperation(CImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 
@@ -28,11 +28,11 @@ public class IntensityOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public ImageState applyOperation() {
+  public CImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    Image newImage = new Image(width, height, maxValue);
+    CImage newCustomImage = new CImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -47,13 +47,13 @@ public class IntensityOperation implements OperationInterface {
           // calculate the new rgb values
           int average = (red + green + blue) / 3;
 
-          Pixel newPixel = new Pixel(average, average, average);
-          newImage.setPixel(i, j, newPixel);
+          CPixel newPixel = new CPixel(average, average, average);
+          newCustomImage.setPixel(i, j, newPixel);
         }
       }
     } catch (NullPointerException e) {
       throw new IllegalArgumentException("Pixel " + i + ", " + j + " is null");
     }
-    return newImage;
+    return newCustomImage;
   }
 }

@@ -1,6 +1,6 @@
 package model;
 
-import model.image.ImageState;
+import model.image.CImageState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
  * It represents a database of images.
  */
 public class ImageDatabase implements ImageDatabaseInterface {
-  private Map<String, ImageState> imagesMap;
+  private Map<String, CImageState> imagesMap;
 
 
   /**
@@ -27,7 +27,7 @@ public class ImageDatabase implements ImageDatabaseInterface {
    * @param image Image value of image.
    */
   @Override
-  public void addImage(String name, ImageState image) {
+  public void addImage(String name, CImageState image) {
     if (this.imagesMap.containsKey(name)) {
       throw new IllegalArgumentException("addImage " + name + " already exists.");
     }
@@ -44,7 +44,7 @@ public class ImageDatabase implements ImageDatabaseInterface {
    * @return Image value of image.
    */
   @Override
-  public ImageState getImage(String name) {
+  public CImageState getImage(String name) {
     if (!this.imagesMap.containsKey(name) || name == null) {
       throw new IllegalArgumentException("getImage " + name + " not found.");
     }

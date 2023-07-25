@@ -1,8 +1,8 @@
 package model.operations;
 
-import model.image.Image;
-import model.image.ImageState;
-import model.image.Pixel;
+import model.image.CImage;
+import model.image.CImageState;
+import model.image.CPixel;
 
 /**
  * This class represents the value component operation.
@@ -10,14 +10,14 @@ import model.image.Pixel;
  */
 public class ValueComponentOperation implements OperationInterface {
 
-  private final ImageState sourceImage;
+  private final CImageState sourceImage;
 
   /**
    * This is the constructor for the ValueComponentOperation class.
    *
    * @param sourceImage The source image.
    */
-  public ValueComponentOperation(ImageState sourceImage) {
+  public ValueComponentOperation(CImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 
@@ -27,11 +27,11 @@ public class ValueComponentOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public ImageState applyOperation() {
+  public CImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    Image newImage = new Image(width, height, maxValue);
+    CImage newCustomImage = new CImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -47,13 +47,13 @@ public class ValueComponentOperation implements OperationInterface {
 
 
           // set the new rgb values to the pixel
-          newImage.setPixel(i, j, new Pixel(value_component, value_component, value_component));
+          newCustomImage.setPixel(i, j, new CPixel(value_component, value_component, value_component));
         }
       }
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Invalid pixel at (" + i + ", " + j + ").");
     }
-    return newImage;
+    return newCustomImage;
   }
 
 }

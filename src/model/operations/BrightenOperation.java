@@ -1,15 +1,15 @@
 package model.operations;
 
-import model.image.Image;
-import model.image.ImageState;
-import model.image.Pixel;
+import model.image.CImage;
+import model.image.CImageState;
+import model.image.CPixel;
 
 /**
  * This class represents the BrightenOperation class.
  * It implements the OperationInterface.
  */
 public class BrightenOperation implements OperationInterface {
-  private final ImageState sourceImage;
+  private final CImageState sourceImage;
   private final int value;
 
   /**
@@ -18,7 +18,7 @@ public class BrightenOperation implements OperationInterface {
    * @param sourceImage The source image.
    * @param value      The value to be added to the rgb values of the pixel.
    */
-  public BrightenOperation(ImageState sourceImage, int value) {
+  public BrightenOperation(CImageState sourceImage, int value) {
     this.sourceImage = sourceImage;
     this.value = value;
   }
@@ -31,11 +31,11 @@ public class BrightenOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public ImageState applyOperation() {
+  public CImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    Image newImage = new Image(width, height, maxValue);
+    CImage newCustomImage = new CImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -70,12 +70,12 @@ public class BrightenOperation implements OperationInterface {
             newBlue = 0;
           }
 
-          newImage.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
+          newCustomImage.setPixel(i, j, new CPixel(newRed, newGreen, newBlue));
         }
       }
     } catch (NullPointerException e) {
       throw new IllegalArgumentException("Pixel " + i + ", " + j + " is null");
     }
-    return newImage;
+    return newCustomImage;
   }
 }

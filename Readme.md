@@ -2,14 +2,14 @@
 
 ## Description
 
-This program is a command line image manipulation program. It allows the user to load, save, and manipulate images. The program supports the following commands:
-- **load** _image-path image-name_
-- **save** _output-file-path image-name_
-- **component** _red|green|blue image-name new-image-name_
-- **luma** _image-name new-image-name_
-- **value** _image-name new-image-name_
-- **intensity** _image-name new-image-name_
-- **brighten** _value image-name new-image-name_
+This program is a command line customImage manipulation program. It allows the user to load, save, and manipulate images. The program supports the following commands:
+- **load** _image-path customImage-name_
+- **save** _output-file-path customImage-name_
+- **component** _red|green|blue customImage-name new-customImage-name_
+- **luma** _image-name new-customImage-name_
+- **value** _image-name new-customImage-name_
+- **intensity** _image-name new-customImage-name_
+- **brighten** _value customImage-name new-customImage-name_
   (also supports darkening with negative values)
 - **exit**
 - **list-all-commands**
@@ -20,7 +20,7 @@ Provide the command line arguments in the file - [command-line-arguments.txt](co
 ## Design
 The design follows Model View Controller (MVC) architecture. The model is the ImageDatabase, which stores all the images. The view is the ViewImplementation, which is responsible for displaying messages to the user. The controller is the ControllerImplementation, which is responsible for parsing user input and calling the appropriate methods in the model and view. The controller also contains the main method, which is responsible for initializing the model, view, and controller, and starting the program.
 
->The system follows a Command pattern for executing image processing commands.
+>The system follows a Command pattern for executing customImage processing commands.
 >It uses the Strategy pattern to execute the operations.
 
 The usage of command pattern and strategy pattern allows for easy extensibility of the program. 
@@ -241,21 +241,21 @@ ViewImplementation  ..>  ViewInterface
 The model follows a Strategy pattern, where the ControllerImplementation class is the context, and the CommandStrategyInterface is the strategy.
 The model contains the following packages:
 1. Image package - Contains mainly two components: Image and Pixel. 
-   * The Image class contains a 2D array of IPixel objects, which represent the pixels in the image. 
-   The Image class also contains the width, height, and maxValue of the image. 
-   The Image class also contains methods for getting and setting pixels in the image.  
+   * The Image class contains a 2D array of IPixel objects, which represent the pixels in the customImage. 
+   The Image class also contains the width, height, and maxValue of the customImage. 
+   The Image class also contains methods for getting and setting pixels in the customImage.  
    * It also contains the IPixel interface, which represents a pixel. 
    It contains the red, green, and blue values of the pixel. It also contains the IPixelState interface, which represents a pixel that cannot be modified. 
-   It contains the red, green, and blue values of the pixel, as well as the maxValue of the image.
+   It contains the red, green, and blue values of the pixel, as well as the maxValue of the customImage.
    > This follows the Liskov Substitution Principle because Image can be substituted for ImageState to make it unmodifiable.
 Similarly, IPixel can be substituted for IPixelState to make it unmodifiable, wherever needed.
-2. Operations package - contains the OperationInterface interface, which represents an operation on an image. 
-It contains the applyOperation method, which applies the operation to the image and returns the resulting image. 
+2. Operations package - contains the OperationInterface interface, which represents an operation on an customImage. 
+It contains the applyOperation method, which applies the operation to the customImage and returns the resulting customImage. 
 It also contains the IntensityOperation, BrightenOperation, LumaOperation, and ValueComponentOperation classes, which implement the OperationInterface interface. 
 These classes represent the intensity, brighten, luma, and value operations, respectively.
     > This follows the Open-Closed Principle because new operations can be added by creating a new class that implements the OperationInterface interface.
 3. ImageDatabase package - contains the ImageDatabase class, which implements the ImageDatabaseInterface interface.
-It contains a map of image names to ImageState objects. 
+It contains a map of customImage names to ImageState objects. 
 It also contains the getImage, addImage, and removeImage methods, which get, add, and remove images from the database, respectively. 
 
 ### View
@@ -277,10 +277,10 @@ Broadly there are two main packages in the controller:
    They are responsible to parse the commands and pass them into the MODEL operations in whatever format needed.
    > This follows the Single Responsibility Principle as each class is responsible for only one type of command.
 2. IO package - contains the two interfaces - ImageLoaderInterface and ImageSaverInterface.
-   * The ImageLoaderInterface is then implemented by PPMImageLoader class which is responsible for loading the image from a PPM file.
-   * The ImageSaverInterface is then implemented by PPMImageSaver class which is responsible for saving the image to a PPM file.
+   * The ImageLoaderInterface is then implemented by PPMImageLoader class which is responsible for loading the customImage from a PPM file.
+   * The ImageSaverInterface is then implemented by PPMImageSaver class which is responsible for saving the customImage to a PPM file.
    > This follows the open closed principle as the controller is open for extension but closed for modification.
-   > Which means that whenever we would need to add more image formats we can simply add more classes which implement the ImageLoaderInterface and ImageSaverInterface 
+   > Which means that whenever we would need to add more customImage formats we can simply add more classes which implement the ImageLoaderInterface and ImageSaverInterface 
    > and the existing code would not need to be modified.
 3. CommandManager package - this is responsible for managing the supported commands and their corresponding operations.
    * It contains the CommandManager class which is responsible for registering the commands and their corresponding operations.
@@ -294,5 +294,5 @@ Broadly there are two main packages in the controller:
 A sample run can be found in this file: [Sample-Output](SampleOutput.txt)
 
 # Citations
-1. [StackOverflow](https://stackoverflow.com/questions/74620396/how-to-convert-images-from-the-jpg-format-to-ppmp3) The image used for testing purposes is from StackOverflow and can be found here.
+1. [StackOverflow](https://stackoverflow.com/questions/74620396/how-to-convert-images-from-the-jpg-format-to-ppmp3) The customImage used for testing purposes is from StackOverflow and can be found here.
 2. [GeeksforGeeks](https://www.geeksforgeeks.org/ood-principles-solid/) Principles of Object Oriented Design

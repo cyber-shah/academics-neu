@@ -1,6 +1,6 @@
 package controller.commandsstrategy;
 
-import model.image.ImageState;
+import model.image.CImageState;
 import model.ImageDatabaseInterface;
 import model.operations.ColorComponentOperation;
 
@@ -33,7 +33,7 @@ public class ComponentCommandStrategy implements CommandStrategyInterface {
 
 
     // Once all the arguments are validated, call the Color component method.
-    ImageState newImage = new ColorComponentOperation(
+    CImageState newImage = new ColorComponentOperation(
             imageDatabase.getImage(sourceImageID), component).applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.

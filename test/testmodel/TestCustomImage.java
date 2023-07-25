@@ -1,7 +1,7 @@
 package testmodel;
 
-import model.image.Image;
-import model.image.Pixel;
+import model.image.CImage;
+import model.image.CPixel;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,87 +22,87 @@ import static org.junit.Assert.assertEquals;
    * 12. Test setPixel with a null pixel.
    * 13. Test setPixel with a pixel with invalid maxValue.
  */
-public class TestImage {
+public class TestCustomImage {
 
   @Test
   public void testParams() {
-    Image image = new Image(4, 4, 255);
-    assertEquals(4, image.getWidth());
-    assertEquals(4, image.getHeight());
-    assertEquals(255, image.getMaxValue());
+    CImage customImage = new CImage(4, 4, 255);
+    assertEquals(4, customImage.getWidth());
+    assertEquals(4, customImage.getHeight());
+    assertEquals(255, customImage.getMaxValue());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidWidth() {
-    Image image = new Image(-1, 4, 255);
+    CImage customImage = new CImage(-1, 4, 255);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidHeight() {
-    Image image = new Image(4, -1, 255);
+    CImage customImage = new CImage(4, -1, 255);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidMaxValue() {
-    Image image = new Image(4, 4, -1);
+    CImage customImage = new CImage(4, 4, -1);
   }
 
   @Test
   public void testGetPixel() {
-    Image image = new Image(4, 4, 255);
-    Pixel pixel = new Pixel(0, 0, 0);
-    image.setPixel(0, 0, pixel);
-    assertEquals(pixel, image.getPixel(0, 0));
+    CImage customImage = new CImage(4, 4, 255);
+    CPixel pixel = new CPixel(0, 0, 0);
+    customImage.setPixel(0, 0, pixel);
+    assertEquals(pixel, customImage.getPixel(0, 0));
   }
 
   @Test(expected = NullPointerException.class)
   public void testGetPixelInvalidCoordinates() {
-    Image image = new Image(4, 4, 255);
-    Pixel pixel = new Pixel(0, 0, 0);
-    image.setPixel(0, 0, pixel);
-    image.getPixel(4, 4);
+    CImage customImage = new CImage(4, 4, 255);
+    CPixel pixel = new CPixel(0, 0, 0);
+    customImage.setPixel(0, 0, pixel);
+    customImage.getPixel(4, 4);
   }
 
   @Test(expected = NullPointerException.class)
   public void testGetPixelNullPixel() {
-    Image image = new Image(4, 4, 255);
-    image.getPixel(0, 0);
+    CImage customImage = new CImage(4, 4, 255);
+    customImage.getPixel(0, 0);
   }
 
   @Test
   public void testGetPixelsList() {
-    Image image = new Image(4, 4, 255);
-    Pixel pixel = new Pixel(0, 0, 0);
-    image.setPixel(0, 0, pixel);
-    assertEquals(pixel, image.getPixelsList()[0][0]);
+    CImage customImage = new CImage(4, 4, 255);
+    CPixel pixel = new CPixel(0, 0, 0);
+    customImage.setPixel(0, 0, pixel);
+    assertEquals(pixel, customImage.getPixelsList()[0][0]);
   }
 
   @Test
   public void testSetPixel() {
-    Image image = new Image(4, 4, 255);
-    Pixel pixel = new Pixel(0, 0, 0);
-    image.setPixel(0, 0, pixel);
-    assertEquals(pixel, image.getPixel(0, 0));
+    CImage customImage = new CImage(4, 4, 255);
+    CPixel pixel = new CPixel(0, 0, 0);
+    customImage.setPixel(0, 0, pixel);
+    assertEquals(pixel, customImage.getPixel(0, 0));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetPixelInvalidCoordinates() {
-    Image image = new Image(4, 4, 255);
-    Pixel pixel = new Pixel(0, 0, 0);
-    image.setPixel(4, 4, pixel);
+    CImage customImage = new CImage(4, 4, 255);
+    CPixel pixel = new CPixel(0, 0, 0);
+    customImage.setPixel(4, 4, pixel);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetPixelNullPixel() {
-    Image image = new Image(4, 4, 255);
-    image.setPixel(0, 0, null);
+    CImage customImage = new CImage(4, 4, 255);
+    customImage.setPixel(0, 0, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetPixelInvalidMaxValue() {
-    Image image = new Image(4, 4, 255);
-    Pixel pixel = new Pixel(0, 0, 256);
-    image.setPixel(0, 0, pixel);
+    CImage customImage = new CImage(4, 4, 255);
+    CPixel pixel = new CPixel(0, 0, 256);
+    customImage.setPixel(0, 0, pixel);
   }
 
 

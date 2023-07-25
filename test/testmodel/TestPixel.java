@@ -1,6 +1,6 @@
 package testmodel;
 
-import model.image.Pixel;
+import model.image.CPixel;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +24,7 @@ public class TestPixel {
 
   @Test
   public void testParams() {
-    Pixel pixel = new Pixel(1, 2, 3);
+    CPixel pixel = new CPixel(1, 2, 3);
     assertEquals(1, pixel.getRed());
     assertEquals(2, pixel.getGreen());
     assertEquals(3, pixel.getBlue());
@@ -32,79 +32,79 @@ public class TestPixel {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidRed() {
-    Pixel pixel = new Pixel(-1, 0, 0);
+    CPixel pixel = new CPixel(-1, 0, 0);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidGreen() {
-    Pixel pixel = new Pixel(0, -1, 0);
+    CPixel pixel = new CPixel(0, -1, 0);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidBlue() {
-    Pixel pixel = new Pixel(0, 0, -1);
+    CPixel pixel = new CPixel(0, 0, -1);
   }
 
   @Test
   public void testGetRed() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     assertEquals(0, pixel.getRed());
   }
 
   @Test
   public void testGetGreen() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     assertEquals(0, pixel.getGreen());
   }
 
   @Test
   public void testGetBlue() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     assertEquals(0, pixel.getBlue());
   }
 
   @Test
   public void testSetRed() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     pixel.setRed(200);
     assertEquals(200, pixel.getRed());
   }
 
   @Test
   public void testSetGreen() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     pixel.setGreen(255);
     assertEquals(255, pixel.getGreen());
   }
 
   @Test
   public void testSetBlue() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     pixel.setBlue(255);
     assertEquals(255, pixel.getBlue());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetInvalidRed() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     pixel.setRed(-1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetInvalidGreen() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     pixel.setGreen(-1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetInvalidBlue() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     pixel.setBlue(-1);
   }
 
   @Test
   public void testToString() {
-    Pixel pixel = new Pixel(0, 0, 0);
+    CPixel pixel = new CPixel(0, 0, 0);
     assertEquals("(0, 0, 0)", pixel.toString());
   }
 

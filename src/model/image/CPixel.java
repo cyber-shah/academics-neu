@@ -6,7 +6,7 @@ package model.image;
  * The value of each channel should be greater than 0.
  * The value of each channel should be less than maxValue.
  */
-public class Pixel implements IPixel {
+public class CPixel implements CPixelInterface {
   private int red;
   private int green;
   private int blue;
@@ -20,7 +20,7 @@ public class Pixel implements IPixel {
    * @param green int value of green.
    * @param blue int value of blue.
    */
-  public Pixel(int red, int green, int blue) {
+  public CPixel(int red, int green, int blue) {
     this(red, green, blue, 255);
   }
 
@@ -33,7 +33,7 @@ public class Pixel implements IPixel {
    * @param blue int value of blue.
    * @param maxValue int value of maxColor.
    */
-  public Pixel(int red, int green, int blue, int maxValue) {
+  public CPixel(int red, int green, int blue, int maxValue) {
     if (red < 0 || green < 0 || blue < 0) {
       throw new IllegalArgumentException("The value of red, green, blue should be greater than 0.");
     }

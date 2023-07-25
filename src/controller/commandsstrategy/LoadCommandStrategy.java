@@ -2,7 +2,7 @@ package controller.commandsstrategy;
 
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
-import model.image.ImageState;
+import model.image.CImageState;
 import model.ImageDatabaseInterface;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     String imageID = args[1];
 
     // 3. call the ImageLoader to load the image.
-    ImageState newImage;
+    CImageState newImage;
     try {
       // OPTIMIZE: We need to use the ImageLoaderFactory to get the correct ImageLoader.
       //           In the future if more format are added..

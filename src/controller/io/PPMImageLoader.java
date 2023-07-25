@@ -1,7 +1,7 @@
 package controller.io;
 
-import model.image.Image;
-import model.image.Pixel;
+import model.image.CImage;
+import model.image.CPixel;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ public class PPMImageLoader implements ImageLoaderInterface {
    * @throws NoSuchElementException if the file is not a valid PPM file.
    * @throws IllegalArgumentException if the file is not a 'P3' PPM file.
    */
-  public Image load(String filePath) throws FileNotFoundException {
+  public CImage load(String filePath) throws FileNotFoundException {
 
     try (Scanner scanner = new Scanner(new FileInputStream(filePath))) {
 
@@ -51,16 +51,16 @@ public class PPMImageLoader implements ImageLoaderInterface {
       maxValue = imageParameters[2];
 
       // 2. if valid parameters, create the image
-      Image image = new Image(width, height, maxValue);
+      CImage customImage = new CImage(width, height, maxValue);
 
       // 3. read the pixels
       try {
-        for (int i = 0; i < image.getWidth(); i++) {
-          for (int j = 0; j < image.getHeight(); j++) {
+        for (int i = 0; i < customImage.getWidth(); i++) {
+          for (int j = 0; j < customImage.getHeight(); j++) {
             int red = newScanner.nextInt();
             int green = newScanner.nextInt();
             int blue = newScanner.nextInt();
-            image.setPixel(i, j, new Pixel(red, green, blue, maxValue));
+            customImage.setPixel(i, j, new CPixel(red, green, blue, maxValue));
           }
         }
       }
@@ -68,7 +68,7 @@ public class PPMImageLoader implements ImageLoaderInterface {
         throw new NoSuchElementException("From ImageLoader: File " + filePath
                 + " is not a complete PPM file!");
       }
-      return image;
+      return customImage;
     }
     catch (FileNotFoundException e)  {
       throw new IllegalArgumentException("From ImageLoader: File " + filePath
