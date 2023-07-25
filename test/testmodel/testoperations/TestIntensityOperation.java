@@ -20,7 +20,7 @@ public class TestIntensityOperation {
   @Test
   public void testIntensityValid() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());

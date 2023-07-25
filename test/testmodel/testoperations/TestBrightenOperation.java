@@ -24,7 +24,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenValid() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -49,7 +49,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenFactorMax() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -67,7 +67,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenFactorMin() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -85,7 +85,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenFactorGreaterThanMax() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -103,7 +103,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenNormal() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -114,7 +114,7 @@ public class TestBrightenOperation {
   @Test
   public void testDarken() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -132,7 +132,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenZero() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = (PPMImage) loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());

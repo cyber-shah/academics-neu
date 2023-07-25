@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  *    * 3. test savePPMImage() with a null file name
  *    * 4. test savePPMImage() with a null image
  */
-public class TestPPMExtendedCustomImageSaver {
+public class TestPPMImageSaver {
 
   private PPMImage loadCustomImage;
   private String loadPath;

@@ -37,19 +37,21 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     String format = commandsList[1];
     String sourceImagePath = commandsList[2];
     String imageID = commandsList[3];
+    CustomImageState newImage;
 
     // 1. check if format is PPM
-    CustomImageState newImage;
+    // 2. if PPM, use the PPMImageLoader
     if (format.equalsIgnoreCase("ppm")) {
       try {
         // 3. call the ImageLoader to load the image.
-        ImageLoaderInterface imageLoader = (ImageLoaderInterface) new PPMImageLoader();
-        newImage = imageLoader.load(sourceImagePath);
+        ImageLoaderInterface loaderPPM = (ImageLoaderInterface) new PPMImageLoader();
+        newImage = loaderPPM.load(sourceImagePath);
       } catch (IOException e) {
         throw new IllegalArgumentException(e.getMessage());
       }
     }
     // 2. else use the BufferedImage class
+    // 3. if not PPM use the BufferedImage class
     else {
       try {
         BufferedImage bufferedImage = ImageIO.read(new File(sourceImagePath));
@@ -61,6 +63,5 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     // 4. Add the new image to the imageDatabase using the imageID.
     imageDatabase.addImage(imageID, newImage);
   }
-
 
 }
