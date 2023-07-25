@@ -2,7 +2,7 @@ package testmodel.testoperations;
 
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
-import model.image.CImage;
+import model.image.PPMImage;
 import model.operations.LumaOperation;
 import model.operations.OperationInterface;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class TestLumaOperation {
   @Test
   public void testLuma() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -26,7 +26,7 @@ public class TestLumaOperation {
     assertEquals(22, customImage.getPixel(1, 1).getBlue());
 
     OperationInterface luma = new LumaOperation(customImage);
-    CImage lumaCustomImage = (CImage) luma.applyOperation();
+    PPMImage lumaCustomImage = (PPMImage) luma.applyOperation();
 
     assertEquals(21, lumaCustomImage.getPixel(1, 1).getRed());
     assertEquals(21, lumaCustomImage.getPixel(1, 1).getGreen());

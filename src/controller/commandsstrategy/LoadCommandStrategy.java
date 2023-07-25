@@ -2,11 +2,14 @@ package controller.commandsstrategy;
 
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
-import model.image.CImageState;
+import model.image.BufferedImageAdapter;
+import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * This class represents the load command strategy for the program.
@@ -25,77 +28,39 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
   @Override
   public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
     // Typical command line argument
-    // load image-name image-destination format
+    // load format image-name image-destination
+    if (commandsList.length < 3) {
+      String message = "Please provide the command in the format"
+              + "load <format> <image-name> <image-destination> \n";
+      throw new IllegalStateException(message);
+    }
+    String format = commandsList[1];
+    String sourceImagePath = commandsList[2];
+    String imageID = commandsList[3];
 
-    // 1. Get the name of the file to load from the user.
-    String[] args;
-    // 0. Validate all the arguments.
-    try {
-      args = validateArguments(commandsList);
-    } catch (IllegalStateException e) {
-      throw new IllegalStateException(e.getMessage());
-    }
-    // 2. Get the ID to be used with the image.
-    String sourceImagePath = args[0];
-    String imageID = args[1];
-    String format = args[2];
-
-    if (format == SupportedFormats.JPG) {
-      ImageLoaderInterface imageLoader = (ImageLoaderInterface) new JPGImageLoader();
-    }
-    else if (format == SupportedFormats.PNG) {
-      ImageLoaderInterface imageLoader = (ImageLoaderInterface) new PNGImageLoader();
-    }
-    else if (format == SupportedFormats.PPM) {
+    // 1. check if format is PPM
+    CustomImageState newImage;
+    if (format.equalsIgnoreCase("ppm")) {
       try {
         // 3. call the ImageLoader to load the image.
-        CImageState newImage;
-        // OPTIMIZE: We need to use the ImageLoaderFactory to get the correct ImageLoader.
-        //           In the future if more format are added..
         ImageLoaderInterface imageLoader = (ImageLoaderInterface) new PPMImageLoader();
         newImage = imageLoader.load(sourceImagePath);
       } catch (IOException e) {
         throw new IllegalArgumentException(e.getMessage());
       }
     }
+    // 2. else use the BufferedImage class
     else {
-      throw new IllegalArgumentException("Format not supported!");
+      try {
+        BufferedImage bufferedImage = ImageIO.read(new File(sourceImagePath));
+        newImage = new BufferedImageAdapter(bufferedImage);
+      } catch (IOException e) {
+        throw new IllegalArgumentException(e.getMessage());
+      }
     }
-
-    // 4. imageDatabase returns an imagestate object.
-    // 5. add the imagestate object to the database.
+    // 4. Add the new image to the imageDatabase using the imageID.
     imageDatabase.addImage(imageID, newImage);
   }
 
-  /**
-   * This method validates the arguments passed to the command.
-   *
-   * @param commandsList String[] a list of commands.
-   */
-  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
-    // Typical command line argument
-    // load image-name image-destination format
 
-    String[] args = new String [3];
-    if (commandsList.length < 3) {
-      String message = "Please provide the command in the format"
-              + "load <image-name> <image-destination> <format>";
-      throw new IllegalStateException(message);
-    }
-
-    // image name
-    args[0] = commandsList[1];
-    // image destination
-    args[1] = commandsList[2];
-    // format
-    args[2] = commandsList[3].toUpperCase();
-
-    // OPTIMIZE: find a way to allow image path with the format " " and spaces in it.
-    return args;
-  }
-
-
-  private enum SupportedFormats {
-    PPM, PNG, JPG
-  }
 }

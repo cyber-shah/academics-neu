@@ -1,8 +1,8 @@
 package testmodel;
 
-import model.image.CImage;
+import model.image.PPMImage;
 import model.ImageDatabase;
-import model.image.CImageState;
+import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
 import org.junit.Test;
 
@@ -11,14 +11,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * This class tests the ImageDatabase class.
  */
-public class TestCustomImageDatabase {
+public class TestExtendedCustomImageDatabase {
   private ImageDatabaseInterface model;
-  private CImageState image;
+  private CustomImageState image;
 
   @Test
   public void testAddImageValid() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     String names = model.getAllImageNames();
@@ -28,7 +28,7 @@ public class TestCustomImageDatabase {
   @Test(expected = IllegalArgumentException.class)
   public void testAddImageNullName() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage(null, image);
   }
@@ -36,7 +36,7 @@ public class TestCustomImageDatabase {
   @Test(expected = IllegalArgumentException.class)
   public void testAddImageDuplicateName() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.addImage("koala", image);
@@ -59,7 +59,7 @@ public class TestCustomImageDatabase {
   @Test(expected = IllegalArgumentException.class)
   public void testAddImageNullNameDuplicateImage() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.addImage(null, image);
@@ -68,17 +68,17 @@ public class TestCustomImageDatabase {
   @Test
   public void testGetImageValid() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
-    CImageState image2 = model.getImage("koala");
+    CustomImageState image2 = model.getImage("koala");
     assertEquals(image, image2);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testGetImageNullName() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.getImage(null);
@@ -87,7 +87,7 @@ public class TestCustomImageDatabase {
   @Test(expected = IllegalArgumentException.class)
   public void testGetImageInvalidName() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.getImage("panda");
@@ -96,7 +96,7 @@ public class TestCustomImageDatabase {
   @Test
   public void testRemoveImageValid() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.removeImage("koala");
@@ -107,7 +107,7 @@ public class TestCustomImageDatabase {
   @Test(expected = IllegalArgumentException.class)
   public void testRemoveImageNullName() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.removeImage(null);
@@ -116,7 +116,7 @@ public class TestCustomImageDatabase {
   @Test(expected = IllegalArgumentException.class)
   public void testRemoveImageInvalidName() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.removeImage("panda");
@@ -125,7 +125,7 @@ public class TestCustomImageDatabase {
   @Test
   public void testGetAllImageNames() {
     model = new ImageDatabase();
-    image = new CImage(4,4,255);
+    image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
     model.addImage("panda", image);

@@ -1,6 +1,6 @@
 package controller.io;
 
-import model.image.CImageState;
+import model.image.CustomImageState;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,7 +20,7 @@ public class PPMImageSaver implements ImageSaverInterface {
    * @param path the path to the file.
    * @throws IOException if the file cannot be written to.
    */
-  public void save(CImageState image, String path) throws IllegalArgumentException {
+  public void save(CustomImageState image, String path) throws IllegalArgumentException {
     StringBuilder sb = new StringBuilder();
 
     // 1. add the header and the dimensions of the image.

@@ -1,8 +1,8 @@
 package testmodel.testoperations;
 
-import model.image.CImage;
-import model.image.CImageState;
-import model.image.CPixel;
+import model.image.PPMImage;
+import model.image.CustomImageState;
+import model.image.Pixel;
 import model.operations.OperationInterface;
 import model.operations.ValueComponentOperation;
 import org.junit.Test;
@@ -16,19 +16,19 @@ public class TestValueOperation {
 
   @Test
   public void testValueOperation() {
-    CImage customImage = new CImage(2, 2, 255);
+    PPMImage customImage = new PPMImage(2, 2, 255);
 
-    CPixel pixel = new CPixel(1, 2, 3);
+    Pixel pixel = new Pixel(1, 2, 3);
     customImage.setPixel(0, 0, pixel);
-    CPixel pixel2 = new CPixel(6, 5, 4);
+    Pixel pixel2 = new Pixel(6, 5, 4);
     customImage.setPixel(0, 1, pixel2);
-    CPixel pixel3 = new CPixel(7, 9, 8);
+    Pixel pixel3 = new Pixel(7, 9, 8);
     customImage.setPixel(1, 0, pixel3);
-    CPixel pixel4 = new CPixel(10, 12, 12);
+    Pixel pixel4 = new Pixel(10, 12, 12);
     customImage.setPixel(1, 1, pixel4);
 
     OperationInterface valueOperation = new ValueComponentOperation(customImage);
-    CImageState result = valueOperation.applyOperation();
+    CustomImageState result = valueOperation.applyOperation();
 
     assertEquals(3, result.getPixel(0, 0).getRed());
     assertEquals(3, result.getPixel(0, 0).getGreen());

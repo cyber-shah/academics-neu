@@ -4,15 +4,15 @@ package model.image;
  * This interface represents an Image.
  * It represents an Image that cannot be mutated.
  */
-public interface CImageState {
+public interface CustomImageState {
 
   int getWidth();
 
   int getHeight();
 
-  CPixelInterface[][] getPixelsList();
+  PixelState[][] getPixelsList();
 
-  CPixel getPixel(int x, int y);
+  Pixel getPixel(int x, int y);
 
   int getMaxValue();
 }

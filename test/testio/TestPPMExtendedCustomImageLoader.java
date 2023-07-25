@@ -1,6 +1,6 @@
 package testio;
 
-import model.image.CImage;
+import model.image.PPMImage;
 import controller.io.PPMImageLoader;
 import org.junit.Test;
 
@@ -20,9 +20,9 @@ import static org.junit.Assert.assertEquals;
  * 6. PixelsIncomplete
  * 7. PixelsNoIntegers
  */
-public class TestPPMCustomImageLoader {
+public class TestPPMExtendedCustomImageLoader {
 
-  private CImage customImage;
+  private PPMImage customImage;
   private String path;
 
   @Test

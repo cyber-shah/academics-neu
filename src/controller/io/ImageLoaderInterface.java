@@ -1,6 +1,6 @@
 package controller.io;
 
-import model.image.CImage;
+import model.image.PPMImage;
 
 import java.io.FileNotFoundException;
 
@@ -9,5 +9,5 @@ import java.io.FileNotFoundException;
  * It is responsible for loading an image from a file path.
  */
 public interface ImageLoaderInterface {
-  CImage load(String filePath) throws FileNotFoundException;
+  PPMImage load(String filePath) throws FileNotFoundException;
 }

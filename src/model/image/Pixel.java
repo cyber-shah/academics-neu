@@ -1,12 +1,14 @@
 package model.image;
 
+import java.awt.*;
+
 /**
  * This class represents a Pixel.
  * A Pixel has three channels: Red, Green, Blue.
  * The value of each channel should be greater than 0.
  * The value of each channel should be less than maxValue.
  */
-public class CPixel implements CPixelInterface {
+public class Pixel implements PixelExtended {
   private int red;
   private int green;
   private int blue;
@@ -20,7 +22,7 @@ public class CPixel implements CPixelInterface {
    * @param green int value of green.
    * @param blue int value of blue.
    */
-  public CPixel(int red, int green, int blue) {
+  public Pixel(int red, int green, int blue) {
     this(red, green, blue, 255);
   }
 
@@ -33,7 +35,7 @@ public class CPixel implements CPixelInterface {
    * @param blue int value of blue.
    * @param maxValue int value of maxColor.
    */
-  public CPixel(int red, int green, int blue, int maxValue) {
+  public Pixel(int red, int green, int blue, int maxValue) {
     if (red < 0 || green < 0 || blue < 0) {
       throw new IllegalArgumentException("The value of red, green, blue should be greater than 0.");
     }
@@ -177,4 +179,20 @@ public class CPixel implements CPixelInterface {
   public String toString() {
     return "(" + this.red + ", " + this.green + ", " + this.blue + ")";
   }
+
+  /**
+   * Getter for RGB. Added in the extension.
+   * This is to allow the usage of java.awt.Color.
+   *
+   * @return int value of RGB.
+   */
+  @Override
+  public int getRGB() {
+    int red = this.getRed();
+    int green = this.getGreen();
+    int blue = this.getBlue();
+    Color color = new Color(red, green, blue);
+    return color.getRGB();
+  }
+
 }

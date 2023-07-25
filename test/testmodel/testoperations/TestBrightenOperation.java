@@ -2,8 +2,8 @@ package testmodel.testoperations;
 
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
-import model.image.CImage;
-import model.image.CImageState;
+import model.image.PPMImage;
+import model.image.CustomImageState;
 import model.operations.BrightenOperation;
 import model.operations.OperationInterface;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenValid() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -32,7 +32,7 @@ public class TestBrightenOperation {
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
     OperationInterface brighten = new BrightenOperation(customImage, 10);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
 
     assertEquals(31, brightenedImage.getPixel(1, 1).getRed());
     assertEquals(43, brightenedImage.getPixel(2, 2).getGreen());
@@ -41,15 +41,15 @@ public class TestBrightenOperation {
 
   @Test(expected = NullPointerException.class)
   public void testBrightenNullPixels() {
-    CImage customImage = new CImage(4, 4, 255);
+    PPMImage customImage = new PPMImage(4, 4, 255);
     OperationInterface brighten = new BrightenOperation(customImage, 10);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
   }
 
   @Test
   public void testBrightenFactorMax() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -57,7 +57,7 @@ public class TestBrightenOperation {
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
     OperationInterface brighten = new BrightenOperation(customImage, 255);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
 
     assertEquals(255, brightenedImage.getPixel(1, 1).getRed());
     assertEquals(255, brightenedImage.getPixel(2, 2).getGreen());
@@ -67,7 +67,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenFactorMin() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -75,7 +75,7 @@ public class TestBrightenOperation {
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
     OperationInterface brighten = new BrightenOperation(customImage, -255);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
 
     assertEquals(0, brightenedImage.getPixel(1, 1).getRed());
     assertEquals(0, brightenedImage.getPixel(2, 2).getGreen());
@@ -85,7 +85,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenFactorGreaterThanMax() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -93,7 +93,7 @@ public class TestBrightenOperation {
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
     OperationInterface brighten = new BrightenOperation(customImage, 300);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
 
     assertEquals(255, brightenedImage.getPixel(1, 1).getRed());
     assertEquals(255, brightenedImage.getPixel(2, 2).getGreen());
@@ -103,7 +103,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenNormal() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -114,7 +114,7 @@ public class TestBrightenOperation {
   @Test
   public void testDarken() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -122,7 +122,7 @@ public class TestBrightenOperation {
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
     OperationInterface brighten = new BrightenOperation(customImage, -20);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
 
     assertEquals(1, brightenedImage.getPixel(1, 1).getRed());
     assertEquals(13, brightenedImage.getPixel(2, 2).getGreen());
@@ -132,7 +132,7 @@ public class TestBrightenOperation {
   @Test
   public void testBrightenZero() throws FileNotFoundException {
     ImageLoaderInterface loader = new PPMImageLoader();
-    CImage customImage = loader.load("test/testIO/test4x4.ppm");
+    PPMImage customImage = loader.load("test/testIO/test4x4.ppm");
 
     // check the original image
     assertEquals(21, customImage.getPixel(1, 1).getRed());
@@ -140,7 +140,7 @@ public class TestBrightenOperation {
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
     OperationInterface brighten = new BrightenOperation(customImage, 0);
-    CImageState brightenedImage = brighten.applyOperation();
+    CustomImageState brightenedImage = brighten.applyOperation();
 
     assertEquals(21, brightenedImage.getPixel(1, 1).getRed());
     assertEquals(33, brightenedImage.getPixel(2, 2).getGreen());

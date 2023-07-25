@@ -3,13 +3,13 @@
 ## Description
 
 This program is a command line customImage manipulation program. It allows the user to load, save, and manipulate images. The program supports the following commands:
-- **load** _image-path customImage-name_
-- **save** _output-file-path customImage-name_
-- **component** _red|green|blue customImage-name new-customImage-name_
-- **luma** _image-name new-customImage-name_
-- **value** _image-name new-customImage-name_
-- **intensity** _image-name new-customImage-name_
-- **brighten** _value customImage-name new-customImage-name_
+- **load** _{format} {image-path} {custom-Image-name}_
+- **save** _{format} {output-file-path} {customImage-name}_ 
+- **component** _{red|green|blue} {customImage-name} {new-customImage-name}_
+- **luma** _{image-name} {new-customImage-name}_
+- **value** _{image-name} {new-customImage-name}_
+- **intensity** _{image-name} {new-customImage-name}_
+- **brighten** {value} _{image-name} {new-customImage-name}_
   (also supports darkening with negative values)
 - **exit**
 - **list-all-commands**

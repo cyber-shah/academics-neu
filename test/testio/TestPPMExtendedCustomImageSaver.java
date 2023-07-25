@@ -3,7 +3,7 @@ package testio;
 import controller.io.ImageSaverInterface;
 import controller.io.PPMImageLoader;
 import controller.io.PPMImageSaver;
-import model.image.CImage;
+import model.image.PPMImage;
 import org.junit.Test;
 
 import java.io.File;
@@ -19,11 +19,11 @@ import static org.junit.Assert.assertEquals;
  *    * 3. test savePPMImage() with a null file name
  *    * 4. test savePPMImage() with a null image
  */
-public class TestPPMCustomImageSaver {
+public class TestPPMExtendedCustomImageSaver {
 
-  private CImage loadCustomImage;
+  private PPMImage loadCustomImage;
   private String loadPath;
-  private CImage saveCustomImage;
+  private PPMImage saveCustomImage;
   private String savePath;
   private ImageSaverInterface saver;
 

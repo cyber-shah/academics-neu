@@ -1,6 +1,6 @@
 package controller.commandsstrategy;
 
-import model.image.CImageState;
+import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
 import model.operations.LumaOperation;
 
@@ -26,7 +26,7 @@ public class LumaCommandStrategy implements CommandStrategyInterface {
     String destinationID = args[1];
 
     // 2. Once all the arguments are validated, call the luma method.
-    CImageState newImage = new LumaOperation(imageDatabase.getImage(sourceImageID))
+    CustomImageState newImage = new LumaOperation(imageDatabase.getImage(sourceImageID))
             .applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.

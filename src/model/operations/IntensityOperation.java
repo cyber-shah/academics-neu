@@ -1,22 +1,22 @@
 package model.operations;
 
-import model.image.CImage;
-import model.image.CImageState;
-import model.image.CPixel;
+import model.image.PPMImage;
+import model.image.CustomImageState;
+import model.image.Pixel;
 
 /**
  * This class represents the IntensityOperation.
  * It extends the abstract class OperationAbstract.
  */
 public class IntensityOperation implements OperationInterface {
-  private final CImageState sourceImage;
+  private final CustomImageState sourceImage;
 
   /**
    * This is the constructor for the IntensityOperation class.
    *
    * @param sourceImage The source image.
    */
-  public IntensityOperation(CImageState sourceImage) {
+  public IntensityOperation(CustomImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 
@@ -28,11 +28,11 @@ public class IntensityOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public CImageState applyOperation() {
+  public CustomImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    CImage newCustomImage = new CImage(width, height, maxValue);
+    PPMImage newCustomImage = new PPMImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -47,7 +47,7 @@ public class IntensityOperation implements OperationInterface {
           // calculate the new rgb values
           int average = (red + green + blue) / 3;
 
-          CPixel newPixel = new CPixel(average, average, average);
+          Pixel newPixel = new Pixel(average, average, average);
           newCustomImage.setPixel(i, j, newPixel);
         }
       }

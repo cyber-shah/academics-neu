@@ -1,6 +1,6 @@
 package controller.io;
 
-import model.image.CImageState;
+import model.image.CustomImageState;
 import java.io.IOException;
 
 /**
@@ -8,5 +8,5 @@ import java.io.IOException;
  * It is responsible for saving an image to a file path.
  */
 public interface ImageSaverInterface {
-  void save(CImageState image, String path) throws IOException;
+  void save(CustomImageState image, String path) throws IOException;
 }

@@ -1,8 +1,8 @@
 package model.operations;
 
-import model.image.CImage;
-import model.image.CImageState;
-import model.image.CPixel;
+import model.image.PPMImage;
+import model.image.CustomImageState;
+import model.image.Pixel;
 
 /**
  * This class represents the value component operation.
@@ -10,14 +10,14 @@ import model.image.CPixel;
  */
 public class ValueComponentOperation implements OperationInterface {
 
-  private final CImageState sourceImage;
+  private final CustomImageState sourceImage;
 
   /**
    * This is the constructor for the ValueComponentOperation class.
    *
    * @param sourceImage The source image.
    */
-  public ValueComponentOperation(CImageState sourceImage) {
+  public ValueComponentOperation(CustomImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 
@@ -27,11 +27,11 @@ public class ValueComponentOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public CImageState applyOperation() {
+  public CustomImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    CImage newCustomImage = new CImage(width, height, maxValue);
+    PPMImage newCustomImage = new PPMImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -47,7 +47,7 @@ public class ValueComponentOperation implements OperationInterface {
 
 
           // set the new rgb values to the pixel
-          newCustomImage.setPixel(i, j, new CPixel(value_component, value_component, value_component));
+          newCustomImage.setPixel(i, j, new Pixel(value_component, value_component, value_component));
         }
       }
     } catch (IllegalArgumentException e) {

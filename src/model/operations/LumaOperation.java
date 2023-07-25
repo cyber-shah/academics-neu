@@ -1,22 +1,22 @@
 package model.operations;
 
-import model.image.CImage;
-import model.image.CImageState;
-import model.image.CPixel;
+import model.image.PPMImage;
+import model.image.CustomImageState;
+import model.image.Pixel;
 
 /**
  * This class represents a LumaOperation.
  * It extends the abstract class AbstractOperation.
  */
 public class LumaOperation implements OperationInterface {
-  private final CImageState sourceImage;
+  private final CustomImageState sourceImage;
 
   /**
    * This is the constructor for the LumaOperation class.
    *
    * @param sourceImage The source image.
    */
-  public LumaOperation(CImageState sourceImage) {
+  public LumaOperation(CustomImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 
@@ -26,11 +26,11 @@ public class LumaOperation implements OperationInterface {
    * @return newImage ImageState object.
    */
   @Override
-  public CImageState applyOperation() {
+  public CustomImageState applyOperation() {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    CImage newCustomImage = new CImage(width, height, maxValue);
+    PPMImage newCustomImage = new PPMImage(width, height, maxValue);
 
     int i = 0;
     int j = 0;
@@ -48,7 +48,7 @@ public class LumaOperation implements OperationInterface {
                   + (0.0722 * blue));
 
           // set the new rgb values
-          newCustomImage.setPixel(i, j, new CPixel(luma, luma, luma));
+          newCustomImage.setPixel(i, j, new Pixel(luma, luma, luma));
         }
       }
     } catch (NullPointerException e) {

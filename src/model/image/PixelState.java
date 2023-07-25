@@ -4,7 +4,7 @@ package model.image;
  * This interface represents a pixel in an image.
  * It represents a pixel that cannot be mutated.
  */
-public interface CPixelState {
+public interface PixelState {
 
   int getRed();
 
@@ -13,4 +13,6 @@ public interface CPixelState {
   int getBlue();
 
   int getMaxValue();
+
+  int getRGB();
 }

@@ -1,7 +1,7 @@
 package controller.io;
 
-import model.image.CImage;
-import model.image.CPixel;
+import model.image.PPMImage;
+import model.image.Pixel;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ public class PPMImageLoader implements ImageLoaderInterface {
    * @throws NoSuchElementException if the file is not a valid PPM file.
    * @throws IllegalArgumentException if the file is not a 'P3' PPM file.
    */
-  public CImage load(String filePath) throws FileNotFoundException {
+  public PPMImage load(String filePath) throws FileNotFoundException {
 
     try (Scanner scanner = new Scanner(new FileInputStream(filePath))) {
 
@@ -51,7 +51,7 @@ public class PPMImageLoader implements ImageLoaderInterface {
       maxValue = imageParameters[2];
 
       // 2. if valid parameters, create the image
-      CImage customImage = new CImage(width, height, maxValue);
+      PPMImage customImage = new PPMImage(width, height, maxValue);
 
       // 3. read the pixels
       try {
@@ -60,7 +60,7 @@ public class PPMImageLoader implements ImageLoaderInterface {
             int red = newScanner.nextInt();
             int green = newScanner.nextInt();
             int blue = newScanner.nextInt();
-            customImage.setPixel(i, j, new CPixel(red, green, blue, maxValue));
+            customImage.setPixel(i, j, new Pixel(red, green, blue, maxValue));
           }
         }
       }
