@@ -4,7 +4,6 @@ import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import model.image.PPMImage;
-import model.operations.BlurOperation;
 import model.operations.OperationInterface;
 import model.operations.SepiaOperation;
 import org.junit.Test;
