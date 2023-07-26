@@ -2,8 +2,7 @@ package controller.commandsstrategy;
 
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
-import model.operations.GreyscaleOperation;
-import model.operations.SepiaOperation;
+import model.operations.Filters.SepiaFilter;
 
 /**
  * This class is the strategy for the Sepia command.
@@ -24,7 +23,7 @@ public class SepiaCommandStrategy implements CommandStrategyInterface {
     String destinationID = commandsList[2];
 
     // 2. Once all the arguments are validated, call the greyscale method.
-    CustomImageState newImage = new SepiaOperation(imageDatabase.getImage(sourceImageID))
+    CustomImageState newImage = new SepiaFilter(imageDatabase.getImage(sourceImageID))
             .applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.

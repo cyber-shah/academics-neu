@@ -1,5 +1,7 @@
 package model.image;
 
+import java.awt.image.BufferedImage;
+
 /**
  * This class represents a Image.
  * Built up by a 2D array of Pixels.
@@ -88,6 +90,25 @@ public class PPMImage implements ExtendedCustomImage {
   public PixelState[][] getPixelsList() {
     return this.pixelsList;
   }
+
+  /**
+   * Getter for bufferedImage.
+   * Converts PPM Image to BufferedImage.
+   *
+   * @return BufferedImage value of bufferedImage.
+   */
+  @Override
+  public BufferedImage getBufferedImage() {
+    BufferedImage bufferedImage = new BufferedImage(this.width, this.height,
+            BufferedImage.TYPE_INT_RGB);
+    for (int i = 0; i < this.width; i++) {
+      for (int j = 0; j < this.height; j ++) {
+        bufferedImage.setRGB(i, j, this.pixelsList[i][j].getRGB());
+      }
+    }
+    return bufferedImage;
+  }
+
 
   /**
    * Setter for pixel.

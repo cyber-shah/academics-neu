@@ -1,8 +1,9 @@
-package model.operations;
+package model.operations.Filters;
 
 import model.image.CustomImageState;
+import model.operations.OperationInterface;
 
-public class SharpenOperation implements OperationInterface {
+public class SharpenFilter implements OperationInterface {
 
   private final CustomImageState sourceImage;
 
@@ -11,7 +12,7 @@ public class SharpenOperation implements OperationInterface {
    *
    * @param image CustomImageState to be modified.
    */
-  public SharpenOperation(CustomImageState image) {
+  public SharpenFilter(CustomImageState image) {
     this.sourceImage = image;
   }
 
@@ -32,6 +33,6 @@ public class SharpenOperation implements OperationInterface {
     }
 
     // 2. return convolution
-    return BlurOperation.convolution(kernel, sourceImage);
+    return BlurFilter.convolution(kernel, sourceImage);
   }
 }

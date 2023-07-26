@@ -1,18 +1,19 @@
-package model.operations;
+package model.operations.Filters;
 
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
 import model.image.ExtendedCustomImage;
 import model.image.Pixel;
+import model.operations.OperationInterface;
 
-public class SepiaOperation implements OperationInterface {
+public class SepiaFilter implements OperationInterface {
 
   private final CustomImageState sourceImage;
 
   /**
    * Constructor for SepiaOperation.
    */
-  public SepiaOperation(CustomImageState image) {
+  public SepiaFilter(CustomImageState image) {
     this.sourceImage = image;
   }
 

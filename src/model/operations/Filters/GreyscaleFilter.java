@@ -1,18 +1,17 @@
-package model.operations;
+package model.operations.Filters;
 
 import model.image.*;
+import model.operations.OperationInterface;
 
-public class GreyscaleOperation implements OperationInterface {
-
-  private final CustomImageState sourceImage;
+public class GreyscaleFilter extends AbstractFilter {
 
   /**
    * Constructor for GreyscaleOperation.
    *
    * @param image CustomImageState to be modified.
    */
-  public GreyscaleOperation(CustomImageState image) {
-    this.sourceImage = image;
+  public GreyscaleFilter(CustomImageState image) {
+    super(image);
   }
 
   /**

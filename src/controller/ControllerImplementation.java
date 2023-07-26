@@ -69,8 +69,7 @@ public class ControllerImplementation implements ControllerInterface {
       // 1. Read the command line
       String[] commandList = scanner.nextLine().split(" ");
 
-      String command = commandList[0];
-      command = command.toUpperCase();
+      String command = commandList[0].toUpperCase();
       // BASIC COMMANDS THAT DO NOT REQUIRE A COMMAND OBJECT
       try {
         if (command.startsWith("#")) {

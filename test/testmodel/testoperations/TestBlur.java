@@ -4,7 +4,7 @@ import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import model.image.PPMImage;
-import model.operations.BlurOperation;
+import model.operations.Filters.BlurFilter;
 import model.operations.OperationInterface;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class TestBlur {
     assertEquals(33, customImage.getPixel(2, 2).getGreen());
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
-    OperationInterface blur = new BlurOperation(customImage);
+    OperationInterface blur = new BlurFilter(customImage);
     CustomImageState blurImage = blur.applyOperation();
 
     assertEquals(49, blurImage.getPixel(1, 1).getRed());
@@ -40,7 +40,7 @@ public class TestBlur {
   @Test(expected = IllegalArgumentException.class)
   public void testBlurNullPixels() {
     PPMImage customImage = new PPMImage(4, 4, 255);
-    OperationInterface blur = new BlurOperation(customImage);
+    OperationInterface blur = new BlurFilter(customImage);
     CustomImageState blurImage = blur.applyOperation();
   }
 

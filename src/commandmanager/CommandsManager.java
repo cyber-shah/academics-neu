@@ -56,7 +56,7 @@ public class CommandsManager implements CommandsManagerInterface {
    */
   @Override
   public CommandStrategyInterface getCommandStrategy(String[] commandList) {
-    String commandName = commandList[0];
+    String commandName = commandList[0].toUpperCase();
     return commandsMap.getOrDefault(commandName, null);
   }
 

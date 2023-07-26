@@ -1,43 +1,29 @@
-package model.operations;
+package model.operations.Filters;
 
-import model.image.*;
+import model.image.BufferedImageWrapper;
+import model.image.CustomImageState;
+import model.image.ExtendedCustomImage;
+import model.image.Pixel;
+import model.operations.OperationInterface;
 
-import java.awt.image.BufferedImage;
+public class AbstractFilter implements OperationInterface {
 
-public class BlurOperation implements OperationInterface {
-  private final CustomImageState sourceImage;
+  protected final CustomImageState sourceImage;
 
   /**
-   * Constructor for BlurOperation.
+   * Constructor for AbstractFilter.
    *
    * @param image CustomImageState to be modified.
    */
-  public BlurOperation(CustomImageState image) {
+  public AbstractFilter(CustomImageState image) {
     this.sourceImage = image;
   }
 
-  /**
-   * This method applies the operation to the image.
-   *
-   * @return CustomImageState the new image with the operation applied.
-   */
   @Override
   public CustomImageState applyOperation() {
-    // 0. Initialize the kernel.
-    float[][] kernel = new float[3][3];
-    kernel[0][0] = (float) 1 / 16;
-    kernel[0][1] = (float) 2 / 16;
-    kernel[0][2] = (float) 1 / 16;
-    kernel[1][0] = (float) 2 / 16;
-    kernel[1][1] = (float) 4 / 16;
-    kernel[1][2] = (float) 2 / 16;
-    kernel[2][0] = (float) 1 / 16;
-    kernel[2][1] = (float) 2 / 16;
-    kernel[2][2] = (float) 1 / 16;
-    return convolution(kernel, sourceImage);
+    return null;
   }
 
-  // OPTIMIZE : convert this into a helper class.
   /**
    * This method applies a convolution to a CustomImageState.
    *

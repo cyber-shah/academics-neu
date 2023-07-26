@@ -5,8 +5,7 @@ import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import model.image.PPMImage;
 import model.operations.OperationInterface;
-import model.operations.SepiaOperation;
-import model.operations.SharpenOperation;
+import model.operations.Filters.SharpenFilter;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -29,7 +28,7 @@ public class TestSharpen {
     assertEquals(33, customImage.getPixel(2, 2).getGreen());
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
-    OperationInterface sharpen = new SharpenOperation(customImage);
+    OperationInterface sharpen = new SharpenFilter(customImage);
     CustomImageState sharpenedImage = sharpen.applyOperation();
 
     assertEquals(65, sharpenedImage.getPixel(1, 1).getRed());

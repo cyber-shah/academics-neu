@@ -2,8 +2,7 @@ package controller.commandsstrategy;
 
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
-import model.operations.GreyscaleOperation;
-import model.operations.SharpenOperation;
+import model.operations.Filters.SharpenFilter;
 
 public class SharpenCommandStrategy implements CommandStrategyInterface {
   @Override
@@ -19,7 +18,7 @@ public class SharpenCommandStrategy implements CommandStrategyInterface {
     String destinationID = commandsList[2];
 
     // 2. Once all the arguments are validated, call the greyscale method.
-    CustomImageState newImage = new SharpenOperation(imageDatabase.getImage(sourceImageID))
+    CustomImageState newImage = new SharpenFilter(imageDatabase.getImage(sourceImageID))
             .applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.
