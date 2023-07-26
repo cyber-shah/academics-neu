@@ -6,7 +6,18 @@ import model.image.ExtendedCustomImage;
 import model.image.Pixel;
 import model.operations.OperationInterface;
 
-public class AbstractFilter implements OperationInterface {
+/**
+ * This class represents an abstract filter.
+ * It contains the common methods and fields for all filters.
+ * -----------------------------------------------------------------------
+ * NOTE: the matrix operation is a general term that includes any pixel-wise operation
+ *       without considering the values of neighboring pixels.
+ * ------------------------------------------------------------------------
+ * NOTE: The convolution approach is a specific type of matrix operation that involves
+ *       applying a kernel to compute new pixel values based on the neighboring pixels' values.
+ * -------------------------------------------------------------------------
+ */
+public abstract class AbstractFilter implements OperationInterface {
 
   protected final CustomImageState sourceImage;
 

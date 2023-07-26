@@ -1,6 +1,7 @@
 package commandmanager;
 
 import controller.commandsstrategy.CommandStrategyInterface;
+import controller.commandsstrategy.FilterCommandStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class CommandsManager implements CommandsManagerInterface {
     commandsMap.put("VALUE", new controller.commandsstrategy.ValueCommandStrategy());
     commandsMap.put("COMPONENT", new controller.commandsstrategy.ComponentCommandStrategy());
     commandsMap.put("GREYSCALE", new controller.commandsstrategy.GreyscaleCommandStrategy());
-    commandsMap.put("SEPIA", new controller.commandsstrategy.SepiaCommandStrategy());
+    commandsMap.put("SEPIA", new FilterCommandStrategy());
     commandsMap.put("BLUR", new controller.commandsstrategy.BlurCommandStrategy());
     commandsMap.put("SHARPEN", new controller.commandsstrategy.SharpenCommandStrategy());
   }
