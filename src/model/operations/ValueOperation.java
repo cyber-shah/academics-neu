@@ -8,7 +8,7 @@ import model.image.Pixel;
  * This class represents the value component operation.
  * It sets the value component to the max of the rgb values of the pixel.
  */
-public class ValueComponentOperation implements OperationInterface {
+public class ValueOperation implements OperationInterface {
 
   private final CustomImageState sourceImage;
 
@@ -17,7 +17,7 @@ public class ValueComponentOperation implements OperationInterface {
    *
    * @param sourceImage The source image.
    */
-  public ValueComponentOperation(CustomImageState sourceImage) {
+  public ValueOperation(CustomImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 

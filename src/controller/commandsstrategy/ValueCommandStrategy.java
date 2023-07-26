@@ -2,7 +2,7 @@ package controller.commandsstrategy;
 
 import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
-import model.operations.ValueComponentOperation;
+import model.operations.ValueOperation;
 
 /**
  * This class represents the ValueCommandStrategy.
@@ -29,7 +29,7 @@ public class ValueCommandStrategy implements CommandStrategyInterface {
     String destinationID = commandsList[2];
 
     // 2. Once all the arguments are validated, call the Value Operation method.
-    CustomImageState newImage = new ValueComponentOperation(imageDatabase.getImage(sourceImageID))
+    CustomImageState newImage = new ValueOperation(imageDatabase.getImage(sourceImageID))
             .applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.

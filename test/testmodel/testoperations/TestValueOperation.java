@@ -4,7 +4,7 @@ import model.image.PPMImage;
 import model.image.CustomImageState;
 import model.image.Pixel;
 import model.operations.OperationInterface;
-import model.operations.ValueComponentOperation;
+import model.operations.ValueOperation;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,7 @@ public class TestValueOperation {
     Pixel pixel4 = new Pixel(10, 12, 12);
     customImage.setPixel(1, 1, pixel4);
 
-    OperationInterface valueOperation = new ValueComponentOperation(customImage);
+    OperationInterface valueOperation = new ValueOperation(customImage);
     CustomImageState result = valueOperation.applyOperation();
 
     assertEquals(3, result.getPixel(0, 0).getRed());

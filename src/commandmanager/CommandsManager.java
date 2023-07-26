@@ -37,17 +37,15 @@ public class CommandsManager implements CommandsManagerInterface {
    */
   @Override
   public void registerAllCommands() {
+    // IO operations --------------------------------------
     commandsMap.put("LOAD", new controller.commandsstrategy.LoadCommandStrategy());
     commandsMap.put("SAVE", new controller.commandsstrategy.SaveCommandStrategy());
-    commandsMap.put("BRIGHTEN", new controller.commandsstrategy.BrightenCommandStrategy());
-    commandsMap.put("LUMA", new controller.commandsstrategy.LumaCommandStrategy());
-    commandsMap.put("INTENSITY", new controller.commandsstrategy.IntensityCommandStrategy());
-    commandsMap.put("VALUE", new controller.commandsstrategy.ValueCommandStrategy());
-    commandsMap.put("COMPONENT", new controller.commandsstrategy.ComponentCommandStrategy());
+    // GREYSCALE operations -----------------------------------
     commandsMap.put("GREYSCALE", new controller.commandsstrategy.GreyscaleCommandStrategy());
-    commandsMap.put("SEPIA", new FilterCommandStrategy());
-    commandsMap.put("BLUR", new controller.commandsstrategy.BlurCommandStrategy());
-    commandsMap.put("SHARPEN", new controller.commandsstrategy.SharpenCommandStrategy());
+    // BRIGHTEN operations ------------------------------------
+    commandsMap.put("BRIGHTEN", new controller.commandsstrategy.BrightenCommandStrategy());
+    // FILTER ----------------------------------------------------
+    commandsMap.put("FILTER", new controller.commandsstrategy.FilterCommandStrategy());
   }
 
   /**
@@ -68,12 +66,22 @@ public class CommandsManager implements CommandsManagerInterface {
   @Override
   public String listAllCommands() {
     StringBuilder stringBuilder = new StringBuilder();
-    for (String command : this.commandsMap.keySet()) {
-      stringBuilder.append(command).append("\n");
-    }
-    stringBuilder.append("EXIT\n");
-    stringBuilder.append("LIST-ALL-IMAGES\n");
-    stringBuilder.append("LIST-ALL-COMMANDS\n");
+    stringBuilder.append("greyscale <component> <image-id> <new-image-id>\n");
+    stringBuilder.append("          components = 1. luma\n");
+    stringBuilder.append("                       2. intensity\n");
+    stringBuilder.append("                       3. value\n");
+    stringBuilder.append("                       4. red\n");
+    stringBuilder.append("                       5. green\n");
+    stringBuilder.append("                       6. blue\n");
+    stringBuilder.append("brighten <factor> <image-id> <new-image-id>\n");
+    stringBuilder.append("filter <operation> <image-id> <new-image-id>\n");
+    stringBuilder.append("       operations = 1. blur\n");
+    stringBuilder.append("                    2. sharpen\n");
+    stringBuilder.append("                    3. sepia\n");
+    stringBuilder.append("                    4. greyscale\n");
+    stringBuilder.append("exit\n");
+    stringBuilder.append("list-all-images\n");
+    stringBuilder.append("list-all-commands\n");
     return stringBuilder.toString();
   }
 

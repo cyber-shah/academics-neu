@@ -21,16 +21,16 @@ public class ComponentCommandStrategy implements CommandStrategyInterface {
   @Override
   public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.
-    String[] args;
-    try {
-      args = validateArguments(commandsList);
-    } catch (IllegalStateException e) {
-      throw new IllegalStateException(e.getMessage());
+    if (!commandsList[0].equals("red") && !commandsList[0].equals("green") && !commandsList[0].equals("blue")) {
+      throw new IllegalStateException("Invalid color component.");
+    } else if (commandsList.length < 3) {
+      throw new IllegalStateException("Too few arguments.");
     }
-    String component = args[0];
-    String sourceImageID = args[1];
-    String destinationID = args[2];
 
+    // 1. Validate the color component.
+    String component = commandsList[1];
+    String sourceImageID = commandsList[2];
+    String destinationID = commandsList[3];
 
     // Once all the arguments are validated, call the Color component method.
     CustomImageState newImage = new ColorComponentOperation(
@@ -38,31 +38,5 @@ public class ComponentCommandStrategy implements CommandStrategyInterface {
 
     // 3. Add the new image to the imageDatabase using the destinationID.
     imageDatabase.addImage(destinationID, newImage);
-  }
-
-  /**
-   * This method validates the arguments passed to the command.
-   *
-   * @param commandsList commandsList object.
-   */
-  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
-    String[] args = new String[3];
-
-    if (commandsList.length < 3) {
-      throw new IllegalStateException("Too few arguments.");
-    }
-
-    // 1. Validate the color component.
-    args[0] = commandsList[1];
-    if (!args[0].equals("red") && !args[0].equals("green") && !args[0].equals("blue")) {
-      throw new IllegalStateException("Invalid color component.");
-    }
-
-    // 2. Set the ImageID.
-    args[1] = commandsList[2];
-
-    // 3. Set the newImageID.
-    args[2] = commandsList[3];
-    return args;
   }
 }

@@ -24,7 +24,7 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
                   ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.
     if (commandsList.length < 4) {
-      throw new IllegalStateException("Too few arguments. Must be of the format: \n"
+      throw new IllegalStateException("Must be of the format: \n"
               + " \"brighten sourceImageID value newImageID\"");
     }
 
@@ -33,7 +33,7 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     String sourceImageID = commandsList[2];
     String destinationID = commandsList[3];
 
-    // 2. Once all the arguments are validated, call the brighten method.
+    // 2. Once all the arguments are validated, call the bright method.
     CustomImageState newImage = new BrightenOperation(imageDatabase.getImage(sourceImageID), value)
             .applyOperation();
 

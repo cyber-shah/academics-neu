@@ -2,9 +2,7 @@ package controller.commandsstrategy;
 
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
-import model.operations.Filters.BlurFilter;
-import model.operations.Filters.SepiaFilter;
-import model.operations.Filters.SharpenFilter;
+import model.operations.OperationInterface;
 
 /**
  * This class is the strategy for the Sepia command.
@@ -26,8 +24,14 @@ public class FilterCommandStrategy implements CommandStrategyInterface {
     String destinationID = commandsList[3];
 
     // 2. Check the operation and apply the filter.
+    // SOLID : using Open-Closed principle here.
+    //         We can add new filters without changing the code.
+    //         only modify the FilterFactory class.
     CustomImageState newImage;
-    if (operation.equalsIgnoreCase("blur")) {
+    OperationInterface filter = FilterFactory.createFilter(operation, sourceImageID, imageDatabase);
+    newImage = filter.applyOperation();
+
+    /*if (operation.equalsIgnoreCase("blur")) {
       newImage = new BlurFilter(imageDatabase.getImage(sourceImageID))
               .applyOperation();
     }
@@ -46,7 +50,7 @@ public class FilterCommandStrategy implements CommandStrategyInterface {
     else {
       throw new IllegalStateException("Invalid operation. "
               + "Must be one of: blur, sharpen, sepia, greyscale");
-    }
+    }*/
 
     // 3. Add the new image to the imageDatabase using the destinationID.
     imageDatabase.addImage(destinationID, newImage);
