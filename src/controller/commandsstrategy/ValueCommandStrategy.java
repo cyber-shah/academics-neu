@@ -20,40 +20,19 @@ public class ValueCommandStrategy implements CommandStrategyInterface {
   public void run(String[] commandsList,
                   ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.
-    String[] args;
-    try {
-      args = validateArguments(commandsList);
-    } catch (IllegalStateException e) {
-      throw new IllegalStateException(e.getMessage());
+    if (commandsList.length < 2) {
+      throw new IllegalStateException("Too few arguments.");
     }
 
     // 1. Validate the value.
-    String sourceImageID = args[0];
-    String destinationID = args[1];
+    String sourceImageID = commandsList[1];
+    String destinationID = commandsList[2];
 
-    // 2. Once all the arguments are validated, call the brighten method.
+    // 2. Once all the arguments are validated, call the Value Operation method.
     CustomImageState newImage = new ValueComponentOperation(imageDatabase.getImage(sourceImageID))
             .applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.
     imageDatabase.addImage(destinationID, newImage);
-  }
-
-  /**
-   * This method validates the arguments passed to the command.
-   *
-   * @param commandsList commandsList object.
-   */
-  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
-    String[] args = new String[2];
-
-    if (commandsList.length < 2) {
-      throw new IllegalStateException("Too few arguments.");
-    }
-    // 1. Validate the sourceImageID.
-    args[0] = commandsList[1];
-    // 2. Validate the newImageID.
-    args[1] = commandsList[2];
-    return args;
   }
 }

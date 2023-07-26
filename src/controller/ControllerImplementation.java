@@ -89,8 +89,6 @@ public class ControllerImplementation implements ControllerInterface {
       }
 
       // 2. Get the command object from the command registry
-      // NOTE: modified this to the entire list of commands passed in.
-      //       just because it becomes easier to test!
       CommandStrategyInterface commandStrategyObject =
               commandsManager.getCommandStrategy(commandList);
       if (commandStrategyObject == null) {

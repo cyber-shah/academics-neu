@@ -43,7 +43,7 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     if (format.equalsIgnoreCase("ppm")) {
       try {
         // 3. call the ImageLoader to load the image.
-        ImageLoaderInterface loaderPPM = (ImageLoaderInterface) new PPMImageLoader();
+        PPMImageLoader loaderPPM = new PPMImageLoader();
         newImage = loaderPPM.load(sourceImagePath);
       } catch (IOException e) {
         throw new IllegalArgumentException(e.getMessage());

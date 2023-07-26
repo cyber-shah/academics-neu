@@ -43,6 +43,10 @@ public class CommandsManager implements CommandsManagerInterface {
     commandsMap.put("INTENSITY", new controller.commandsstrategy.IntensityCommandStrategy());
     commandsMap.put("VALUE", new controller.commandsstrategy.ValueCommandStrategy());
     commandsMap.put("COMPONENT", new controller.commandsstrategy.ComponentCommandStrategy());
+    commandsMap.put("GREYSCALE", new controller.commandsstrategy.GreyscaleCommandStrategy());
+    commandsMap.put("SEPIA", new controller.commandsstrategy.SepiaCommandStrategy());
+    commandsMap.put("BLUR", new controller.commandsstrategy.BlurCommandStrategy());
+    commandsMap.put("SHARPEN", new controller.commandsstrategy.SharpenCommandStrategy());
   }
 
   /**
