@@ -29,8 +29,8 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     // Typical command line argument
     // load format image-name image-destination
     if (commandsList.length < 3) {
-      String message = "Please provide the command in the format"
-              + "load <format> <image-name> <image-destination> \n";
+      String message = "Please provide the command in the format \n"
+              + "load <format> <image-destination> <image-name>";
       throw new IllegalStateException(message);
     }
     String format = commandsList[1];

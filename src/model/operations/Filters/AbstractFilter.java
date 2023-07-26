@@ -39,43 +39,34 @@ public class AbstractFilter implements OperationInterface {
 
     ExtendedCustomImage newImage = new BufferedImageWrapper(width, height);
 
-    // 2. Loop over each pixel in the sourceImage
     for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j ++) {
+      for (int j = 0; j < height; j++) {
+        int red = 0;
+        int green = 0;
+        int blue = 0;
 
-        // 3. Get the pixel at (i, j) to be modified.
-        Pixel pixel = sourceImage.getPixel(i, j);
-        int red = pixel.getRed();
-        int green = pixel.getGreen();
-        int blue = pixel.getBlue();
+        for (int k = -1; k <= 1; k++) {
+          for (int l = -1; l <= 1; l++) {
+            int x = i + k;
+            int y = j + l;
 
-        // 4. Loop over the kernel.
-        for (int k = 0; k < kernel.length; k++) {
-          for (int l = 0; l < kernel[0].length; l++) {
+            if (x >= 0 && x < width && y >= 0 && y < height) {
+              Pixel neighborPixel = sourceImage.getPixel(x, y);
+              int neighborRed = neighborPixel.getRed();
+              int neighborGreen = neighborPixel.getGreen();
+              int neighborBlue = neighborPixel.getBlue();
 
-            // check if pixel out of bounds of image
-            if (i + k < 0 || i + k >= width || j + l < 0 || j + l >= height) {
-              continue;
+              red += kernel[k + 1][l + 1] * neighborRed;
+              green += kernel[k + 1][l + 1] * neighborGreen;
+              blue += kernel[k + 1][l + 1] * neighborBlue;
             }
-
-            // 5. Get the pixel at (i + k, j + l).
-            Pixel neighborPixel = sourceImage.getPixel(i + k, j + l);
-            int neighborRed = neighborPixel.getRed();
-            int neighborGreen = neighborPixel.getGreen();
-            int neighborBlue = neighborPixel.getBlue();
-
-            // 6. Calculate the new rgb values.
-            red += kernel[k][l] * neighborRed;
-            green += kernel[k][l] * neighborGreen;
-            blue += kernel[k][l] * neighborBlue;
           }
         }
-        // 7. Clamp all the values to 0 - 255.
+
         red = Math.min(255, Math.max(0, red));
         green = Math.min(255, Math.max(0, green));
         blue = Math.min(255, Math.max(0, blue));
 
-        // 8. Set the new rgb values to the pixel.
         Pixel newPixel = new Pixel(red, green, blue);
         newImage.setPixel(i, j, newPixel);
       }

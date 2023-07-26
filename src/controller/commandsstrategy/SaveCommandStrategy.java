@@ -31,8 +31,8 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
   public void run(String[] commandsList, ImageDatabaseInterface model) {
     // 0. Validate all the arguments.
     if (commandsList.length != 4) {
-      throw new IllegalArgumentException("Please provide the command in this format" +
-              " \"save format imageID destImagePath\"");
+      throw new IllegalArgumentException("Please provide the command in this format \n"
+              + " \"save <format> <imageID> <destImagePath>\"");
     }
 
     // 1. Set up all the arguments
@@ -60,8 +60,8 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
     else {
       // 5. call the ImageIO to write the image to the file.
       try {
-        BufferedImage bufferedImage = imageWrite.
-        ImageIO.write(imageWrite, format, new java.io.File(destImagePath));
+        BufferedImage bufferedImage = imageWrite.getBufferedImage();
+        ImageIO.write(bufferedImage, format, new java.io.File(destImagePath));
       }
       catch (Exception e) {
         throw new IllegalArgumentException(e.getMessage());
