@@ -17,4 +17,6 @@ public interface ImageDatabaseInterface {
   int getNumImages();
 
   String getAllImageNames();
+
+  boolean containsImage(String imageID);
 }

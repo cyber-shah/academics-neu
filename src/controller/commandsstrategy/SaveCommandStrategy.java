@@ -3,6 +3,12 @@ package controller.commandsstrategy;
 import controller.io.ImageSaverInterface;
 import controller.io.PPMImageSaver;
 import model.ImageDatabaseInterface;
+import model.image.CustomImageState;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import java.awt.image.RenderedImage;
+import java.io.BufferedWriter;
 
 /**
  * This class implements the CommandStrategyInterface and is responsible for saving an image.
@@ -14,58 +20,49 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
   /**
    * This method runs the command.
    * NOTE: This method calls the ImageSaver to save the image.
-   *       from IO package.
+   *       Also uses the BufferedWrite to write the image to the file.
    *
    * @param commandsList String[] a list of commands.
-   * @param model ImageDatabaseInterface the model to be used.
+   * @param model        ImageDatabaseInterface the model to be used.
    * @throws IllegalArgumentException if the image cannot be saved.
    */
   @Override
   public void run(String[] commandsList, ImageDatabaseInterface model) {
-    // 1. Get the name of the file to load from the user.
-    String[] args;
     // 0. Validate all the arguments.
-    try {
-      args = validateArguments(commandsList);
-    } catch (IllegalStateException e) {
-      throw new IllegalStateException(e.getMessage());
+    if (commandsList.length != 4) {
+      throw new IllegalArgumentException("Invalid number of arguments");
     }
 
-    // 2. Get the ID to be used with the image.
-    String destImagePath = args[0];
-    String imageID = args[1];
-
-    // 3. call the ImageSaver to save the image.
-    ImageSaverInterface imageSaver = new PPMImageSaver();
-    try {
-      imageSaver.save(model.getImage(imageID), destImagePath);
-    } catch (Exception e) {
-      throw new IllegalArgumentException(e.getMessage());
+    // 1. Set up all the arguments
+    String format = commandsList[1];
+    String imageID = commandsList[2];
+    String destImagePath = commandsList[3];
+    CustomImageState imageWrite = model.getImage(imageID);
+    // 1. if imageID is not present in the model
+    if (!model.containsImage(imageID)) {
+      throw new IllegalArgumentException("Image not found");
     }
-  }
 
-  /**
-   * This method validates the arguments passed to the command.
-   *
-   * @param commandsList String[] a list of commands.
-   * @return String[] a list of arguments.
-   * @throws IllegalStateException if the arguments are not valid.
-   */
-  private String[] validateArguments(String[] commandsList) throws IllegalStateException {
-    String[] args = new String[2];
-    // 1. Validate the sourceImagePath.
-    if (commandsList.length < 2) {
-      throw new IllegalStateException("sourceImagePath not found.");
+    // 2. if format is PPM
+    if (format.equalsIgnoreCase("PPM")) {
+      // 3. call the ImageSaver to save the image.
+      ImageSaverInterface imageSaver = new PPMImageSaver();
+      try {
+        imageSaver.save(imageWrite, destImagePath);
+      } catch (Exception e) {
+        throw new IllegalArgumentException(e.getMessage());
+      }
     }
-    // 2. Set the sourceImagePath
-    args[0] = commandsList[1];
 
-    // 3. Validate the imageID.
-    if (commandsList.length < 3) {
-      throw new IllegalStateException("imageID not found.");
+    // 4. if format is not PPM
+    else {
+      // 5. call the ImageIO to write the image to the file.
+      try {
+        ImageIO.write((RenderedImage) imageWrite, format, new java.io.File(destImagePath));
+      }
+      catch (Exception e) {
+        throw new IllegalArgumentException(e.getMessage());
+      }
     }
-    // 4. Set the imageID.
-    args[1] = commandsList[2];
-    return args;
   }
 }

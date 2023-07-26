@@ -87,4 +87,15 @@ public class ImageDatabase implements ImageDatabaseInterface {
     }
     return sb.toString();
   }
+
+  /**
+   * Returns true if the database contains the image.
+   *
+   * @param imageID String value of imageID.
+   * @return boolean value of whether the database contains the image.
+   */
+  @Override
+  public boolean containsImage(String imageID) {
+    return this.imagesMap.containsKey(imageID);
+  }
 }
