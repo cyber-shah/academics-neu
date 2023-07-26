@@ -52,6 +52,11 @@ public class BrightenOperation implements OperationInterface {
           int newGreen = green + this.value;
           int newBlue = blue + this.value;
 
+          // NOTE : reduced the lines of code here
+          newRed = Math.min(maxValue, Math.max(newRed, 0));
+          newGreen = Math.min(maxValue, Math.max(newGreen, 0));
+          newBlue = Math.min(maxValue, Math.max(newBlue, 0));
+          /*
           // if greater than maxValue, set to maxValue
           if (newRed > maxValue) {
             newRed = maxValue;
@@ -69,7 +74,7 @@ public class BrightenOperation implements OperationInterface {
           } if (newBlue < 0) {
             newBlue = 0;
           }
-
+          */
           newCustomImage.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
         }
       }

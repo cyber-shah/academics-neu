@@ -195,4 +195,15 @@ public class Pixel implements PixelExtended {
     return color.getRGB();
   }
 
+  /**
+   * Setter for RGB. Added in the extension.
+   *
+   * @param rgb int value of RGB.
+   */
+  @Override
+  public void setRGB(int rgb) {
+    Color color = new Color(rgb);
+    this.setAll(color.getRed(), color.getGreen(), color.getBlue());
+  }
+
 }

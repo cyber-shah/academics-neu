@@ -9,16 +9,39 @@ import java.awt.image.BufferedImage;
  * This is done to continue using the CustomImageState interface and
  * allow the use of BufferedImage. Following the Open-Closed Principle.
  */
-public class BufferedImageAdapter implements ExtendedCustomImage {
+public class BufferedImageWrapper implements ExtendedCustomImage {
   private final BufferedImage bufferedImage;
+
+  // ---------------------- CONSTRUCTORS -------------------------------------
 
   /**
    * Constructor to convert a BufferedImage to a CustomImageState.
    *
    * @param bufferedImage BufferedImage to be converted.
    */
-  public BufferedImageAdapter(BufferedImage bufferedImage) {
+  public BufferedImageWrapper(BufferedImage bufferedImage) {
     this.bufferedImage = bufferedImage;
+  }
+
+  /**
+   * Constructor to create a new BufferedImage.
+   *
+   * @param width of the new BufferedImage.
+   * @param height of the new BufferedImage.
+   */
+  public BufferedImageWrapper(int width, int height) {
+    this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+  }
+
+  // ---------------------- GETTERS ------------------------------------------
+
+  /**
+   * Getter for BufferedImage.
+   *
+   * @return BufferedImage.
+   */
+  public BufferedImage getBufferedImage() {
+    return bufferedImage;
   }
 
   /**
@@ -90,6 +113,9 @@ public class BufferedImageAdapter implements ExtendedCustomImage {
   public int getMaxValue() {
     return 255;
   }
+
+
+  // ---------------------- SETTERS -----------------------------------
 
   /**
    * Setter for pixel.

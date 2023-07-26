@@ -10,4 +10,6 @@ public interface PixelExtended extends PixelState {
   void setGreen(int green);
 
   void setBlue(int blue);
+
+  void setRGB(int rgb);
 }

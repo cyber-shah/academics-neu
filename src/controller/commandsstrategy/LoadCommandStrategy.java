@@ -2,12 +2,11 @@ package controller.commandsstrategy;
 
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
-import model.image.BufferedImageAdapter;
+import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -55,7 +54,7 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     else {
       try {
         BufferedImage bufferedImage = ImageIO.read(new File(sourceImagePath));
-        newImage = new BufferedImageAdapter(bufferedImage);
+        newImage = new BufferedImageWrapper(bufferedImage);
       } catch (IOException e) {
         throw new IllegalArgumentException(e.getMessage());
       }

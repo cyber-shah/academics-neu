@@ -5,7 +5,7 @@ package model.image;
  * Built up by a 2D array of Pixels.
  * The value of each channel should be greater than 0.
  */
-public class PPMImage implements CustomImageState {
+public class PPMImage implements ExtendedCustomImage {
   private final int width;
   private final int height;
   private final int maxValue;
