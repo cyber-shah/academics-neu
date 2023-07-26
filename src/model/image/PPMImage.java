@@ -11,7 +11,6 @@ public class PPMImage implements ExtendedCustomImage {
   private final int maxValue;
   private final PixelExtended[][] pixelsList;
 
-
   /**
    * Constructor for Image.
    *

@@ -34,11 +34,10 @@ public class BlurOperation implements OperationInterface {
     kernel[2][0] = (float) 1 / 16;
     kernel[2][1] = (float) 2 / 16;
     kernel[2][2] = (float) 1 / 16;
-
     return convolution(kernel, sourceImage);
   }
 
-
+  // OPTIMIZE : convert this into a helper class.
   /**
    * This method applies a convolution to a CustomImageState.
    *
