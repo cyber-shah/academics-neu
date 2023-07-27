@@ -32,9 +32,11 @@ IME is a command-line custom image manipulation program that allows you to load,
   Applies the specified filter to the custom image:
    1. `blur`: Blurs the image
    2. `sharpen`: Sharpens the image
-   3. `sepia`: Applies the sepia filter
-   4. `greyscale`: Converts the image to greyscale
-   5. `dither`: Applies the dither filter
+
+- `color {filter-type} {customImage-name} {new-customImage-name}`
+  Applies the specified color filter to the custom image:
+   1. `sepia`: Sepia filter
+   2. `greyscale`: Greyscale filter
 
 - `exit`
   Exits the program.

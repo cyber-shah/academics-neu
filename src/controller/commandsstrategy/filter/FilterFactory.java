@@ -12,13 +12,9 @@ public class FilterFactory {
       return new BlurFilter(imageDatabase.getImage(sourceImageID));
     } else if (operation.equalsIgnoreCase("sharpen")) {
       return new SharpenFilter(imageDatabase.getImage(sourceImageID));
-    } else if (operation.equalsIgnoreCase("sepia")) {
-      return new SepiaFilter(imageDatabase.getImage(sourceImageID));
-    } else if (operation.equalsIgnoreCase("greyscale")) {
-      return new GreyscaleFilter(imageDatabase.getImage(sourceImageID));
     } else {
       throw new IllegalArgumentException("Invalid operation. "
-              + "Must be one of: blur, sharpen, sepia, greyscale");
+              + "Must be one of: blur or sharpen");
     }
   }
 }
