@@ -2,7 +2,6 @@ package controller.commandsstrategy.greyscale;
 
 import model.ImageDatabaseInterface;
 import model.operations.*;
-import model.operations.Filters.GreyscaleFilter;
 
 public class GreyscaleFactory {
   public static OperationInterface createFilter(String[] commandsList,

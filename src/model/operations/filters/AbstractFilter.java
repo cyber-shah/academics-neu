@@ -1,4 +1,4 @@
-package model.operations.Filters;
+package model.operations.filters;
 
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
@@ -19,7 +19,8 @@ import model.operations.OperationInterface;
  */
 public abstract class AbstractFilter implements OperationInterface {
 
-  protected final CustomImageState sourceImage;
+  protected CustomImageState sourceImage;
+  protected float[][] kernel;
 
   /**
    * Constructor for AbstractFilter.
@@ -30,9 +31,15 @@ public abstract class AbstractFilter implements OperationInterface {
     this.sourceImage = image;
   }
 
+  /**
+   * This method applies the operation to the image.
+   * NOTE: It creates the kernel and then calls the convolution method.
+   *
+   * @return CustomImageState the new image with the operation applied.
+   */
   @Override
   public CustomImageState applyOperation() {
-    return null;
+    return convolution(this.kernel, this.sourceImage);
   }
 
   /**

@@ -1,7 +1,7 @@
 package controller.commandsstrategy.filter;
 
 import model.ImageDatabaseInterface;
-import model.operations.Filters.*;
+import model.operations.filters.*;
 import model.operations.OperationInterface;
 
 public class FilterFactory {

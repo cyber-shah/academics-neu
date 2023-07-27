@@ -5,7 +5,7 @@ import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import model.image.PPMImage;
 import model.operations.OperationInterface;
-import model.operations.Filters.SepiaFilter;
+import model.operations.color.SepiaColor;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ public class TestSepia {
     assertEquals(33, customImage.getPixel(2, 2).getGreen());
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
-    OperationInterface sepia = new SepiaFilter(customImage);
+    OperationInterface sepia = new SepiaColor(customImage);
     CustomImageState sepiaImage = sepia.applyOperation();
 
     assertEquals(29, sepiaImage.getPixel(1, 1).getRed());

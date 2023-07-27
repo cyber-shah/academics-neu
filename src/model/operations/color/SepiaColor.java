@@ -1,4 +1,4 @@
-package model.operations.Filters;
+package model.operations.color;
 
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
@@ -6,23 +6,22 @@ import model.image.ExtendedCustomImage;
 import model.image.Pixel;
 import model.operations.OperationInterface;
 
-public class SepiaFilter implements OperationInterface {
+public class SepiaColor extends AbstractColor {
 
-  private final CustomImageState sourceImage;
 
   /**
    * Constructor for SepiaOperation.
    */
-  public SepiaFilter(CustomImageState image) {
-    this.sourceImage = image;
+  public SepiaColor(CustomImageState image) {
+    super(image);
+    super.matrix = new float[][]{
+            {0.393f, 0.769f, 0.189f},
+            {0.349f, 0.686f, 0.168f},
+            {0.272f, 0.534f, 0.131f}
+    };
   }
 
-  /**
-   * This method applies the operation to the image.
-   *
-   * @return CustomImageState the new image with the operation applied.
-   */
-  @Override
+/*  @Override
   public CustomImageState applyOperation() {
      // 0. get all the parameters
     int width = sourceImage.getWidth();
@@ -54,5 +53,5 @@ public class SepiaFilter implements OperationInterface {
       }
     }
     return newImage;
-  }
+  }*/
 }

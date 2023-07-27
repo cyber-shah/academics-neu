@@ -4,7 +4,7 @@ import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import model.image.PPMImage;
-import model.operations.Filters.GreyscaleFilter;
+import model.operations.color.GreyscaleColor;
 import model.operations.OperationInterface;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class TestGrayscale {
     assertEquals(33, customImage.getPixel(2, 2).getGreen());
     assertEquals(44, customImage.getPixel(3, 3).getBlue());
 
-    OperationInterface grayscale = new GreyscaleFilter(customImage);
+    OperationInterface grayscale = new GreyscaleColor(customImage);
     CustomImageState grayscaleImage = grayscale.applyOperation();
 
     assertEquals(22, grayscaleImage.getPixel(1, 1).getRed());

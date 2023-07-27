@@ -1,17 +1,22 @@
-package model.operations.Filters;
+package model.operations.color;
 
 import model.image.*;
-import model.operations.OperationInterface;
+import model.operations.filters.AbstractFilter;
 
-public class GreyscaleFilter extends AbstractFilter {
+public class GreyscaleColor extends AbstractColor {
 
   /**
    * Constructor for GreyscaleOperation.
    *
    * @param image CustomImageState to be modified.
    */
-  public GreyscaleFilter(CustomImageState image) {
+  public GreyscaleColor(CustomImageState image) {
     super(image);
+    super.matrix = new float[][]{
+            {0.2126f, 0.7152f, 0.0722f},
+            {0.2126f, 0.7152f, 0.0722f},
+            {0.2126f, 0.7152f, 0.0722f}
+    };
   }
 
   /**

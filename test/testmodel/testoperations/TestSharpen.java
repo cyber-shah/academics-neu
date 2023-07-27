@@ -5,7 +5,7 @@ import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import model.image.PPMImage;
 import model.operations.OperationInterface;
-import model.operations.Filters.SharpenFilter;
+import model.operations.filters.SharpenFilter;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
