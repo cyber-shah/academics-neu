@@ -1,6 +1,6 @@
 package model.image;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * This class represents a Pixel.

@@ -7,13 +7,13 @@ import model.operations.OperationInterface;
 
 /**
  * This class is responsible for running the greyscale command.
- * It then looks for <operation> and then calls the factory to create the filter.
+ * It then looks for `operation` and then calls the factory to create the filter.
  */
 public class GreyscaleCommandStrategy implements CommandStrategyInterface {
 
   /**
    * This method runs the greyscale command.
-   * It then looks for <operation> and then calls the factory to create the filter.
+   * It then looks for `operation` and then calls the factory to create the filter.
    *
    * @param commandsList the list of commands.
    * @param imageDatabase the image database.

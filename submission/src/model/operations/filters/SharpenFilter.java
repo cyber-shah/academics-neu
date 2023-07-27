@@ -1,8 +1,11 @@
 package model.operations.filters;
 
 import model.image.CustomImageState;
-import model.operations.OperationInterface;
 
+/**
+ * This class represents the Sharpen operation.
+ * It creates a kernel and then uses the convolution method from the superclass.
+ */
 public class SharpenFilter extends AbstractFilter {
 
   /**
@@ -13,11 +16,11 @@ public class SharpenFilter extends AbstractFilter {
   public SharpenFilter(CustomImageState image) {
     super(image);
     super.kernel = new float[][]{
-            { -1/8f, -1/8f, -1/8f, -1/8f, -1/8f },
-            { 1/4f, 1/4f, 1/4f, 1/4f, 1/4f },
-            { 1/4f, 1/4f, 1/4f, 1/4f, 1/4f },
-            { 1/4f, 1/4f, 1/4f, 1/4f, 1/4f },
-            { -1/8f, -1/8f, -1/8f, -1/8f, -1/8f}
+            { -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f },
+            { 1 / 4f, 1 / 4f, 1 / 4f, 1 / 4f, 1 / 4f },
+            { 1 / 4f, 1 / 4f, 1 / 4f, 1 / 4f, 1 / 4f },
+            { 1 / 4f, 1 / 4f, 1 / 4f, 1 / 4f, 1 / 4f },
+            { -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}
     };
   }
 

@@ -1,7 +1,11 @@
 package model.operations.filters;
 
-import model.image.*;
+import model.image.CustomImageState;
 
+/**
+ * This class represents the Blur operation.
+ * It creates a kernel and then uses the convolution method from the superclass.
+ */
 public class BlurFilter extends AbstractFilter {
 
   /**

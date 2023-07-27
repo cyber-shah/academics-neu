@@ -6,6 +6,12 @@ import model.image.ExtendedCustomImage;
 import model.image.Pixel;
 import model.operations.OperationInterface;
 
+/**
+ * This class is an abstract class for color operations.
+ * It implements the OperationInterface.
+ * It has a sourceImage and a matrix.
+ * NOTE: Matrix is always created by the subclasses.
+ */
 public class AbstractColor implements OperationInterface {
 
   protected CustomImageState sourceImage;

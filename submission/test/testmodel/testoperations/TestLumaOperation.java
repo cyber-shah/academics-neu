@@ -3,10 +3,12 @@ package testmodel.testoperations;
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
 import model.image.PPMImage;
-import model.operations.greyscale.LumaOperation;
 import model.operations.OperationInterface;
+import model.operations.greyscale.LumaOperation;
 import org.junit.Test;
+
 import java.io.FileNotFoundException;
+
 import static org.junit.Assert.assertEquals;
 
 /**

@@ -1,8 +1,7 @@
 package testio;
 
-import model.image.CustomImageState;
-import model.image.PPMImage;
 import controller.io.PPMImageLoader;
+import model.image.CustomImageState;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
