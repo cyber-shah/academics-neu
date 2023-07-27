@@ -1,29 +1,29 @@
-package model.operations;
+package model.operations.greyscale;
 
 import model.image.PPMImage;
 import model.image.CustomImageState;
 import model.image.Pixel;
+import model.operations.OperationInterface;
 
 /**
- * This class represents the IntensityOperation.
- * It extends the abstract class OperationAbstract.
+ * This class represents the value component operation.
+ * It sets the value component to the max of the rgb values of the pixel.
  */
-public class IntensityOperation implements OperationInterface {
+public class ValueOperation implements OperationInterface {
+
   private final CustomImageState sourceImage;
 
   /**
-   * This is the constructor for the IntensityOperation class.
+   * This is the constructor for the ValueComponentOperation class.
    *
    * @param sourceImage The source image.
    */
-  public IntensityOperation(CustomImageState sourceImage) {
+  public ValueOperation(CustomImageState sourceImage) {
     this.sourceImage = sourceImage;
   }
 
   /**
-   * This method applies the intensity operation on the image.
-   * It calculates the average of the rgb values of the pixel and sets the new rgb values to the
-   * average.
+   * This method applies the Value component operation on the image.
    *
    * @return newImage ImageState object.
    */
@@ -39,21 +39,22 @@ public class IntensityOperation implements OperationInterface {
     try {
       for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
-          // for each image pixel, get the rgb values
+          // get the rgb values of the pixel
           int red = sourceImage.getPixel(i, j).getRed();
           int green = sourceImage.getPixel(i, j).getGreen();
           int blue = sourceImage.getPixel(i, j).getBlue();
+          int value_component = Math.max(red, green);
+          value_component = Math.max(value_component, blue);
 
-          // calculate the new rgb values
-          int average = (red + green + blue) / 3;
 
-          Pixel newPixel = new Pixel(average, average, average);
-          newCustomImage.setPixel(i, j, newPixel);
+          // set the new rgb values to the pixel
+          newCustomImage.setPixel(i, j, new Pixel(value_component, value_component, value_component));
         }
       }
-    } catch (NullPointerException e) {
-      throw new IllegalArgumentException("Pixel " + i + ", " + j + " is null");
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Invalid pixel at (" + i + ", " + j + ").");
     }
     return newCustomImage;
   }
+
 }

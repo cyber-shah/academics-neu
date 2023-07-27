@@ -1,6 +1,7 @@
 package commandmanager;
 
 import controller.commandsstrategy.CommandStrategyInterface;
+import controller.commandsstrategy.colortransformation.ColorCommandStrategy;
 import controller.commandsstrategy.filter.FilterCommandStrategy;
 import controller.commandsstrategy.greyscale.GreyscaleCommandStrategy;
 import controller.commandsstrategy.io.LoadCommandStrategy;
@@ -49,6 +50,8 @@ public class CommandsManager implements CommandsManagerInterface {
     commandsMap.put("BRIGHTEN", new controller.commandsstrategy.BrightenCommandStrategy());
     // FILTER ----------------------------------------------------
     commandsMap.put("FILTER", new FilterCommandStrategy());
+    // COLOR TRANSFORMATIONS --------------------------------------
+    commandsMap.put("COLOR", new ColorCommandStrategy());
   }
 
   /**
@@ -69,19 +72,22 @@ public class CommandsManager implements CommandsManagerInterface {
   @Override
   public String listAllCommands() {
     StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("load <file-path> <image-id> \n");
+    stringBuilder.append("save <image-id> <file-path>\n");
     stringBuilder.append("greyscale <component> <image-id> <new-image-id>\n");
-    stringBuilder.append("          components = 1. luma\n");
-    stringBuilder.append("                       2. intensity\n");
-    stringBuilder.append("                       3. value\n");
-    stringBuilder.append("                       4. red\n");
-    stringBuilder.append("                       5. green\n");
-    stringBuilder.append("                       6. blue\n");
+    stringBuilder.append("          <components> =  luma\n");
+    stringBuilder.append("                          intensity\n");
+    stringBuilder.append("                          value\n");
+    stringBuilder.append("                          red\n");
+    stringBuilder.append("                          green\n");
+    stringBuilder.append("                          blue\n");
     stringBuilder.append("brighten <factor> <image-id> <new-image-id>\n");
     stringBuilder.append("filter <operation> <image-id> <new-image-id>\n");
-    stringBuilder.append("       operations = 1. blur\n");
-    stringBuilder.append("                    2. sharpen\n");
-    stringBuilder.append("                    3. sepia\n");
-    stringBuilder.append("                    4. greyscale\n");
+    stringBuilder.append("       <operations> = blur\n");
+    stringBuilder.append("                      sharpen\n");
+    stringBuilder.append("color <operation> <image-id> <new-image-id>\n");
+    stringBuilder.append("      <operations> = greyscale\n");
+    stringBuilder.append("                     sepia\n");
     stringBuilder.append("exit\n");
     stringBuilder.append("list-all-images\n");
     stringBuilder.append("list-all-commands\n");

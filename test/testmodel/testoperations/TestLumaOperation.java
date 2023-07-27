@@ -3,7 +3,7 @@ package testmodel.testoperations;
 import controller.io.ImageLoaderInterface;
 import controller.io.PPMImageLoader;
 import model.image.PPMImage;
-import model.operations.LumaOperation;
+import model.operations.greyscale.LumaOperation;
 import model.operations.OperationInterface;
 import org.junit.Test;
 import java.io.FileNotFoundException;

@@ -4,7 +4,7 @@ import model.image.PPMImage;
 import model.image.CustomImageState;
 import model.image.Pixel;
 import model.operations.OperationInterface;
-import model.operations.ValueOperation;
+import model.operations.greyscale.ValueOperation;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
