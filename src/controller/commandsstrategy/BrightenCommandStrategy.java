@@ -25,7 +25,7 @@ public class BrightenCommandStrategy implements CommandStrategyInterface {
     // 0. Validate all the arguments.
     if (commandsList.length < 4) {
       throw new IllegalStateException("Must be of the format: \n"
-              + " \"brighten sourceImageID value newImageID\"");
+              + " \"brighten value sourceImageID newImageID\"");
     }
 
     // 1. Set the arguments to variables.

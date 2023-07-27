@@ -1,6 +1,6 @@
-package controller.commandsstrategy;
+package controller.commandsstrategy.io;
 
-import controller.io.ImageLoaderInterface;
+import controller.commandsstrategy.CommandStrategyInterface;
 import controller.io.PPMImageLoader;
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
@@ -9,6 +9,8 @@ import model.ImageDatabaseInterface;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * This class represents the load command strategy for the program.
@@ -26,21 +28,26 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
    */
   @Override
   public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
-    // Typical command line argument
-    // load format image-name image-destination
+    // 0. Validate the arguments
     if (commandsList.length < 3) {
-      String message = "Please provide the command in the format \n"
-              + "load <format> <image-destination> <image-name>";
+      String message = "Please provide the command in the extension \n"
+              + "load <image-path> <image-name>";
       throw new IllegalStateException(message);
     }
-    String format = commandsList[1];
-    String sourceImagePath = commandsList[2];
-    String imageID = commandsList[3];
+
+    // 1. Extract the extension
+    String sourceImagePath = commandsList[1];
+    String imageID = commandsList[2];
+
+    Path path = Paths.get(sourceImagePath);
+    String extension = path.getFileName().toString();
+    extension = extension.substring(extension.lastIndexOf(".") + 1);
+
+    // 1. Try loading the image
     CustomImageState newImage;
 
-    // 1. check if format is PPM
     // 2. if PPM, use the PPMImageLoader
-    if (format.equalsIgnoreCase("ppm")) {
+    if (extension.equalsIgnoreCase("ppm")) {
       try {
         // 3. call the ImageLoader to load the image.
         PPMImageLoader loaderPPM = new PPMImageLoader();
@@ -49,7 +56,7 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
         throw new IllegalArgumentException(e.getMessage());
       }
     }
-    // 2. else use the BufferedImage class
+
     // 3. if not PPM use the BufferedImage class
     else {
       try {

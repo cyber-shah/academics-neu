@@ -1,7 +1,10 @@
 package commandmanager;
 
 import controller.commandsstrategy.CommandStrategyInterface;
-import controller.commandsstrategy.FilterCommandStrategy;
+import controller.commandsstrategy.filter.FilterCommandStrategy;
+import controller.commandsstrategy.greyscale.GreyscaleCommandStrategy;
+import controller.commandsstrategy.io.LoadCommandStrategy;
+import controller.commandsstrategy.io.SaveCommandStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,14 +41,14 @@ public class CommandsManager implements CommandsManagerInterface {
   @Override
   public void registerAllCommands() {
     // IO operations --------------------------------------
-    commandsMap.put("LOAD", new controller.commandsstrategy.LoadCommandStrategy());
-    commandsMap.put("SAVE", new controller.commandsstrategy.SaveCommandStrategy());
+    commandsMap.put("LOAD", new LoadCommandStrategy());
+    commandsMap.put("SAVE", new SaveCommandStrategy());
     // GREYSCALE operations -----------------------------------
-    commandsMap.put("GREYSCALE", new controller.commandsstrategy.GreyscaleCommandStrategy());
+    commandsMap.put("GREYSCALE", new GreyscaleCommandStrategy());
     // BRIGHTEN operations ------------------------------------
     commandsMap.put("BRIGHTEN", new controller.commandsstrategy.BrightenCommandStrategy());
     // FILTER ----------------------------------------------------
-    commandsMap.put("FILTER", new controller.commandsstrategy.FilterCommandStrategy());
+    commandsMap.put("FILTER", new FilterCommandStrategy());
   }
 
   /**

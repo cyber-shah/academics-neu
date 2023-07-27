@@ -1,5 +1,6 @@
-package controller.commandsstrategy;
+package controller.commandsstrategy.filter;
 
+import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
 import model.operations.OperationInterface;
@@ -30,27 +31,6 @@ public class FilterCommandStrategy implements CommandStrategyInterface {
     CustomImageState newImage;
     OperationInterface filter = FilterFactory.createFilter(operation, sourceImageID, imageDatabase);
     newImage = filter.applyOperation();
-
-    /*if (operation.equalsIgnoreCase("blur")) {
-      newImage = new BlurFilter(imageDatabase.getImage(sourceImageID))
-              .applyOperation();
-    }
-    else if (operation.equalsIgnoreCase("sharpen")) {
-      newImage = new SharpenFilter(imageDatabase.getImage(sourceImageID))
-              .applyOperation();
-    }
-    else if (operation.equalsIgnoreCase("sepia")) {
-      newImage = new SepiaFilter(imageDatabase.getImage(sourceImageID))
-              .applyOperation();
-    }
-    else if (operation.equalsIgnoreCase("greyscale")) {
-      newImage = new SepiaFilter(imageDatabase.getImage(sourceImageID))
-              .applyOperation();
-    }
-    else {
-      throw new IllegalStateException("Invalid operation. "
-              + "Must be one of: blur, sharpen, sepia, greyscale");
-    }*/
 
     // 3. Add the new image to the imageDatabase using the destinationID.
     imageDatabase.addImage(destinationID, newImage);

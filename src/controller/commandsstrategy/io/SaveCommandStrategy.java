@@ -1,5 +1,6 @@
-package controller.commandsstrategy;
+package controller.commandsstrategy.io;
 
+import controller.commandsstrategy.CommandStrategyInterface;
 import controller.io.ImageSaverInterface;
 import controller.io.PPMImageSaver;
 import model.ImageDatabaseInterface;

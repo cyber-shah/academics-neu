@@ -1,4 +1,4 @@
-package controller.commandsstrategy;
+package controller.commandsstrategy.filter;
 
 import model.ImageDatabaseInterface;
 import model.operations.Filters.*;

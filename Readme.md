@@ -2,20 +2,48 @@
 
 ## Description
 
-This program is a command line customImage manipulation program. It allows the user to load, save, and manipulate images. The program supports the following commands:
-- **load** _{format} {image-path} {custom-Image-name}_
-- **save** _{format} {output-file-path} {customImage-name}_ 
-- **component** _{red|green|blue} {customImage-name} {new-customImage-name}_
-- **luma** _{image-name} {new-customImage-name}_
-- **value** _{image-name} {new-customImage-name}_
-- **intensity** _{image-name} {new-customImage-name}_
-- **brighten** {value} _{image-name} {new-customImage-name}_
-  (also supports darkening with negative values)
-- **exit**
-- **list-all-commands**
-- **list-all-images**
+IME is a command-line custom image manipulation program that allows you to load, save, and modify images. Below are the supported commands:
 
-Provide the command line arguments in the file - [command-line-arguments.txt](command-line-args.txt)
+- `load {format} {image-path} {custom-Image-name}`
+  Loads the image from the specified path and stores it with the given name.
+   1. `ppm`: PPM format
+   2. `jpg`: JPG format
+   3. `png`: PNG format
+   4. `bmp`: BMP format
+- `save {format} {output-file-path} {customImage-name}`
+  Saves the image with the specified name to the provided path in the given format.
+   1. `ppm`: PPM format
+   2. `jpg`: JPG format
+   3. `png`: PNG format
+   4. `bmp`: BMP format
+- `greyscale {component} {customImage-name} {new-customImage-name}`
+  Converts the custom image to greyscale using the chosen component:
+   1. `red`: Red component
+   2. `green`: Green component
+   3. `blue`: Blue component
+   4. `luma`: Luma component
+   5. `value`: Value component
+   6. `intensity`: Intensity component
+
+- `brighten {value} {image-name} {new-customImage-name}`
+  Brightens or darkens the custom image by the specified value.
+
+- `filter {filter-type} {customImage-name} {new-customImage-name}`
+  Applies the specified filter to the custom image:
+   1. `blur`: Blurs the image
+   2. `sharpen`: Sharpens the image
+   3. `sepia`: Applies the sepia filter
+   4. `greyscale`: Converts the image to greyscale
+   5. `dither`: Applies the dither filter
+
+- `exit`
+  Exits the program.
+
+- `list-all-commands`
+  Displays all available commands.
+
+- `list-all-images`
+  Displays a list of all loaded images.
 
 ## Design
 The design follows Model View Controller (MVC) architecture. The model is the ImageDatabase, which stores all the images. The view is the ViewImplementation, which is responsible for displaying messages to the user. The controller is the ControllerImplementation, which is responsible for parsing user input and calling the appropriate methods in the model and view. The controller also contains the main method, which is responsible for initializing the model, view, and controller, and starting the program.
