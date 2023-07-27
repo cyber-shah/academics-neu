@@ -60,7 +60,7 @@ These new command and operation can then be added to the controller and used in 
 
 The design can be seen in the following UML diagram:
 
-![Class Diagram](res/HW8-UML.png)
+![Class Diagram](HW8-UML.png)
 
 ### Model 
 The model follows a Strategy pattern, where the ControllerImplementation class is the context, and the CommandStrategyInterface is the strategy.
