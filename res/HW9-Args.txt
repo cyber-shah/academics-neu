@@ -1,0 +1,65 @@
+# list all the features/commands
+list-all-commands
+
+# load the original image into the database
+load res/JPEG-original.jpeg bos
+
+# save the source image in all the formats
+save bos res/JPG-original.jpg
+save bos res/PNG-original.png
+save bos res/BMP-original.bmp
+save bos res/PPM-original.ppm
+
+# convert to greyscale using the luma method
+greyscale luma bos greyscale-luma
+
+# convert to greyscale using the red method
+greyscale red bos greyscale-red
+
+# convert to greyscale using the green method
+greyscale green bos greyscale-green
+
+# convert to greyscale using the blue method
+greyscale blue bos greyscale-blue
+
+# convert to greyscale using the intensity method
+greyscale intensity bos greyscale-intensity
+
+# convert to greyscale using the average method
+greyscale value bos greyscale-value
+
+# brighten the image by value 50
+brighten 50 bos brighten-50
+
+# darken the image by value 50
+brighten -50 bos darken-50
+
+# filter the image using the blur method
+filter blur bos filter-blur
+
+# filter the image using the sharpen method
+filter sharpen bos filter-sharpen
+
+# color transform the image using the sepia method
+color sepia bos color-sepia
+
+# color transform the image using the greyscale method
+color invert bos color-greyscale
+
+# list all the images in the database
+list-all-images
+
+# save all the images across multiple formats
+save greyscale-luma res/JPEG-greyscale-luma.jpeg
+save greyscale-red res/PPM-greyscale-red.png
+save greyscale-green res/BMP-greyscale-green.bmp
+save greyscale-blue res/PPM-greyscale-blue.ppm
+save greyscale-intensity res/JPG-greyscale-intensity.jpg
+save greyscale-value res/PNG-greyscale-value.png
+save brighten-50 res/BMP-brighten-50.bmp
+save darken-50 res/PPM-darken-50.ppm
+save filter-blur res/JPG-filter-blur.jpg
+save filter-sharpen res/PNG-filter-sharpen.png
+save color-sepia res/BMP-color-sepia.bmp
+save color-greyscale res/PPM-color-greyscale.ppm
+
