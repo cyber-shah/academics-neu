@@ -11,6 +11,8 @@ import javax.imageio.ImageWriter;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * This class implements the CommandStrategyInterface and is responsible for saving an image.
@@ -31,23 +33,27 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
   @Override
   public void run(String[] commandsList, ImageDatabaseInterface model) {
     // 0. Validate all the arguments.
-    if (commandsList.length != 4) {
-      throw new IllegalArgumentException("Please provide the command in this format \n"
-              + " \"save <format> <imageID> <destImagePath>\"");
+    if (commandsList.length != 3) {
+      throw new IllegalArgumentException("Please provide the command in this extension \n"
+              + " \"save <imageID> <destImagePath>\"");
     }
 
-    // 1. Set up all the arguments
-    String format = commandsList[1];
-    String imageID = commandsList[2];
-    String destImagePath = commandsList[3];
+    // 1. Extract the extension
+    String imageID = commandsList[1];
+    String destImagePath = commandsList[2];
+    Path path = Paths.get(destImagePath);
+    String extension = path.getFileName().toString();
+    extension = extension.substring(extension.lastIndexOf(".") + 1);
+
+
     // 1. if imageID is not present in the model
     if (!model.containsImage(imageID)) {
       throw new IllegalArgumentException("Image not found");
     }
     CustomImageState imageWrite = model.getImage(imageID);
 
-    // 2. if format is PPM
-    if (format.equalsIgnoreCase("PPM")) {
+    // 2. if extension is PPM
+    if (extension.equalsIgnoreCase("PPM")) {
       // 3. call the ImageSaver to save the image.
       ImageSaverInterface imageSaver = new PPMImageSaver();
       try {
@@ -57,12 +63,14 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
       }
     }
 
-    // 4. if format is not PPM
+    // 4. if extension is not PPM
     else {
       // 5. call the ImageIO to write the image to the file.
       try {
         BufferedImage bufferedImage = imageWrite.getBufferedImage();
-        ImageIO.write(bufferedImage, format, new java.io.File(destImagePath));
+        if (!ImageIO.write(bufferedImage, extension, new java.io.File(destImagePath))) {
+          throw new IllegalArgumentException("Unsupported image format: " + extension);
+        }
       }
       catch (Exception e) {
         throw new IllegalArgumentException(e.getMessage());
