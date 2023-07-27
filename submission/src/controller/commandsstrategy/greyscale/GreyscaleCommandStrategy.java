@@ -1,0 +1,34 @@
+package controller.commandsstrategy.greyscale;
+
+import controller.commandsstrategy.CommandStrategyInterface;
+import model.ImageDatabaseInterface;
+import model.image.CustomImageState;
+import model.operations.OperationInterface;
+
+public class GreyscaleCommandStrategy implements CommandStrategyInterface {
+
+  @Override
+  public void run(String[] commandsList, ImageDatabaseInterface imageDatabase) {
+    // 0. Validate all the arguments.
+    if (commandsList.length < 4) {
+      throw new IllegalStateException("Too few arguments. Must be of the format: \n"
+              + " \"greyscale <operation/color> <sourceImageID> <newImageID>\"");
+    }
+
+    // 1. Set the sourceImageID and the destinationID.
+    String operation = commandsList[1];
+    String sourceImageID = commandsList[2];
+    String destinationID = commandsList[3];
+
+    // 2. Check the operation and apply the filter.
+    // SOLID : using Open-Closed principle here.
+    //         We can add new filters without changing the code.
+    //         only modify the GreyscaleFactory class.
+    CustomImageState newImage;
+    OperationInterface filter = GreyscaleFactory.createFilter(commandsList, imageDatabase);
+    newImage = filter.applyOperation();
+
+    // 3. Add the new image to the imageDatabase using the destinationID.
+    imageDatabase.addImage(destinationID, newImage);
+  }
+}

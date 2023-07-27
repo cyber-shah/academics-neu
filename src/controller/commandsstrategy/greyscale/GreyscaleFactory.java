@@ -1,13 +1,26 @@
 package controller.commandsstrategy.greyscale;
 
 import model.ImageDatabaseInterface;
-import model.operations.*;
+import model.operations.OperationInterface;
 import model.operations.greyscale.ColorComponentOperation;
 import model.operations.greyscale.IntensityOperation;
 import model.operations.greyscale.LumaOperation;
 import model.operations.greyscale.ValueOperation;
 
+/**
+ * This class is a factory for creating greyscale filters.
+ * It implements the Factory design pattern.
+ */
 public class GreyscaleFactory {
+
+  /**
+   * This method produces a filter based on the operation.
+   *
+   * @param commandsList the list of commands.
+   * @param imageDatabase the image database.
+   * @return the filter.
+   * @throws IllegalArgumentException if the operation is not supported.
+   */
   public static OperationInterface createFilter(String[] commandsList,
                                                 ImageDatabaseInterface imageDatabase) {
     // 0. Validate all the arguments.

@@ -1,8 +1,14 @@
 package model.operations.color;
 
-import model.image.*;
-import model.operations.filters.AbstractFilter;
+import model.image.BufferedImageWrapper;
+import model.image.CustomImageState;
+import model.image.ExtendedCustomImage;
+import model.image.Pixel;
 
+/**
+ * This class is a subclass for absractcolor.
+ * It creates a matrix and then uses the applyMatrix method from the superclass.
+ */
 public class GreyscaleColor extends AbstractColor {
 
   /**

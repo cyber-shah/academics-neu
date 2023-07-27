@@ -7,10 +7,7 @@ import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.BufferedWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

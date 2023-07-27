@@ -1,7 +1,6 @@
 package testio;
 
 import controller.io.BufferedImageLoader;
-import controller.io.PPMImageLoader;
 import model.image.CustomImageState;
 import org.junit.Test;
 

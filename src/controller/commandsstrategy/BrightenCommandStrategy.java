@@ -1,7 +1,7 @@
 package controller.commandsstrategy;
 
-import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
+import model.image.CustomImageState;
 import model.operations.BrightenOperation;
 
 /**

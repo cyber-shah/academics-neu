@@ -5,6 +5,10 @@ import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
 import model.operations.OperationInterface;
 
+/**
+ * This class is responsible for running the color command.
+ * It then looks for <operation> and then calls the factory to create the filter.
+ */
 public class ColorCommandStrategy implements CommandStrategyInterface {
 
   @Override

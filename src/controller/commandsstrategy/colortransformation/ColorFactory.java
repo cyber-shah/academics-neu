@@ -1,11 +1,25 @@
 package controller.commandsstrategy.colortransformation;
 
 import model.ImageDatabaseInterface;
+import model.operations.OperationInterface;
 import model.operations.color.GreyscaleColor;
 import model.operations.color.SepiaColor;
-import model.operations.OperationInterface;
 
+/**
+ * This class is a factory for creating color filters.
+ * It implements the Factory design pattern.
+ */
 public class ColorFactory {
+
+  /**
+   * This method produces a filter based on the operation.
+   *
+   * @param operation the operation to be performed.
+   * @param sourceImageID the source image ID.
+   * @param imageDatabase the image database.
+   * @return the filter.
+   * @throws IllegalArgumentException if the operation is not supported.
+   */
   public static OperationInterface createFilter(String operation, String sourceImageID,
                                                 ImageDatabaseInterface imageDatabase) {
 

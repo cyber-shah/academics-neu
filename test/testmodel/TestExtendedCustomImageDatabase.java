@@ -1,9 +1,9 @@
 package testmodel;
 
-import model.image.PPMImage;
 import model.ImageDatabase;
-import model.image.CustomImageState;
 import model.ImageDatabaseInterface;
+import model.image.CustomImageState;
+import model.image.PPMImage;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

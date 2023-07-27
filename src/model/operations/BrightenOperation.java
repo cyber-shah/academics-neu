@@ -1,7 +1,7 @@
 package model.operations;
 
-import model.image.PPMImage;
 import model.image.CustomImageState;
+import model.image.PPMImage;
 import model.image.Pixel;
 
 /**

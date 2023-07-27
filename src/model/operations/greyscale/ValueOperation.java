@@ -1,7 +1,7 @@
 package model.operations.greyscale;
 
-import model.image.PPMImage;
 import model.image.CustomImageState;
+import model.image.PPMImage;
 import model.image.Pixel;
 import model.operations.OperationInterface;
 
@@ -48,7 +48,8 @@ public class ValueOperation implements OperationInterface {
 
 
           // set the new rgb values to the pixel
-          newCustomImage.setPixel(i, j, new Pixel(value_component, value_component, value_component));
+          newCustomImage.setPixel(i, j, new Pixel(value_component,
+                  value_component, value_component));
         }
       }
     } catch (IllegalArgumentException e) {
