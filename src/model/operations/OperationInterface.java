@@ -8,5 +8,10 @@ import model.image.CustomImageState;
  */
 public interface OperationInterface {
 
+  /**
+   * This method applies the operation to the image.
+   *
+   * @return the image after the operation has been applied.
+   */
   CustomImageState applyOperation();
 }

@@ -8,7 +8,7 @@ import java.awt.Color;
  * The value of each channel should be greater than 0.
  * The value of each channel should be less than maxValue.
  */
-public class Pixel implements PixelExtended {
+public class Pixel implements PixelMutable {
   private int red;
   private int green;
   private int blue;

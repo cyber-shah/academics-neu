@@ -11,7 +11,7 @@ public class PPMImage implements ExtendedCustomImage {
   private final int width;
   private final int height;
   private final int maxValue;
-  private final PixelExtended[][] pixelsList;
+  private final PixelMutable[][] pixelsList;
 
   /**
    * Constructor for Image.
@@ -27,7 +27,7 @@ public class PPMImage implements ExtendedCustomImage {
     this.width = width;
     this.height = height;
     this.maxValue = maxValue;
-    this.pixelsList = new PixelExtended[width][height];
+    this.pixelsList = new PixelMutable[width][height];
   }
 
   /**

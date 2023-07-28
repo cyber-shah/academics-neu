@@ -8,5 +8,11 @@ import java.io.IOException;
  */
 public interface ViewInterface {
 
+  /**
+   * This method renders the message.
+   *
+   * @param message The message to be rendered.
+   * @throws IOException If the message cannot be rendered.
+   */
   void renderMessage(String message) throws IOException;
 }
