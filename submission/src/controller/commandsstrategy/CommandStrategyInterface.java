@@ -8,5 +8,14 @@ import model.ImageDatabaseInterface;
  * Implements the Command Pattern Design.
  */
 public interface CommandStrategyInterface {
+
+  /**
+   * This method runs the command.
+   * It parses the arguments and then calls the appropriate method on the image.
+   * @see ImageDatabaseInterface
+   *
+   * @param commandsList the list of commands to run.
+   * @param imageDatabase the image database to run the command on.
+   */
   void run(String[] commandsList, ImageDatabaseInterface imageDatabase);
 }

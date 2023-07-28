@@ -48,7 +48,7 @@ public interface ImageDatabaseInterface {
   /**
    * This method checks if the database contains an image with the given name.
    *
-   * @param name the name of the image to check.
+   * @param imageID the name of the image to check.
    * @return true if the database contains an image with the given name, false otherwise.
    */
   boolean containsImage(String imageID);

@@ -3,7 +3,6 @@ import commandmanager.CommandsManagerInterface;
 import controller.ControllerImplementation;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
-import model.operations.OperationInterface;
 import view.ViewImplementation;
 
 import java.io.BufferedReader;

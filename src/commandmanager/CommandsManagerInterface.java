@@ -17,7 +17,9 @@ public interface CommandsManagerInterface {
   void registerCommand(String commandName, CommandStrategyInterface commandStrategy);
 
   /**
-   * This method returns the command strategy for the given command name.
+   * Checks if the command name is registered.
+   * If it is, returns the command strategy for the given command name.
+   * If not throws an IllegalArgumentException.
    *
    * @param commandsList the list of commands to get the command from.
    * @return the command strategy for the given command name.
@@ -27,7 +29,7 @@ public interface CommandsManagerInterface {
           throws IllegalArgumentException;
 
   /**
-   * This method returns a string representation of all the commands.
+   * Converts all the commands to a string.
    *
    * @return a string representation of all the commands.
    */
