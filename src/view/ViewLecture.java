@@ -7,12 +7,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ViewLecture extends JFrame{
+/**
+ * This class represents the view for the program.
+ * NOTE: This class is an ActionListener, why?
+ *      So that it can access all the widgets data and process it.
+ */
+public class ViewLecture extends JFrame implements ActionListener, KeyListener {
   private JButton saveButton;
   private JButton loadButton;
   private final JTextField enterText;
   private final JLabel showText;
-  private final ViewActionListener actionListener = new ViewActionListener();
 
 
   public ViewLecture() {
@@ -39,8 +43,8 @@ public class ViewLecture extends JFrame{
     this.saveButton.setActionCommand("save");
     this.loadButton.setActionCommand("load");
 
-    this.saveButton.addActionListener(this.actionListener);
-    this.loadButton.addActionListener(this.actionListener);
+    this.saveButton.addActionListener(this);
+    this.loadButton.addActionListener(this);
   }
 
   /**
@@ -54,7 +58,8 @@ public class ViewLecture extends JFrame{
     // which button was clicked?
     switch (e.getActionCommand()) {
       case "save":
-        showText.setText("Clicked Save");
+        // generate a custom event and pass it to the controller.
+
         break;
       case "load":
         showText.setText("Clicked Load");
@@ -62,5 +67,24 @@ public class ViewLecture extends JFrame{
       default:
         throw new IllegalStateException("Unexpected value: " + e.getActionCommand());
     }
+  }
+
+  @Override
+  public void keyTyped(KeyEvent e) {
+    // FIXME : do not hard code these, let the user set these.
+    if (e.getKeyChar() == 'l') {
+
+    }
+
+  }
+
+  @Override
+  public void keyPressed(KeyEvent e) {
+
+  }
+
+  @Override
+  public void keyReleased(KeyEvent e) {
+
   }
 }
