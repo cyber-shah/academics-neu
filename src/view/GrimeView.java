@@ -13,6 +13,13 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
 
   private final view.Canvas imageCanvas;
 
+  /**
+   * Constructor for the view.
+   * It is done in the following order:
+   * 1. Initialize the center : image canvas.
+   * 2. Initialize the south : show text.
+   * 3. Initialize the west : toolbar panel.
+   */
   public GrimeView() {
     super();
     setTitle("Grime");
@@ -50,14 +57,18 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
 //    toolbarPanel.setPreferredSize(new Dimension(200, mainPanel.getHeight()));
     mainPanel.add(toolbarPanel, BorderLayout.EAST);
 
-
-
+    // 4. Add main panel to the window
     setContentPane(mainPanel);
     setVisible(true);
 
   }
 
-
+  /**
+   * Helper method to add panels inside the toolbar panel.
+   * Each panel has a different layout.
+   *
+   * @param toolbarPanel the toolbar added to the main panel
+   */
   private void addToolbarPanel(JPanel toolbarPanel) {
     int borderThickness = 1;
     Color borderColor = Color.BLACK;
@@ -81,7 +92,7 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
     toolbarPanel.add(ioPanel);
 
     // 2. Add GreyScale button, and add action listener to it
-    toolbarPanel.add(new JLabel("Grey-scale"));
+    toolbarPanel.add(new JLabel("Greyscale"));
     JPanel greyScalePanel = new JPanel(new GridLayout(3, 2));
     // add buttons
     JButton greyScaleButton = new JButton("Luma");
@@ -159,10 +170,8 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
     // 5. Add Histogram
     toolbarPanel.add(new JLabel("Histogram"));
     JScrollPane histogramPanel = new JScrollPane();
-    histogramPanel.setPreferredSize(new Dimension(200, 200));
+    histogramPanel.setPreferredSize(new Dimension(200, 400));
     toolbarPanel.add(histogramPanel);
-
-
 
     // 6. Add border to all panels
     /*
@@ -174,8 +183,55 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
     toolbarPanel.add(clearButton);
     */
   }
+
   @Override
   public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+      case "Save":
+        this.emitSaveImage();
+        break;
+      case "Load":
+        this.emitLoadImage();
+        break;
+      case "Exit":
+        this.emitExit();
+        break;
+      case "Luma":
+        this.emitLuma();
+        break;
+      case "Value":
+        this.emitValue();
+        break;
+      case "Intensity":
+        this.emitIntensity();
+        break;
+      case "Red Component":
+        this.emitRedComponent();
+        break;
+      case "Green Component":
+        this.emitGreenComponent();
+        break;
+      case "Blue Component":
+        this.blueComponent();
+        break;
+      case "Blur":
+        this.emitBlur();
+        break;
+      case "Sharpen":
+        this.emitSharpen();
+        break;
+      case "Sepia":
+        this.emitSepia();
+        break;
+      case "Greyscale":
+        this.emitGreyscale();
+        break;
+      case "Apply":
+        this.emitApply();
+        break;
+      default:
+        break;
+    }
 
   }
 
