@@ -1,20 +1,26 @@
 package controller;
 
 import model.ImageDatabaseInterface;
-import view.ViewLecture;
+import view.gui.CustomEvent;
+import view.gui.GrimeView;
 
 import java.util.Objects;
 
-public class ControllerGUI implements ControllerInterface {
+public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
-  private final ViewLecture view;
+  private final GrimeView view;
 
 
-  public ControllerGUI(ImageDatabaseInterface imageDatabase, ViewLecture view) {
+  public ControllerGUI(ImageDatabaseInterface imageDatabase, GrimeView view) {
     this.imageDatabase = Objects.requireNonNull(imageDatabase);
     this.view = Objects.requireNonNull(view);
     // NOTE : Subscribe to the view's custom events.
-    view.addCustomEventListener(this);
+    view.addEventsListener(this);
+  }
+
+  @Override
+  public void handleEvent(CustomEvent event) {
+
   }
 
   @Override
@@ -22,13 +28,4 @@ public class ControllerGUI implements ControllerInterface {
 
   }
 
-  @Override
-  public void handleLoadEvent() {
-
-  }
-
-  @Override
-  public void handleSaveEvent() {
-
-  }
 }

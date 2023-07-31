@@ -1,17 +1,18 @@
-package view;
+package view.gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GrimeView extends JFrame implements ActionListener, KeyListener {
+public class GrimeView extends JFrame implements ActionListener {
 
-  private final JPanel mainPanel;
   private final JLabel showText;
-  private final JPanel toolbarPanel;
-
-  private final view.Canvas imageCanvas;
+  private final List<CustomEventsListener> listeners;
 
   /**
    * Constructor for the view.
@@ -25,36 +26,39 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
     setTitle("Grime");
     setSize(800, 800);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.listeners = new ArrayList<>();
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (Exception e) {
       e.printStackTrace();
     }
     // FIXME : set the focus to always be on the main window
+    // FIXME : add a list of images loaded - image database;
+    // FIXME : add an option to view original image
 
     // 0. Create the main panel
-    mainPanel = new JPanel();
+    JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BorderLayout());
 
     // 1. Set the imageCanvas inside a JScrollPane and add it to the main panel
     // NOTE : Main Panel's CENTER
-    this.imageCanvas = new Canvas();
-    this.imageCanvas.setPreferredSize(new Dimension(400, 400));
-    JScrollPane imagePanel = new JScrollPane(this.imageCanvas);
+    view.gui.Canvas imageCanvas = new Canvas();
+    imageCanvas.setPreferredSize(new Dimension(400, 400));
+    JScrollPane imagePanel = new JScrollPane(imageCanvas);
     mainPanel.add(imagePanel, BorderLayout.CENTER);
 
     // 2. Add show text to the main panel
     // NOTE : Main Panel's SOUTH
-    this.showText = new JLabel("Display Text");
-    this.showText.setPreferredSize(new Dimension(mainPanel.getWidth(), 50));
-    mainPanel.add(this.showText, BorderLayout.SOUTH);
+    showText = new JLabel("Display Text");
+    showText.setPreferredSize(new Dimension(mainPanel.getWidth(), 50));
+    mainPanel.add(showText, BorderLayout.SOUTH);
 
     // 3. Add toolbar panel to main panel
     // NOTE : Main Panel's EAST
-    toolbarPanel = new JPanel();
+    JPanel toolbarPanel = new JPanel();
     toolbarPanel.setLayout(new BoxLayout(toolbarPanel, BoxLayout.Y_AXIS));
     this.addToolbarPanel(toolbarPanel);
-//    toolbarPanel.setPreferredSize(new Dimension(200, mainPanel.getHeight()));
+    // toolbarPanel.setPreferredSize(new Dimension(200, mainPanel.getHeight()));
     mainPanel.add(toolbarPanel, BorderLayout.EAST);
 
     // 4. Add main panel to the window
@@ -70,8 +74,6 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
    * @param toolbarPanel the toolbar added to the main panel
    */
   private void addToolbarPanel(JPanel toolbarPanel) {
-    int borderThickness = 1;
-    Color borderColor = Color.BLACK;
 
     // 1. Add IO buttons, and add action listener to them
     toolbarPanel.add(new JLabel("IO"));
@@ -184,69 +186,50 @@ public class GrimeView extends JFrame implements ActionListener, KeyListener {
     */
   }
 
+  public void addEventsListener(CustomEventsListener listener) {
+    this.listeners.add(listener);
+  }
+
   @Override
   public void actionPerformed(ActionEvent e) {
-    switch (e.getActionCommand()) {
-      case "Save":
-        this.emitSaveImage();
-        break;
-      case "Load":
-        this.emitLoadImage();
-        break;
-      case "Exit":
-        this.emitExit();
-        break;
-      case "Luma":
-        this.emitLuma();
-        break;
-      case "Value":
-        this.emitValue();
-        break;
-      case "Intensity":
-        this.emitIntensity();
-        break;
-      case "Red Component":
-        this.emitRedComponent();
-        break;
-      case "Green Component":
-        this.emitGreenComponent();
-        break;
-      case "Blue Component":
-        this.blueComponent();
-        break;
-      case "Blur":
-        this.emitBlur();
-        break;
-      case "Sharpen":
-        this.emitSharpen();
-        break;
-      case "Sepia":
-        this.emitSepia();
-        break;
-      case "Greyscale":
-        this.emitGreyscale();
-        break;
-      case "Apply":
-        this.emitApply();
-        break;
-      default:
-        break;
+    // NOTE : This is how an action has to be handled
+    //        1. convert the action into an array of strings
+    //        2. emit an event with the array of strings
+    //        3. controller accepts the event in the format it needs
+    //            so for example, load event will be emitted as
+    //            ["Load", "path/to/file", image-name]
+    //             or for grey scale, it will be
+    //            ["greyscale", "Luma", image-name]
+    //            ["greyscale", "Value", image-name]
+    //        4. controller handles the event - calls appropriate model
+    //        5. returns the imagedatabase
+    //        6. view updates the image based on the newest image in the database
+
+
+
+    if (e.getActionCommand().equals("Exit")) {
+      System.exit(0);
+    }
+    else if (e.getActionCommand().equals("Load")) {
+      final JFileChooser fchooser = new JFileChooser(".");
+      FileNameExtensionFilter filter = new FileNameExtensionFilter(
+              "JPG & GIF Images", "jpg", "gif");
+      fchooser.setFileFilter(filter);
+      int retvalue = fchooser.showOpenDialog(this);
+      if (retvalue == JFileChooser.APPROVE_OPTION) {
+        File f = fchooser.getSelectedFile();
+        showText.setText(f.getAbsolutePath());
+      }
+      this.emit(new CustomEvent(this, "Load"));
+    }
+    // for any button clicked, emit an event
+    String event = e.getActionCommand();
+    this.emit(new CustomEvent(this, event));
     }
 
-  }
-
-  @Override
-  public void keyTyped(KeyEvent e) {
-
-  }
-
-  @Override
-  public void keyPressed(KeyEvent e) {
-
-  }
-
-  @Override
-  public void keyReleased(KeyEvent e) {
-
+  private void emit(CustomEvent event) {
+    for (CustomEventsListener listener : this.listeners) {
+      listener.handleEvent(event);
+    }
   }
 }
