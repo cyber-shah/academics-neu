@@ -28,9 +28,9 @@ public class ControllerGUI implements ControllerGUIInterface {
     args[1] = event.getFilePath();
     args[2] = event.getDestID();
     loadCommandStrategy.run(args, imageDatabase);
-//    view.updateImageDatabase(imageDatabase);
-//    view.showMessage("Image loaded successfully!");
-//    view.updateImage
+    view.showMessage("Image loaded successfully!");
+    view.updateImageDatabase(imageDatabase);
+    view.updateImageCanvas(imageDatabase.getImage(event.getDestID()));
   }
 
   @Override
