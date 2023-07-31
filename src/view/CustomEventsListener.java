@@ -6,7 +6,7 @@ package view;
  *         So that this is not platform dependent. We can use this interface to generate events
  *         for any platform. Like gestures for mobile devices, key events for desktops, etc.
  */
-public interface CustomEvents {
+public interface CustomEventsListener {
   // FIXME : convert these into a factory or a map later on.
   // or maybe use it with the commandmanager or something.
   void handleLoadEvent();

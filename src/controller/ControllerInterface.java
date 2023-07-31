@@ -2,7 +2,7 @@ package controller;
 
 import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
-import view.CustomEvents;
+import view.CustomEventsListener;
 import view.ViewInterface;
 
 /**
@@ -21,7 +21,7 @@ import view.ViewInterface;
  * NOTE : This makes the controller completely independent of the view. We can use this controller
  *       with any view that generates CustomEvents. (Mobile, Desktop, voice, etc.)
  */
-public interface ControllerInterface extends CustomEvents {
+public interface ControllerInterface extends CustomEventsListener {
 
   /**
    * This method starts the controller.

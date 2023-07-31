@@ -6,6 +6,7 @@ import model.ImageDatabaseInterface;
 import view.ViewImplementation;
 import view.ViewLecture;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -20,7 +21,7 @@ public class IME {
    * This method is the main method for the program.
    * @param args command line arguments.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
     String filePath = null;
 
