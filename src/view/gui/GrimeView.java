@@ -1,10 +1,13 @@
 package view.gui;
 
+import model.image.CustomImageState;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,9 @@ import java.util.List;
 public class GrimeView extends JFrame implements ActionListener {
 
   private final JLabel showText;
+  private JPanel imageDatabasePanel;
+  private Canvas imageCanvas;
+
   private final List<CustomEventsListener> listeners;
 
   /**
@@ -42,9 +48,9 @@ public class GrimeView extends JFrame implements ActionListener {
 
     // 1. Set the imageCanvas inside a JScrollPane and add it to the main panel
     // NOTE : Main Panel's CENTER
-    view.gui.Canvas imageCanvas = new Canvas();
-    imageCanvas.setPreferredSize(new Dimension(400, 400));
-    JScrollPane imagePanel = new JScrollPane(imageCanvas);
+    this.imageCanvas = new Canvas();
+    this.imageCanvas.setPreferredSize(new Dimension(400, 400));
+    JScrollPane imagePanel = new JScrollPane(this.imageCanvas);
     mainPanel.add(imagePanel, BorderLayout.CENTER);
 
     // 2. Add show text to the main panel
@@ -76,8 +82,8 @@ public class GrimeView extends JFrame implements ActionListener {
   private void addToolbarPanel(JPanel toolbarPanel) {
 
     // 1. Add IO buttons, and add action listener to them
-    toolbarPanel.add(new JLabel("IO"));
     JPanel ioPanel = new JPanel(new GridLayout(2, 2));
+    ioPanel.setBorder(BorderFactory.createTitledBorder("IO"));
     // add buttons
     JButton saveButton = new JButton("Save");
     JButton loadButton = new JButton("Load");
@@ -94,8 +100,8 @@ public class GrimeView extends JFrame implements ActionListener {
     toolbarPanel.add(ioPanel);
 
     // 2. Add GreyScale button, and add action listener to it
-    toolbarPanel.add(new JLabel("Greyscale"));
     JPanel greyScalePanel = new JPanel(new GridLayout(3, 2));
+    greyScalePanel.setBorder(BorderFactory.createTitledBorder("Greyscale"));
     // add buttons
     JButton greyScaleButton = new JButton("Luma");
     JButton valueButton = new JButton("Value");
@@ -121,8 +127,8 @@ public class GrimeView extends JFrame implements ActionListener {
     toolbarPanel.add(greyScalePanel);
 
     // 3. Add Filter buttons, and add action listener to them
-    toolbarPanel.add(new JLabel("Filter"));
     JPanel filterPanel = new JPanel(new GridLayout(1, 2));
+    filterPanel.setBorder(BorderFactory.createTitledBorder("Filter"));
     // add buttons
     JButton blurButton = new JButton("Blur");
     JButton sharpenButton = new JButton("Sharpen");
@@ -136,8 +142,8 @@ public class GrimeView extends JFrame implements ActionListener {
     toolbarPanel.add(filterPanel);
 
     // 4. Add Color Transform buttons, and add action listener to them
-    toolbarPanel.add(new JLabel("Color"));
     JPanel colorTransformPanel = new JPanel(new GridLayout(1, 2));
+    colorTransformPanel.setBorder(BorderFactory.createTitledBorder("Color Transform"));
     // add buttons
     JButton sepiaButton = new JButton("Sepia");
     JButton greyscaleButton = new JButton("Greyscale");
@@ -152,8 +158,8 @@ public class GrimeView extends JFrame implements ActionListener {
 
 
     // 5. Add Brighten and Darken sliders + buttons and add action listener to them
-    toolbarPanel.add(new JLabel("Brighten/Darken"));
     JPanel BrightenDarken = new JPanel(new BorderLayout());
+    BrightenDarken.setBorder(BorderFactory.createTitledBorder("Brighten/Darken"));
     // create buttons, sliders and labels
     JSlider slider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
     JButton applyButton = new JButton("Apply");
@@ -170,14 +176,19 @@ public class GrimeView extends JFrame implements ActionListener {
     toolbarPanel.add(BrightenDarken);
 
     // 5. Add Histogram
-    toolbarPanel.add(new JLabel("Histogram"));
     JScrollPane histogramPanel = new JScrollPane();
+    histogramPanel.setBorder(BorderFactory.createTitledBorder("Histogram"));
     histogramPanel.setPreferredSize(new Dimension(200, 400));
     toolbarPanel.add(histogramPanel);
 
-    toolbarPanel.add(new JLabel("Image Database"));
+    // 6. Add Image Database
+    imageDatabasePanel = new JPanel();
+    imageDatabasePanel.setBorder(BorderFactory.createTitledBorder("Image Database"));
+    imageDatabasePanel.setLayout(new BoxLayout(imageDatabasePanel, BoxLayout.Y_AXIS));
+    toolbarPanel.add(imageDatabasePanel);
 
     // 6. Add border to all panels
+
     /*
     JButton undoButton = new JButton("Undo");
     JButton redoButton = new JButton("Redo");
@@ -226,11 +237,14 @@ public class GrimeView extends JFrame implements ActionListener {
       final JFileChooser fileChooser = new JFileChooser(".");
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
               "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
-      
+
       fileChooser.setFileFilter(filter);
-      File f = fileChooser.getSelectedFile();
-      String filePath = f.getAbsolutePath();
-      this.emit(new CustomEvent(this,"load", filePath));
+      int retvalue = fileChooser.showOpenDialog(this);
+      if (retvalue == JFileChooser.APPROVE_OPTION) {
+        File f = fileChooser.getSelectedFile();
+        String filePath = f.getAbsolutePath();
+        this.emit(new CustomEvent(this,"load", filePath));
+      }
     }
 
     // 2. Save
@@ -239,12 +253,12 @@ public class GrimeView extends JFrame implements ActionListener {
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
               "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
       fileChooser.setFileFilter(filter);
-      // TODO : find a way to get the image name from the user and pass it to the controller
-    }
-
-    // 3. check for greyscale
-    else {
-      this.emit(new CustomEvent(this, e.getActionCommand(), null)); //Panel.getLatestImageName()));
+      int retvalue = fileChooser.showSaveDialog(this);
+      if (retvalue == JFileChooser.APPROVE_OPTION) {
+        File f = fileChooser.getSelectedFile();
+        String filePath = f.getAbsolutePath();
+        this.emit(new CustomEvent(this,"save", filePath));
+      }
     }
   }
 
@@ -252,5 +266,23 @@ public class GrimeView extends JFrame implements ActionListener {
     for (CustomEventsListener listener : this.listeners) {
       listener.handleEvent(event);
     }
+  }
+
+//  public void updateHistogram(CustomImageState image) {
+//    this.histogramPanel.setViewportView(new Histogram(image));
+//  }
+
+//  public void updateImage() {
+//    CustomImageState image = this.imageDatabasePanel.getLatestImage();
+//    this.imageCanvas.paintComponent((Graphics) image);
+//  }
+
+  public void updateImageDatabase(CustomImageState images) {
+
+//    this.imageDatabasePanel(images);
+  }
+
+  public void showMessage(String message) {
+    showText.setText(message);
   }
 }

@@ -65,6 +65,4 @@ public class CustomEvent extends java.util.EventObject {
   }
 
 
-
-
 }

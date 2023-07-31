@@ -1,6 +1,7 @@
 package controller;
 
 import controller.commandmanager.CommandsManagerInterface;
+import controller.commandsstrategy.io.LoadCommandStrategy;
 import model.ImageDatabaseInterface;
 import view.gui.CustomEvent;
 import view.gui.GrimeView;
@@ -21,8 +22,15 @@ public class ControllerGUI implements ControllerGUIInterface {
 
   @Override
   public void handleEvent(CustomEvent event) {
-    String filePath = event.getFilePath();
-    String eventName = event.getEventName();
+    LoadCommandStrategy loadCommandStrategy = new LoadCommandStrategy();
+    String[] args = new String[3];
+    args[0] = event.getEventName();
+    args[1] = event.getFilePath();
+    args[2] = event.getDestID();
+    loadCommandStrategy.run(args, imageDatabase);
+//    view.updateImageDatabase(imageDatabase);
+//    view.showMessage("Image loaded successfully!");
+//    view.updateImage
   }
 
   @Override
