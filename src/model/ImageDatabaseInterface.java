@@ -2,6 +2,8 @@ package model;
 
 import model.image.CustomImageState;
 
+import java.util.Collection;
+
 /**
  * This interface represents an ImageDatabase.
  * It represents a database of images.
@@ -41,9 +43,16 @@ public interface ImageDatabaseInterface {
   /**
    * Getter for the names of all the images in the database.
    *
+   * @return Collection type names of all the image.
+   */
+  Collection<? extends CustomImageState> getAllImageNames();
+
+  /**
+   * Getter for the names of all the images in the database as a string.
+   *
    * @return String names of all the image.
    */
-  String getAllImageNames();
+  String getAllImageNamesString();
 
   /**
    * This method checks if the database contains an image with the given name.
@@ -52,4 +61,5 @@ public interface ImageDatabaseInterface {
    * @return true if the database contains an image with the given name, false otherwise.
    */
   boolean containsImage(String imageID);
+
 }

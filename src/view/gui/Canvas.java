@@ -19,11 +19,8 @@ public class Canvas extends JPanel {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.setColor(Color.cyan);
-    g.fillRect(50,50, 200, 200);
-
-//    if (image != null) {
-//      g.drawImage(image, 0, 0, null);
-//    }
+    if (image != null) {
+      g.drawImage(image, 0, 0, null);
+    }
   }
 }

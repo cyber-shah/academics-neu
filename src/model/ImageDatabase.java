@@ -2,6 +2,7 @@ package model;
 
 import model.image.CustomImageState;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,13 +78,24 @@ public class ImageDatabase implements ImageDatabaseInterface {
   /**
    * Returns the names of all images in the database.
    *
+   * @return List of names of all images.
+   */
+  @Override
+  public Collection<? extends CustomImageState> getAllImageNames() {
+    return this.imagesMap.values();
+  }
+
+  /**
+   * Returns the names of all images in the database as a string.
+   *
    * @return String value of names of all images.
    */
   @Override
-  public String getAllImageNames() {
+  public String getAllImageNamesString() {
     StringBuilder sb = new StringBuilder();
     for (String name : this.imagesMap.keySet()) {
-      sb.append(name).append("\n");
+      sb.append(name);
+      sb.append("\n");
     }
     return sb.toString();
   }

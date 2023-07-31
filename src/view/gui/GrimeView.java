@@ -174,12 +174,26 @@ public class GrimeView extends JFrame implements ActionListener {
   }
 
   public void updateImageDatabase(ImageDatabaseInterface imageDatabase) {
-    DefaultListModel<CustomImageState> listModel = new DefaultListModel<>();
-//    for (CustomImageState image : imageDatabase.getImages()) {
-//      listModel.addElement(image);
-//    }
-//    this.imageDatabaseList = new JList<>(listModel).getSelectedValuesList();
+    // Step 1: Update the underlying data structure (imageDatabaseList) with the new data.
+    this.imageDatabaseList.clear(); // Clear the current list
+    this.imageDatabaseList.addAll(imageDatabase.getAllImageNames()); // Add the updated images from the ImageDatabase
 
+    // Step 2: Update the JList (imageList) with the new data.
+    DefaultListModel<CustomImageState> listModel = new DefaultListModel<>();
+    for (CustomImageState imageState : this.imageDatabaseList) {
+      listModel.addElement(imageState);
+    }
+    JList<CustomImageState> imageList = new JList<>(listModel);
+    imageList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+    // Replace the existing JList with the updated one in the imageDatabasePanel
+    this.imageDatabasePanel.removeAll();
+    this.imageDatabasePanel.setBorder(BorderFactory.createTitledBorder("Image Database"));
+    this.imageDatabasePanel.add(new JScrollPane(imageList));
+
+    // Repaint the imageDatabasePanel to update the changes
+    this.imageDatabasePanel.revalidate();
+    this.imageDatabasePanel.repaint();
   }
 
   public void showMessage(String message) {

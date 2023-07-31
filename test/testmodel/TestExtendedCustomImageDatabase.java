@@ -21,7 +21,7 @@ public class TestExtendedCustomImageDatabase {
     image = new PPMImage(4,4,255);
 
     model.addImage("koala", image);
-    String names = model.getAllImageNames();
+    String names = model.getAllImageNamesString();
     assertEquals("koala\n", names);
   }
 
@@ -100,7 +100,7 @@ public class TestExtendedCustomImageDatabase {
 
     model.addImage("koala", image);
     model.removeImage("koala");
-    String names = model.getAllImageNames();
+    String names = model.getAllImageNamesString();
     assertEquals("", names);
   }
 
@@ -131,14 +131,14 @@ public class TestExtendedCustomImageDatabase {
     model.addImage("panda", image);
     model.addImage("cat", image);
     model.addImage("dog", image);
-    String names = model.getAllImageNames();
+    String names = model.getAllImageNamesString();
     assertEquals("panda\nkoala\ncat\ndog\n", names);
   }
 
   @Test
   public void testGetAllImageNamesEmpty() {
     model = new ImageDatabase();
-    String names = model.getAllImageNames();
+    String names = model.getAllImageNamesString();
     assertEquals("", names);
   }
 }
