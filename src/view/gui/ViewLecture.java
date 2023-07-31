@@ -1,4 +1,7 @@
-package view;
+package view.gui;
+
+import view.gui.Canvas;
+import view.gui.CustomEventsListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +22,7 @@ import java.util.List;
  */
 public class ViewLecture extends JFrame implements ActionListener, KeyListener {
 
-  private JButton saveButton;
-  private JButton loadButton;
-  private final JLabel showText;
   private final List<CustomEventsListener> listeners;
-  private final Canvas canvas;
 
 
   /**
@@ -36,8 +35,8 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
     setTitle("");
     // 0. Initialize fields
     this.listeners = new ArrayList<>();
-    this.canvas = new Canvas();
-    BorderLayout toolbar = new BorderLayout();
+    view.gui.Canvas canvas = new Canvas();
+//    BorderLayout toolbar = new BorderLayout();
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (Exception e) {
@@ -51,19 +50,19 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
     setLayout(new BorderLayout());
 
     // 2. Initialize the widget
-    this.saveButton = new JButton("Save");
-    this.loadButton = new JButton("Load");
-    this.showText = new JLabel("Display Text");
+    JButton saveButton = new JButton("Save");
+    JButton loadButton = new JButton("Load");
+    JLabel showText = new JLabel("Display Text");
 
     // 3. Add the widgets to the window
-    add(this.saveButton, BorderLayout.WEST);
-    add(this.loadButton, BorderLayout.EAST);
-    add(this.showText, BorderLayout.SOUTH);
-    add(this.canvas, BorderLayout.CENTER);
+    add(saveButton, BorderLayout.WEST);
+    add(loadButton, BorderLayout.EAST);
+    add(showText, BorderLayout.SOUTH);
+    add(canvas, BorderLayout.CENTER);
 
     // 4. Add the action listener to indentify which button was clicked
-    this.saveButton.setActionCommand("save");
-    this.loadButton.setActionCommand("load");
+    saveButton.setActionCommand("save");
+    loadButton.setActionCommand("load");
     // TODO: when you click the load button, a fileDIALOG will open up
     //       select the PPM file, emit the load event give that file to the controller.
     //       handleLoadEvent(String Path)
@@ -76,8 +75,8 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
     // view gets the image -> canvas -> canvas renders it
 
     // FIXME : set the focus to the window always so we can set shortcuts.
-    this.saveButton.addActionListener(this);
-    this.loadButton.addActionListener(this);
+    saveButton.addActionListener(this);
+    loadButton.addActionListener(this);
   }
 
   /**
@@ -90,15 +89,11 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
   public void actionPerformed(ActionEvent e) {
     // which button was clicked?
     switch (e.getActionCommand()) {
-      case "save":
+      case "save" ->
         // generate a custom event and pass it to the controller.
-        fireSaveEvent();
-        break;
-      case "load":
-        fireLoadEvent();
-        break;
-      default:
-        throw new IllegalStateException("Unexpected value: " + e.getActionCommand());
+              fireSaveEvent();
+      case "load" -> fireLoadEvent();
+      default -> throw new IllegalStateException("Unexpected value: " + e.getActionCommand());
     }
   }
 
@@ -125,29 +120,15 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
   }
 
 
-
-
-  /**
-   * This method adds a listener to the list of listeners.
-   * Must implement the CustomEvents interface.
-   * NOTE : The view doesn't know there is a controller.
-   *        It just knows that there is a listener, which can handle the event.
-   *
-   * @param listener the listener to be added.
-   */
-  public void addCustomEventListener(CustomEventsListener listener) {
-    this.listeners.add(listener);
-  }
-
   private void fireLoadEvent() {
     for (CustomEventsListener listener : this.listeners) {
-      listener.handleLoadEvent();
+//      listener.handleLoadEvent();
     }
   }
 
   private void fireSaveEvent() {
     for (CustomEventsListener listener : this.listeners) {
-      listener.handleSaveEvent();
+//      listener.handleSaveEvent();
     }
   }
 }

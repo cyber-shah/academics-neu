@@ -115,13 +115,4 @@ public class ControllerImplementation implements ControllerInterface {
     }
   }
 
-  @Override
-  public void handleLoadEvent() {
-
-  }
-
-  @Override
-  public void handleSaveEvent() {
-
-  }
 }

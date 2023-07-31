@@ -1,4 +1,4 @@
-package view;
+package view.gui;
 
 /**
  * This interface represents the CustomEvents that the view will generate and pass to the controller.
@@ -7,8 +7,12 @@ package view;
  *         for any platform. Like gestures for mobile devices, key events for desktops, etc.
  */
 public interface CustomEventsListener {
-  // FIXME : convert these into a factory or a map later on.
-  // or maybe use it with the commandmanager or something.
-  void handleLoadEvent();
-  void handleSaveEvent();
+
+  /**
+   * This method will handle the load event.
+   * Based on the event, the controller will decide what to do.
+   *
+   * @param event the event to be handled.
+   */
+  void handleEvent(CustomEvent event);
 }

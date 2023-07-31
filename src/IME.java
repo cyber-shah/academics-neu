@@ -4,7 +4,7 @@ import controller.ControllerImplementation;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import view.ViewImplementation;
-import view.ViewLecture;
+import view.gui.ViewLecture;
 
 import javax.swing.*;
 import java.io.BufferedReader;
