@@ -4,6 +4,7 @@ import controller.ControllerImplementation;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import view.ViewImplementation;
+import view.ViewLecture;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -69,5 +70,7 @@ public class IME {
               inReadable, commandsManager);
       controller.runProgram();
     }
+
+    ViewLecture viewLecture = new ViewLecture();
   }
 }
