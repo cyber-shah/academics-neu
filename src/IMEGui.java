@@ -1,6 +1,8 @@
+import view.GrimeView;
 import view.ViewLecture;
 
 import javax.swing.*;
+import javax.swing.text.View;
 
 public class IMEGui {
 
@@ -9,7 +11,7 @@ public class IMEGui {
    * @param args command line arguments.
    */
   public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-    ViewLecture view = new ViewLecture();
+    GrimeView view = new GrimeView();
     view.setVisible(true);
   }
 }

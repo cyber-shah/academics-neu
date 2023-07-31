@@ -7,7 +7,6 @@ public class Canvas extends JPanel {
 
   public Canvas() {
     super();
-    setBackground(Color.YELLOW);
   }
 
   @Override

@@ -31,20 +31,24 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
    * It initializes the window and widgets.
    * It also adds the widgets to the window and adds the action listener to the widgets.
    */
-  public ViewLecture() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+  public ViewLecture() {
     super();
-
+    setTitle("");
     // 0. Initialize fields
     this.listeners = new ArrayList<>();
     this.canvas = new Canvas();
-    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+    BorderLayout toolbar = new BorderLayout();
+    try {
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     // 1. Set the basic window properties
     setSize(500, 500);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
     setLayout(new BorderLayout());
-    BorderLayout toolbar = new BorderLayout();
 
     // 2. Initialize the widget
     this.saveButton = new JButton("Save");
@@ -52,10 +56,10 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
     this.showText = new JLabel("Display Text");
 
     // 3. Add the widgets to the window
-    this.add(saveButton, BorderLayout.EAST);
-    this.add(loadButton, BorderLayout.WEST);
-    this.add(canvas, BorderLayout.CENTER);
-    this.add(showText, BorderLayout.SOUTH);
+    add(this.saveButton, BorderLayout.WEST);
+    add(this.loadButton, BorderLayout.EAST);
+    add(this.showText, BorderLayout.SOUTH);
+    add(this.canvas, BorderLayout.CENTER);
 
     // 4. Add the action listener to indentify which button was clicked
     this.saveButton.setActionCommand("save");
@@ -146,9 +150,4 @@ public class ViewLecture extends JFrame implements ActionListener, KeyListener {
       listener.handleSaveEvent();
     }
   }
-
-
-
-
-
 }
