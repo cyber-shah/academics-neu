@@ -1,6 +1,6 @@
 package controller;
 
-import commandmanager.CommandsManagerInterface;
+import controller.commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
 import view.ViewInterface;

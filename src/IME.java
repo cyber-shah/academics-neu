@@ -1,5 +1,5 @@
-import commandmanager.CommandsManager;
-import commandmanager.CommandsManagerInterface;
+import controller.commandmanager.CommandsManager;
+import controller.commandmanager.CommandsManagerInterface;
 import controller.ControllerImplementation;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;

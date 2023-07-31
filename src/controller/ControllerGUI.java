@@ -1,5 +1,6 @@
 package controller;
 
+import controller.commandmanager.CommandsManagerInterface;
 import model.ImageDatabaseInterface;
 import view.gui.CustomEvent;
 import view.gui.GrimeView;
@@ -20,7 +21,8 @@ public class ControllerGUI implements ControllerGUIInterface {
 
   @Override
   public void handleEvent(CustomEvent event) {
-
+    String filePath = event.getFilePath();
+    String eventName = event.getEventName();
   }
 
   @Override

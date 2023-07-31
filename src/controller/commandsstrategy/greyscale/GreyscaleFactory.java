@@ -14,25 +14,15 @@ import model.operations.greyscale.ValueOperation;
 public class GreyscaleFactory {
 
   /**
-   * This method produces a filter based on the operation.
+   * This method produces a greyscale filter based on the operation.
    *
-   * @param commandsList the list of commands.
+   * @param operation the operation to be performed.
+   * @param sourceImageID the source image ID.
    * @param imageDatabase the image database.
-   * @return the filter.
-   * @throws IllegalArgumentException if the operation is not supported.
+   * @return the greyscale filter.
    */
-  public static OperationInterface createFilter(String[] commandsList,
+  public static OperationInterface createFilter(String operation, String sourceImageID,
                                                 ImageDatabaseInterface imageDatabase) {
-    // 0. Validate all the arguments.
-    if (commandsList.length < 4) {
-      throw new IllegalStateException("Too few arguments. Must be of the format: \n"
-              + " \"greyscale <operation/color> <sourceImageID> <newImageID>\"");
-    }
-
-    // 1. Set the sourceImageID and the destinationID.
-    String operation = commandsList[1];
-    String sourceImageID = commandsList[2];
-    String destinationID = commandsList[3];
 
     if (operation.equalsIgnoreCase("luma")) {
       return new LumaOperation(imageDatabase.getImage(sourceImageID));

@@ -1,6 +1,6 @@
 package testcontroller.mocks;
 
-import commandmanager.CommandsManagerInterface;
+import controller.commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
 
 import java.util.HashMap;

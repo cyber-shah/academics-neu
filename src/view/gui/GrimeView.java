@@ -175,6 +175,8 @@ public class GrimeView extends JFrame implements ActionListener {
     histogramPanel.setPreferredSize(new Dimension(200, 400));
     toolbarPanel.add(histogramPanel);
 
+    toolbarPanel.add(new JLabel("Image Database"));
+
     // 6. Add border to all panels
     /*
     JButton undoButton = new JButton("Undo");
@@ -192,40 +194,59 @@ public class GrimeView extends JFrame implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    // NOTE : This is how an action has to be handled
-    //        1. convert the action into an array of strings
-    //        2. emit an event with the array of strings
-    //        3. controller accepts the event in the format it needs
-    //            so for example, load event will be emitted as
-    //            ["Load", "path/to/file", image-name]
-    //             or for grey scale, it will be
-    //            ["greyscale", "Luma", image-name]
-    //            ["greyscale", "Value", image-name]
-    //        4. controller handles the event - calls appropriate model
-    //        5. returns the imagedatabase
-    //        6. view updates the image based on the newest image in the database
+    /* NOTE : This is how an action has to be handled
+            1. convert the action into an array of strings
+            2. emit an event with the array of strings
+            3. controller accepts the event in the format it needs
+                so for example, load event will be emitted as
+                ["Load", "path/to/file", image-name]
+                 or for grey scale, it will be
+                ["greyscale", "Luma", image-name]
+                ["greyscale", "Value", image-name]
+            4. controller handles the event - calls appropriate model
+            5. returns the image database
+            6. view updates the image based on the newest image in the database
+     */
 
 
+    // can the controller handle events in this format?
+    // this.emit (new CustomEvent (this, e.getActionCommand(), Panel.getLatestImageName()));
+    // then the controller passes it to the appropriate model.
+    // the model updates the image database to controller.
+    // controller passes the updated image database to the view.
+    // view updates the image database.
+    // view canvas shows the latest image in the database.
 
     if (e.getActionCommand().equals("Exit")) {
       System.exit(0);
     }
+
+    // 1. Load
     else if (e.getActionCommand().equals("Load")) {
-      final JFileChooser fchooser = new JFileChooser(".");
+      final JFileChooser fileChooser = new JFileChooser(".");
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
-              "JPG & GIF Images", "jpg", "gif");
-      fchooser.setFileFilter(filter);
-      int retvalue = fchooser.showOpenDialog(this);
-      if (retvalue == JFileChooser.APPROVE_OPTION) {
-        File f = fchooser.getSelectedFile();
-        showText.setText(f.getAbsolutePath());
-      }
-      this.emit(new CustomEvent(this, "Load"));
+              "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
+      
+      fileChooser.setFileFilter(filter);
+      File f = fileChooser.getSelectedFile();
+      String filePath = f.getAbsolutePath();
+      this.emit(new CustomEvent(this,"load", filePath));
     }
-    // for any button clicked, emit an event
-    String event = e.getActionCommand();
-    this.emit(new CustomEvent(this, event));
+
+    // 2. Save
+    else if (e.getActionCommand().equals("Save")) {
+      final JFileChooser fileChooser = new JFileChooser(".");
+      FileNameExtensionFilter filter = new FileNameExtensionFilter(
+              "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
+      fileChooser.setFileFilter(filter);
+      // TODO : find a way to get the image name from the user and pass it to the controller
     }
+
+    // 3. check for greyscale
+    else {
+      this.emit(new CustomEvent(this, e.getActionCommand(), null)); //Panel.getLatestImageName()));
+    }
+  }
 
   private void emit(CustomEvent event) {
     for (CustomEventsListener listener : this.listeners) {

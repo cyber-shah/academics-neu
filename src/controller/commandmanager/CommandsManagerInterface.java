@@ -1,4 +1,4 @@
-package commandmanager;
+package controller.commandmanager;
 
 import controller.commandsstrategy.CommandStrategyInterface;
 
