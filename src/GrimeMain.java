@@ -31,7 +31,6 @@ public class GrimeMain {
       ImageDatabaseInterface model = new ImageDatabase();
       GUIView view = new GUIView();
       ControllerGUI controller = new ControllerGUI(model, view);
-      controller.runProgram();
       view.setVisible(true);
     }
 

@@ -24,7 +24,6 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
   private final JLabel showText;
   private JScrollPane histogramPanel;
   private final Canvas imageCanvas;
-  final private List<CustomImageState> imageDatabaseList;
   private String currentImageID;
   // TODO : instead of using a currentImageID, use a STACK of imageIDs
   //        so that we undo and redo
@@ -51,7 +50,6 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
     setSize(800, 800);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.listeners = new ArrayList<>();
-    this.imageDatabaseList = new ArrayList<>();
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (Exception e) {
@@ -123,15 +121,9 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
      5. updates the image with new-image-id
      */
     String actionName = e.getActionCommand();
+    String newImageID;
     switch (actionName) {
-
-      // 0. Exit
-      case "Exit":
-        System.exit(0);
-        break;
-
-      // 1. Load
-      case "Load": {
+      case "Load":
         final JFileChooser fileChooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
@@ -147,65 +139,54 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
                   filePath, currentImageID, null));
         }
         break;
-      }
 
-
-      // 2. Save
-      case "Save": {
-        final JFileChooser fileChooser = new JFileChooser(".");
-        int revalue = fileChooser.showSaveDialog(this);
-        if (revalue == JFileChooser.APPROVE_OPTION) {
-          File f = fileChooser.getSelectedFile();
+      case "Save":
+        final JFileChooser saveChooser = new JFileChooser(".");
+        int rvalue = saveChooser.showSaveDialog(this);
+        if (rvalue == JFileChooser.APPROVE_OPTION) {
+          File f = saveChooser.getSelectedFile();
           String filePath = f.getAbsolutePath();
           // NOTE : 2. IO events always use source ID and destination ID as null
           this.emit(new CustomEvent(this, "io", "save",
                   filePath, currentImageID, null));
         }
         break;
-      }
 
-      // 3. for Filter
-      case "Blur", "Sharpen": {
+      case "Blur", "Sharpen":
         // NOTE : updated the current image ID here
-        String newImageID = UUID.randomUUID().toString();
+        newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "filter", e.getActionCommand(),
                 null, currentImageID, newImageID));
         currentImageID = newImageID;
         break;
-      }
 
-      // 4. for color
-      case "Sepia", "Greyscale": {
+      case "Sepia", "Greyscale":
         // NOTE : updated the current image ID here
-        String newImageID = UUID.randomUUID().toString();
+        newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "color", e.getActionCommand(),
                 null, currentImageID, newImageID));
         currentImageID = newImageID;
         break;
-      }
 
-      // 5. for greyscale
       case "Luma", "Intensity", "Value",
-              "Red", "Green", "Blue": {
+              "Red", "Green", "Blue":
         // NOTE : updated the current image ID here
-        String newImageID = UUID.randomUUID().toString();
+        newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(),
                 null, currentImageID, newImageID));
         currentImageID = newImageID;
         break;
-      }
 
-      // 6. for brighten/darken
-      case "Apply": {
+      case "Apply":
         int sliderValue = this.brightnessSlider.getValue();
-        String newImageID = UUID.randomUUID().toString();
+        newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "brighten", String.valueOf(sliderValue),
                 null , currentImageID, newImageID));
         currentImageID = newImageID;
         break;
-      }
     }
   }
+
 
   /**
    * Helper method to emit an event to all the listeners.
@@ -253,14 +234,6 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
     this.addColorPanel(toolbarPanel);
     this.addBrightenDarkenPanel(toolbarPanel);
     this.addHistogramPanel(toolbarPanel);
-    /*
-    JButton undoButton = new JButton("Undo");
-    JButton redoButton = new JButton("Redo");
-    JButton clearButton = new JButton("Clear");
-    toolbarPanel.add(undoButton);
-    toolbarPanel.add(redoButton);
-    toolbarPanel.add(clearButton);
-    */
   }
 
   /**
