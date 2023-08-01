@@ -134,7 +134,8 @@ public class GrimeView extends JFrame implements ActionListener {
           // NOTE : 1. updated the current image ID here
           //        2. IO events always use source ID and destination ID as null
           currentImageID = UUID.randomUUID().toString();
-          this.emit(new CustomEvent(this, "io", "load", filePath, currentImageID, null));
+          this.emit(new CustomEvent(this, "io", "load",
+                  filePath, currentImageID, null));
         }
       }
 
@@ -142,16 +143,13 @@ public class GrimeView extends JFrame implements ActionListener {
       // TODO : save not working correctly
       case "Save" -> {
         final JFileChooser fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
-        fileChooser.setFileFilter(filter);
         int retvalue = fileChooser.showSaveDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fileChooser.getSelectedFile();
           String filePath = f.getAbsolutePath();
-          // NOTE : 1. updated the current image ID here
-          //        2. IO events always use source ID and destination ID as null
-          this.emit(new CustomEvent(this, "io", "save", filePath, currentImageID, null));
+          // NOTE : 2. IO events always use source ID and destination ID as null
+          this.emit(new CustomEvent(this, "io", "save",
+                  filePath, currentImageID, null));
         }
       }
 
@@ -159,7 +157,8 @@ public class GrimeView extends JFrame implements ActionListener {
       case "Blur", "Sharpen" -> {
         // NOTE : updated the current image ID here
         String newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "filter", e.getActionCommand(), null, currentImageID, newImageID));
+        this.emit(new CustomEvent(this, "filter", e.getActionCommand(),
+                null, currentImageID, newImageID));
         currentImageID = newImageID;
       }
 
@@ -167,7 +166,8 @@ public class GrimeView extends JFrame implements ActionListener {
       case "Sepia", "Greyscale" -> {
         // NOTE : updated the current image ID here
         String newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "color", e.getActionCommand(), null, currentImageID, newImageID));
+        this.emit(new CustomEvent(this, "color", e.getActionCommand(),
+                null, currentImageID, newImageID));
         currentImageID = newImageID;
       }
 
@@ -176,7 +176,8 @@ public class GrimeView extends JFrame implements ActionListener {
               "Red", "Green", "Blue" -> {
         // NOTE : updated the current image ID here
         String newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(), null, currentImageID, newImageID));
+        this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(),
+                null, currentImageID, newImageID));
         currentImageID = newImageID;
       }
 
