@@ -3,6 +3,8 @@ package view.gui;
 import model.image.CustomImageState;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class GrimeView extends JFrame implements ActionListener {
+public class GrimeView extends JFrame implements ActionListener, ChangeListener {
 
   private final JLabel showText;
   private JScrollPane histogramPanel;
@@ -24,7 +26,10 @@ public class GrimeView extends JFrame implements ActionListener {
   //        continue using a <MAP> imagedatabase and use stack to retrieve the imageIDs
 
   private final List<CustomEventsListener> listeners;
+
+  // Brightness sliders and text -----------------
   private JSlider brightnessSlider;
+  private JLabel valueText;
 
   /**
    * Constructor for the view.
@@ -356,15 +361,18 @@ public class GrimeView extends JFrame implements ActionListener {
     // create buttons, sliders and labels
     this.brightnessSlider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
     JButton applyButton = new JButton("Apply");
-    JLabel Brighten = new JLabel("Brighten");
-    JLabel Darken = new JLabel("Darken");
+    JLabel brighten = new JLabel("Brighten");
+    JLabel darken = new JLabel("Darken");
+    this.valueText = new JLabel("0", JLabel.CENTER);
     // add them to the panel
     BrightenDarken.add(applyButton, BorderLayout.SOUTH);
     BrightenDarken.add(this.brightnessSlider, BorderLayout.CENTER);
-    BrightenDarken.add(Brighten, BorderLayout.EAST);
-    BrightenDarken.add(Darken, BorderLayout.WEST);
+    BrightenDarken.add(brighten, BorderLayout.EAST);
+    BrightenDarken.add(darken, BorderLayout.WEST);
+    BrightenDarken.add(valueText, BorderLayout.NORTH);
     // add action listeners to buttons
     applyButton.addActionListener(this);
+    this.brightnessSlider.addChangeListener(this);
     // finally add it to the toolbar panel
     toolbarPanel.add(BrightenDarken);
   }
@@ -381,4 +389,17 @@ public class GrimeView extends JFrame implements ActionListener {
     toolbarPanel.add(this.histogramPanel);
   }
 
+  /**
+   * This method updates the JLabel with a value whenver the slider is moved.
+   *
+   * @param e a ChangeEvent object.
+   */
+  @Override
+  public void stateChanged(ChangeEvent e) {
+    if (e.getSource() instanceof JSlider) {
+      JSlider slider = (JSlider) e.getSource();
+      int value = slider.getValue();
+      this.valueText.setText(String.valueOf(value)); // Update text field with slider value
+    }
+  }
 }
