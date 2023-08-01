@@ -33,11 +33,16 @@ public class ControllerGUI implements ControllerGUIInterface {
       commandList[0] = event.getEventName();
       commandList[1] = event.getFilePath();
       commandList[2] = event.getSourceID();
-      CommandStrategyInterface commandStrategyObject =
-              commandsManager.getCommandStrategy(commandList);
-      commandStrategyObject.run(commandList, this.imageDatabase);
-      view.updateImageCanvas(this.imageDatabase.getImage(event.getSourceID()));
-      view.showMessage("Image loaded successfully");
+      try {
+        CommandStrategyInterface commandStrategyObject =
+                commandsManager.getCommandStrategy(commandList);
+        commandStrategyObject.run(commandList, this.imageDatabase);
+        view.updateImageCanvas(this.imageDatabase.getImage(event.getSourceID()));
+        view.showMessage(event.getEventType() + event.getEventType() + "executed successfully");
+      }
+      catch (Exception e) {
+        view.showMessage(e.getMessage());
+      }
     }
     // for all other events, source ID is the source image ID and destination ID is the destination
     // and file path is null
@@ -46,14 +51,19 @@ public class ControllerGUI implements ControllerGUIInterface {
       //        <eventType> <eventName> <sourceID> <destID>
       String[] commandList = new String[4];
       commandList[0] = event.getEventType(); // filter, color, brighten, greyscale ...
-      commandList[1] = event.getEventName(); // blur, sharpen, sepia ...
+      commandList[1] = event.getEventName(); // blur, sharpen, sepia OR VALUE ...
       commandList[2] = event.getSourceID(); // source image ID
       commandList[3] = event.getDestID(); // destination image ID
-      CommandStrategyInterface commandStrategyObject =
-              commandsManager.getCommandStrategy(commandList);
-      commandStrategyObject.run(commandList, this.imageDatabase);
-      view.updateImageCanvas(this.imageDatabase.getImage(event.getDestID()));
-      view.showMessage(event.getEventType() + "Applied successfully");
+      try {
+        CommandStrategyInterface commandStrategyObject =
+                commandsManager.getCommandStrategy(commandList);
+        commandStrategyObject.run(commandList, this.imageDatabase);
+        view.updateImageCanvas(this.imageDatabase.getImage(event.getDestID()));
+        view.showMessage(event.getEventType() + "Applied successfully");
+      }
+      catch (Exception e) {
+        view.showMessage(e.getMessage());
+      }
     }
   }
 

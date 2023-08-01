@@ -24,6 +24,7 @@ public class GrimeView extends JFrame implements ActionListener {
   //        continue using a <MAP> imagedatabase and use stack to retrieve the imageIDs
 
   private final List<CustomEventsListener> listeners;
+  private JSlider brightnessSlider;
 
   /**
    * Constructor for the view.
@@ -44,14 +45,14 @@ public class GrimeView extends JFrame implements ActionListener {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    // FIXME : set the focus to always be on the main window
-    // FIXME : add a list of images loaded - image database;
-    // FIXME : add an option to view original image
+    // OPTIMIZE : set the focus to always be on the main window
+    // OPTIMIZE : show the stack of images in the main window
 
     // 0. Create the main panel
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BorderLayout());
 
+    // TODO : fix this, it has to show a scroll bar.
     // 1. Set the imageCanvas inside a JScrollPane and add it to the main panel
     // NOTE : Main Panel's CENTER
     JScrollPane imagePanel = new JScrollPane();
@@ -95,26 +96,21 @@ public class GrimeView extends JFrame implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    /* NOTE : This is how an action has to be handled
-            1. convert the action into an a class - `CustomEvent`
-            2. set all the parameters of the event
-            3. controller accepts the event as a ```CustomEvent``` object
-                3.1 it will extract the parameters from the event
-                3.2 call the command strategy in the format required
-                so for example, load event will be emitted as
-                ["Load", "path/to/file", image-name]
-                 or for grey scale, it will be
-                ["greyscale", "Luma", image-name]
-            5. returns the image database
-            6. view updates the image based on the newest image in the database
+    /*
+    This is how an action has to be handled
+    0. view stores the current image ID
+    1. convert the action into an a class - `CustomEvent`
+    2. set all the parameters of the event
+    3. controller accepts the event as a ```CustomEvent``` object
+        3.1 it will extract the parameters from the event
+        3.2 call the command strategy in the format required
+            so for example, load event will be emitted as
+            ["Load", "path/to/file", image-name]
+            or for grey scale, it will be
+            ["greyscale", "Luma", image-name]
+     4. view updates the image with current-image-id to new-image-id (stored by the view)
+     5. updates the image with new-image-id
      */
-    // can the controller handle events in this format?
-    // this.emit (new CustomEvent (this, e.getActionCommand(), Panel.getLatestImageName()));
-    // then the controller passes it to the appropriate model.
-    // the model updates the image database to controller.
-    // controller passes the updated image database to the view.
-    // view updates the image database.
-    // view canvas shows the latest image in the database.
     String actionName = e.getActionCommand();
     switch (actionName) {
 
@@ -140,7 +136,6 @@ public class GrimeView extends JFrame implements ActionListener {
       }
 
       // 2. Save
-      // TODO : save not working correctly
       case "Save" -> {
         final JFileChooser fileChooser = new JFileChooser(".");
         int retvalue = fileChooser.showSaveDialog(this);
@@ -182,7 +177,13 @@ public class GrimeView extends JFrame implements ActionListener {
       }
 
       // 6. for brighten/darken
-      // TODO : set the value of the slider
+      case "Apply" -> {
+        int sliderValue = this.brightnessSlider.getValue();
+        String newImageID = UUID.randomUUID().toString();
+        this.emit(new CustomEvent(this, "brighten", String.valueOf(sliderValue),
+                null , currentImageID, newImageID));
+        currentImageID = newImageID;
+      }
     }
   }
 
@@ -353,13 +354,13 @@ public class GrimeView extends JFrame implements ActionListener {
     JPanel BrightenDarken = new JPanel(new BorderLayout());
     BrightenDarken.setBorder(BorderFactory.createTitledBorder("Brighten/Darken"));
     // create buttons, sliders and labels
-    JSlider slider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
+    this.brightnessSlider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
     JButton applyButton = new JButton("Apply");
     JLabel Brighten = new JLabel("Brighten");
     JLabel Darken = new JLabel("Darken");
     // add them to the panel
     BrightenDarken.add(applyButton, BorderLayout.SOUTH);
-    BrightenDarken.add(slider, BorderLayout.CENTER);
+    BrightenDarken.add(this.brightnessSlider, BorderLayout.CENTER);
     BrightenDarken.add(Brighten, BorderLayout.EAST);
     BrightenDarken.add(Darken, BorderLayout.WEST);
     // add action listeners to buttons
