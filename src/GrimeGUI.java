@@ -3,7 +3,11 @@ import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import view.gui.GrimeView;
 
-public class IMEGui {
+/**
+ * This class is the main class for the program.
+ * It creates the model, view, and controller objects and runs the program.
+ */
+public class GrimeGUI {
 
   /**
    * This method is the main method for the program.

@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  * This class is the main class for the program.
  * It creates the model, view, and controller objects and starts the program.
  */
-public class IME {
+public class ImeScripting {
 
   /**
    * This method is the main method for the program.
