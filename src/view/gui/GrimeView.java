@@ -61,6 +61,7 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
     // 1. Set the imageCanvas inside a JScrollPane and add it to the main panel
     // NOTE : Main Panel's CENTER
     JScrollPane imagePanel = new JScrollPane();
+    imagePanel.setBorder(BorderFactory.createTitledBorder("Image"));
     this.imageCanvas = new Canvas();
     imagePanel.setViewportView(this.imageCanvas);
     mainPanel.add(imagePanel, BorderLayout.CENTER);
