@@ -98,6 +98,7 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
     this.listeners.add(listener);
   }
 
+
   /**
    * It catches the event, modifies it to a custom event and emits it.
    *
@@ -122,68 +123,72 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
      */
     String actionName = e.getActionCommand();
     String newImageID;
-    switch (actionName) {
-      case "Load":
-        final JFileChooser fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int revalue = fileChooser.showOpenDialog(this);
-        if (revalue == JFileChooser.APPROVE_OPTION) {
-          File f = fileChooser.getSelectedFile();
-          String filePath = f.getAbsolutePath();
-          // NOTE : 1. updated the current image ID here
-          //        2. IO events always use source ID and destination ID as null
-          currentImageID = UUID.randomUUID().toString();
-          this.emit(new CustomEvent(this, "io", "load",
-                  filePath, currentImageID, null));
-        }
-        break;
 
-      case "Save":
-        final JFileChooser saveChooser = new JFileChooser(".");
-        int rvalue = saveChooser.showSaveDialog(this);
-        if (rvalue == JFileChooser.APPROVE_OPTION) {
-          File f = saveChooser.getSelectedFile();
-          String filePath = f.getAbsolutePath();
-          // NOTE : 2. IO events always use source ID and destination ID as null
-          this.emit(new CustomEvent(this, "io", "save",
-                  filePath, currentImageID, null));
-        }
-        break;
+    if (actionName.equals("Load")) {
+      final JFileChooser fileChooser = new JFileChooser(".");
+      FileNameExtensionFilter filter = new FileNameExtensionFilter(
+              "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
+      fileChooser.setFileFilter(filter);
+      int revalue = fileChooser.showOpenDialog(this);
+      if (revalue == JFileChooser.APPROVE_OPTION) {
+        File f = fileChooser.getSelectedFile();
+        String filePath = f.getAbsolutePath();
+        // NOTE : 1. updated the current image ID here
+        //        2. IO events always use source ID and destination ID as null
+        currentImageID = UUID.randomUUID().toString();
+        this.emit(new CustomEvent(this, "io", "load",
+                filePath, currentImageID, null));
+      }
+    }
 
-      case "Blur", "Sharpen":
-        // NOTE : updated the current image ID here
-        newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "filter", e.getActionCommand(),
-                null, currentImageID, newImageID));
-        currentImageID = newImageID;
-        break;
+    else if (actionName.equals("Save")) {
+      final JFileChooser saveChooser = new JFileChooser(".");
+      int rvalue = saveChooser.showSaveDialog(this);
+      if (rvalue == JFileChooser.APPROVE_OPTION) {
+        File f = saveChooser.getSelectedFile();
+        String filePath = f.getAbsolutePath();
+        // NOTE : 2. IO events always use source ID and destination ID as null
+        this.emit(new CustomEvent(this, "io", "save",
+                filePath, currentImageID, null));
+      }
+    }
 
-      case "Sepia", "Greyscale":
-        // NOTE : updated the current image ID here
-        newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "color", e.getActionCommand(),
-                null, currentImageID, newImageID));
-        currentImageID = newImageID;
-        break;
+    else if (actionName.equals("Blur") || actionName.equals("Sharpen")) {
+      // NOTE : updated the current image ID here
+      newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "filter", e.getActionCommand(),
+              null, currentImageID, newImageID));
+      currentImageID = newImageID;
+    }
 
-      case "Luma", "Intensity", "Value",
-              "Red", "Green", "Blue":
-        // NOTE : updated the current image ID here
-        newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(),
-                null, currentImageID, newImageID));
-        currentImageID = newImageID;
-        break;
+    else if (actionName.equals("Sepia") || actionName.equals("Greyscale")) {
+      // NOTE : updated the current image ID here
+      newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "color", e.getActionCommand(),
+              null, currentImageID, newImageID));
+      currentImageID = newImageID;
+    }
 
-      case "Apply":
-        int sliderValue = this.brightnessSlider.getValue();
-        newImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this, "brighten", String.valueOf(sliderValue),
-                null , currentImageID, newImageID));
-        currentImageID = newImageID;
-        break;
+    else if (actionName.equals("Luma") || actionName.equals("Intensity") ||
+            actionName.equals("Value") || actionName.equals("Red") ||
+            actionName.equals("Green") || actionName.equals("Blue")) {
+      // NOTE : updated the current image ID here
+      newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(),
+              null, currentImageID, newImageID));
+      currentImageID = newImageID;
+    }
+
+    else if (actionName.equals("Apply")) {
+      int sliderValue = this.brightnessSlider.getValue();
+      newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "brighten", String.valueOf(sliderValue),
+              null, currentImageID, newImageID));
+      currentImageID = newImageID;
+    }
+    
+    else {
+      this.showMessage("Invalid Action");
     }
   }
 
@@ -381,9 +386,10 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
    */
   @Override
   public void stateChanged(ChangeEvent e) {
-    if (e.getSource() instanceof JSlider slider) {
-      int value = slider.getValue();
-      this.valueText.setText(String.valueOf(value)); // Update text field with slider value
+    if (e.getSource() == this.brightnessSlider) {
+      int value = this.brightnessSlider.getValue();
+      // Update text field with slider value
+      this.valueText.setText(String.valueOf(value));
     }
   }
 }
