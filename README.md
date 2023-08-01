@@ -1,8 +1,8 @@
-# ImeScripting - Image Manipulation Program
+# GrimeMain - Image Manipulation Program
 
 ## Description
 
-ImeScripting is a command-line custom image manipulation program that allows you to load, save, and modify images. Below are the supported commands:
+GrimeMain is a command-line custom image manipulation program that allows you to load, save, and modify images. Below are the supported commands:
 
 - `load {format} {image-path} {custom-Image-name}`
   Loads the image from the specified path and stores it with the given name.
