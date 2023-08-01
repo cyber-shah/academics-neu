@@ -1,7 +1,5 @@
 package view.gui;
 
-import model.ImageDatabase;
-import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
 
 import javax.swing.*;
@@ -12,14 +10,16 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GrimeView extends JFrame implements ActionListener {
 
   private final JLabel showText;
   private JPanel imageDatabasePanel;
   private JScrollPane histogramPanel;
-  private Canvas imageCanvas;
+  private final Canvas imageCanvas;
   private List<CustomImageState> imageDatabaseList;
+  private String currentImageID;
 
   private final List<CustomEventsListener> listeners;
 
@@ -108,15 +108,15 @@ public class GrimeView extends JFrame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     /* NOTE : This is how an action has to be handled
-            1. convert the action into an array of strings
-            2. emit an event with the array of strings
-            3. controller accepts the event in the format it needs
+            1. convert the action into an a class - `CustomEvent`
+            2. set all the parameters of the event
+            3. controller accepts the event as a ```CustomEvent``` object
+                3.1 it will extract the parameters from the event
+                3.2 call the command strategy in the format required
                 so for example, load event will be emitted as
                 ["Load", "path/to/file", image-name]
                  or for grey scale, it will be
                 ["greyscale", "Luma", image-name]
-                ["greyscale", "Value", image-name]
-            4. controller handles the event - calls appropriate model
             5. returns the image database
             6. view updates the image based on the newest image in the database
      */
@@ -138,13 +138,15 @@ public class GrimeView extends JFrame implements ActionListener {
       final JFileChooser fileChooser = new JFileChooser(".");
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
               "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
-
       fileChooser.setFileFilter(filter);
       int retvalue = fileChooser.showOpenDialog(this);
       if (retvalue == JFileChooser.APPROVE_OPTION) {
         File f = fileChooser.getSelectedFile();
         String filePath = f.getAbsolutePath();
-        this.emit(new CustomEvent(this,"load", filePath));
+        // NOTE : 1. updated the current image ID here
+        //        2. IO events always use source ID and destination ID as null
+        currentImageID = UUID.randomUUID().toString();
+        this.emit(new CustomEvent(this,"io", "load", filePath, currentImageID, null));
       }
     }
 
@@ -158,8 +160,28 @@ public class GrimeView extends JFrame implements ActionListener {
       if (retvalue == JFileChooser.APPROVE_OPTION) {
         File f = fileChooser.getSelectedFile();
         String filePath = f.getAbsolutePath();
-        this.emit(new CustomEvent(this,"save", filePath));
+        // NOTE : 1. updated the current image ID here
+        //        2. IO events always use source ID and destination ID as null
+        this.emit(new CustomEvent(this,"io","save", filePath, currentImageID, null));
       }
+    }
+
+    // 3. for Filter
+    else if (e.getActionCommand().equals("Blur") ||
+            e.getActionCommand().equals("Sharpen")) {
+      // NOTE : updated the current image ID here
+      String newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "filter", e.getActionCommand(), null, currentImageID, newImageID));
+      currentImageID = newImageID;
+    }
+
+    // 4. for color
+    else if (e.getActionCommand().equals("Sepia") ||
+            e.getActionCommand().equals("Greyscale")) {
+      // NOTE : updated the current image ID here
+      String newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "color", e.getActionCommand(), null, currentImageID, newImageID));
+      currentImageID = newImageID;
     }
   }
 
@@ -173,28 +195,6 @@ public class GrimeView extends JFrame implements ActionListener {
     this.imageCanvas.setImage(image.getBufferedImage());
   }
 
-  public void updateImageDatabase(ImageDatabaseInterface imageDatabase) {
-    // Step 1: Update the underlying data structure (imageDatabaseList) with the new data.
-    this.imageDatabaseList.clear(); // Clear the current list
-    this.imageDatabaseList.addAll(imageDatabase.getAllImageNames()); // Add the updated images from the ImageDatabase
-
-    // Step 2: Update the JList (imageList) with the new data.
-    DefaultListModel<CustomImageState> listModel = new DefaultListModel<>();
-    for (CustomImageState imageState : this.imageDatabaseList) {
-      listModel.addElement(imageState);
-    }
-    JList<CustomImageState> imageList = new JList<>(listModel);
-    imageList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-    // Replace the existing JList with the updated one in the imageDatabasePanel
-    this.imageDatabasePanel.removeAll();
-    this.imageDatabasePanel.setBorder(BorderFactory.createTitledBorder("Image Database"));
-    this.imageDatabasePanel.add(new JScrollPane(imageList));
-
-    // Repaint the imageDatabasePanel to update the changes
-    this.imageDatabasePanel.revalidate();
-    this.imageDatabasePanel.repaint();
-  }
 
   public void showMessage(String message) {
     showText.setText(message);

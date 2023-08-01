@@ -1,7 +1,8 @@
 package controller;
 
+import controller.commandmanager.CommandsManager;
 import controller.commandmanager.CommandsManagerInterface;
-import controller.commandsstrategy.io.LoadCommandStrategy;
+import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
 import view.gui.CustomEvent;
 import view.gui.GrimeView;
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
   private final GrimeView view;
+  private final CommandsManagerInterface commandsManager;
 
 
   public ControllerGUI(ImageDatabaseInterface imageDatabase, GrimeView view) {
@@ -18,19 +20,41 @@ public class ControllerGUI implements ControllerGUIInterface {
     this.view = Objects.requireNonNull(view);
     // NOTE : Subscribe to the view's custom events.
     view.addEventsListener(this);
+    this.commandsManager = new CommandsManager();
+    commandsManager.registerAllCommands();
   }
 
   @Override
   public void handleEvent(CustomEvent event) {
-    LoadCommandStrategy loadCommandStrategy = new LoadCommandStrategy();
-    String[] args = new String[3];
-    args[0] = event.getEventName();
-    args[1] = event.getFilePath();
-    args[2] = event.getDestID();
-    loadCommandStrategy.run(args, imageDatabase);
-    view.showMessage("Image loaded successfully!");
-    view.updateImageDatabase(imageDatabase);
-    view.updateImageCanvas(imageDatabase.getImage(event.getDestID()));
+    if (event.getEventType().equalsIgnoreCase("io")) {
+      // NOTE : 2. IO events always use source ID and destination ID as null
+      //        <load/save> <filePath> <imageID>
+      String[] commandList = new String[3];
+      commandList[0] = event.getEventName();
+      commandList[1] = event.getFilePath();
+      commandList[2] = event.getSourceID();
+      CommandStrategyInterface commandStrategyObject =
+              commandsManager.getCommandStrategy(commandList);
+      commandStrategyObject.run(commandList, this.imageDatabase);
+      view.updateImageCanvas(this.imageDatabase.getImage(event.getSourceID()));
+      view.showMessage("Image loaded successfully");
+    }
+    // for all other events, source ID is the source image ID and destination ID is the destination
+    // and file path is null
+    else {
+      // NOTE : command of the format:
+      //        <eventType> <eventName> <sourceID> <destID>
+      String[] commandList = new String[4];
+      commandList[0] = event.getEventType(); // filter, color, brighten, greyscale ...
+      commandList[1] = event.getEventName(); // blur, sharpen, sepia ...
+      commandList[2] = event.getSourceID(); // source image ID
+      commandList[3] = event.getDestID(); // destination image ID
+      CommandStrategyInterface commandStrategyObject =
+              commandsManager.getCommandStrategy(commandList);
+      commandStrategyObject.run(commandList, this.imageDatabase);
+      view.updateImageCanvas(this.imageDatabase.getImage(event.getDestID()));
+      view.showMessage(event.getEventType() + "Applied successfully");
+    }
   }
 
   @Override

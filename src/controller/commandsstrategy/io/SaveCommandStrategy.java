@@ -32,12 +32,14 @@ public class SaveCommandStrategy implements CommandStrategyInterface {
     // 0. Validate all the arguments.
     if (commandsList.length != 3) {
       throw new IllegalArgumentException("Please provide the command in this extension \n"
-              + " \"save <imageID> <destImagePath>\"");
+              + " \"save <destImagePath> <imageID> \"");
     }
 
     // 1. Extract the extension
-    String imageID = commandsList[1];
-    String destImagePath = commandsList[2];
+    // FIXME : modify the scripting files to include this change.
+    //         change the order of the arguments.
+    String destImagePath = commandsList[1];
+    String imageID = commandsList[2];
     Path path = Paths.get(destImagePath);
     String extension = path.getFileName().toString();
     extension = extension.substring(extension.lastIndexOf(".") + 1);

@@ -32,7 +32,7 @@ public class LoadCommandStrategy implements CommandStrategyInterface {
     // 0. Validate the arguments
     if (commandsList.length < 3) {
       String message = "Please provide the command in the extension \n"
-              + "load <image-path> <image-name>";
+              + "load <image-path> <image-id>";
       throw new IllegalStateException(message);
     }
 

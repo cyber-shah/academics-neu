@@ -88,7 +88,6 @@ public class ControllerImplementation implements ControllerInterface {
       }
 
       // 2. Get the command object from the command registry
-      // TODO : make it work with many spaces in between
       CommandStrategyInterface commandStrategyObject =
               commandsManager.getCommandStrategy(commandList);
       if (commandStrategyObject == null) {
