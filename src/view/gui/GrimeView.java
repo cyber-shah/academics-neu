@@ -399,8 +399,7 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
    */
   @Override
   public void stateChanged(ChangeEvent e) {
-    if (e.getSource() instanceof JSlider) {
-      JSlider slider = (JSlider) e.getSource();
+    if (e.getSource() instanceof JSlider slider) {
       int value = slider.getValue();
       this.valueText.setText(String.valueOf(value)); // Update text field with slider value
     }
