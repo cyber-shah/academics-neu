@@ -6,6 +6,12 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class represents the Canvas object.
+ * It is responsible for displaying the image on the screen.
+ * It is also responsible for handling the zooming functionality.
+ * It extends the JPanel class.
+ */
 public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
 
   private BufferedImage image;
@@ -21,7 +27,7 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
   }
 
   /**
-   * Sets the image to be displayed by this canvas.
+   * Updates the image to be displayed by this canvas.
    *
    * @param image the image to be displayed by this canvas.
    */
@@ -33,11 +39,32 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
   }
 
   /**
+   * A part of the mouse wheel listener interface.
+   * sets the zoom level of the canvas when the mouse wheel is moved.
+   * This event gets triggered when the mouse wheel is moved.
+   *
+   * @param e the event to be processed.
+   */
+  @Override
+  public void mouseWheelMoved(MouseWheelEvent e) {
+    // Get the number of notches
+    int notches = e.getWheelRotation();
+    // Zoom in or out depending on the number of notches
+    if (notches < 0) {
+      // Zoom in
+      setZoomLevel(zoomLevel + 0.1);
+    } else {
+      // Zoom out
+      setZoomLevel(Math.max(0.1, zoomLevel - 0.1));
+    }
+  }
+
+  /**
    * Sets the zoom level of this canvas.
    *
    * @param zoomLevel the zoom level of this canvas.
    */
-  public void setZoomLevel(double zoomLevel) {
+  private void setZoomLevel(double zoomLevel) {
     this.zoomLevel = zoomLevel;
     // Update the layout and scroll bars
     revalidate();
@@ -58,6 +85,11 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
       g.drawImage(image, 0, 0, scaledWidth, scaledHeight, null);
     }
   }
+
+
+  // The following methods are part of the Scrollable interface.
+  // They are used to control the scrolling behavior of the canvas.
+
 
   /**
    * Getter method for the preferred size of the canvas.
@@ -98,40 +130,38 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
     return 16;
   }
 
+  /**
+   * Getter method for the scrollable block increment.
+   *
+   * @param visibleRect The view area visible within the viewport.
+   * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
+   * @param direction Less than zero to scroll up/left, greater than zero for down/right.
+   * @return
+   */
   @Override
   public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
     return 64;
   }
 
+  /**
+   * Always allow horizontal scrolling.
+   *
+   * @return false.
+   */
   @Override
   public boolean getScrollableTracksViewportWidth() {
-    // Allow horizontal scrolling when image width is larger than the viewport width
-    return false;
-  }
-
-  @Override
-  public boolean getScrollableTracksViewportHeight() {
-    // Allow vertical scrolling when image height is larger than the viewport height
     return false;
   }
 
   /**
-   * A part of the mouse wheel listener interface.
-   * sets the zoom level of the canvas when the mouse wheel is moved.
+   * Always allow vertical scrolling.
    *
-   * @param e the event to be processed.
+   * @return false.
    */
   @Override
-  public void mouseWheelMoved(MouseWheelEvent e) {
-    int notches = e.getWheelRotation();
-    if (notches < 0) {
-      // Zoom in
-      setZoomLevel(zoomLevel + 0.1);
-    } else {
-      // Zoom out
-      setZoomLevel(Math.max(0.1, zoomLevel - 0.1));
-    }
+  public boolean getScrollableTracksViewportHeight() {
+    return false;
   }
-  
+
 }
 

@@ -38,7 +38,7 @@ public class ControllerGUI implements ControllerGUIInterface {
                 commandsManager.getCommandStrategy(commandList);
         commandStrategyObject.run(commandList, this.imageDatabase);
         view.updateImageCanvas(this.imageDatabase.getImage(event.getSourceID()));
-        view.showMessage(event.getEventType() + event.getEventName() + "executed successfully");
+        view.showMessage(event.getEventType() + " " + event.getEventName() + " " + "executed successfully");
       }
       catch (Exception e) {
         view.showMessage(e.getMessage());
@@ -59,7 +59,7 @@ public class ControllerGUI implements ControllerGUIInterface {
                 commandsManager.getCommandStrategy(commandList);
         commandStrategyObject.run(commandList, this.imageDatabase);
         view.updateImageCanvas(this.imageDatabase.getImage(event.getDestID()));
-        view.showMessage(event.getEventType() + "Applied successfully");
+        view.showMessage(event.getEventType() + " " + "Applied successfully");
       }
       catch (Exception e) {
         view.showMessage(e.getMessage());

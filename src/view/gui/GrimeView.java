@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This class represents the main view of the application.
+ * It uses Java Swing to create the GUI.
+ * It creates custom events which are then handled by the controller.
+ */
 public class GrimeView extends JFrame implements ActionListener, ChangeListener {
 
   private final JLabel showText;
@@ -24,6 +29,8 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
   // TODO : instead of using a currentImageID, use a STACK of imageIDs
   //        so that we undo and redo
   //        continue using a <MAP> imagedatabase and use stack to retrieve the imageIDs
+
+  // OPTIMIZE : add a clear button to clear the image canvas and start over
 
   private final List<CustomEventsListener> listeners;
 
@@ -57,7 +64,6 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BorderLayout());
 
-    // TODO : fix this, it has to show a scroll bar.
     // 1. Set the imageCanvas inside a JScrollPane and add it to the main panel
     // NOTE : Main Panel's CENTER
     JScrollPane imagePanel = new JScrollPane();
@@ -65,7 +71,6 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
     this.imageCanvas = new Canvas();
     imagePanel.setViewportView(this.imageCanvas);
     mainPanel.add(imagePanel, BorderLayout.CENTER);
-
 
     // 2. Add show text to the main panel
     // NOTE : Main Panel's SOUTH
@@ -221,9 +226,6 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
   public void showMessage(String message) {
     showText.setText(message);
   }
-
-
-
 
 
 
