@@ -15,11 +15,13 @@ import java.util.UUID;
 public class GrimeView extends JFrame implements ActionListener {
 
   private final JLabel showText;
-  private JPanel imageDatabasePanel;
   private JScrollPane histogramPanel;
   private final Canvas imageCanvas;
   private List<CustomImageState> imageDatabaseList;
   private String currentImageID;
+  // TODO : instead of using a currentImageID, use a STACK of imageIDs
+  //        so that we undo and redo
+  //        continue using a <MAP> imagedatabase and use stack to retrieve the imageIDs
 
   private final List<CustomEventsListener> listeners;
 
@@ -78,33 +80,19 @@ public class GrimeView extends JFrame implements ActionListener {
   }
 
   /**
-   * Helper method to add panels inside the toolbar panel.
-   * Each panel has a different layout.
+   * Adds Subscribers to the listeners list.
    *
-   * @param toolbarPanel the toolbar added to the main panel
+   * @param listener the subscriber to be added.
    */
-  private void addToolbarPanel(JPanel toolbarPanel) {
-    this.addIOPanel(toolbarPanel);
-    this.addGreyscalePanel(toolbarPanel);
-    this.addFilterPanel(toolbarPanel);
-    this.addColorPanel(toolbarPanel);
-    this.addBrightenDarkenPanel(toolbarPanel);
-    this.addHistogramPanel(toolbarPanel);
-    this.addImageDatabasePanel(toolbarPanel);
-    /*
-    JButton undoButton = new JButton("Undo");
-    JButton redoButton = new JButton("Redo");
-    JButton clearButton = new JButton("Clear");
-    toolbarPanel.add(undoButton);
-    toolbarPanel.add(redoButton);
-    toolbarPanel.add(clearButton);
-    */
-  }
-
   public void addEventsListener(CustomEventsListener listener) {
     this.listeners.add(listener);
   }
 
+  /**
+   * It catches the event, modifies it to a custom event and emits it.
+   *
+   * @param e the event to be processed.
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     /* NOTE : This is how an action has to be handled
@@ -127,86 +115,101 @@ public class GrimeView extends JFrame implements ActionListener {
     // controller passes the updated image database to the view.
     // view updates the image database.
     // view canvas shows the latest image in the database.
-
     String actionName = e.getActionCommand();
+    switch (actionName) {
 
-    // 0. Exit
-    if (actionName.equals("Exit")) {
-      System.exit(0);
-    }
+      // 0. Exit
+      case "Exit" -> System.exit(0);
 
-    // 1. Load
-    else if (actionName.equals("Load")) {
-      final JFileChooser fileChooser = new JFileChooser(".");
-      FileNameExtensionFilter filter = new FileNameExtensionFilter(
-              "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
-      fileChooser.setFileFilter(filter);
-      int retvalue = fileChooser.showOpenDialog(this);
-      if (retvalue == JFileChooser.APPROVE_OPTION) {
-        File f = fileChooser.getSelectedFile();
-        String filePath = f.getAbsolutePath();
-        // NOTE : 1. updated the current image ID here
-        //        2. IO events always use source ID and destination ID as null
-        currentImageID = UUID.randomUUID().toString();
-        this.emit(new CustomEvent(this,"io", "load", filePath, currentImageID, null));
+      // 1. Load
+      case "Load" -> {
+        final JFileChooser fileChooser = new JFileChooser(".");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
+        fileChooser.setFileFilter(filter);
+        int retvalue = fileChooser.showOpenDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
+          File f = fileChooser.getSelectedFile();
+          String filePath = f.getAbsolutePath();
+          // NOTE : 1. updated the current image ID here
+          //        2. IO events always use source ID and destination ID as null
+          currentImageID = UUID.randomUUID().toString();
+          this.emit(new CustomEvent(this, "io", "load", filePath, currentImageID, null));
+        }
       }
-    }
 
-    // 2. Save
-    else if (actionName.equals("Save")) {
-      final JFileChooser fileChooser = new JFileChooser(".");
-      FileNameExtensionFilter filter = new FileNameExtensionFilter(
-              "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
-      fileChooser.setFileFilter(filter);
-      int retvalue = fileChooser.showSaveDialog(this);
-      if (retvalue == JFileChooser.APPROVE_OPTION) {
-        File f = fileChooser.getSelectedFile();
-        String filePath = f.getAbsolutePath();
-        // NOTE : 1. updated the current image ID here
-        //        2. IO events always use source ID and destination ID as null
-        this.emit(new CustomEvent(this,"io","save", filePath, currentImageID, null));
+      // 2. Save
+      // TODO : save not working correctly
+      case "Save" -> {
+        final JFileChooser fileChooser = new JFileChooser(".");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
+        fileChooser.setFileFilter(filter);
+        int retvalue = fileChooser.showSaveDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
+          File f = fileChooser.getSelectedFile();
+          String filePath = f.getAbsolutePath();
+          // NOTE : 1. updated the current image ID here
+          //        2. IO events always use source ID and destination ID as null
+          this.emit(new CustomEvent(this, "io", "save", filePath, currentImageID, null));
+        }
       }
-    }
 
-    // 3. for Filter
-    else if (actionName.equals("Blur") || actionName.equals("Sharpen")) {
-      // NOTE : updated the current image ID here
-      String newImageID = UUID.randomUUID().toString();
-      this.emit(new CustomEvent(this, "filter", e.getActionCommand(), null, currentImageID, newImageID));
-      currentImageID = newImageID;
-    }
+      // 3. for Filter
+      case "Blur", "Sharpen" -> {
+        // NOTE : updated the current image ID here
+        String newImageID = UUID.randomUUID().toString();
+        this.emit(new CustomEvent(this, "filter", e.getActionCommand(), null, currentImageID, newImageID));
+        currentImageID = newImageID;
+      }
 
-    // 4. for color
-    else if (actionName.equals("Sepia") || actionName.equals("Greyscale")) {
-      // NOTE : updated the current image ID here
-      String newImageID = UUID.randomUUID().toString();
-      this.emit(new CustomEvent(this, "color", e.getActionCommand(), null, currentImageID, newImageID));
-      currentImageID = newImageID;
-    }
+      // 4. for color
+      case "Sepia", "Greyscale" -> {
+        // NOTE : updated the current image ID here
+        String newImageID = UUID.randomUUID().toString();
+        this.emit(new CustomEvent(this, "color", e.getActionCommand(), null, currentImageID, newImageID));
+        currentImageID = newImageID;
+      }
 
-    // 5. for greyscale
-    else if (actionName.equals("Luma") || actionName.equals("Intensity") || actionName.equals("Value") ||
-            actionName.equals("Red") || actionName.equals("Green") || actionName.equals("Blue")) {
-      // NOTE : updated the current image ID here
-      String newImageID = UUID.randomUUID().toString();
-      this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(), null, currentImageID, newImageID));
-      currentImageID = newImageID;
-    }
+      // 5. for greyscale
+      case "Luma", "Intensity", "Value",
+              "Red", "Green", "Blue" -> {
+        // NOTE : updated the current image ID here
+        String newImageID = UUID.randomUUID().toString();
+        this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(), null, currentImageID, newImageID));
+        currentImageID = newImageID;
+      }
 
-    // 6. for brighten/darken
+      // 6. for brighten/darken
+      // TODO : set the value of the slider
+    }
   }
 
+  /**
+   * Helper method to emit an event to all the listeners.
+   *
+   * @param event the event to be emitted.
+   */
   private void emit(CustomEvent event) {
     for (CustomEventsListener listener : this.listeners) {
       listener.handleEvent(event);
     }
   }
 
+  /**
+   * Updates the image canvas with the given image.
+   *
+   * @param image the image to be updated.
+   */
   public void updateImageCanvas(CustomImageState image) {
     this.imageCanvas.setImage(image.getBufferedImage());
   }
 
-
+  /**
+   * Updates the GUI with the given message.
+   *
+   * @param message the message to be updated.
+   */
   public void showMessage(String message) {
     showText.setText(message);
   }
@@ -217,6 +220,29 @@ public class GrimeView extends JFrame implements ActionListener {
 
 
   // HELPER METHODS to add panels to the toolbar panel ---------------------------------------
+
+  /**
+   * Helper method to add panels inside the toolbar panel.
+   * Each panel has a different layout.
+   *
+   * @param toolbarPanel the toolbar added to the main panel
+   */
+  private void addToolbarPanel(JPanel toolbarPanel) {
+    this.addIOPanel(toolbarPanel);
+    this.addGreyscalePanel(toolbarPanel);
+    this.addFilterPanel(toolbarPanel);
+    this.addColorPanel(toolbarPanel);
+    this.addBrightenDarkenPanel(toolbarPanel);
+    this.addHistogramPanel(toolbarPanel);
+    /*
+    JButton undoButton = new JButton("Undo");
+    JButton redoButton = new JButton("Redo");
+    JButton clearButton = new JButton("Clear");
+    toolbarPanel.add(undoButton);
+    toolbarPanel.add(redoButton);
+    toolbarPanel.add(clearButton);
+    */
+  }
 
   /**
    * Helper method to add IO buttons to the toolbar panel.
@@ -254,9 +280,9 @@ public class GrimeView extends JFrame implements ActionListener {
     JButton greyScaleButton = new JButton("Luma");
     JButton valueButton = new JButton("Value");
     JButton intensityButton = new JButton("Intensity");
-    JButton redButton = new JButton("Red Component");
-    JButton greenButton = new JButton("Green Component");
-    JButton blueButton = new JButton("Blue Component");
+    JButton redButton = new JButton("Red");
+    JButton greenButton = new JButton("Green");
+    JButton blueButton = new JButton("Blue");
     // add buttons to panel
     greyScalePanel.add(greyScaleButton);
     greyScalePanel.add(valueButton);
@@ -353,17 +379,4 @@ public class GrimeView extends JFrame implements ActionListener {
     toolbarPanel.add(this.histogramPanel);
   }
 
-  /**
-   * Helper method to add Image Database panel to the toolbar panel.
-   *
-   * @param toolbarPanel the toolbar added to the main panel.
-   */
-  private void addImageDatabasePanel(JPanel toolbarPanel) {
-    this.imageDatabasePanel = new JPanel();
-    this.imageDatabasePanel.setBorder(BorderFactory.createTitledBorder("Image Database"));
-    DefaultListModel<CustomImageState> listModel = new DefaultListModel<>();
-    JList<CustomImageState> imageList = new JList<>(listModel);
-    imageList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    toolbarPanel.add(this.imageDatabasePanel);
-  }
 }
