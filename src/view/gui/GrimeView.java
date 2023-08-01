@@ -120,7 +120,6 @@ public class GrimeView extends JFrame implements ActionListener {
             5. returns the image database
             6. view updates the image based on the newest image in the database
      */
-
     // can the controller handle events in this format?
     // this.emit (new CustomEvent (this, e.getActionCommand(), Panel.getLatestImageName()));
     // then the controller passes it to the appropriate model.
@@ -129,12 +128,15 @@ public class GrimeView extends JFrame implements ActionListener {
     // view updates the image database.
     // view canvas shows the latest image in the database.
 
-    if (e.getActionCommand().equals("Exit")) {
+    String actionName = e.getActionCommand();
+
+    // 0. Exit
+    if (actionName.equals("Exit")) {
       System.exit(0);
     }
 
     // 1. Load
-    else if (e.getActionCommand().equals("Load")) {
+    else if (actionName.equals("Load")) {
       final JFileChooser fileChooser = new JFileChooser(".");
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
               "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
@@ -151,7 +153,7 @@ public class GrimeView extends JFrame implements ActionListener {
     }
 
     // 2. Save
-    else if (e.getActionCommand().equals("Save")) {
+    else if (actionName.equals("Save")) {
       final JFileChooser fileChooser = new JFileChooser(".");
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
               "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
@@ -167,8 +169,7 @@ public class GrimeView extends JFrame implements ActionListener {
     }
 
     // 3. for Filter
-    else if (e.getActionCommand().equals("Blur") ||
-            e.getActionCommand().equals("Sharpen")) {
+    else if (actionName.equals("Blur") || actionName.equals("Sharpen")) {
       // NOTE : updated the current image ID here
       String newImageID = UUID.randomUUID().toString();
       this.emit(new CustomEvent(this, "filter", e.getActionCommand(), null, currentImageID, newImageID));
@@ -176,13 +177,23 @@ public class GrimeView extends JFrame implements ActionListener {
     }
 
     // 4. for color
-    else if (e.getActionCommand().equals("Sepia") ||
-            e.getActionCommand().equals("Greyscale")) {
+    else if (actionName.equals("Sepia") || actionName.equals("Greyscale")) {
       // NOTE : updated the current image ID here
       String newImageID = UUID.randomUUID().toString();
       this.emit(new CustomEvent(this, "color", e.getActionCommand(), null, currentImageID, newImageID));
       currentImageID = newImageID;
     }
+
+    // 5. for greyscale
+    else if (actionName.equals("Luma") || actionName.equals("Intensity") || actionName.equals("Value") ||
+            actionName.equals("Red") || actionName.equals("Green") || actionName.equals("Blue")) {
+      // NOTE : updated the current image ID here
+      String newImageID = UUID.randomUUID().toString();
+      this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(), null, currentImageID, newImageID));
+      currentImageID = newImageID;
+    }
+
+    // 6. for brighten/darken
   }
 
   private void emit(CustomEvent event) {
