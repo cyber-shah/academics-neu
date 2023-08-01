@@ -16,7 +16,6 @@ import java.util.Map;
  * @see CommandStrategyInterface
  */
 public class CommandsManager implements CommandsManagerInterface {
-
   private Map<String, CommandStrategyInterface> commandsMap;
 
   /**

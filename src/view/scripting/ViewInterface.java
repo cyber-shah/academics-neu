@@ -1,4 +1,4 @@
-package view;
+package view.scripting;
 
 import java.io.IOException;
 

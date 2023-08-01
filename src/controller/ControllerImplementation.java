@@ -3,7 +3,7 @@ package controller;
 import controller.commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
-import view.ViewInterface;
+import view.scripting.ViewInterface;
 
 import java.io.IOException;
 import java.util.Scanner;

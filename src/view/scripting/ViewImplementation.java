@@ -1,4 +1,4 @@
-package view;
+package view.scripting;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import java.io.IOException;
  * It represents a View that can be used to display messages.
  */
 public class ViewImplementation implements ViewInterface {
-  private Appendable outAppendable;
+  final private Appendable outAppendable;
 
   /**
    * This is the constructor for the ViewImplementation class.

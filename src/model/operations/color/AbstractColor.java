@@ -13,7 +13,6 @@ import model.operations.OperationInterface;
  * NOTE: Matrix is always created by the subclasses.
  */
 public class AbstractColor implements OperationInterface {
-
   protected CustomImageState sourceImage;
   protected float[][] matrix;
 

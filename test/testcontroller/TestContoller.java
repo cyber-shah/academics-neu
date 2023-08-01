@@ -6,8 +6,8 @@ import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import org.junit.Test;
 import testcontroller.mocks.MockCommandsManager;
-import view.ViewImplementation;
-import view.ViewInterface;
+import view.scripting.ViewImplementation;
+import view.scripting.ViewInterface;
 
 import java.io.StringReader;
 

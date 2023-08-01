@@ -19,12 +19,12 @@ import java.util.UUID;
  * It uses Java Swing to create the GUI.
  * It creates custom events which are then handled by the controller.
  */
-public class GrimeView extends JFrame implements ActionListener, ChangeListener {
+public class GUIView extends JFrame implements ActionListener, ChangeListener {
 
   private final JLabel showText;
   private JScrollPane histogramPanel;
   private final Canvas imageCanvas;
-  private List<CustomImageState> imageDatabaseList;
+  final private List<CustomImageState> imageDatabaseList;
   private String currentImageID;
   // TODO : instead of using a currentImageID, use a STACK of imageIDs
   //        so that we undo and redo
@@ -45,7 +45,7 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
    * 2. Initialize the south : show text.
    * 3. Initialize the west : toolbar panel.
    */
-  public GrimeView() {
+  public GUIView() {
     super();
     setTitle("Grime");
     setSize(800, 800);
@@ -110,7 +110,7 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
     /*
     This is how an action has to be handled
     0. view stores the current image ID
-    1. convert the action into an a class - `CustomEvent`
+    1. convert the action into a class - `CustomEvent`
     2. set all the parameters of the event
     3. controller accepts the event as a ```CustomEvent``` object
         3.1 it will extract the parameters from the event
@@ -126,16 +126,18 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
     switch (actionName) {
 
       // 0. Exit
-      case "Exit" -> System.exit(0);
+      case "Exit":
+        System.exit(0);
+        break;
 
       // 1. Load
-      case "Load" -> {
+      case "Load": {
         final JFileChooser fileChooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "Supported Images", "jpg", "bmp", "png", "ppm", "jpeg");
         fileChooser.setFileFilter(filter);
-        int retvalue = fileChooser.showOpenDialog(this);
-        if (retvalue == JFileChooser.APPROVE_OPTION) {
+        int revalue = fileChooser.showOpenDialog(this);
+        if (revalue == JFileChooser.APPROVE_OPTION) {
           File f = fileChooser.getSelectedFile();
           String filePath = f.getAbsolutePath();
           // NOTE : 1. updated the current image ID here
@@ -144,56 +146,63 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
           this.emit(new CustomEvent(this, "io", "load",
                   filePath, currentImageID, null));
         }
+        break;
       }
 
+
       // 2. Save
-      case "Save" -> {
+      case "Save": {
         final JFileChooser fileChooser = new JFileChooser(".");
-        int retvalue = fileChooser.showSaveDialog(this);
-        if (retvalue == JFileChooser.APPROVE_OPTION) {
+        int revalue = fileChooser.showSaveDialog(this);
+        if (revalue == JFileChooser.APPROVE_OPTION) {
           File f = fileChooser.getSelectedFile();
           String filePath = f.getAbsolutePath();
           // NOTE : 2. IO events always use source ID and destination ID as null
           this.emit(new CustomEvent(this, "io", "save",
                   filePath, currentImageID, null));
         }
+        break;
       }
 
       // 3. for Filter
-      case "Blur", "Sharpen" -> {
+      case "Blur", "Sharpen": {
         // NOTE : updated the current image ID here
         String newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "filter", e.getActionCommand(),
                 null, currentImageID, newImageID));
         currentImageID = newImageID;
+        break;
       }
 
       // 4. for color
-      case "Sepia", "Greyscale" -> {
+      case "Sepia", "Greyscale": {
         // NOTE : updated the current image ID here
         String newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "color", e.getActionCommand(),
                 null, currentImageID, newImageID));
         currentImageID = newImageID;
+        break;
       }
 
       // 5. for greyscale
       case "Luma", "Intensity", "Value",
-              "Red", "Green", "Blue" -> {
+              "Red", "Green", "Blue": {
         // NOTE : updated the current image ID here
         String newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(),
                 null, currentImageID, newImageID));
         currentImageID = newImageID;
+        break;
       }
 
       // 6. for brighten/darken
-      case "Apply" -> {
+      case "Apply": {
         int sliderValue = this.brightnessSlider.getValue();
         String newImageID = UUID.randomUUID().toString();
         this.emit(new CustomEvent(this, "brighten", String.valueOf(sliderValue),
                 null , currentImageID, newImageID));
         currentImageID = newImageID;
+        break;
       }
     }
   }
@@ -393,7 +402,7 @@ public class GrimeView extends JFrame implements ActionListener, ChangeListener 
   }
 
   /**
-   * This method updates the JLabel with a value whenver the slider is moved.
+   * This method updates the JLabel with a value whenever the slider is moved.
    *
    * @param e a ChangeEvent object.
    */

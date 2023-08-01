@@ -1,9 +1,7 @@
 package controller;
 
-import controller.commandsstrategy.CommandStrategyInterface;
-import model.ImageDatabaseInterface;
 import view.gui.CustomEventsListener;
-import view.ViewInterface;
+import view.gui.CustomEvent;
 
 /**
  * This interface represents the controller for the program.
@@ -24,11 +22,11 @@ import view.ViewInterface;
 public interface ControllerGUIInterface extends CustomEventsListener {
 
   /**
-   * This method starts the controller.
-   * It takes in user input and runs the appropriate command.
-   * @see ImageDatabaseInterface
-   * @see CommandStrategyInterface
-   * @see ViewInterface
+   * This method runs the program.
+   * It takes in a CustomEvent and runs the appropriate command.
+   *
+   * @param event the event to be handled.
    */
-  void runProgram();
+  void handleEvent(CustomEvent event);
+
 }

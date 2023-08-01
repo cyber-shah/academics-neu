@@ -4,8 +4,8 @@ import controller.commandmanager.CommandsManager;
 import controller.commandmanager.CommandsManagerInterface;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
-import view.ViewImplementation;
-import view.gui.GrimeView;
+import view.scripting.ViewImplementation;
+import view.gui.GUIView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,14 +25,24 @@ public class GrimeMain {
 
     String filePath = null;
 
+    // if no command line arguments are provided,
+    // use the GUI -----------------------------------------
+    if (args.length == 0) {
+      ImageDatabaseInterface model = new ImageDatabase();
+      GUIView view = new GUIView();
+      ControllerGUI controller = new ControllerGUI(model, view);
+      controller.runProgram();
+      view.setVisible(true);
+    }
+
     // If the user provides a file path, use it ------------------
-    if (args.length > 1 && args[0].equals("-file")) {
+    else if (args[0].equals("-file")) {
       // 1. retrieve the file path
       // 2. set the input to file reader
-      filePath = args[1];
-
-      // If no file path is provided, display an error message and terminate
-      if (filePath == null) {
+      try {
+        filePath = args[1];
+      }
+      catch (Exception e) {
         System.err.println("Please provide a file path using: "
                 + "-file command-line argument.");
       }
@@ -71,15 +81,9 @@ public class GrimeMain {
       controller.runProgram();
     }
 
-    // if not command line arguments are provided,
-    // use the GUI -----------------------------------------
     else {
-      ImageDatabaseInterface imageDatabase = new ImageDatabase();
-      GrimeView view = new GrimeView();
-      ControllerGUI controller = new ControllerGUI(imageDatabase, view);
-      controller.runProgram();
-      view.setVisible(true);
+      System.err.println("Invalid Command line argument"
+              + "Please use -text or -file or no argument for GUI");
     }
-
   }
 }

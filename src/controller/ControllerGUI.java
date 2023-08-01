@@ -5,17 +5,27 @@ import controller.commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
 import view.gui.CustomEvent;
-import view.gui.GrimeView;
+import view.gui.GUIView;
 
 import java.util.Objects;
 
+/**
+ * This class is the controller for the GUI.
+ * It implements the ControllerGUIInterface.
+ */
 public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
-  private final GrimeView view;
+  private final GUIView view;
   private final CommandsManagerInterface commandsManager;
 
 
-  public ControllerGUI(ImageDatabaseInterface imageDatabase, GrimeView view) {
+  /**
+   * This constructor creates a new ControllerGUI object.
+   *
+   * @param imageDatabase the model.
+   * @param view the view.
+   */
+  public ControllerGUI(ImageDatabaseInterface imageDatabase, GUIView view) {
     this.imageDatabase = Objects.requireNonNull(imageDatabase);
     this.view = Objects.requireNonNull(view);
     // NOTE : Subscribe to the view's custom events.
@@ -24,6 +34,11 @@ public class ControllerGUI implements ControllerGUIInterface {
     commandsManager.registerAllCommands();
   }
 
+  /**
+   * This method runs the program.
+   *
+   * @param event the event to be handled.
+   */
   @Override
   public void handleEvent(CustomEvent event) {
     if (event.getEventType().equalsIgnoreCase("io")) {
@@ -38,7 +53,8 @@ public class ControllerGUI implements ControllerGUIInterface {
                 commandsManager.getCommandStrategy(commandList);
         commandStrategyObject.run(commandList, this.imageDatabase);
         view.updateImageCanvas(this.imageDatabase.getImage(event.getSourceID()));
-        view.showMessage(event.getEventType() + " " + event.getEventName() + " " + "executed successfully");
+        view.showMessage(event.getEventType() + " "
+                + event.getEventName() + " " + "executed successfully");
       }
       catch (Exception e) {
         view.showMessage(e.getMessage());
@@ -59,17 +75,12 @@ public class ControllerGUI implements ControllerGUIInterface {
                 commandsManager.getCommandStrategy(commandList);
         commandStrategyObject.run(commandList, this.imageDatabase);
         view.updateImageCanvas(this.imageDatabase.getImage(event.getDestID()));
-        view.showMessage(event.getEventType() + " " + "Applied successfully");
+        view.showMessage(event.getEventType() + " "
+                + event.getEventName() + " " + "Applied successfully");
       }
       catch (Exception e) {
         view.showMessage(e.getMessage());
       }
     }
   }
-
-  @Override
-  public void runProgram() {
-
-  }
-
 }

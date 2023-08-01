@@ -13,7 +13,6 @@ import java.util.Map;
 public class ImageDatabase implements ImageDatabaseInterface {
   private Map<String, CustomImageState> imagesMap;
 
-
   /**
    * Constructor for ImageDatabase.
    */

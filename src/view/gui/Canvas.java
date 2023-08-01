@@ -1,7 +1,10 @@
 package view.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
@@ -121,7 +124,7 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
    * Getter method for the scrollable tracks viewport width.
    *
    * @param visibleRect The view area visible within the viewport
-   * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
+   * @param orientation Either SwingConstants. VERTICAL or SwingConstants.HORIZONTAL.
    * @param direction Less than zero to scroll up/left, greater than zero for down/right.
    * @return the scrollable tracks viewport width.
    */
@@ -134,9 +137,9 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
    * Getter method for the scrollable block increment.
    *
    * @param visibleRect The view area visible within the viewport.
-   * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
+   * @param orientation Either SwingConstants. VERTICAL or SwingConstants. HORIZONTAL.
    * @param direction Less than zero to scroll up/left, greater than zero for down/right.
-   * @return
+   * @return the scrollable block increment.
    */
   @Override
   public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {

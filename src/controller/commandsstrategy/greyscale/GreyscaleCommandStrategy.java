@@ -36,7 +36,8 @@ public class GreyscaleCommandStrategy implements CommandStrategyInterface {
     //         We can add new filters without changing the code.
     //         only modify the GreyscaleFactory class.
     CustomImageState newImage;
-    OperationInterface filter = GreyscaleFactory.createFilter(operation, sourceImageID, imageDatabase);
+    OperationInterface filter = GreyscaleFactory.
+            createFilter(operation, sourceImageID, imageDatabase);
     newImage = filter.applyOperation();
 
     // 3. Add the new image to the imageDatabase using the destinationID.

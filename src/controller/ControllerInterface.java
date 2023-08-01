@@ -2,7 +2,7 @@ package controller;
 
 import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
-import view.ViewInterface;
+import view.scripting.ViewInterface;
 
 /**
  * This interface represents the controller for the program.

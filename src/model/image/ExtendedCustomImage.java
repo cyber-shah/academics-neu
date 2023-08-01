@@ -13,5 +13,5 @@ public interface ExtendedCustomImage extends CustomImageState {
    * @param y the y coordinate of the pixel.
    * @param pixel the pixel to set.
    */
-  public void setPixel(int x, int y, Pixel pixel);
+  void setPixel(int x, int y, Pixel pixel);
 }
