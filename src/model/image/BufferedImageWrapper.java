@@ -51,17 +51,23 @@ public class BufferedImageWrapper implements CustomImageMutable {
    */
   @Override
   public int[][] getHistogramValues() {
+    // initialize the array
     int[][] histogramValues = new int[4][256];
+
+    // set all values to 0
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 256; j++) {
         histogramValues[i][j] = 0;
       }
     }
 
+    // get the width and height of the image
     int width = this.getWidth();
     int height = this.getHeight();
+
+    // iterate over all the pixels and increment the histogram values
     for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; i++) {
+      for (int j = 0; j < height; j++) {
         int red = this.getPixel(i, j).getRed();
         int green = this.getPixel(i, j).getGreen();
         int blue = this.getPixel(i, j).getBlue();

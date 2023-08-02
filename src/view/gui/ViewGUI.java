@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
 
   private final JLabel showText;
-    private JScrollPane histogramPanel;
+  private HistogramPanel histogramPanel;
   private final ImageCanvas imageCanvas;
   private String currentImageID;
   // TODO : instead of using a currentImageID, use a STACK of imageIDs
@@ -222,7 +222,7 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
   }
 
   public void updateHistogram(int[][] histogramValues) {
-
+    this.histogramPanel.setHistogram(histogramValues);
   }
 
 
@@ -375,10 +375,13 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
    * @param toolbarPanel the toolbar added to the main panel
    */
   private void addHistogramPanel(JPanel toolbarPanel) {
-    this.histogramPanel = new JScrollPane();
+    JPanel histogramArea = new JPanel();
+    histogramArea.setLayout(new BorderLayout());
+    this.histogramPanel = new HistogramPanel();
+    histogramArea.add(this.histogramPanel, BorderLayout.CENTER);
     this.histogramPanel.setBorder(BorderFactory.createTitledBorder("Histogram"));
     this.histogramPanel.setPreferredSize(new Dimension(200, 400));
-    toolbarPanel.add(this.histogramPanel);
+    toolbarPanel.add(histogramArea);
   }
 
   /**

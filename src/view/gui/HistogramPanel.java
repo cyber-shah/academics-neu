@@ -14,6 +14,12 @@ public class HistogramPanel extends JScrollPane {
    */
   public HistogramPanel() {
     super();
+    // Set the preferred size
+    setPreferredSize(new Dimension(300, 300));
+    this.averageHistogram = new int[256];
+    this.redHistogram = new int[256];
+    this.greenHistogram = new int[256];
+    this.blueHistogram = new int[256];
   }
 
   /**
