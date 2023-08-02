@@ -11,6 +11,8 @@ import java.util.Scanner;
 /**
  * This class represents an ImageLoader.
  * It takes in the file path of a PPM file and returns an Image object.
+ *
+ * // TODO : modify it here - convert all PPM images into buffered image?
  */
 public class PPMImageLoader implements ImageLoaderInterface
         <PPMImage> {
