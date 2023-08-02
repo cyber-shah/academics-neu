@@ -45,6 +45,40 @@ public class BufferedImageWrapper implements ExtendedCustomImage {
   }
 
   /**
+   * Getter for histogram values
+   *
+   * @return the histogram values
+   */
+  @Override
+  public int[][] getHistogramValues() {
+    int[][] histogramValues = new int[4][256];
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 256; j++) {
+        histogramValues[i][j] = 0;
+      }
+    }
+
+    int width = this.getWidth();
+    int height = this.getHeight();
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; i++) {
+        int red = this.getPixel(i, j).getRed();
+        int green = this.getPixel(i, j).getGreen();
+        int blue = this.getPixel(i, j).getBlue();
+
+        int average = (red + green + blue) / 3;
+
+        histogramValues[0][red]++;
+        histogramValues[1][green]++;
+        histogramValues[2][blue]++;
+        histogramValues[3][average]++;
+      }
+    }
+    return histogramValues;
+  }
+
+
+  /**
    * Getter for width.
    *
    * @return int value of width.
@@ -128,4 +162,6 @@ public class BufferedImageWrapper implements ExtendedCustomImage {
   public void setPixel(int x, int y, Pixel pixel) {
     bufferedImage.setRGB(x, y, pixel.getRGB());
   }
+
+
 }

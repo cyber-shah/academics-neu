@@ -51,4 +51,11 @@ public interface CustomImageState {
    * @return the BufferedImage of the image.
    */
   BufferedImage getBufferedImage();
+
+  /**
+   * Getter for histogram values
+   *
+   * @return the histogram values
+   */
+  int[][] getHistogramValues();
 }

@@ -6,7 +6,6 @@ import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
-import model.operations.MakeHistogram;
 import view.gui.CustomEvent;
 import view.gui.GUIView;
 
@@ -100,43 +99,29 @@ public class ControllerGUI implements ControllerGUIInterface {
 
 
 
-    if (event.getHistogram) {
-      /**
-       * histograms can also be created with scripting
-       * <histogram> <source-image-ID> <histogram-dest-ID>
-       *   so it will take in 2 params.
-       *   1. source image ID from image database.
-       *   2. new histogram ID for histogram database.
-       *   ------------------------------------
-       *   Therefore, there would be two parallel databases.
-       *   1. image database
-       *   2. histogram database
-       *   ------------------------------------
-       */
-
-
-
-      String[] histogramCommand = new String[3];
-      histogramCommand[0] = "histogram";
-      histogramCommand[1] = event.getDestID();
-      histogramCommand[2] = ;
-
-      // get the command strategy object from the commands manager
-      CommandStrategyInterface commandStrategyObject =
-              commandsManager.getCommandStrategy(histogramCommand);
-      // run the command
-      commandStrategyObject.run(histogramCommand, this.imageDatabase);
+    /**
+     * histograms can also be created with scripting
+     * <histogram> <source-image-ID> <histogram-dest-ID>
+     *   so it will take in 2 params.
+     *   1. source image ID from image database.
+     *   2. new histogram ID for histogram database.
+     *   ------------------------------------
+     *   Therefore, there would be two parallel databases.
+     *   1. image database
+     *   2. histogram database
+     *   ------------------------------------
+     */
+    {
+      int[][] histogram = new int[4][256];
     }
-
-
-
-
-
 
 
     // show the message
     view.showMessage(event.getEventType() + " "
             + event.getEventName() + " " + "executed successfully");
+
+    // update the image canvas
+    view.updateImageCanvas(updatedImage);
 
   }
 }
