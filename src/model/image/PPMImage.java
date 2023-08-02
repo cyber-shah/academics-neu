@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * The value of each channel should be greater than 0.
  * // TODO : manage PPM class, can you convert all PPM images into buffered image?
  */
-public class PPMImage implements ExtendedCustomImage {
+public class PPMImage implements CustomImageMutable {
   private final int width;
   private final int height;
   private final int maxValue;

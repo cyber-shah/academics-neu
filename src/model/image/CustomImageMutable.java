@@ -4,7 +4,7 @@ package model.image;
  * This interface represents an extended custom image.
  * Adds methods that can mutate the image.
  */
-public interface ExtendedCustomImage extends CustomImageState {
+public interface CustomImageMutable extends CustomImageState {
 
   /**
    * Sets the pixel at the given coordinates to the given pixel.

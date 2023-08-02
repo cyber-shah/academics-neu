@@ -2,7 +2,7 @@ package model.operations.filters;
 
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
-import model.image.ExtendedCustomImage;
+import model.image.CustomImageMutable;
 import model.image.Pixel;
 import model.operations.OperationInterface;
 
@@ -49,13 +49,13 @@ public abstract class AbstractFilter implements OperationInterface {
    * @param sourceImage CustomImageState to be modified.
    * @return ExtendedCustomImage a new Image with the convolution applied.
    */
-  public static ExtendedCustomImage convolution(float[][] kernel,
-                                                CustomImageState sourceImage) {
+  public static CustomImageMutable convolution(float[][] kernel,
+                                               CustomImageState sourceImage) {
     // 1. Get the width, height and maxValue of the newImage.
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
 
-    ExtendedCustomImage newImage = new BufferedImageWrapper(width, height);
+    CustomImageMutable newImage = new BufferedImageWrapper(width, height);
 
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {

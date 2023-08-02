@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * This is done to continue using the CustomImageState interface and
  * allow the use of BufferedImage. Following the Open-Closed Principle.
  */
-public class BufferedImageWrapper implements ExtendedCustomImage {
+public class BufferedImageWrapper implements CustomImageMutable {
   private final BufferedImage bufferedImage;
 
   // ---------------------- CONSTRUCTORS -------------------------------------

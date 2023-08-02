@@ -96,7 +96,7 @@ public class ControllerGUI implements ControllerGUIInterface {
     }
 
 
-    
+
     view.updateHistogram(updatedImage.getHistogramValues());
 
     // show the message

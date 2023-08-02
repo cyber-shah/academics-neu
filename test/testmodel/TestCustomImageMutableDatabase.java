@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * This class tests the ImageDatabase class.
  */
-public class TestExtendedCustomImageDatabase {
+public class TestCustomImageMutableDatabase {
   private ImageDatabaseInterface model;
   private CustomImageState image;
 

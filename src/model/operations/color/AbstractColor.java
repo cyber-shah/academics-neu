@@ -2,7 +2,7 @@ package model.operations.color;
 
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
-import model.image.ExtendedCustomImage;
+import model.image.CustomImageMutable;
 import model.image.Pixel;
 import model.operations.OperationInterface;
 
@@ -47,7 +47,7 @@ public class AbstractColor implements OperationInterface {
                                              CustomImageState sourceImage) {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
-    ExtendedCustomImage newImage = new BufferedImageWrapper(width, height);
+    CustomImageMutable newImage = new BufferedImageWrapper(width, height);
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {

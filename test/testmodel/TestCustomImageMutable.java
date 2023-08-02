@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
    * 12. Test setPixel with a null pixel.
    * 13. Test setPixel with a pixel with invalid maxValue.
  */
-public class TestExtendedCustomImage {
+public class TestCustomImageMutable {
 
   @Test
   public void testParams() {

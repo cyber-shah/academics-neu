@@ -2,7 +2,7 @@ package model.operations.color;
 
 import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
-import model.image.ExtendedCustomImage;
+import model.image.CustomImageMutable;
 import model.image.Pixel;
 
 /**
@@ -37,7 +37,7 @@ public class GreyscaleColor extends AbstractColor {
     int height = sourceImage.getHeight();
 
     // 1. create a new image
-    ExtendedCustomImage newImage = new BufferedImageWrapper(width, height);
+    CustomImageMutable newImage = new BufferedImageWrapper(width, height);
 
     // 2. loop over each pixel in the sourceImage
     for (int i = 0; i < width; i++) {
