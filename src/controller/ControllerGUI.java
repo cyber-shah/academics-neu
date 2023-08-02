@@ -18,8 +18,6 @@ import java.util.Stack;
  */
 public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
-  private final ImageDatabaseInterface histogramDatabase;
-  private final Stack<CustomImageState> histogramStack;
   private final GUIView view;
   private final CommandsManagerInterface commandsManager;
 
@@ -98,23 +96,8 @@ public class ControllerGUI implements ControllerGUIInterface {
     }
 
 
-
-    /**
-     * histograms can also be created with scripting
-     * <histogram> <source-image-ID> <histogram-dest-ID>
-     *   so it will take in 2 params.
-     *   1. source image ID from image database.
-     *   2. new histogram ID for histogram database.
-     *   ------------------------------------
-     *   Therefore, there would be two parallel databases.
-     *   1. image database
-     *   2. histogram database
-     *   ------------------------------------
-     */
-    {
-      int[][] histogram = new int[4][256];
-    }
-
+    
+    view.updateHistogram(updatedImage.getHistogramValues());
 
     // show the message
     view.showMessage(event.getEventType() + " "
@@ -122,6 +105,5 @@ public class ControllerGUI implements ControllerGUIInterface {
 
     // update the image canvas
     view.updateImageCanvas(updatedImage);
-
   }
 }

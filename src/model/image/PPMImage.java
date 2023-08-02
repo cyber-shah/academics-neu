@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * This class represents a Image.
  * Built up by a 2D array of Pixels.
  * The value of each channel should be greater than 0.
- * // TODO : manage PPM class, can it be a part of buffered image?
+ * // TODO : manage PPM class, can you convert all PPM images into buffered image?
  */
 public class PPMImage implements ExtendedCustomImage {
   private final int width;
@@ -110,6 +110,15 @@ public class PPMImage implements ExtendedCustomImage {
     return bufferedImage;
   }
 
+  /**
+   * Getter for histogram values
+   *
+   * @return the histogram values
+   */
+  @Override
+  public int[][] getHistogramValues() {
+    return new int[0][];
+  }
 
   /**
    * Setter for pixel.
