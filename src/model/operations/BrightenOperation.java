@@ -1,7 +1,7 @@
 package model.operations;
 
+import model.image.BufferedImageWrapper;
 import model.image.CustomImageState;
-import model.image.PPMImage;
 import model.image.Pixel;
 
 /**
@@ -35,7 +35,7 @@ public class BrightenOperation implements OperationInterface {
     int width = sourceImage.getWidth();
     int height = sourceImage.getHeight();
     int maxValue = sourceImage.getMaxValue();
-    PPMImage newCustomImage = new PPMImage(width, height, maxValue);
+    BufferedImageWrapper newCustomImage = new BufferedImageWrapper(width, height);
 
     int i = 0;
     int j = 0;

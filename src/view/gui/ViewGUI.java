@@ -221,6 +221,11 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
     showText.setText(message);
   }
 
+  /**
+   * Redraws the histogram panel with given values.
+   *
+   * @param histogramValues the values to be updated.
+   */
   public void updateHistogram(int[][] histogramValues) {
     this.histogramPanel.setHistogram(histogramValues);
   }

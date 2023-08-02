@@ -3,7 +3,7 @@ package view.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class HistogramPanel extends JScrollPane {
+public class HistogramPanel extends JPanel {
   private int[] redHistogram;
   private int[] greenHistogram;
   private int[] blueHistogram;
@@ -33,6 +33,7 @@ public class HistogramPanel extends JScrollPane {
     this.greenHistogram = histogramValues[1];
     this.blueHistogram = histogramValues[2];
     this.averageHistogram = histogramValues[3];
+    revalidate();
     repaint();
   }
 
@@ -54,11 +55,22 @@ public class HistogramPanel extends JScrollPane {
 
   private void drawHistogramComponent(
           Graphics g, int[] histogram, int barWidth, int maxHeight, Color color) {
+    // Find the maximum value in the histogram
+    int maxHistogramValue = 0;
+    for (int value : histogram) {
+      maxHistogramValue = Math.max(maxHistogramValue, value);
+    }
+
+    // Calculate the scaling factor to fit the histogram within the maxHeight
+    double scale = (double) maxHeight / maxHistogramValue;
+
     // iterate over all the 256 values
     for (int i = 0; i < histogram.length; i++) {
       g.setColor(color);
+      // Scale the histogram value to fit within maxHeight
+      int scaledValue = (int) (histogram[i] * scale);
       // Draw the bar
-      g.fillRect(i * barWidth, maxHeight - histogram[i], barWidth, histogram[i]);
+      g.fillRect(i * barWidth, maxHeight - scaledValue, barWidth, scaledValue);
     }
   }
 }
