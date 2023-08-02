@@ -31,6 +31,7 @@ public class PPMImage implements CustomImageMutable {
     this.pixelsList = new PixelMutable[width][height];
   }
 
+
   /**
    * Getter for width.
    *

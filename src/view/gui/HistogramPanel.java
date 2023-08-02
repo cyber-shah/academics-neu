@@ -37,15 +37,26 @@ public class HistogramPanel extends JPanel {
     repaint();
   }
 
+  /**
+   * Paints the histogram.
+   *
+   * @param g the <code>Graphics</code> object to protect
+   */
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     drawHistogram(g);
   }
 
+  /**
+   * Draws the histogram.
+   * Goes ahead to call drawHistogramComponent on each of the histogram components.
+   *
+   * @param g the <code>Graphics</code> object.
+   */
   private void drawHistogram(Graphics g) {
     // Get the width and height of the panel
-    int barWidth = getWidth() / 256;
-    int maxHeight = getHeight() - 15;
+    int barWidth = this.getWidth() / 256;
+    int maxHeight = this.getHeight() - 5;
 
     drawHistogramComponent(g, redHistogram, barWidth, maxHeight, Color.RED);
     drawHistogramComponent(g, greenHistogram, barWidth, maxHeight, Color.GREEN);
@@ -53,24 +64,43 @@ public class HistogramPanel extends JPanel {
     drawHistogramComponent(g, averageHistogram, barWidth, maxHeight, Color.BLACK);
   }
 
+  /**
+   * Draws a histogram component.
+   *
+   * @param g the graphics object.
+   * @param histogram the histogram values.
+   * @param barWidth the width of the bar.
+   * @param maxPossibleHt the maximum height of the bar.
+   * @param color the color of the bar.
+   */
   private void drawHistogramComponent(
-          Graphics g, int[] histogram, int barWidth, int maxHeight, Color color) {
+          Graphics g, int[] histogram, int barWidth, int maxPossibleHt, Color color) {
+
     // Find the maximum value in the histogram
     int maxHistogramValue = 0;
     for (int value : histogram) {
       maxHistogramValue = Math.max(maxHistogramValue, value);
     }
 
-    // Calculate the scaling factor to fit the histogram within the maxHeight
-    double scale = (double) maxHeight / maxHistogramValue;
+    // Calculate the scaling factor to fit the histogram within the maxPossibleHt
+    double scale = (double) maxPossibleHt / maxHistogramValue;
 
-    // iterate over all the 256 values
+    // Iterate over all the 256 values
     for (int i = 0; i < histogram.length; i++) {
-      g.setColor(color);
-      // Scale the histogram value to fit within maxHeight
+      // Scale the histogram value to fit within maxPossibleHt
       int scaledValue = (int) (histogram[i] * scale);
+
+      // Calculate the alpha value based on the scaled value
+      int alpha = (int) ((scaledValue / (double) maxPossibleHt) * 255);
+
+      // Create a transparent version of the color
+      Color transparentColor = new Color(color.getRed(),
+              color.getGreen(), color.getBlue(), alpha);
+      // Set the color with transparency
+      g.setColor(transparentColor);
       // Draw the bar
-      g.fillRect(i * barWidth, maxHeight - scaledValue, barWidth, scaledValue);
+      g.fillRect(i * barWidth, maxPossibleHt - scaledValue, barWidth, scaledValue);
     }
   }
+
 }

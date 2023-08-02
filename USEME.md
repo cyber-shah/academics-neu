@@ -1,4 +1,10 @@
-GrimeMain is a command-line custom image manipulation program that allows you to load, save, and modify images. Below are the supported commands:
+Grime is a custom image manipulation program that allows you to load, save, and modify images. The user can run the program with three types of command line arguments.
+1.  `-file {file-path}` : Loads and runs commands from the specified file.
+2. `-text` : Scripting Mode. Allows the user to enter commands manually. 
+3. ` `(no argument) : GUI Mode. Opens the GUI for the user to interact with.
+
+
+Below are the supported commands:
 
 - `load {format} {image-path} {custom-Image-name}`
   Loads the image from the specified path and stores it with the given name.
