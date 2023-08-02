@@ -3,14 +3,12 @@ package controller;
 import controller.commandmanager.CommandsManager;
 import controller.commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
-import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
 import view.gui.CustomEvent;
-import view.gui.GUIView;
+import view.gui.ViewGUI;
 
 import java.util.Objects;
-import java.util.Stack;
 
 /**
  * This class is the controller for the GUI.
@@ -18,7 +16,7 @@ import java.util.Stack;
  */
 public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
-  private final GUIView view;
+  private final ViewGUI view;
   private final CommandsManagerInterface commandsManager;
 
 
@@ -28,15 +26,13 @@ public class ControllerGUI implements ControllerGUIInterface {
    * @param imageDatabase the model.
    * @param view the view.
    */
-  public ControllerGUI(ImageDatabaseInterface imageDatabase, GUIView view) {
+  public ControllerGUI(ImageDatabaseInterface imageDatabase, ViewGUI view) {
     this.imageDatabase = Objects.requireNonNull(imageDatabase);
     this.view = Objects.requireNonNull(view);
     // NOTE : Subscribe to the view's custom events.
     view.addEventsListener(this);
     this.commandsManager = new CommandsManager();
     commandsManager.registerAllCommands();
-    this.histogramDatabase = new ImageDatabase();
-    this.histogramStack = new Stack<>();
   }
 
   /**
@@ -95,8 +91,7 @@ public class ControllerGUI implements ControllerGUIInterface {
       }
     }
 
-
-
+    // update the histogram
     view.updateHistogram(updatedImage.getHistogramValues());
 
     // show the message

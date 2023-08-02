@@ -5,7 +5,7 @@ import controller.commandmanager.CommandsManagerInterface;
 import model.ImageDatabase;
 import model.ImageDatabaseInterface;
 import view.scripting.ViewImplementation;
-import view.gui.GUIView;
+import view.gui.ViewGUI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,7 +29,7 @@ public class GrimeMain {
     // use the GUI -----------------------------------------
     if (args.length == 0) {
       ImageDatabaseInterface model = new ImageDatabase();
-      GUIView view = new GUIView();
+      ViewGUI view = new ViewGUI();
       ControllerGUI controller = new ControllerGUI(model, view);
       view.setVisible(true);
     }

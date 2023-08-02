@@ -77,7 +77,6 @@ public class BufferedImageWrapper implements CustomImageMutable {
     return histogramValues;
   }
 
-
   /**
    * Getter for width.
    *

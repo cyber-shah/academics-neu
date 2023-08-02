@@ -56,6 +56,8 @@ public class PPMImageLoader implements ImageLoaderInterface
       // 2. if valid parameters, create the image
       PPMImage customImage = new PPMImage(width, height, maxValue);
 
+//      BufferedImageWrapper customImage = new BufferedImageWrapper(width, height, maxValue);
+
       // 3. read the pixels
       try {
         for (int i = 0; i < customImage.getWidth(); i++) {

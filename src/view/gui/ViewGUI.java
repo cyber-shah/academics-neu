@@ -19,11 +19,11 @@ import java.util.UUID;
  * It uses Java Swing to create the GUI.
  * It creates custom events which are then handled by the controller.
  */
-public class GUIView extends JFrame implements ActionListener, ChangeListener {
+public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
 
   private final JLabel showText;
-  private JScrollPane histogramPanel;
-  private final Canvas imageCanvas;
+    private JScrollPane histogramPanel;
+  private final ImageCanvas imageCanvas;
   private String currentImageID;
   // TODO : instead of using a currentImageID, use a STACK of imageIDs
   //        so that we undo and redo
@@ -44,7 +44,7 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
    * 2. Initialize the south : show text.
    * 3. Initialize the west : toolbar panel.
    */
-  public GUIView() {
+  public ViewGUI() {
     super();
     setTitle("Grime");
     setSize(800, 800);
@@ -66,7 +66,7 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
     // NOTE : Main Panel's CENTER
     JScrollPane imagePanel = new JScrollPane();
     imagePanel.setBorder(BorderFactory.createTitledBorder("Image"));
-    this.imageCanvas = new Canvas();
+    this.imageCanvas = new ImageCanvas();
     imagePanel.setViewportView(this.imageCanvas);
     mainPanel.add(imagePanel, BorderLayout.CENTER);
 
@@ -97,7 +97,6 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
   public void addEventsListener(CustomEventsListener listener) {
     this.listeners.add(listener);
   }
-
 
   /**
    * It catches the event, modifies it to a custom event and emits it.
@@ -222,6 +221,9 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
     showText.setText(message);
   }
 
+  public void updateHistogram(int[][] histogramValues) {
+
+  }
 
 
   // HELPER METHODS to add panels to the toolbar panel ---------------------------------------
@@ -391,10 +393,5 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
       // Update text field with slider value
       this.valueText.setText(String.valueOf(value));
     }
-  }
-
-  public void updateHistogram(CustomImageState customImageState) {
-    // TODO : update histogram
-
   }
 }

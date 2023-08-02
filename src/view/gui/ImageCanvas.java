@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * It is also responsible for handling the zooming functionality.
  * It extends the JPanel class.
  */
-public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
+public class ImageCanvas extends JPanel implements Scrollable, MouseWheelListener {
 
   private BufferedImage image;
   private double zoomLevel = 1.0;
@@ -23,7 +23,7 @@ public class Canvas extends JPanel implements Scrollable, MouseWheelListener {
   /**
    * Constructs a new Canvas object.
    */
-  public Canvas() {
+  public ImageCanvas() {
     super();
     // Add the mouse wheel listener
     addMouseWheelListener(this);
