@@ -152,6 +152,12 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
       }
     }
 
+    // CHECK IF IMAGE ALREADY LOADED --------------------
+    if (currentImageID == null && !actionName.equals("Load")) {
+      this.showText.setText("Please load an image first");
+    }
+
+
     else if (actionName.equals("Blur") || actionName.equals("Sharpen")) {
       // NOTE : updated the current image ID here
       newImageID = UUID.randomUUID().toString();
