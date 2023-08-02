@@ -169,9 +169,9 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
       currentImageID = newImageID;
     }
 
-    else if (actionName.equals("Luma") || actionName.equals("Intensity") ||
-            actionName.equals("Value") || actionName.equals("Red") ||
-            actionName.equals("Green") || actionName.equals("Blue")) {
+    else if (actionName.equals("Luma") || actionName.equals("Intensity")
+            || actionName.equals("Value") || actionName.equals("Red")
+            || actionName.equals("Green") || actionName.equals("Blue")) {
       // NOTE : updated the current image ID here
       newImageID = UUID.randomUUID().toString();
       this.emit(new CustomEvent(this, "greyscale", e.getActionCommand(),
@@ -186,7 +186,7 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
               null, currentImageID, newImageID));
       currentImageID = newImageID;
     }
-    
+
     else {
       this.showMessage("Invalid Action");
     }
@@ -346,8 +346,8 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
    * @param toolbarPanel the toolbar added to the main panel
    */
   private void addBrightenDarkenPanel(JPanel toolbarPanel) {
-    JPanel BrightenDarken = new JPanel(new BorderLayout());
-    BrightenDarken.setBorder(BorderFactory.createTitledBorder("Brighten/Darken"));
+    JPanel brightenDarken = new JPanel(new BorderLayout());
+    brightenDarken.setBorder(BorderFactory.createTitledBorder("Brighten/Darken"));
     // create buttons, sliders and labels
     this.brightnessSlider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
     JButton applyButton = new JButton("Apply");
@@ -355,16 +355,16 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
     JLabel darken = new JLabel("Darken");
     this.valueText = new JLabel("0", JLabel.CENTER);
     // add them to the panel
-    BrightenDarken.add(applyButton, BorderLayout.SOUTH);
-    BrightenDarken.add(this.brightnessSlider, BorderLayout.CENTER);
-    BrightenDarken.add(brighten, BorderLayout.EAST);
-    BrightenDarken.add(darken, BorderLayout.WEST);
-    BrightenDarken.add(valueText, BorderLayout.NORTH);
+    brightenDarken.add(applyButton, BorderLayout.SOUTH);
+    brightenDarken.add(this.brightnessSlider, BorderLayout.CENTER);
+    brightenDarken.add(brighten, BorderLayout.EAST);
+    brightenDarken.add(darken, BorderLayout.WEST);
+    brightenDarken.add(valueText, BorderLayout.NORTH);
     // add action listeners to buttons
     applyButton.addActionListener(this);
     this.brightnessSlider.addChangeListener(this);
     // finally add it to the toolbar panel
-    toolbarPanel.add(BrightenDarken);
+    toolbarPanel.add(brightenDarken);
   }
 
   /**
@@ -391,5 +391,10 @@ public class GUIView extends JFrame implements ActionListener, ChangeListener {
       // Update text field with slider value
       this.valueText.setText(String.valueOf(value));
     }
+  }
+
+  public void updateHistogram(CustomImageState customImageState) {
+    // TODO : update histogram
+
   }
 }

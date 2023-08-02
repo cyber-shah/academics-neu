@@ -3,11 +3,15 @@ package controller;
 import controller.commandmanager.CommandsManager;
 import controller.commandmanager.CommandsManagerInterface;
 import controller.commandsstrategy.CommandStrategyInterface;
+import model.ImageDatabase;
 import model.ImageDatabaseInterface;
+import model.image.CustomImageState;
+import model.operations.MakeHistogram;
 import view.gui.CustomEvent;
 import view.gui.GUIView;
 
 import java.util.Objects;
+import java.util.Stack;
 
 /**
  * This class is the controller for the GUI.
@@ -15,6 +19,8 @@ import java.util.Objects;
  */
 public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
+  private final ImageDatabaseInterface histogramDatabase;
+  private final Stack<CustomImageState> histogramStack;
   private final GUIView view;
   private final CommandsManagerInterface commandsManager;
 
@@ -32,6 +38,8 @@ public class ControllerGUI implements ControllerGUIInterface {
     view.addEventsListener(this);
     this.commandsManager = new CommandsManager();
     commandsManager.registerAllCommands();
+    this.histogramDatabase = new ImageDatabase();
+    this.histogramStack = new Stack<>();
   }
 
   /**
@@ -41,6 +49,10 @@ public class ControllerGUI implements ControllerGUIInterface {
    */
   @Override
   public void handleEvent(CustomEvent event) {
+
+    CustomImageState updatedImage = null;
+
+    // NOTE : 1. IO events are handled differently from other events.
     if (event.getEventType().equalsIgnoreCase("io")) {
       // NOTE : 2. IO events always use source ID and destination ID as null
       //        <load/save> <filePath> <imageID>
@@ -49,19 +61,21 @@ public class ControllerGUI implements ControllerGUIInterface {
       commandList[1] = event.getFilePath();
       commandList[2] = event.getSourceID();
       try {
+        // get the command strategy object from the commands manager
         CommandStrategyInterface commandStrategyObject =
                 commandsManager.getCommandStrategy(commandList);
+        // run the command
         commandStrategyObject.run(commandList, this.imageDatabase);
-        view.updateImageCanvas(this.imageDatabase.getImage(event.getSourceID()));
-        view.showMessage(event.getEventType() + " "
-                + event.getEventName() + " " + "executed successfully");
+
+        updatedImage = this.imageDatabase.getImage(event.getSourceID());
       }
       catch (Exception e) {
         view.showMessage(e.getMessage());
       }
     }
-    // for all other events, source ID is the source image ID and destination ID is the destination
-    // and file path is null
+
+    // for all other events, source ID is the source image ID
+    // destination ID is the destination and file path is null
     else {
       // NOTE : command of the format:
       //        <eventType> <eventName> <sourceID> <destID>
@@ -71,16 +85,58 @@ public class ControllerGUI implements ControllerGUIInterface {
       commandList[2] = event.getSourceID(); // source image ID
       commandList[3] = event.getDestID(); // destination image ID
       try {
+        // get the command strategy object from the commands manager
         CommandStrategyInterface commandStrategyObject =
                 commandsManager.getCommandStrategy(commandList);
+        // run the command
         commandStrategyObject.run(commandList, this.imageDatabase);
-        view.updateImageCanvas(this.imageDatabase.getImage(event.getDestID()));
-        view.showMessage(event.getEventType() + " "
-                + event.getEventName() + " " + "Applied successfully");
+
+        updatedImage = this.imageDatabase.getImage(event.getDestID());
       }
       catch (Exception e) {
         view.showMessage(e.getMessage());
       }
     }
+
+
+
+    if (event.getHistogram) {
+      /**
+       * histograms can also be created with scripting
+       * <histogram> <source-image-ID> <histogram-dest-ID>
+       *   so it will take in 2 params.
+       *   1. source image ID from image database.
+       *   2. new histogram ID for histogram database.
+       *   ------------------------------------
+       *   Therefore, there would be two parallel databases.
+       *   1. image database
+       *   2. histogram database
+       *   ------------------------------------
+       */
+
+
+
+      String[] histogramCommand = new String[3];
+      histogramCommand[0] = "histogram";
+      histogramCommand[1] = event.getDestID();
+      histogramCommand[2] = ;
+
+      // get the command strategy object from the commands manager
+      CommandStrategyInterface commandStrategyObject =
+              commandsManager.getCommandStrategy(histogramCommand);
+      // run the command
+      commandStrategyObject.run(histogramCommand, this.imageDatabase);
+    }
+
+
+
+
+
+
+
+    // show the message
+    view.showMessage(event.getEventType() + " "
+            + event.getEventName() + " " + "executed successfully");
+
   }
 }
