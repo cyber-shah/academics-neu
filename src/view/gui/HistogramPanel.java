@@ -1,8 +1,14 @@
 package view.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Dimension;
 
+/**
+ * This class represents the Histogram Panel.
+ * It is used to display the histogram of the image.
+ */
 public class HistogramPanel extends JPanel {
   private int[] redHistogram;
   private int[] greenHistogram;

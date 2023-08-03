@@ -112,9 +112,9 @@ public class PPMImage implements CustomImageMutable {
   }
 
   /**
-   * Getter for histogram values
+   * Getter for histogram values.
    *
-   * @return the histogram values
+   * @return a 2D array of the histogram values.
    */
   @Override
   public int[][] getHistogramValues() {
@@ -128,7 +128,7 @@ public class PPMImage implements CustomImageMutable {
     int width = this.getWidth();
     int height = this.getHeight();
     for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; i++) {
+      for (int j = 0; j < height; j++) {
         int red = this.getPixel(i, j).getRed();
         int green = this.getPixel(i, j).getGreen();
         int blue = this.getPixel(i, j).getBlue();

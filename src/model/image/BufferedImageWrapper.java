@@ -45,9 +45,9 @@ public class BufferedImageWrapper implements CustomImageMutable {
   }
 
   /**
-   * Getter for histogram values
+   * Getter for histogram values.
    *
-   * @return the histogram values
+   * @return the histogram values.
    */
   @Override
   public int[][] getHistogramValues() {

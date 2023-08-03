@@ -7,6 +7,7 @@ import java.io.IOException;
  * It represents a View that can be used to display messages.
  */
 public class ViewImplementation implements ViewInterface {
+
   final private Appendable outAppendable;
 
   /**

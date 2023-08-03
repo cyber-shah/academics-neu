@@ -4,11 +4,9 @@ import model.image.CustomImageState;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +17,13 @@ import java.util.UUID;
  * It uses Java Swing to create the GUI.
  * It creates custom events which are then handled by the controller.
  */
-public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
+public class ViewGUI extends JFrame implements ViewGUIInterface {
 
   private final JLabel showText;
   private HistogramPanel histogramPanel;
   private final ImageCanvas imageCanvas;
   private String currentImageID;
-  // TODO : instead of using a currentImageID, use a STACK of imageIDs
-  //        so that we undo and redo
-  //        continue using a <MAP> imagedatabase and use stack to retrieve the imageIDs
-
-  // OPTIMIZE : add a clear button to clear the image canvas and start over
-
   private final List<CustomEventsListener> listeners;
-
   // Brightness sliders and text -----------------
   private JSlider brightnessSlider;
   private JLabel valueText;
@@ -89,11 +80,13 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
     setVisible(true);
   }
 
+
   /**
    * Adds Subscribers to the listeners list.
    *
    * @param listener the subscriber to be added.
    */
+  @Override
   public void addEventsListener(CustomEventsListener listener) {
     this.listeners.add(listener);
   }
@@ -214,6 +207,7 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
    *
    * @param image the image to be updated.
    */
+  @Override
   public void updateImageCanvas(CustomImageState image) {
     this.imageCanvas.setImage(image.getBufferedImage());
   }
@@ -223,6 +217,7 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
    *
    * @param message the message to be updated.
    */
+  @Override
   public void showMessage(String message) {
     showText.setText(message);
   }
@@ -232,9 +227,25 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
    *
    * @param histogramValues the values to be updated.
    */
+  @Override
   public void updateHistogram(int[][] histogramValues) {
     this.histogramPanel.setHistogram(histogramValues);
   }
+
+  /**
+   * This method updates the JLabel with a value whenever the slider is moved.
+   *
+   * @param e a ChangeEvent object.
+   */
+  @Override
+  public void stateChanged(ChangeEvent e) {
+    if (e.getSource() == this.brightnessSlider) {
+      int value = this.brightnessSlider.getValue();
+      // Update text field with slider value
+      this.valueText.setText(String.valueOf(value));
+    }
+  }
+
 
 
   // HELPER METHODS to add panels to the toolbar panel ---------------------------------------
@@ -395,17 +406,4 @@ public class ViewGUI extends JFrame implements ActionListener, ChangeListener {
     toolbarPanel.add(histogramArea);
   }
 
-  /**
-   * This method updates the JLabel with a value whenever the slider is moved.
-   *
-   * @param e a ChangeEvent object.
-   */
-  @Override
-  public void stateChanged(ChangeEvent e) {
-    if (e.getSource() == this.brightnessSlider) {
-      int value = this.brightnessSlider.getValue();
-      // Update text field with slider value
-      this.valueText.setText(String.valueOf(value));
-    }
-  }
 }

@@ -6,7 +6,7 @@ import controller.commandsstrategy.CommandStrategyInterface;
 import model.ImageDatabaseInterface;
 import model.image.CustomImageState;
 import view.gui.CustomEvent;
-import view.gui.ViewGUI;
+import view.gui.ViewGUIInterface;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class ControllerGUI implements ControllerGUIInterface {
   private final ImageDatabaseInterface imageDatabase;
-  private final ViewGUI view;
+  private final ViewGUIInterface view;
   private final CommandsManagerInterface commandsManager;
 
 
@@ -26,7 +26,7 @@ public class ControllerGUI implements ControllerGUIInterface {
    * @param imageDatabase the model.
    * @param view the view.
    */
-  public ControllerGUI(ImageDatabaseInterface imageDatabase, ViewGUI view) {
+  public ControllerGUI(ImageDatabaseInterface imageDatabase, ViewGUIInterface view) {
     this.imageDatabase = Objects.requireNonNull(imageDatabase);
     this.view = Objects.requireNonNull(view);
     // NOTE : Subscribe to the view's custom events.
@@ -92,6 +92,10 @@ public class ControllerGUI implements ControllerGUIInterface {
     }
 
     // update the histogram
+    if (updatedImage == null) {
+      view.showMessage("Image not found");
+      return;
+    }
     view.updateHistogram(updatedImage.getHistogramValues());
 
     // show the message

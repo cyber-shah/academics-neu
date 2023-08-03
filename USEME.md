@@ -39,9 +39,9 @@ The GUI is divided into three main sections: the toolbar, the image display, and
 2. Select "Load" to load a file from your file system.
 3. Choose the image file (PNG, PPM, BMP, JPEG or JPG) to process.
 4. The image will be shown in the main window.
-   ![Start](res/screenshots/1Start.png)
-   ![Load](res/screenshots/2Load.png)
-   ![Show](res/screenshots/3Loaded.png)
+![Start](res/screenshots/1Start.png)
+![Load](res/screenshots/2Load.png)
+![Show](res/screenshots/3Loaded.png)
 
 
 
@@ -50,7 +50,7 @@ The GUI is divided into three main sections: the toolbar, the image display, and
 1. To save the current image, go to "Save" in the toolbar
 2. Choose a file type (PNG, PPM, BMP, JPEG or JPG) and a target directory.
 3. To save the image, click the "Save" button.
-  ![Save](res/screenshots/7Save.png)
+![Save](res/screenshots/7Save.png)
 
 ## Image Viewing
 
