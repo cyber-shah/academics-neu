@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include "hashmap.h"
+
 #define INF 9999
 #define MAX_NODES 100
 
@@ -11,15 +13,10 @@
 */
 struct Node {
     char *name;
+    int index;
     int distance;
 } typedef Node;
 
-Node* create_node(char *line) {
-    Node *node = (Node *) malloc(sizeof(Node));
-    node->name = line;
-    node->distance = INF;
-    return node;
-}
 
 /**
  * A graph is represented by the following :
@@ -33,6 +30,61 @@ struct Graph {
     int adjacencyMatrix[MAX_NODES][MAX_NODES];
     Node *nodes[MAX_NODES];
 } typedef Graph;
+
+/**
+ * adds a node to the graph with the given name.
+ * creates a node, and adds it to graph.
+ * 
+ * @param 
+*/
+int add_to_graph(Graph* graph, char *nodeName) {
+    // 1. get the index
+    int index = graph->numberOfNodes;
+
+    // 2. create the node
+    Node* node = (Node*) malloc(sizeof(Node));
+    node->name = strdup(nodeName);
+    node->index = index;
+    node->distance = INF;
+
+    // 3. add node to the graph
+    graph->nodes[index] = node;
+    graph->numberOfNodes++;
+
+    return index;
+}
+
+
+/**
+ * Sets the edge index based on the source and destination.
+ * For example : set_edge_distance(&graph, "paris", "lille", 50)
+ * 
+ * 
+*/
+int set_edge_distance(Graph *graph, 
+                      char *src, char *dest, int weight) {
+    
+    int src_index = -1; int dest_index = -1;
+    
+    // find the index of the source node.
+    for (int i = 0; i < graph->numberOfNodes; i++) {
+        if (strcmp(graph->nodes[i]->name, src) ) {
+            src_index = i;
+        }
+        else if (strcmp(graph->nodes[i]->name, dest) ) {
+            dest_index = i;
+        }
+    }
+
+    // if node not found return
+    if (src_index == -1 || dest_index == -1) {
+        return -1;
+    }
+
+    // if node found edit the distance
+    graph->adjacencyMatrix [src_index] [dest_index] = weight;
+    return 1;
+}
 
 /**
  * initializes a graph to have no nodes or edges.
@@ -92,8 +144,11 @@ void djikstra(int sourceNode, Graph *graph) {
     // array of nodes - to store the distance from the source node.
     Node distArray[MAX_NODES];
 
-    // initialize the graph
-    graph = initializeGraph();
+    // loop through all the nodes.
+    for (int i = 0; i < graph->numberOfNodes; i++) {
+
+    }
+
 
 
 
