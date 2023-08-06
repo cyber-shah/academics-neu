@@ -33,17 +33,27 @@ struct Graph {
  *  
  * @param graph the graph to initialize.
 */
-void initializeGraph(Graph *graph) {
+Graph* initializeGraph() {
+    Graph *graph = (Graph *) malloc(sizeof(Graph));
     graph->numberOfNodes = 0;
     graph->numberOfEdges = 0;
     graph->adjacencyMatrix[MAX_NODES][MAX_NODES] = INF;
+
+    return graph;
 }
 
+/**
+ * Finds the unvisited node with the minimum distance.
+ * 
+ * @param visited the array of visited nodes.
+ * @param distArray the array of nodes with their distance from the source node.
+*/
 int find_min_distance_node(bool visited[], Node distArray[]) {
     int minDistance = INF;
 
     // for all nodes if unvisited and distance less than minDistance.
     for (int i = 0; i < MAX_NODES; i++) {
+        int minDistance = distArray[i].distance;
         if (visited[i] == false && distArray[i].distance <= minDistance) {
             minDistance = distArray[i].distance;
         }
