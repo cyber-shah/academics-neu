@@ -52,10 +52,14 @@ int find_min_distance_node(bool visited[], Node distArray[]) {
 
 /**
  * This function is the implementation of the djikstra algorithm.
- * 1. Starts with the source node.
- * 2. Examine the nodes adjacent to the source node.
- *      2.1 If the distance from the source node to the adjacent node is less than the current distance, update the distance.
- *      2.2 Mark the current node as visited.
+ * here distance = sum of weights of edges from source node to the current node.
+ *                  or the distance from the source node to the current node.
+ * 1. find the node with the minimum distance to visit next.
+ * 2. Loop over all of its adjacent nodes.
+ *      2.1 Relax all the adjacent nodes unvisited nodes. (why?)
+ *              because we visit a node only when we have found the shortest path to it 
+ *              and there is no other shorter path.
+ *      2.2 If the new distance is less than the current distance, update the distance.
  * 3. Pick the smallest distance node from unvisited nodes.
  * 4. Repeat steps 2 and 3 until all the nodes are visited.
  * 5. Keep updating the distance array.
@@ -79,17 +83,23 @@ void djikstra(int sourceNode, Graph *graph) {
 
     // loop through all the nodes.
     for (int i = 0; i < (graph->numberOfNodes - 1); ++i) {
-        /**
-         * 2. Examine the nodes adjacent to the source node.
-         *      2.1 If the distance from the source node to the adjacent node is less than the current distance, update the distance.
-         *      2.2 Mark the current node as visited.
-         * 3. Pick the smallest distance node from unvisited nodes.
-         * 4. Repeat steps 2 and 3 until all the nodes are visited.
-         * 5. Keep updating the distance array.
-        */
        // finds the node with the minimum distance to visit next.
         int minDistanceNode = find_min_distance_node(visited, distArray);
 
+        // mark the node as visited.
+        visited[minDistanceNode] = true;
+
+        // loop through all the nodes.
+        for (int j = 0; j < graph->numberOfNodes; ++j) {
+            // relax all the adjacent unvisited nodes. adjacent means distance != INF
+            if (visited[j] == false && graph->adjacencyMatrix[minDistanceNode][j] != INF) {
+                int newDistance = distArray[minDistanceNode].distance + graph->adjacencyMatrix[minDistanceNode][j];
+                if (newDistance < distArray[j].distance) {
+                    // update the distance.
+                    distArray[j].distance = newDistance;
+                }
+            }
+        }
     }
 
 }
