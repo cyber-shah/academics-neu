@@ -148,14 +148,20 @@ int find_min_distance_node(bool visited_list[], int distances_list[]) {
  * 
  * @param sourceNode the source node.
  * @param graph the graph to find the shortest path.
+ * @returns distances_list an array of distances from the source node to all the nodes.
 */
-void djikstra(int sourceNode, Graph *graph) {
-
+int* djikstra(int sourceNode, Graph *graph) {
     // initialize all the visited_list nodes to false.
     bool visited_list [MAX_NODES] = {false};
     // array of nodes - to store the distance from the source node.
-    int distances_list[MAX_NODES] = {INF};
+    int* distances_list = (int*) malloc(sizeof(int) * MAX_NODES);
 
+
+    // initialize all the distances to INF.
+    for (int i = 0; i < MAX_NODES; i++) {
+        distances_list[i] = INF;
+    }
+    // distance of source node from itself is 0.
     distances_list[sourceNode] = 0;
 
     // loop through all the nodes
@@ -178,8 +184,8 @@ void djikstra(int sourceNode, Graph *graph) {
                 }
             }
         }
-
     }
+    return distances_list;
 }
 
 
