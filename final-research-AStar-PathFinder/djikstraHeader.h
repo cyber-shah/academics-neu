@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #define INF 9999
 #define MAX_NODES 100
 
@@ -9,9 +10,16 @@
  * 2. The distance from the source node.
 */
 struct Node {
-    int nodeNumber;
+    char *name;
     int distance;
 } typedef Node;
+
+Node* create_node(char *line) {
+    Node *node = (Node *) malloc(sizeof(Node));
+    node->name = line;
+    node->distance = INF;
+    return node;
+}
 
 /**
  * A graph is represented by the following :
@@ -23,6 +31,7 @@ struct Graph {
     int numberOfNodes;
     int numberOfEdges;
     int adjacencyMatrix[MAX_NODES][MAX_NODES];
+    Node *nodes[MAX_NODES];
 } typedef Graph;
 
 /**
@@ -38,7 +47,6 @@ Graph* initializeGraph() {
     graph->numberOfNodes = 0;
     graph->numberOfEdges = 0;
     graph->adjacencyMatrix[MAX_NODES][MAX_NODES] = INF;
-
     return graph;
 }
 
@@ -83,6 +91,25 @@ void djikstra(int sourceNode, Graph *graph) {
     bool visited [MAX_NODES] = {false};
     // array of nodes - to store the distance from the source node.
     Node distArray[MAX_NODES];
+
+    // initialize the graph
+    graph = initializeGraph();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // initialize the distance array.
     for (int i = 0; i < MAX_NODES; i++) {
