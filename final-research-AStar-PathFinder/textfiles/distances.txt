@@ -1,0 +1,9 @@
+apple banana 2
+apple cat 3
+banana cat 3
+dog banana 1
+cat elephant 4
+elephant g 5
+dog goat 2
+elephant f 3
+cat fox 8

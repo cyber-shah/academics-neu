@@ -95,11 +95,16 @@ int set_edge_distance(Graph *graph,
     
     // find the index of the source node.
     for (int i = 0; i < graph->numberOfNodes; i++) {
-        if (strcmp(graph->nodes[i]->name, src) ) {
+        char *current_name = graph->nodes[i]->name;
+
+        if (strcmp(current_name, src) == 0 ) {
             src_index = i;
         }
-        else if (strcmp(graph->nodes[i]->name, dest) ) {
+        else if (strcmp(current_name, dest) == 0 ) {
             dest_index = i;
+        }
+        else if (src_index != -1 && dest_index != -1) {
+            break;
         }
     }
 
@@ -135,6 +140,11 @@ void free_graph(Graph *graph) {
  * @param graph the graph to print.
 */
 void print_graph(Graph *graph) {
+    if (graph == NULL) {
+        printf("Graph is empty.\n");
+        return;
+    }
+
     for (int i = 0; i < graph->numberOfNodes; i++) {
         for (int j = 0; j < graph->numberOfNodes; j++) {
             if (graph->adjacencyMatrix[i][j] != INF) {
