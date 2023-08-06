@@ -113,13 +113,8 @@ int main(int argc, char *argv[]) {
     }
 
     // get the shortest path list
-    int* shortest_path_list = Dijkstra(sourceNodeIndex, graph);
+    int* shortest_path_list = Dijkstra(sourceNodeIndex, graph, true);
 
-    // print the shortest path list
-    printf("Shortest path list: ");
-    for (int i = 0; i < graph->numberOfNodes; i++) {
-        printf("%d ", shortest_path_list[i]);
-    }
 
     return 0;
 }

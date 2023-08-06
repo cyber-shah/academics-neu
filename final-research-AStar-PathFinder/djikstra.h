@@ -4,7 +4,7 @@
 #include "hashmap.h"
 #include "graph.h"
 
-char* print_shortest_path(int* distances_list, int sourceNode, int totalNodes);
+void print_shortest_path(int* distances_list, int sourceNode, Graph* graph);
 int find_min_distance_node(const bool visited_list[], const int distances_list[], int totalNodes);
 
 
@@ -75,8 +75,9 @@ int* Dijkstra(int sourceNode, Graph *graph, bool print) {
     free(visited_list);
 
     if (print == true) {
-        print_shortest_path(distances_list, sourceNode, totalNodes);
+        print_shortest_path(distances_list, sourceNode, graph);
     }
+
     return distances_list;
 }
 
@@ -102,6 +103,16 @@ int find_min_distance_node(const bool visited_list[], const int distances_list[]
     return node_index;
 }
 
-char* print_shortest_path(int* distances_list, int sourceNode, int totalNodes) {
-    return NULL;
+void print_shortest_path(int* distances_list, int sourceNode, Graph* graph) {
+    printf("\n\nShortest path from node %s:\n", graph->nodes[sourceNode]->name);
+
+    for (int i = 0; i < graph->numberOfNodes; i++) {
+        if (distances_list[i] == INF) {
+            printf("%s is not reachable.\n", graph->nodes[i]->name);
+        } else {
+            printf("%s is %d units away.\n",
+                   graph->nodes[i]->name,
+                   distances_list[i]);
+        }
+    }
 }
