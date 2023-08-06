@@ -10,22 +10,18 @@ Graph* graph_from_file(const char *filepath) {
     if (file == NULL) {
         perror("Error opening file \n");
     }
-
     // read the file line by line and add to graph
     char line[256];
 
-    // get the characters and create nodes
+    // get the characters and create nodes and add nodes
     while (fgets(line, sizeof(line), file)) {
         // create a new node
-        Node *new_nodes = create_node(line);
-        printf("%s", new_nodes->name);
+        int index = add_to_graph(graph, line);   
+    }
+    for (int i = 0; i < graph->numberOfNodes; i++) {
+        printf("%d %s\n", i, graph->nodes[i]->name);
     }
 
-
-    const int x = 5;
-    int *ptr = (int*)&x; // cast away const-ness
-    *ptr = 10; // modify the value of x
-    
 
     fclose(file);
     return graph;    
