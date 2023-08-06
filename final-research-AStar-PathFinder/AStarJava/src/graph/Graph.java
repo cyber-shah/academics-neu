@@ -1,14 +1,16 @@
 package graph;
 
+import java.util.ArrayList;
+
 public class Graph {
   public int numNodes;
   public Node[] nodesList;
-  public int[][] adjacencyMatrix;
+  public ArrayList[][] adjacencyMatrix;
 
-  public Graph(int numNodes) {
-    this.numNodes = numNodes;
+  public Graph() {
+    this.numNodes = 0;
     nodesList = new Node[numNodes];
-    adjacencyMatrix = new int[numNodes][numNodes];
+    adjacencyMatrix = new ArrayList[][];
   }
 
   public int addNewNode(String name) {
@@ -44,18 +46,5 @@ public class Graph {
       result += "\n";
     }
     return result;
-  }
-
-
-  public int getNumNodes() {
-    return numNodes;
-  }
-
-  public Node[] getNodesList() {
-    return nodesList;
-  }
-
-  public int[][] getAdjacencyMatrix() {
-    return adjacencyMatrix;
   }
 }

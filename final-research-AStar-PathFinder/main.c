@@ -30,6 +30,7 @@ char *read_file(const char *filename) {
 }
 
 
+
 /**
  * Intializes a graph and adds vertices from a file.
  *
@@ -71,49 +72,17 @@ Graph* distances_from_file(const char *filename, Graph *graph) {
         return NULL;
     }
 
-    char* string_copy = strcpy(malloc(strlen(string) + 1), string);
     // read each line and create edges
     // must be in the format: <source> <destination> <weight>
-    char *line = strtok(string_copy, "\n");
+    char *line = strtok(string, "\n");
     while (line != NULL) {
-        // create a new node
-        printf("%s\n", line);
-        char *copy = strcpy(malloc(strlen(line) + 1), line);
-
-        // Split the line into words using space as delimiter
-        char *words[3]; // Assuming each line has three words: source, destination, weight
-        int wordIndex = 0;
-        char *word = strtok(copy, " ");
-        while (word != NULL && wordIndex < 3) {
-            words[wordIndex] = word;
-            word = strtok(NULL, " ");
-            wordIndex++;
-        }
-
-        // Now words[0], words[1], and words[2] contain the source, destination, and weight
-
-        // Example usage
-        if (wordIndex == 3) {
-            char *source = words[0];
-            char *destination = words[1];
-            char *weight = words[2];
-
-            // Use the values as needed
-            printf("Source: %s, Destination: %s, Weight: %d\n", source, destination, atoi(weight));
-
-            // Use set_edge_distance here if necessary
-            // set_edge_distance(graph, source, destination, weightValue);
-        }
-
+        char source[100], destination[100]; int weight;
+        sscanf(line, "%s %s %d", source, destination, &weight);
+        set_edge_distance(graph, source, destination, weight);
         line = strtok(NULL, "\n");
     }
-
-    // Clean up
-    free(string);
-
     return graph;
 }
-
 
 
 
@@ -133,5 +102,7 @@ int main(int argc, char *argv[]) {
     // create edges
     graph = distances_from_file(filepath_2, graph);
 
+    // print the graph
+    print_graph(graph);
     return 0;
 }
