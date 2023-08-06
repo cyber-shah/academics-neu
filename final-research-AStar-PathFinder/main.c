@@ -20,7 +20,6 @@ char *read_file(const char *filename) {
 }
 
 Graph* vertices_from_file(const char *filename) {
-
     char* string = read_file(filename);
     if (string == NULL) {
         return NULL;
@@ -35,11 +34,6 @@ Graph* vertices_from_file(const char *filename) {
         // create a new node
         int index = add_to_graph(graph, line);   
         line = strtok(NULL, "\n");
-    }
-
-    // print the vertices
-    for (int i = 0; i < graph->numberOfNodes; i++) {
-        printf("%d %s\n", i, graph->nodes[i]->name);
     }
 
     return graph;
