@@ -32,6 +32,15 @@ struct Graph {
 } typedef Graph;
 
 /**
+ * 
+*/
+struct distArray {
+    int nodeIndex;
+    int distance;
+} typedef distArray;
+
+
+/**
  * adds a node to the graph with the given name.
  * creates a node, and adds it to graph.
  * 
@@ -105,19 +114,22 @@ Graph* initializeGraph() {
 /**
  * Finds the unvisited node with the minimum distance.
  * 
- * @param visited the array of visited nodes.
+ * @param visited_list the array of visited_list nodes.
  * @param distArray the array of nodes with their distance from the source node.
+ * @returns node_index with the minimum distance.
 */
-int find_min_distance_node(bool visited[], Node distArray[]) {
+int find_min_distance_node(bool visited_list[], int distances_list[]) {
     int minDistance = INF;
+    int node_index = -1;
 
     // for all nodes if unvisited and distance less than minDistance.
     for (int i = 0; i < MAX_NODES; i++) {
-        int minDistance = distArray[i].distance;
-        if (visited[i] == false && distArray[i].distance <= minDistance) {
-            minDistance = distArray[i].distance;
+        if (visited_list[i] == false && distances_list[i] <= minDistance) {
+            minDistance = distances_list[i];
+            node_index = i;
         }
     }
+    return node_index;
 }
 
 /**
@@ -131,7 +143,7 @@ int find_min_distance_node(bool visited[], Node distArray[]) {
  *              and there is no other shorter path.
  *      2.2 If the new distance is less than the current distance, update the distance.
  * 3. Pick the smallest distance node from unvisited nodes.
- * 4. Repeat steps 2 and 3 until all the nodes are visited.
+ * 4. Repeat steps 2 and 3 until all the nodes are visited_list.
  * 5. Keep updating the distance array.
  * 
  * @param sourceNode the source node.
@@ -139,13 +151,33 @@ int find_min_distance_node(bool visited[], Node distArray[]) {
 */
 void djikstra(int sourceNode, Graph *graph) {
 
-    // initialize all the visited nodes to false.
-    bool visited [MAX_NODES] = {false};
+    // initialize all the visited_list nodes to false.
+    bool visited_list [MAX_NODES] = {false};
     // array of nodes - to store the distance from the source node.
-    Node distArray[MAX_NODES];
+    int distances_list[MAX_NODES] = {INF};
 
-    // loop through all the nodes.
-    for (int i = 0; i < graph->numberOfNodes; i++) {
+    distances_list[sourceNode] = 0;
+
+    // loop through all the nodes
+    for (int i = 0; i < (graph->numberOfNodes - 1); ++i)) {
+        // finds the node with the minimum distance to visit next.
+        int minDistanceNode = find_min_distance_node(visited_list, distances);
+
+        // mark the node as visited
+        visited_list[minDistanceNode] == true;
+
+        // loop through all the nodes.
+        for (int j = 0; j < graph->numberOfNodes; ++j) {
+            // relax all the adjacent unvisited nodes. adjacent means distance != INF
+            if (visited[j] == false && graph->adjacencyMatrix[minDistanceNode][j] != INF) {
+                int newDistance = distances_list [minDistanceNode] 
+                                  + graph->adjacencyMatrix[minDistanceNode][j];
+                if (newDistance < distances_list[j]) {
+                    // update the distance
+                    distances_list[j] = newDistance;
+                }
+            }
+        }
 
     }
 
@@ -155,20 +187,10 @@ void djikstra(int sourceNode, Graph *graph) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+    /*     
     // initialize the distance array.
     for (int i = 0; i < MAX_NODES; i++) {
-        distArray[i].nodeNumber = i;
+        distArray[i].index = i;
         distArray[i].distance = INF;
     }
     distArray[sourceNode].distance = 0;
@@ -192,7 +214,8 @@ void djikstra(int sourceNode, Graph *graph) {
                 }
             }
         }
-    }
+    } 
+    */
 
 }
 
