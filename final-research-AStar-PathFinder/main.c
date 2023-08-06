@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "djikstraHeader.h"
+#include "djikstra.h"
 
 /**
  * This function reads a file and returns a string containing the contents of the file.
@@ -28,8 +28,6 @@ char *read_file(const char *filename) {
     string[fsize] = '\0';
     return string;
 }
-
-
 
 /**
  * Intializes a graph and adds vertices from a file.
@@ -85,7 +83,6 @@ Graph* distances_from_file(const char *filename, Graph *graph) {
 }
 
 
-
 int main(int argc, char *argv[]) {
     if (argc != 3) {
         printf("Usage: %s <vertices_path> <distances_path>\n", argv[0]);
@@ -104,5 +101,25 @@ int main(int argc, char *argv[]) {
 
     // print the graph
     print_graph(graph);
+
+    // get the source node
+    char sourceName[100];
+    printf("Enter the source node: ");
+    scanf("%s", sourceName);
+    int sourceNodeIndex = get_index(graph, sourceName);
+    if (sourceNodeIndex == -1) {
+        printf("Node not found.\n");
+        return 1;
+    }
+
+    // get the shortest path list
+    int* shortest_path_list = Dijkstra(sourceNodeIndex, graph);
+
+    // print the shortest path list
+    printf("Shortest path list: ");
+    for (int i = 0; i < graph->numberOfNodes; i++) {
+        printf("%d ", shortest_path_list[i]);
+    }
+
     return 0;
 }

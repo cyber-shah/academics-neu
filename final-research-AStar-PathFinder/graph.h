@@ -14,7 +14,7 @@
 struct Node {
     char *name;
     int index;
-    int distance;
+//    int distance;
 } typedef Node;
 
 
@@ -26,7 +26,7 @@ struct Node {
 */
 struct Graph {
     int numberOfNodes;
-    int numberOfEdges;
+//    int numberOfEdges;
     int adjacencyMatrix[MAX_NODES][MAX_NODES];
     Node *nodes[MAX_NODES];
 } typedef Graph;
@@ -52,8 +52,14 @@ struct distArray {
 Graph* initializeGraph() {
     Graph *graph = (Graph *) malloc(sizeof(Graph));
     graph->numberOfNodes = 0;
-    graph->numberOfEdges = 0;
-    graph->adjacencyMatrix[MAX_NODES][MAX_NODES] = INF;
+//    graph->numberOfEdges = 0;
+
+    // initialize all the edges to INF.
+    for (int i = 0; i < MAX_NODES; i++) {
+        for (int j = 0; j < MAX_NODES; j++) {
+            graph->adjacencyMatrix[i][j] = INF;
+        }
+    }
     return graph;
 }
 
@@ -72,7 +78,7 @@ int add_to_graph(Graph* graph, char *nodeName) {
     Node* node = (Node*) malloc(sizeof(Node));
     node->name = strdup(nodeName);
     node->index = index;
-    node->distance = INF;
+//    node->distance = INF;
 
     // 3. add node to the graph
     graph->nodes[index] = node;
@@ -96,16 +102,12 @@ int set_edge_distance(Graph *graph,
     // find the index of the source node.
     for (int i = 0; i < graph->numberOfNodes; i++) {
         char *current_name = graph->nodes[i]->name;
-
         if (strcmp(current_name, src) == 0 ) {
-            src_index = i;
-        }
+            src_index = i; }
         else if (strcmp(current_name, dest) == 0 ) {
-            dest_index = i;
-        }
+            dest_index = i; }
         else if (src_index != -1 && dest_index != -1) {
-            break;
-        }
+            break; }
     }
 
     // if node not found return
@@ -145,14 +147,29 @@ void print_graph(Graph *graph) {
         return;
     }
 
+    printf("Number of nodes : %i\n", graph->numberOfNodes);
+
     for (int i = 0; i < graph->numberOfNodes; i++) {
         for (int j = 0; j < graph->numberOfNodes; j++) {
-            if (graph->adjacencyMatrix[i][j] != INF) {
-                printf("%s -> %s (%d)\n", 
-                graph->nodes[i]->name, 
-                graph->nodes[j]->name, 
-                graph->adjacencyMatrix[i][j]);
+            if (graph->adjacencyMatrix[i][j] == INF) {
+                continue;
+            }
+            else {
+                printf("%s -> %s (%i)\n",
+                       graph->nodes[i]->name,
+                       graph->nodes[j]->name,
+                       graph->adjacencyMatrix[i][j]);
             }
         }
     }
+}
+
+
+int get_index(Graph *graph, char *name) {
+    for (int i = 0; i < graph->numberOfNodes; i++) {
+        if (strcmp(graph->nodes[i]->name, name) == 0) {
+            return i;
+        }
+    }
+    return -1;
 }
