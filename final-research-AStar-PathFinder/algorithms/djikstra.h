@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "hashmap.h"
-#include "graph.h"
+#include "structs/graph.h"
 
 void print_shortest_path(int* distances_list, int sourceNode, Graph* graph);
 int find_min_distance_node(const bool visited_list[], const int distances_list[], int totalNodes);
-
 
 
 /**
@@ -81,7 +79,6 @@ int* Dijkstra(int sourceNode, Graph *graph, bool print) {
     return distances_list;
 }
 
-
 /**
  * Finds the unvisited node with the minimum distance.
  *
@@ -103,8 +100,15 @@ int find_min_distance_node(const bool visited_list[], const int distances_list[]
     return node_index;
 }
 
+/**
+ * Prints the shortest path from the source node to all the nodes.
+ *
+ * @param distances_list output from the Dijkstra algorithm.
+ * @param sourceNode the source node.
+ * @param graph the graph to print the shortest path.
+ */
 void print_shortest_path(int* distances_list, int sourceNode, Graph* graph) {
-    printf("\n\nShortest path from node %s:\n", graph->nodes[sourceNode]->name);
+    printf("Shortest path from node %s:\n\n", graph->nodes[sourceNode]->name);
 
     for (int i = 0; i < graph->numberOfNodes; i++) {
         if (distances_list[i] == INF) {
