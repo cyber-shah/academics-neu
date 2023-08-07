@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /**
  * A node is represented by the following :
  * 1. The node number.
@@ -27,7 +26,6 @@ struct Node {
 */
 struct Graph {
     int numberOfNodes;
-//    int numberOfEdges;
     int adjacencyMatrix[MAX_NODES][MAX_NODES];
     Node *nodes[MAX_NODES];
 } typedef Graph;
@@ -52,14 +50,15 @@ struct distArray {
 Graph* initializeGraph() {
     Graph *graph = (Graph *) malloc(sizeof(Graph));
     graph->numberOfNodes = 0;
-//    graph->numberOfEdges = 0;
 
-    // initialize all the edges to INF.
+    // initialize all the edges to INF and nodes to NULL.
     for (int i = 0; i < MAX_NODES; i++) {
+        graph->nodes[i] = NULL;
         for (int j = 0; j < MAX_NODES; j++) {
             graph->adjacencyMatrix[i][j] = INF;
         }
     }
+
     return graph;
 }
 
@@ -208,61 +207,6 @@ char *read_file(const char *filename) {
 }
 
 /**
- * Intializes a graph and adds vertices from a file.
- *
- * @param filename the name of the file to read.
- * @return a graph containing the vertices from the file.
- */
-Graph* vertices_from_file(const char *filename) {
-    char* string = read_file(filename);
-    if (string == NULL) {
-        perror("Error opening file for vertices");
-        return NULL;
-    }
-
-    // initialize graph
-    Graph *graph = initializeGraph();
-
-    // read each line and create vertices
-    char *line = strtok(string, "\n");
-    while (line != NULL) {
-        // create a new node
-        int index = add_to_graph(graph, line);
-        line = strtok(NULL, "\n");
-    }
-
-    return graph;
-}
-
-/**
- * Adds distances to a graph from a file.
- *
- * @param filename the name of the file to read.
- * @param graph the graph to add distances to.
- * @return a graph containing the distances from the file.
- */
-Graph* distances_from_file(const char *filename, Graph *graph) {
-    char* string= read_file(filename);
-    if (string == NULL) {
-        perror("Error opening file for distances.");
-        return NULL;
-    }
-
-
-
-    // read each line and create edges
-    // must be in the format: <source> <destination> <weight>
-    char *line = strtok(string, "\n");
-    while (line != NULL) {
-        char source[100], destination[100]; int weight;
-        sscanf(line, "%s %s %d", source, destination, &weight);
-        set_edge_distance(graph, source, destination, weight);
-        line = strtok(NULL, "\n");
-    }
-    return graph;
-}
-
-/**
  * Intializes a graph and adds vertices and distances from a string.
  *
  * @param vertices List of vertices in the format: <vertex1>\n<vertex2>\n...
@@ -274,8 +218,11 @@ Graph* graph_from_string(char* vertices, char* distances) {
     // initialize graph
     Graph *graph = initializeGraph();
 
+    char *vertices_copy = strdup(vertices);
+    char *distances_copy = strdup(distances);
+
     // read each line and create vertices
-    char *line = strtok(vertices, "\n");
+    char *line = strtok(vertices_copy, "\n");
     while (line != NULL) {
         // create a new node
         int index = add_to_graph(graph, line);
@@ -283,13 +230,15 @@ Graph* graph_from_string(char* vertices, char* distances) {
     }
 
     // read each line and create edges
-    char *line2 = strtok(distances, "\n");
+    char *line2 = strtok(distances_copy, "\n");
     while (line2 != NULL) {
         char source[100], destination[100]; int weight;
         sscanf(line2, "%s %s %d", source, destination, &weight);
         set_edge_distance(graph, source, destination, weight);
         line2 = strtok(NULL, "\n");
     }
+
+    free(vertices_copy); free(distances_copy);
 
     return graph;
 }

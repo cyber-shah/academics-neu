@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "structs/graph.h"
+#include "graph.h"
 
 void print_shortest_path(int* distances_list, int sourceNode, Graph* graph);
 int find_min_distance_node(const bool visited_list[], const int distances_list[], int totalNodes);

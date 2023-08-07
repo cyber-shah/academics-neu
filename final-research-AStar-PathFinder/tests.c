@@ -2,32 +2,50 @@
 // Created by shahp on 8/7/2023.
 //
 
-#include <stdio.h>
-#include <unistd.h>
 
 #include "algorithms/djikstra.h"
 
 
 int test_graphs() {
-//    char* stringVertices = "a \n b \n c \n d";
-//    char* stringDistances = "a b 2 \n b c 2 \n b c 2 \n b d 1 \n c d 3 \n a d 5";
-//
-//    Graph *graph = graph_from_string(stringVertices, stringDistances);
-//    Graph *sgraph = graph_from_files("vertices.txt", "distances.txt");
+    char* stringVertices = "a\nb\nc\nd";
+    char* stringDistances = "a b 2\nb c 1\na c 4\nc d 2\na d 8";
 
+    Graph *graph = graph_from_string(stringVertices, stringDistances);
+
+    free_graph(graph);
     return 1;
 }
 
 
+int test_djikstra() {
+    char* stringVertices = "a\nb\nc\nd";
+    char* stringDistances = "a b 2\nb c 1\na c 4\nc d 2\na d 8";
 
+    Graph *graph = graph_from_string(stringVertices, stringDistances);
+    int* shortest_path_list = Dijkstra(0, graph, true);
 
+    if (shortest_path_list[0] != 0) {
+        printf("shortest_path_list from source to source must be 0\n");
+        return 0;
+    } else if (shortest_path_list[1] != 2) {
+        printf("shortest_path_list from source to B must be 2\n");
+        return 0;
+    } else if (shortest_path_list[2] != 3) {
+        printf("shortest_path_list from source to C must be 3\n");
+        return 0;
+    } else if (shortest_path_list[3] != 5) {
+        printf("shortest_path_list from source to D must be 5\n");
+        return 0;
+    }
 
-
-
+    free_graph(graph);
+    return 1;
+}
 
 
 int (*unitTests[])(int) = {
-        test_graphs
+        test_graphs,
+        test_djikstra,
 };
 
 
