@@ -75,9 +75,9 @@ int add_to_graph(Graph* graph, char *nodeName) {
 
     // 2. create the node
     Node* node = (Node*) malloc(sizeof(Node));
-    node->name = strdup(nodeName);
+    node->name = (char*) malloc(strlen(nodeName) + 1);
+    strcpy(node->name, nodeName);
     node->index = index;
-//    node->distance = INF;
 
     // 3. add node to the graph
     graph->nodes[index] = node;
@@ -126,6 +126,7 @@ int set_edge_distance(Graph *graph,
 */
 void free_graph(Graph *graph) {
     for (int i = 0; i < graph->numberOfNodes; i++) {
+        free(graph->nodes[i]->name);
         free(graph->nodes[i]);
     }
     free(graph);

@@ -39,6 +39,7 @@ int test_djikstra() {
     }
 
     free_graph(graph);
+    free(shortest_path_list);
     return 1;
 }
 
