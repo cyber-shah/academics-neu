@@ -1,10 +1,14 @@
 class Node:
 
-    def __init__(self, name, x, y):
+    def __init__(self, name, x=None, y=None):
         self.index = None
         self.name = name
-        self.x = x
-        self.y = y
+        if x is None or y is None:
+            self.x = 0
+            self.y = 0
+        else:
+            self.x = x
+            self.y = y
 
     def get_node(self):
         return self
