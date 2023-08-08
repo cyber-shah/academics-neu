@@ -10,8 +10,10 @@
  * @param visited
  */
 void dfsHelper(Graph *graph, int sourceNodeIndex, bool visited[]) {
+    // base case - set the node to visited
     visited[sourceNodeIndex] = true;
 
+    // recursive case - if there is an adjacent node that is not visited, then visit it
     for (int i = 0; i < graph->numberOfNodes; ++i) {
         if (graph->adjacencyMatrix[sourceNodeIndex][i] != INF && !visited[i]) {
             dfsHelper(graph, i, visited);
@@ -29,7 +31,6 @@ void dfs_recursive(Graph *graph, int sourceNodeIndex) {
     bool visited[MAX_NODES] = {false};
     dfsHelper(graph, sourceNodeIndex, visited);
 }
-
 
 
 /**
