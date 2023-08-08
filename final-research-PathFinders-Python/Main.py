@@ -47,7 +47,7 @@ def plot_graph(graph):
     #             G.add_edge(i, j)
 
     # Create a grid layout for the nodes
-    grid_size = int(graph.number_of_nodes ** 0.5)  # Adjust this based on your node count
+    grid_size = int(graph.number_of_nodes ** 0.5)
     grid_spacing = 1.0  # Adjust this to control the spacing between nodes
 
     # Calculate positions for the nodes
@@ -55,15 +55,12 @@ def plot_graph(graph):
     for i in range(graph.number_of_nodes):
         row = i // grid_size
         col = i % grid_size
-        pos[i] = (col * grid_spacing, -row * grid_spacing)
+        pos[i] = (col * grid_spacing, row * grid_spacing)
 
     # Draw the graph in grid layout
     nx.draw(G, pos, with_labels=True, node_size=50, node_color='black', font_size=4)
 
-    # Display the visualization
     plt.show()
-
-    
 
 
 def main():

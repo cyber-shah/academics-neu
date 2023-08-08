@@ -26,6 +26,7 @@ def dijkstra(graph, source_node_name):
         destination_node = graph.get_node_via_index(i)
         if i != source_index and graph.get_edge(source_node, destination_node) != float('inf'):
             distance_list[i] = graph.get_edge(source_node, destination_node)
+    explored_nodes = []
 
     # DIJKSTRA starts here -------------------------------------------------
     for i in range(total_nodes):
@@ -33,6 +34,7 @@ def dijkstra(graph, source_node_name):
         min_distance_node = get_min_distance_node(visited_list, distance_list)
         # Mark the node as visited
         visited_list[min_distance_node] = True
+        explored_nodes.append(min_distance_node)
 
         # 2. Loop over all of its adjacent nodes.
         for j in range(total_nodes):
@@ -45,7 +47,7 @@ def dijkstra(graph, source_node_name):
                 if distance_list[min_distance_node] + edge_weight < distance_list[j]:
                     distance_list[j] = distance_list[min_distance_node] + edge_weight
 
-    return distance_list
+    return distance_list, explored_nodes
 
 
 def get_min_distance_node(visited_list, distance_list):
