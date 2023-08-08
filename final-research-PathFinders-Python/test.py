@@ -1,6 +1,7 @@
 import pygame
 import networkx as nx
-import Graph  # Import your graph module (assuming it contains Graph and Node classes)
+
+import DFS
 import Dijkstra  # Import your Dijkstra module (assuming it contains Dijkstra class)
 from Main import create_grid_graph
 
@@ -13,7 +14,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (200, 200, 0)
 
-NODE_RADIUS = 20
+NODE_RADIUS = 10
 WIDTH, HEIGHT = 800, 600
 ANIMATION_DELAY = 100
 
@@ -43,24 +44,52 @@ def plot_graph(graph):
     return nx_graph, pos
 
 
-def draw_graph(graph, nx_graph, pos, exploration_history, shortest_path, current_step, current_path_step):
+def draw_graph(graph, nx_graph, pos, exploration_history, shortest_path_indexes, current_step, current_path_step):
     screen.fill(WHITE)
 
-    for node in graph.nodesDictionary.values():
-        pygame.draw.circle(screen, BLACK, pos[node.get_index()], NODE_RADIUS)
+    center_x = WIDTH // 2
+    center_y = HEIGHT // 2
 
-    # for edge in graph.edges:
-    #     start_pos = pos[edge.start.get_index()]
-    #     end_pos = pos[edge.end.get_index()]
-    #     pygame.draw.line(screen, BLACK, start_pos, end_pos, 2)
+    avg_pos = [0, 0]
+    for node_pos in pos.values():
+        avg_pos[0] += node_pos[0]
+        avg_pos[1] += node_pos[1]
+    avg_pos[0] /= len(pos)
+    avg_pos[1] /= len(pos)
+
+    # Calculate offset to center the graph on the screen
+    offset_x = center_x - avg_pos[0]
+    offset_y = center_y - avg_pos[1]
+
+    # Now adjust the positions using the calculated offset
+    for node in graph.nodesDictionary.values():
+        node_pos = pos[node.get_index()]
+        adjusted_pos = (node_pos[0] + offset_x, node_pos[1] + offset_y)
+        pygame.draw.circle(screen, BLACK, adjusted_pos, NODE_RADIUS)
 
     for i in range(len(exploration_history)):
         if i <= current_step:
-            pygame.draw.circle(screen, YELLOW, pos[exploration_history[i]], NODE_RADIUS)
+            exploration_node_pos = pos[exploration_history[i]]
+            adjusted_exploration_pos = (exploration_node_pos[0] + offset_x, exploration_node_pos[1] + offset_y)
+            pygame.draw.circle(screen, YELLOW, adjusted_exploration_pos, NODE_RADIUS)
 
-    for i in range(len(shortest_path) - 1):
+    for i in range(len(shortest_path_indexes) - 1):
         if i <= current_path_step:
-            pygame.draw.line(screen, RED, pos[shortest_path[i]], pos[shortest_path[i + 1]], 2)
+            path_node_pos = pos[shortest_path_indexes[i]]
+            adjusted_path_node_pos = (path_node_pos[0] + offset_x, path_node_pos[1] + offset_y)
+            pygame.draw.circle(screen, RED, adjusted_path_node_pos, NODE_RADIUS)
+
+    # Draw the source node in red
+    start_node = graph.get_node_via_xy(2, 4)
+    start_node_pos = pos[start_node.get_index()]
+    adjusted_start_node_pos = (start_node_pos[0] + offset_x, start_node_pos[1] + offset_y)
+    pygame.draw.circle(screen, RED, adjusted_start_node_pos, NODE_RADIUS)
+
+    # Draw the destination node in red
+    end_node = graph.get_node_via_xy(8, 8)
+    end_node_pos = pos[end_node.get_index()]
+    adjusted_end_node_pos = (end_node_pos[0] + offset_x, end_node_pos[1] + offset_y)
+    pygame.draw.circle(screen, RED, adjusted_end_node_pos, NODE_RADIUS)
 
     pygame.display.flip()
 
@@ -75,6 +104,9 @@ def main():
 
     distances_list, exploration_history_indexes, shortest_path_indexes = (
         Dijkstra.dijkstra_path(graph, start_node_name, end_node_name))
+
+    exploration_history_indexes, shortest_path_indexes = (
+        DFS.dfs_destination(graph, start_node_name, end_node_name))
 
     running = True
     current_step = 0
