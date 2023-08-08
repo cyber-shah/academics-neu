@@ -4,7 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-def main():
+def create_grid_graph():
     graph = Graph.Graph()
 
     # create Nodes and add them to the graph
@@ -25,12 +25,15 @@ def main():
             if y < 19:
                 graph.set_edge_unweighted(graph.get_node(x, y), graph.get_node(x, y + 1))
 
+    return graph
     # print adjacency matrix
     # graph.print_adjacency_matrix()
 
     # print adjacency list
     # graph.print_adjacency_list()
 
+
+def plot_graph(graph):
     G = nx.Graph()
 
     # Add nodes
@@ -59,6 +62,12 @@ def main():
 
     # Display the visualization
     plt.show()
+
+
+def main():
+    graph = create_grid_graph()
+
+    plot_graph(graph)
 
 
 if __name__ == "__main__":

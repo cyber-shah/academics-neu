@@ -8,6 +8,8 @@ class Graph:
         self.nodesDictionary = {}
         # Use a dictionary key, value = index, node
         self.nodeIndices = {}
+        # Use a dictionary key, value = name, node
+        self.nodeNames = {}
 
     def add_node(self, node):
         # 1. Update the node's index
@@ -15,6 +17,7 @@ class Graph:
         # 2. Update the graph's dictionary of nodes, adding the new node
         self.nodesDictionary[(node.x, node.y)] = node
         self.nodeIndices[node.get_index()] = node
+        self.nodeNames[node.get_name()] = node
         # 3. Update the graph's adjacency matrix
         self.number_of_nodes += 1
 
@@ -56,6 +59,9 @@ class Graph:
 
     def get_node_via_index(self, index):
         return self.nodeIndices.get(index)
+
+    def get_node_via_name(self, name):
+        return self.nodesDictionary.get(name)
 
     def print_adjacency_matrix(self):
         print("\nAdjacency Matrix:")
