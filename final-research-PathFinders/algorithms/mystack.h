@@ -96,7 +96,7 @@ int stack_full(neu_stack* stack)
 * Returns a -1 if the operation fails (otherwise returns 0 on success).
 *    -> if the Stack is full that is an error, but does not crash the program.
 **/
-int stack_enqueue(neu_stack *stack, int item)
+int stack_push(neu_stack *stack, int item)
 {
     // check if no item can be added
     if (stack_full(stack) == 1) {
@@ -126,7 +126,7 @@ int stack_enqueue(neu_stack *stack, int item)
      fputs("no items to dequeue!\n", stderr);
      return EXIT_FAILURE
 **/
-int stack_dequeue(neu_stack* stack)
+int stack_pop(neu_stack* stack)
 {
     // check if no item can be removed
     if (stack->head == NULL) {

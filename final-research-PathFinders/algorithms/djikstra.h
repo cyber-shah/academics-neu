@@ -6,7 +6,6 @@
 void print_shortest_path(int* distances_list, int sourceNode, Graph* graph);
 int find_min_distance_node(const bool visited_list[], const int distances_list[], int totalNodes);
 
-
 /**
  * This function is the implementation of the Dijkstra algorithm.
  * here distance = sum of weights of edges from source node to the current node.

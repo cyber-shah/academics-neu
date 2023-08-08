@@ -17,7 +17,6 @@ struct Node {
 //    int distance;
 } typedef Node;
 
-
 /**
  * A graph is represented by the following :
  * 1. The adjacency matrix is a 2D array of integers.
@@ -61,7 +60,6 @@ Graph* initializeGraph() {
 
     return graph;
 }
-
 
 /**
  * adds a node to the graph with the given name.
@@ -118,7 +116,6 @@ int set_edge_distance(Graph *graph,
     return 1;
 }
 
-
 /**
  * Frees the graph.
  * 
@@ -131,7 +128,6 @@ void free_graph(Graph *graph) {
     }
     free(graph);
 }
-
 
 /**
  * Prints the graph.
@@ -164,7 +160,6 @@ void print_graph(Graph *graph) {
     }
     printf("----------------------------------------\n");
 }
-
 
 /**
  * Uses an array, iterates over the graph and prints the distances.
@@ -265,5 +260,3 @@ Graph* graph_from_file(const char *vertices_file, const char *distances_file) {
 
     return graph_from_string(stringVertices, stringDistances);
 }
-
-
