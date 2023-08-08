@@ -63,6 +63,8 @@ def plot_graph(graph):
     # Display the visualization
     plt.show()
 
+    
+
 
 def main():
     graph = create_grid_graph()
