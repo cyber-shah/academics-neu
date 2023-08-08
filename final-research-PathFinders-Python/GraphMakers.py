@@ -17,8 +17,11 @@ def graph_from_string(vertices, distances):
 
     vertices_lines = vertices.split('\n')
     for vertex in vertices_lines:
+        ascii_values = 0
         if vertex:
-            graph.add_node(Node.Node(vertex))
+            for char in vertex:
+                ascii_values += ord(char)
+            graph.add_node(Node.Node(vertex, ascii_values, ascii_values))
 
     distances_lines = distances.split('\n')
     for line in distances_lines:
@@ -27,7 +30,7 @@ def graph_from_string(vertices, distances):
             weight = int(weight)
             source_node = graph.get_node_via_name(source)
             destination_node = graph.get_node_via_name(destination)
-            graph.set_edge(source_node, destination_node, weight)
+            graph.set_edge_weighted(source_node, destination_node, weight)
 
     return graph
 

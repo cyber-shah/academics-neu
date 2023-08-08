@@ -7,7 +7,7 @@ class Graph:
         self.number_of_edges = 0
         # Initialize as an empty list
         self.adjacency_matrix = []
-        # Use a dictionary key, value = (x pos, y pos, index), node
+        # Use a dictionary key, value = (x pos, y pos), node
         self.nodesDictionary = {}
         # Use a dictionary key, value = index, node
         self.nodeIndices = {}
@@ -18,7 +18,7 @@ class Graph:
         # 1. Update the node's index
         node.set_index(self.number_of_nodes)
         # 2. Update the graph's dictionary of nodes, adding the new node
-        self.nodesDictionary[(node.x, node.y, node.index)] = node
+        self.nodesDictionary[(node.x, node.y)] = node
         self.nodeIndices[node.get_index()] = node
         self.nodeNames[node.get_name()] = node
         # 3. Update the graph's adjacency matrix
@@ -30,12 +30,12 @@ class Graph:
             row.append(float('inf'))
         self.adjacency_matrix.append(new_row)
         # edge from node to itself is 0
-        self.set_edge(node, node, 0)
+        self.set_edge_weighted(node, node, 0)
 
-    def set_edge(self, node1, node2, weight):
+    def set_edge_weighted(self, node1, node2, weight):
         # get the index of each node
-        index1 = self.nodesDictionary[(node1.x, node1.y, node1.index)].get_index()
-        index2 = self.nodesDictionary[(node2.x, node2.y, node2.index)].get_index()
+        index1 = self.get_node_via_xy(node1.x, node1.y).get_index()
+        index2 = self.get_node_via_xy(node2.x, node2.y).get_index()
         # set the edge in the adjacency matrix
         self.adjacency_matrix[index1][index2] = weight
         self.adjacency_matrix[index2][index1] = weight
@@ -44,24 +44,20 @@ class Graph:
 
     def set_edge_unweighted(self, node1, node2):
         # get the index of each node
-        index1 = self.nodesDictionary[(node1.x, node1.y, node1.index)].get_index()
-        index2 = self.nodesDictionary[(node2.x, node2.y, node2.index)].get_index()
+        index1 = self.get_node_via_xy(node1.x, node1.y).get_index()
+        index2 = self.get_node_via_xy(node2.x, node2.y).get_index()
         # set the edge in the adjacency matrix
         self.adjacency_matrix[index1][index2] = 1
         self.adjacency_matrix[index2][index1] = 1
         # update the number of edges
         self.number_of_edges += 1
 
-    def get_node(self, x, y, index=None):
-        # TODO : resolve this, how to get node without index
-        if index is None:
-            return self.nodesDictionary.get((x, y))
-        else:
-            return self.nodesDictionary.get((x, y, index))
+    def get_node_via_xy(self, x, y):
+        return self.nodesDictionary.get((x, y))
 
     def get_edge(self, node1, node2):
-        index1 = self.nodesDictionary[(node1.x, node1.y, node1.index)].get_index()
-        index2 = self.nodesDictionary[(node2.x, node2.y, node2.index)].get_index()
+        index1 = self.get_node_via_xy(node1.x, node1.y).get_index()
+        index2 = self.get_node_via_xy(node2.x, node2.y).get_index()
         return self.adjacency_matrix[index1][index2]
 
     def get_node_via_index(self, index):

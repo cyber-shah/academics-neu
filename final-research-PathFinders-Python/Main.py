@@ -2,6 +2,9 @@ import Graph
 import Node as Node
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+import Dijkstra
 
 
 def create_grid_graph():
@@ -17,13 +20,13 @@ def create_grid_graph():
     for x in range(20):
         for y in range(20):
             if x > 0:
-                graph.set_edge_unweighted(graph.get_node(x, y), graph.get_node(x - 1, y))
+                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x - 1, y))
             if y > 0:
-                graph.set_edge_unweighted(graph.get_node(x, y), graph.get_node(x, y - 1))
+                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x, y - 1))
             if x < 19:
-                graph.set_edge_unweighted(graph.get_node(x, y), graph.get_node(x + 1, y))
+                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x + 1, y))
             if y < 19:
-                graph.set_edge_unweighted(graph.get_node(x, y), graph.get_node(x, y + 1))
+                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x, y + 1))
 
     return graph
     # print adjacency matrix
@@ -59,6 +62,21 @@ def plot_graph(graph):
 
     # Draw the graph in grid layout
     nx.draw(G, pos, with_labels=True, node_size=50, node_color='black', font_size=4)
+
+    # run Dijkstra's algorithm
+    start_node_name = graph.get_node_via_xy(10, 10).name
+    end_node_name = graph.get_node_via_xy(2, 2).name
+    distances_list, exploration_history_indexes, shortest_path_indexes = (
+        Dijkstra.dijkstra_path(graph, start_node_name, end_node_name))
+
+    # Highlight explored nodes
+    nx.draw_networkx_nodes(G, pos, nodelist=exploration_history_indexes,
+                           node_color='yellow', node_size=50)
+
+    # Highlight the shortest path
+    shortest_path_edges = [(shortest_path_indexes[i], shortest_path_indexes[i + 1])
+                           for i in range(len(shortest_path_indexes) - 1)]
+    nx.draw_networkx_edges(G, pos, edgelist=shortest_path_edges, edge_color='red', width=2)
 
     plt.show()
 

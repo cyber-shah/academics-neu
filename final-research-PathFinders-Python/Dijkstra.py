@@ -81,7 +81,7 @@ def dijkstra_path(graph, source_node_name, destination_node_name):
             distance_list[i] = graph.get_edge(source_node, destination_node)
 
     # for getting the path and explored nodes ____________________________________________
-    explored_nodes = []
+    explored_nodes_indexes = []
     previous_nodes = [-1] * total_nodes  # Initialize with -1, meaning no previous node
 
     # DIJKSTRA starts here ________________________________________________________________
@@ -90,7 +90,7 @@ def dijkstra_path(graph, source_node_name, destination_node_name):
         min_distance_node = get_min_distance_node(visited_list, distance_list)
         # Mark the node as visited
         visited_list[min_distance_node] = True
-        explored_nodes.append(min_distance_node)
+        explored_nodes_indexes.append(min_distance_node)
 
         # If the destination node is visited, we can stop the algorithm
         if min_distance_node == destination_index:
@@ -115,7 +115,7 @@ def dijkstra_path(graph, source_node_name, destination_node_name):
         shortest_path.insert(0, current_node)
         current_node = previous_nodes[current_node]
 
-    return distance_list, explored_nodes, shortest_path
+    return distance_list, explored_nodes_indexes, shortest_path
 
 
 def get_min_distance_node(visited_list, distance_list):
