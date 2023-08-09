@@ -28,7 +28,7 @@ from enum import Enum
 from collections import deque
 
 # TODO : Edited by cyber-shah
-from PIL import ImageGrab
+from PIL import Image, ImageDraw
 
 
 class COLOR(Enum):
@@ -342,6 +342,9 @@ class maze:
         self._canvas = None
         self._agents = []
         self.markCells = []
+        # TODO : edited by cyber-shah
+        self.width = 0
+        self.height = 0
 
     @property
     def grid(self):
@@ -673,6 +676,8 @@ class maze:
         maze_height = self._cell_width * self.rows
         scr_height = maze_height
         scr_width = maze_width
+        self.width = scr_width
+        self.height = scr_height
 
         # Set the geometry of the Tkinter window
         self._win.geometry(f"{maze_width}x{maze_height}")
@@ -937,7 +942,6 @@ class maze:
             else:
                 a.x, a.y = p[0]
                 del p[0]
-
         self._win.after(delay, self._tracePathSingle, a, p, kill, showMarked, delay)
 
     def tracePath(self, d, kill=False, delay=300, showMarked=False):
