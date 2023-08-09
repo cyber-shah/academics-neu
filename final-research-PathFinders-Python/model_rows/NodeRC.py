@@ -43,4 +43,4 @@ class NodeRC:
         self.index = index
 
     def __str__(self):
-        return str(self.row) + " " + str(self.column)
+        return "(" + str(self.row) + ", " + str(self.column) + ")"

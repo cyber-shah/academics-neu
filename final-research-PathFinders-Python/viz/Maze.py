@@ -1,5 +1,8 @@
+import re
+
 import numpy as np
 
+from algorithms import Dijkstra
 from viz.pyamaze import maze, agent, COLOR
 import algorithms.Dijkstra
 import algorithms.DFS
@@ -9,6 +12,17 @@ import model.Graph
 import time
 import threading
 from PIL import ImageGrab
+
+
+def extract_list_of_tuples(shortest_path, custom_graph):
+    shortest_path_list = ""
+    for index in shortest_path:
+        shortest_path_list += custom_graph.get_node_via_index(index).__str__()
+    # Extract row and column values using regular expressions
+    matches = re.findall(r'\((\d+), (\d+)\)', shortest_path_list)
+    # Convert the extracted matches into a list of tuples
+    shortest_path = [(int(match[0]), int(match[1])) for match in matches]
+    return shortest_path
 
 
 def start_recording():
@@ -27,44 +41,62 @@ def stop_recording():
 
 
 def pymaze():
+    goal_row = 15
+    goal_col = 17
+    maze_row_size = 20
+    maze_col_size = 20
+    source_row = 5
+    source_col = 3
+    algorithm = 'DFS'
+
     # create explored_agent maze of size 20 x 20
-    custom_maze = maze(3, 5)
+    custom_maze = maze(maze_row_size, maze_col_size)
     # set the goal at 4 , 4
     # loop percent means multiple paths in the maze
-    custom_maze.CreateMaze(1, 1, loopPercent=10, loadMaze='maze--2023-08-09--12-13-06.csv')
+    custom_maze.CreateMaze(goal_row, goal_col, loopPercent=30, loadMaze='maze--2023-08-09--14-03-48.csv')
 
-    custom_graph = graph_from_csv('maze--2023-08-09--12-13-06.csv', 3)
+    custom_graph = graph_from_csv('maze--2023-08-09--14-03-48.csv')
 
-    
+    if algorithm == 'Dijkstra':
+        distance_list, explored_nodes_indexes, shortest_path = Dijkstra.dijkstra_path(
+            custom_graph, '(5, 3)', '(15, 17)')
 
-    # create an agent at 1, 1
-    explored_agent = agent(custom_maze, 1, 1, filled=True, footprints=True, color=COLOR.blue)
-    explored_nodes = [(2, 4), (2, 3), (2, 2), (2, 1)]
+    elif algorithm == 'DFS':
+        explored_nodes_indexes, shortest_path = algorithms.DFS.dfs_destination(
+            custom_graph, '(5, 3)', '(15, 17)')
 
-    path_agent = agent(custom_maze, 1, 1, filled=True, footprints=True, color=COLOR.red)
-    shortest_path = [(2, 8), (2, 7), (2, 6), (2, 5), (2, 4), (2, 3), (2, 2), (2, 1)]
+    # extract a list of tuples _____________________________________
+    shortest_path_list = extract_list_of_tuples(shortest_path, custom_graph)
+    explored_nodes_list = extract_list_of_tuples(explored_nodes_indexes, custom_graph)
 
-    # trace the explored_nodes
-    # key is the agent, value is the explored_nodes
-    custom_maze.tracePath({explored_agent: explored_nodes}, delay=75)
-    custom_maze.tracePath({path_agent: shortest_path}, delay=75)
+    # create an explored_agent
+    explored_agent = agent(custom_maze, source_row, source_col, filled=True, footprints=True, color=COLOR.red)
+    explored_nodes = explored_nodes_list
+
+    # create an path_agent
+    path_agent = agent(custom_maze, source_row, source_col, filled=True, footprints=True, color=COLOR.yellow)
+    shortest_path = shortest_path_list
+
+    # # trace the explored_nodes
+    # # key is the agent, value is the explored_nodes
+    custom_maze.tracePath({explored_agent: explored_nodes}, delay=25)
+    custom_maze.tracePath({path_agent: shortest_path}, delay=25)
 
     # Run the maze
     custom_maze.run()
 
 
 def main():
-    recording = False
+    recording = True
+
     if recording:
         global frame_array
         # Start recording the maze ________________________________________________
         frame_array = []
         recording_thread = threading.Thread(target=start_recording)
         recording_thread.start()
-
         # Create the maze
         pymaze()
-
         # Stop the recording when the maze window is closed
         stop_recording()
         recording_thread.join()
@@ -77,6 +109,7 @@ def main():
             loop=0  # 0 means an infinite loop
         )
     else:
+        # Create the maze
         pymaze()
 
 

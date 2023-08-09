@@ -49,6 +49,11 @@ class COLOR(Enum):
     green = ('green4', 'pale green')
     blue = ('DeepSkyBlue4', 'DeepSkyBlue2')
     yellow = ('yellow2', 'yellow2')
+    magenta = ('magenta4', 'magenta4')
+    orange = ('dark orange', 'orange')
+    dark_green = ('dark green', 'green2')
+    dark_blue = ('dark blue', 'blue2')
+    dark_red = ('dark red', 'red2')
 
 
 class agent:
