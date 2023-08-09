@@ -1,11 +1,8 @@
-import Graph
-import Node as Node
+from model import Node as Node, Graph
 import networkx as nx
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
 
-import Dijkstra
-import DFS
+from algorithms import Dijkstra
 
 
 def create_grid_graph():

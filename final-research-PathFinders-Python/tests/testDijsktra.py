@@ -1,7 +1,7 @@
 import unittest
 
-import Dijkstra
-import GraphMakers
+from algorithms import Dijkstra
+from model import GraphMakers
 
 
 class TestDijkstra(unittest.TestCase):

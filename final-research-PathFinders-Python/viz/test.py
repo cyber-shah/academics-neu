@@ -1,8 +1,7 @@
 import pygame
 import networkx as nx
 
-import DFS
-import Dijkstra  # Import your Dijkstra module (assuming it contains Dijkstra class)
+from algorithms import Dijkstra, DFS
 from Main import create_grid_graph
 
 pygame.init()
