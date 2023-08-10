@@ -1,13 +1,11 @@
 import re
 
-import numpy as np
-
 from algorithms import Dijkstra
-from viz.pyamaze import maze, agent, COLOR
+from viz.pyamaze.pyamaze.pyamaze import maze, agent, COLOR
 import algorithms.Dijkstra
 import algorithms.DFS
+import algorithms.BFS
 from model.GraphMakers import graph_from_csv
-import model.Graph
 
 import time
 import threading
@@ -41,6 +39,7 @@ def stop_recording():
 
 
 def pymaze():
+    global shortest_path, explored_nodes_indexes
     goal_row = 15
     goal_col = 17
     maze_row_size = 20
@@ -64,17 +63,22 @@ def pymaze():
     elif algorithm == 'DFS':
         explored_nodes_indexes, shortest_path = algorithms.DFS.dfs_destination(
             custom_graph, '(5, 3)', '(15, 17)')
+    elif algorithm == 'BFS':
+        explored_nodes_indexes, shortest_path = algorithms.BFS.bfs_destination(
+            custom_graph, '(5, 3)', '(15, 17)')
 
     # extract a list of tuples _____________________________________
     shortest_path_list = extract_list_of_tuples(shortest_path, custom_graph)
     explored_nodes_list = extract_list_of_tuples(explored_nodes_indexes, custom_graph)
 
     # create an explored_agent
-    explored_agent = agent(custom_maze, source_row, source_col, filled=True, footprints=True, color=COLOR.red)
+    explored_agent = agent(custom_maze, source_row, source_col, filled=True,
+                           footprints=True, color=COLOR.dark_blue)
     explored_nodes = explored_nodes_list
 
     # create an path_agent
-    path_agent = agent(custom_maze, source_row, source_col, filled=True, footprints=True, color=COLOR.yellow)
+    path_agent = agent(custom_maze, source_row, source_col, filled=True,
+                       footprints=True, color=COLOR.pink)
     shortest_path = shortest_path_list
 
     # # trace the explored_nodes
@@ -85,9 +89,12 @@ def pymaze():
     # Run the maze
     custom_maze.run()
 
+    # TODO : create a md table
+    #        distance of shortest path, explored nodes and time taken
+
 
 def main():
-    recording = True
+    recording = False
 
     if recording:
         global frame_array

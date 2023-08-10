@@ -2,7 +2,7 @@ from model import Node as Node, Graph
 import networkx as nx
 import matplotlib.pyplot as plt
 
-from algorithms import Dijkstra
+from algorithms import Dijkstra, BFS
 
 
 def create_grid_graph():
@@ -86,6 +86,9 @@ def main():
     end_node_name = graph.get_node_via_xy(8, 8).name
     distances_list, exploration_history_indexes, shortest_path_indexes = (
         Dijkstra.dijkstra_path(graph, start_node_name, end_node_name))
+
+    exploration_history_indexes, shortest_path_indexes = (
+        BFS.bfs_destination(graph, start_node_name, end_node_name))
 
     draw_graph(graph, nx_graph, pos, exploration_history_indexes, shortest_path_indexes)
 

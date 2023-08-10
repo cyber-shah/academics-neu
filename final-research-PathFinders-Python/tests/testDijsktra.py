@@ -1,6 +1,6 @@
 import unittest
 
-from algorithms import Dijkstra
+import algorithms.Dijkstra as Dijkstra
 from model import GraphMakers
 
 

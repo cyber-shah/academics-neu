@@ -85,16 +85,62 @@ The algorithms covered in this report are:
 4. A* Algorithm
 
 
+
+
+
+
+
 # 2 - Background and Theory
+Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient pathfinding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth First Search (DFS), which excels in exploring the depths of a graph's structure.
+
+In this section, we will delve into the theoretical foundations of DFS, its operational principles, and its applicability across various scenarios. By understanding DFS in the context of graph traversal algorithms, we can appreciate its unique strengths and limitations as we delve deeper into its mechanics.
+
+Each algorithm is divided into the following sections:
+1. Concept
+2. Advanatages
+3. Disadvantages
+4. Complexity
+5. Use cases
+6. Psuedo code
+
+The algorithms can be divided into two parts here: 1 that help us find out IF a path exists and 2 that help us find the SHORTEST path. The algorithms that help us find out IF a path exists are: DFS and BFS. The algorithms that help us find the SHORTEST path are: Dijkstra's Algorithm and A* Algorithm.
 
 
 ## 2.1 - Depth First Search
-   - Concept: Depth First Search is a graph traversal algorithm. It starts at a source node and explores the graph by traversing the edges. It traverses the edges by following the edges with the lowest cost. It keeps doing this until it reaches the destination node. It uses a stack to keep track of the nodes that it has visited. It also uses a parent array to keep track of the parent of each node. The parent array is used to find the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
-   - Advantages: The advantage of DFS is that it is very simple to implement. It is also very fast and uses very little memory. It is also very easy to visualize. It is also very easy to implement in a grid. It is also very easy to implement in a maze.
-   - Disadvantages:
-   - Complexity Table : 
-   - Use Cases:
-   - Pseudocode:
+
+   1.  **_Concept_**:  
+       - Depth First Search is a graph traversal algorithm. It starts at a source node and explores the graph by traversing the edges. 
+       - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
+       - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
+   2.  **_Advantages_**: 
+       - The advantage of DFS is that it is very simple to implement. 
+       - It is also very fast and uses very little memory. 
+       - It can quickly determine if a graph has cycles.
+   3. **_Disadvantages_**: 
+      - It does not guarantee the shortest path. 
+      - It can get stuck in a loop. 
+      - The other disadvantage is that it may keep moving down the wrong path and may be too late to backtrack towards the right path.
+   4. **_Complexity_**:
+      - Time Complexity: $O(n)$
+      - Space Complexity: $O(1)$
+   5. **_Use Cases_**:
+      - DFS is used in maze generation algorithms.
+      - It is also used in topological sorting.
+      - DFS is used in finding connected components in a graph.
+      - It is also used in cycle detection in a graph.
+   6. **_Psuedocode_**:
+      ```
+      DFS(Graph,vertex v)
+         Stack S
+         for each vertex u, set visited[u] := false;
+         push S, v;
+         while (S is not empty) do
+            u := pop S;
+            if (not visited[u]) then
+               visited[u] := true;
+               for each unvisited neighbour w of u
+                  push S, w;
+      ```
 
 
 ## 2.2 - Breadth First Search
@@ -111,13 +157,13 @@ The algorithms covered in this report are:
 | A* | $O(n)$           | $O(n)$ |
 
 # 3 - Implementation Details
-![20x20Djikstra](viz/Djikstra-20x20.gif)
+<!-- ![20x20Djikstra](viz/Djikstra-20x20.gif) -->
 
 # 4 - Testing and Validation
 
 # 5 - Results and Discussion
 
-![20x20DFS](viz/DFS-20x20.gif)
+<!-- ![20x20DFS](viz/DFS-20x20.gif) -->
 # 6 - Conclusion
 
 # 7 - Future Work
