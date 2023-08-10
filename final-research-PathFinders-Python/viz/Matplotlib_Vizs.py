@@ -1,4 +1,5 @@
 from model import Node as Node, Graph
+from model_rows import NodeRC as NodeRC, GraphRC as GraphRC
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -6,25 +7,25 @@ from algorithms import Dijkstra, BFS
 
 
 def create_grid_graph():
-    graph = Graph.Graph()
+    graph = GraphRC.GraphRC()
 
     # create Nodes and add them to the graph
     for x in range(20):
         for y in range(20):
             name = "(" + str(x) + ", " + str(y) + ")"
-            graph.add_node(Node.Node(name, x, y))
+            graph.add_node(NodeRC.NodeRC(name, x, y))
 
     # create edges
     for x in range(20):
         for y in range(20):
             if x > 0:
-                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x - 1, y))
+                graph.set_edge_unweighted(graph.get_node_via_row_column(x, y), graph.get_node_via_row_column(x - 1, y))
             if y > 0:
-                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x, y - 1))
+                graph.set_edge_unweighted(graph.get_node_via_row_column(x, y), graph.get_node_via_row_column(x, y - 1))
             if x < 19:
-                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x + 1, y))
+                graph.set_edge_unweighted(graph.get_node_via_row_column(x, y), graph.get_node_via_row_column(x + 1, y))
             if y < 19:
-                graph.set_edge_unweighted(graph.get_node_via_xy(x, y), graph.get_node_via_xy(x, y + 1))
+                graph.set_edge_unweighted(graph.get_node_via_row_column(x, y), graph.get_node_via_row_column(x, y + 1))
 
     return graph
     # print adjacency matrix

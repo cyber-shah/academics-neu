@@ -31,10 +31,14 @@
 
 # 0 - Abstract
 
-The purpose of this report is to discuss the implementation of various path finding algorithms and their performance. The algorithms discussed in this report are Depth First Search, Breadth First Search, Dijkstra's Algorithm and A* Algorithm. The report will discuss the theory behind each algorithm, their implementation details, testing and validation, results and discussion, conclusion and future work. The report will also discuss the performance of each algorithm and compare them with each other.
+This report aims to comprehensively explore the implementation and performance of key pathfinding algorithms: Depth First Search, Breadth First Search, Dijkstra's Algorithm, and A* Algorithm. Each algorithm will be scrutinized in terms of theoretical foundations, practical implementation details, rigorous testing, and insightful discussions. The overarching goal is to gain a profound understanding of these algorithms' inner workings and their efficacy across various scenarios.
 
-The report will also discuss the pros and cons of each algorithm and their use cases. The report will also discuss the performance of each algorithm in different scenarios and compare them with each other. The goal is to understand the implementation details of each algorithm and their performance in different scenarios.
 
+The report delves into the nuances of each algorithm, dissecting their strengths and weaknesses, and uncovering their optimal use cases. Thorough testing is conducted using a diverse set of criteria, including shortest path determination, nodes explored, time and memory utilization, and adaptability to distinct graph configurations. The selected testing conditions encompass a spectrum of scenarios, ranging from straightforward weighted graphs to intricate mazes replete with obstacles.
+
+As we progress through this exploration, the report will provide clarity on the reasons behind the chosen testing criteria and conditions, grounding our analysis in a solid rationale. Through this holistic investigation, readers will gain not only a deep comprehension of these fundamental pathfinding techniques but also insights into their applicability across real-world situations.
+
+<!-- # TODO : describe why these criterias were chosen -->
 The algorithms are tested on the following criteria:
 1. Shortest path
 2. Nodes explored to find the shortest path
@@ -50,8 +54,7 @@ The algorithms are tested on the following conditions:
 1. A simple graph weighted edges
 2. A grid of nodes each with uniform edge weight and no obstacles and a pretty straight forward shortest path
 3. A maze with obstacles and many shorter paths
-
-
+<!-- # TODO : add a concise summary of the results -->
 
 # 1 - Introduction
 
@@ -158,32 +161,28 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
 
 
 ## Question 2 : What is the shortest path between A to B?
+<!-- TODO : move the use cases here -->
 So by now we know how to solve the question of `is there a path between A to B?`. Now the next two algorithms will help us solve the question of `what is the shortest path between A to B?`.
 ### 2.1 - Breadth First Search
-
 1. **_History_**:  
       - Breadth First Search was invented by Konrad Zuse in 1945. 
       - It was later rediscovered by Edsger Dijkstra in 1959. 
       - It is also known as the `Breadth First Traversal` or `Breadth First Walk`.
       - It is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges.
       - BFS is a core algorithm in computer science and is widely used in fields like network routing, social network analysis, and more.
-
 2.  **_Overview of how it works_**: 
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbours in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
    ![BFS-basic](graphics/basic-BFS.gif)
-   
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
       - It explores the graph in layers which can be useful if we need to analyse the neighbours.
       - It does not visit a node more than once.
-
 4. **_Disadvantages_**: 
       - It is less suitable for weighted graphs. In a weighted graph, where edges have different costs or distances, the standard BFS will not necessarily find the shortest path. This is because BFS explores nodes in layers, and the order in which nodes are explored might not correspond to the shortest path.
       - It uses more memory than DFS.
-
 5. **_Complexity_**:
       | Approach | Time Complexity | Space Complexity |
       | --- |----------------| --- |
@@ -209,9 +208,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
                   visited.add(w)
                   enqueue Q, w
       ```
-
 ### 2.2 - Dijkstra's Algorithm
-
 1. **_History_**:  
       - Dijkstra's Algorithm was invented by Edsger Dijkstra in 1956. The technique first appeared as a solution to the problem of finding the shortest path between nodes in a weighted graph.
       - It has been widely used in real-world applications, including routing in computer networks and navigation systems.
@@ -222,34 +219,74 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - It is similar to BFS, but uses a concept called `edge relaxation`. Which means that it relaxes the edges of the graph by updating the distance of the nodes.
       - While visiting nodes it maintains a distance array which stores the distance of each node from the source node. Initially the distance of all the nodes is set to infinity. And the distance of the source node is set to 0. 
       - These distances are updated as the algorithm progresses.
-      - The process ends when all the nodes have been visited and returns a list of shortest distances from the source node to all the other nodes. 
-      
-      <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif>
-      
+      - The process ends when all the nodes have been visited and returns a list of shortest distances from the source node to all the other nodes.   
+      <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif>   
       Image source : [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DijkstraDemo.gif") 
-
-      
-
+3. **_Advantages_**: 
+   - Dijkstra's Algorithm is guaranteed to find the shortest path between the source node and the destination node.
+   - The basic concept is straightforward to understand and implement.
+   - It is also very efficient.
+4. **_Disadvantages_**:
+   - Limited to Positive Weights: Dijkstra's algorithm is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
+   - Inapplicability to Negative Weights: The algorithm's reliance on selecting the minimum distance can break down when dealing with graphs containing negative edge weights.
+   - Potential Inefficiency on Large Graphs: While Dijkstra's algorithm provides optimal solutions, it might not be the most efficient choice for large graphs due to its time complexity.
+5. **_Complexity_**:
+      | Approach | Time Complexity | Space Complexity |
+      | --- |----------------| --- |
+      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
+      | Priority Queues | $O((V + E) * log(V))$           | $O(V)$ |
+6. **_Use Cases_**:
+   - Dijkstra's algorithm is used in shortest path algorithms, especially when the graph is weighted.
+   - Routing and navigation systems use Dijkstra's algorithm to find the shortest path between two locations.
+   - Network routing protocols use Dijkstra's algorithm to find the shortest path between two nodes in a network.
+   - Resource Management and Allocation use Dijkstra's algorithm to find the shortest path between two resources.
+7. **_Psuedocode_**:
+      ```
+      1. Initialize all nodes with distance INFINITY, except the source node with distance 0.
+      2. Create a priority queue (min-heap) and insert the source node with distance 0.
+      3. While the priority queue is not empty:
+         3.1 Extract the node with the minimum distance from the priority queue.
+         3.2 For each adjacent node of the extracted node:
+               3.2.1 Calculate a tentative distance by adding the edge weight to the extracted node's distance.
+               3.2.2 If the tentative distance is less than the current distance of the adjacent node:
+                     3.2.2.1 Update the adjacent node's distance with the tentative distance.
+                     3.2.2.2 Enqueue the adjacent node into the priority queue.
+      4. The distances now hold the shortest paths from the source node to all other nodes.
+      ```
 ### 2.3 - A* Algorithm
-1.  **_Concept_**:
-   - The concept of A* is similar to Dijkstra's Algorithm, but it uses a concept called `heuristics`.
-   - Heuristics is a way to estimate the distance between two nodes. It is used to estimate the distance between the current node and the destination node. 
-   - Rather than checking every single route, like Djikstra or BFS, heuristic algorithms only check the most promising routes. They take an educated guess on which route is the best route.
-  2. **_Advantages_**: 
-      - The advantage of A* is that it is very fast and efficient. 
-      - It is also very simple to implement. 
-      - It is also very easy to understand.
+1.  **_History_**:
+      - A* was created by Peter Hart, Nils Nilsson and Bertram Raphael of Stanford Research Institute (now SRI International) in 1968. It was first published in the 1968 paper "A Formal Basis for the Heuristic Determination of Minimum Cost Paths".
+      - It was created to solve the problem of finding the shortest path between nodes in a weighted graph, in a more efficient way.
+      - It is a combination of Dijkstra's Algorithm and Greedy Best First Search.
+2. **_Overview of how it works_**:
+      - A* shares similarities with Dijkstra's Algorithm but introduces a pivotal concept known as `heuristics`.
+      - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
+      - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
+      - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
+      ![A*](graphics/basic-Astar.gif)
+3. **_Advantages_**: 
+      - A* boasts notable efficiency due to its effective utilization of heuristics.
+     - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
+      - Notably, A* guarantees the discovery of the shortest path between the source and destination nodes when an admissible and consistent heuristic is employed.
+4. **_Disadvantages_**:
+      - A* does have limitations. Its guarantee of finding the shortest path hinges on using an admissible, consistent, and monotonic heuristic.
+      - Other disadvantage include the fact that it is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
+5. **_Complexity_**:
+      | Approach | Time Complexity | Space Complexity |
+      | --- |----------------| --- |
+      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
+      | Priority Queues | $O((V + E) * log(V))$  | $O(V)$ |
+6. **_Use Cases_**:
+      - Telecommunication networks to optimize call routing.
+     - GPS navigation systems for optimal route planning.
+     - Network routing to minimize data transmission costs.
+     - Pathfinding in video games and robotics.
 
 
-| Approach | Time Complexity | Space Complexity |
-| --- |----------------| --- |
-| Depth First Search | $O(n)$          | $O(1)$ |
-| Breadth First Search | $O(2^n)$        | $O(n)$ |
-| Djikstra | $O(n)$           | $O(n)$ |
-| A* | $O(n)$           | $O(n)$ |
+
 
 # 3 - Implementation Details
-<!-- ![20x20Djikstra](viz/Djikstra-20x20.gif) -->
+![20x20Djikstra](viz/Djikstra-20x20.gif)
 
 # 4 - Testing and Validation
 

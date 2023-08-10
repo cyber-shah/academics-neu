@@ -2,7 +2,7 @@ import imageio
 import pygame
 import networkx as nx
 
-from algorithms import Dijkstra, DFS, BFS
+from algorithms import Dijkstra, DFS, BFS, A_star
 from viz.Matplotlib_Vizs import create_grid_graph
 """
 Written by : Pranchal Shah
@@ -88,13 +88,13 @@ def draw_graph(graph, nx_graph, pos, exploration_history,
             pygame.draw.circle(screen, RED, adjusted_path_node_pos, NODE_RADIUS)
 
     # Draw the source node in red
-    start_node = graph.get_node_via_xy(3, 4)
+    start_node = graph.get_node_via_row_column(3, 3)
     start_node_pos = pos[start_node.get_index()]
     adjusted_start_node_pos = (start_node_pos[0] + offset_x, start_node_pos[1] + offset_y)
     # pygame.draw.circle(screen, RED, adjusted_start_node_pos, NODE_RADIUS)
 
     # Draw the destination node in red
-    end_node = graph.get_node_via_xy(13, 8)
+    end_node = graph.get_node_via_row_column(15, 13)
     end_node_pos = pos[end_node.get_index()]
     adjusted_end_node_pos = (end_node_pos[0] + offset_x, end_node_pos[1] + offset_y)
     # pygame.draw.circle(screen, RED, adjusted_end_node_pos, NODE_RADIUS)
@@ -107,11 +107,11 @@ def main():
 
     nx_graph, pos = plot_graph(graph)
 
-    start_node_name = graph.get_node_via_xy(4, 5).name
-    end_node_name = graph.get_node_via_xy(12, 7).name
+    start_node_name = graph.get_node_via_row_column(3, 3).name
+    end_node_name = graph.get_node_via_row_column(15, 13).name
 
-    distances_list, exploration_history_indexes, shortest_path_indexes = (
-        Dijkstra.dijkstra_path(graph, start_node_name, end_node_name))
+    # distances_list, exploration_history_indexes, shortest_path_indexes = (
+    #     Dijkstra.dijkstra_path(graph, start_node_name, end_node_name))
 
     # exploration_history_indexes, shortest_path_indexes = (
     #     DFS.dfs_destination(graph, start_node_name, end_node_name))
@@ -119,6 +119,8 @@ def main():
     # exploration_history_indexes, shortest_path_indexes = (
     #     BFS.bfs_destination(graph, start_node_name, end_node_name))
 
+    exploration_history_indexes, shortest_path_indexes = (
+        A_star.a_star_destination(graph, start_node_name, end_node_name))
 
     # for GIF
     output_path = "output.gif"
