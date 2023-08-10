@@ -8,10 +8,12 @@
     - [ 1.3 - How do computers find paths? ](#-13---how-do-computers-find-paths-)
     - [ 1.4 Algorithms covered ](#-14-algorithms-covered-)
 - [2 - Background and Theory](#2---background-and-theory)
-  - [2.1 - Depth First Search](#21---depth-first-search)
-  - [2.2 - Breadth First Search](#22---breadth-first-search)
-  - [2.3 - Dijkstra's Algorithm](#23---dijkstras-algorithm)
-  - [2.4 - A\* Algorithm](#24---a-algorithm)
+  - [Question 1: Is there a path between node A and node B?](#question-1-is-there-a-path-between-node-a-and-node-b)
+    - [1.1 - Depth First Search](#11---depth-first-search)
+    - [1.2 - Breadth First Search](#12---breadth-first-search)
+  - [Question 2 : What is the shortest path between A to B?](#question-2--what-is-the-shortest-path-between-a-to-b)
+    - [2.1 - Dijkstra's Algorithm](#21---dijkstras-algorithm)
+    - [2.2 - A\* Algorithm](#22---a-algorithm)
 - [3 - Implementation Details](#3---implementation-details)
 - [4 - Testing and Validation](#4---testing-and-validation)
 - [5 - Results and Discussion](#5---results-and-discussion)
@@ -105,11 +107,18 @@ Each algorithm is divided into the following sections:
 
 The algorithms can be divided into two parts here: 1 that help us find out IF a path exists and 2 that help us find the SHORTEST path. The algorithms that help us find out IF a path exists are: DFS and BFS. The algorithms that help us find the SHORTEST path are: Dijkstra's Algorithm and A* Algorithm.
 
+## Question 1: Is there a path between node A and node B?
+The two algorithms that help us find out IF a path exists are: DFS and BFS. 
 
-## 2.1 - Depth First Search
+### 1.1 - Depth First Search
 
+
+   0. **_Background_**: 
+      - Depth First search dates back to 19th century. It was first used by French mathematician Charles Pierre Trémaux as a strategy for solving mazes. 
+      - DFS is was pretty much the background for most of the modern day path finding algorithms. From Bellman Ford to Dijkstra to A* to Prim's Algorithm, have all built on top of DFS.
+      - It's simplicity and efficiency makes it a very popular algorithm. It is also very easy to implement.
    1.  **_Concept_**:  
-       - Depth First Search is a graph traversal algorithm. It starts at a source node and explores the graph by traversing the edges. 
+       - Depth First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
    2.  **_Advantages_**: 
@@ -121,8 +130,11 @@ The algorithms can be divided into two parts here: 1 that help us find out IF a 
       - It can get stuck in a loop. 
       - The other disadvantage is that it may keep moving down the wrong path and may be too late to backtrack towards the right path.
    4. **_Complexity_**:
-      - Time Complexity: $O(n)$
-      - Space Complexity: $O(1)$
+      | Approach | Time Complexity | Space Complexity |
+      | --- |----------------| --- |
+      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
+      | Adjacency List | $O(V + E)$           | $O(V + E)$ |
+      The implementation in this report uses an adjacency matrix, just because it is easier to implement.
    5. **_Use Cases_**:
       - DFS is used in maze generation algorithms.
       - It is also used in topological sorting.
@@ -143,11 +155,35 @@ The algorithms can be divided into two parts here: 1 that help us find out IF a 
       ```
 
 
-## 2.2 - Breadth First Search
+### 1.2 - Breadth First Search
 
-## 2.3 - Dijkstra's Algorithm
+0. **_Background_**: 
+   - Breadth First Search was invented by Konrad Zuse in 1945. 
+   - It was later rediscovered by Edsger Dijkstra in 1959. 
+   - It is also known as the `Breadth First Traversal` or `Breadth First Walk`.
+   - It is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges.
 
-## 2.4 - A* Algorithm
+1.  **_Concept_**:
+   
+
+
+
+## Question 2 : What is the shortest path between A to B?
+
+So by now we know how to solve the question of `is there a path between A to B?`. Now the next two algorithms will help us solve the question of `what is the shortest path between A to B?`.
+
+### 2.1 - Dijkstra's Algorithm
+
+### 2.2 - A* Algorithm
+1.  **_Concept_**:
+   - The concept of A* is similar to Dijkstra's Algorithm, but it uses a concept called `heuristics`.
+   - Heuristics is a way to estimate the distance between two nodes. It is used to estimate the distance between the current node and the destination node. 
+   - Rather than checking every single route, like Djikstra or BFS, heuristic algorithms only check the most promising routes. They take an educated guess on which route is the best route.
+  2. **_Advantages_**: 
+      - The advantage of A* is that it is very fast and efficient. 
+      - It is also very simple to implement. 
+      - It is also very easy to understand.
+
 
 | Approach | Time Complexity | Space Complexity |
 | --- |----------------| --- |
