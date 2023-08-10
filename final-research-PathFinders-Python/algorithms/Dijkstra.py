@@ -97,6 +97,7 @@ def dijkstra_path(graph, source_node_name, destination_node_name):
             break
 
         # 2. Loop over all of its adjacent nodes.
+        # TODO : change this to neighbours instead of all nodes
         for j in range(total_nodes):
             source_node = graph.get_node_via_index(min_distance_node)
             destination_node = graph.get_node_via_index(j)

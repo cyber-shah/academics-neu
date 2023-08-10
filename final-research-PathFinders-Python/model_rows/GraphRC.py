@@ -57,6 +57,9 @@ class GraphRC:
         index2 = self.get_node_via_row_column(node2.row, node2.column).get_index()
         return self.adjacency_matrix[index1][index2]
 
+    def get_edge_via_index(self, node_1_index, node_2_index):
+        return self.adjacency_matrix[node_1_index][node_2_index]
+
     def get_node_via_index(self, index):
         return self.nodeIndices.get(index)
 

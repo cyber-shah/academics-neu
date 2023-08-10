@@ -5,6 +5,7 @@ from viz.lib.pyaMaze.pyamaze.pyamaze import maze, agent, COLOR
 import algorithms.Dijkstra
 import algorithms.DFS
 import algorithms.BFS
+import algorithms.A_star
 from model.GraphMakers import graph_from_csv
 
 import time
@@ -46,7 +47,7 @@ def pymaze():
     maze_col_size = 20
     source_row = 5
     source_col = 3
-    algorithm = 'DFS'
+    algorithm = 'A*'
 
     # create explored_agent maze of size 20 x 20
     custom_maze = maze(maze_row_size, maze_col_size)
@@ -65,6 +66,9 @@ def pymaze():
             custom_graph, '(5, 3)', '(15, 17)')
     elif algorithm == 'BFS':
         explored_nodes_indexes, shortest_path = algorithms.BFS.bfs_destination(
+            custom_graph, '(5, 3)', '(15, 17)')
+    elif algorithm == 'A*':
+        explored_nodes_indexes, shortest_path = algorithms.A_star.a_star_destination(
             custom_graph, '(5, 3)', '(15, 17)')
 
     # extract a list of tuples _____________________________________
@@ -94,7 +98,7 @@ def pymaze():
 
 
 def main():
-    recording = False
+    recording = True
 
     if recording:
         global frame_array

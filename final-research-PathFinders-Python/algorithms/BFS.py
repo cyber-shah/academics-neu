@@ -26,12 +26,12 @@ def bfs_destination(graph, source_node_name, destination_node_name):
     # Initialize ______________________________________________________
     queue = deque()
     visited = [False] * graph.number_of_nodes
-    distances_list = []  # To store the order of visited nodes
+    explored_nodes_indices = []  # To store the order of visited nodes
     parent_map = {}  # To store parent nodes for backtracking
 
     visited[source_node_index] = True
     queue.append(source_node_index)
-    distances_list.append(source_node_index)
+    explored_nodes_indices.append(source_node_index)
 
     # While queue is not empty _________________________________________
     while queue:
@@ -47,16 +47,16 @@ def bfs_destination(graph, source_node_name, destination_node_name):
             if graph.adjacency_matrix[current_node_index][i] != float('inf') and not visited[i]:
                 visited[i] = True
                 queue.append(i)
-                distances_list.append(i)
+                explored_nodes_indices.append(i)
                 parent_map[i] = current_node_index  # Store parent information
 
     # If destination node is not found, return shortest path as empty list
     if destination_node_index not in parent_map:
-        return distances_list, []
+        return explored_nodes_indices, []
 
     # Else build the shortest path and return it
     shortest_path = build_shortest_path(parent_map, source_node_index, destination_node_index)
-    return distances_list, shortest_path
+    return explored_nodes_indices, shortest_path
 
 
 def build_shortest_path(parent_map, source_node_index, destination_node_index):

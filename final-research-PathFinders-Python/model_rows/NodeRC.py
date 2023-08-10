@@ -70,3 +70,15 @@ class NodeRC:
 
     def __str__(self):
         return "(" + str(self.row) + ", " + str(self.column) + ")"
+
+    def __lt__(self, other):
+        return self.f < other.f
+
+    def __le__(self, other):
+        return self.f <= other.f
+
+    def __gt__(self, other):
+        return self.f > other.f
+
+    def __ge__(self, other):
+        return self.f >= other.f
