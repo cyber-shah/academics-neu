@@ -36,6 +36,14 @@ def a_star_destination(graph, source_node_name, destination_node_name):
     3. put the starting node in the closed_set, remove it from the open_set
     4. while the open_set is not empty
         a. get the current node from the open_set with the lowest f_score
+        b. remove the current node from the open_set and add it to the closed_set
+        c. if the current node is the destination node, break the loop
+        d. else visit all the UNVISITED adjacent nodes of current node
+            i. for each adjacent node
+                1. if the adjacent node is not in the closed_set
+                    a. add the adjacent node to the open_set
+    5. return the closed_set
+
     
     """
 

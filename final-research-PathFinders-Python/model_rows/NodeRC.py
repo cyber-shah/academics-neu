@@ -1,6 +1,19 @@
 class NodeRC:
 
-    def __init__(self, name, row=None, column=None, g=None, h=None):
+    def __init__(self, name, row=None, column=None, g=None, heuristic=None, f=None):
+        """
+        Constructor for NodeRC. It takes in a name, row, column, g, heuristic, and f.
+
+        :param name: Name of the node
+        :param row: Row of the node (int)
+        :param column: Column of the node (int)
+        :param g: G stands for "cost from the start node to the current node"
+        :param heuristic:
+        Heuristic is the estimated cost from the current node to the goal node
+        :param f: F is the sum of g and heuristic
+        "total estimated cost = g + heuristic"
+        """
+
         self.index = None
         self.name = name
         if row is None or column is None:
@@ -9,12 +22,14 @@ class NodeRC:
         else:
             self.row = row
             self.column = column
-        if g is None or h is None:
+        if g is None or heuristic is None or f is None:
             self.g = 0
             self.h = 0
+            self.f = 0
         else:
             self.g = g
-            self.h = h
+            self.h = heuristic
+            self.f = f
 
     def get_node(self):
         return self
