@@ -4,7 +4,14 @@ import networkx as nx
 
 from algorithms import Dijkstra, DFS, BFS
 from viz.Matplotlib_Vizs import create_grid_graph
-
+"""
+Written by : Pranchal Shah
+Github : cyber-shah
+For : CS-5008 Summer 2023, Final Report
+Date : 8/5/2023
+This file contains the visualization functions for the algorithms, using
+the pygame library. The functions are called from the algorithms package.
+"""
 pygame.init()
 
 WHITE = (255, 255, 255)
@@ -81,16 +88,16 @@ def draw_graph(graph, nx_graph, pos, exploration_history,
             pygame.draw.circle(screen, RED, adjusted_path_node_pos, NODE_RADIUS)
 
     # Draw the source node in red
-    start_node = graph.get_node_via_xy(8, 8)
+    start_node = graph.get_node_via_xy(3, 4)
     start_node_pos = pos[start_node.get_index()]
     adjusted_start_node_pos = (start_node_pos[0] + offset_x, start_node_pos[1] + offset_y)
-    pygame.draw.circle(screen, RED, adjusted_start_node_pos, NODE_RADIUS)
+    # pygame.draw.circle(screen, RED, adjusted_start_node_pos, NODE_RADIUS)
 
     # Draw the destination node in red
-    end_node = graph.get_node_via_xy(1, 1)
+    end_node = graph.get_node_via_xy(13, 8)
     end_node_pos = pos[end_node.get_index()]
     adjusted_end_node_pos = (end_node_pos[0] + offset_x, end_node_pos[1] + offset_y)
-    pygame.draw.circle(screen, RED, adjusted_end_node_pos, NODE_RADIUS)
+    # pygame.draw.circle(screen, RED, adjusted_end_node_pos, NODE_RADIUS)
 
     pygame.display.flip()
 
@@ -100,17 +107,17 @@ def main():
 
     nx_graph, pos = plot_graph(graph)
 
-    start_node_name = graph.get_node_via_xy(8, 8).name
-    end_node_name = graph.get_node_via_xy(1, 1).name
+    start_node_name = graph.get_node_via_xy(4, 5).name
+    end_node_name = graph.get_node_via_xy(12, 7).name
 
     distances_list, exploration_history_indexes, shortest_path_indexes = (
         Dijkstra.dijkstra_path(graph, start_node_name, end_node_name))
 
-    exploration_history_indexes, shortest_path_indexes = (
-        DFS.dfs_destination(graph, start_node_name, end_node_name))
+    # exploration_history_indexes, shortest_path_indexes = (
+    #     DFS.dfs_destination(graph, start_node_name, end_node_name))
 
-    exploration_history_indexes, shortest_path_indexes = (
-        BFS.bfs_destination(graph, start_node_name, end_node_name))
+    # exploration_history_indexes, shortest_path_indexes = (
+    #     BFS.bfs_destination(graph, start_node_name, end_node_name))
 
 
     # for GIF
@@ -131,14 +138,14 @@ def main():
             draw_graph(graph, nx_graph, pos, exploration_history_indexes, [],
                        current_step, current_path_step)
             pygame.time.delay(ANIMATION_DELAY)
-            current_step += 1
+            current_step += 5
         # all nodes have been explored
         elif current_path_step < len(shortest_path_indexes):
             exploring = False
             draw_graph(graph, nx_graph, pos, exploration_history_indexes, shortest_path_indexes,
                        current_step, current_path_step)
-            pygame.time.delay(ANIMATION_DELAY * 2)
-            current_path_step += 1
+            pygame.time.delay(ANIMATION_DELAY * 5)
+            current_path_step += 5
         else:
             running = False
 
