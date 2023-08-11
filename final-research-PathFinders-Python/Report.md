@@ -7,7 +7,7 @@
     - [ 1.2 - What is Path Finding? ](#-12---what-is-path-finding-)
     - [ 1.3 - How do computers find paths? ](#-13---how-do-computers-find-paths-)
     - [ 1.4 Algorithms covered ](#-14-algorithms-covered-)
-- [2 - Background and Theory](#2---background-and-theory)
+- [2 - Background](#2---background)
   - [Question 1: Is there a path between node A and node B?](#question-1-is-there-a-path-between-node-a-and-node-b)
     - [1.1 - Depth First Search](#11---depth-first-search)
   - [Question 2 : What is the shortest path between A to B?](#question-2--what-is-the-shortest-path-between-a-to-b)
@@ -16,8 +16,9 @@
     - [2.3 - A\* Algorithm](#23---a-algorithm)
 - [3 - Implementation Details](#3---implementation-details)
   - [3.1 - Depth First Search](#31---depth-first-search)
-- [4 - Testing and Validation](#4---testing-and-validation)
-- [5 - Results and Discussion](#5---results-and-discussion)
+- [4 - Theoretical Analysis](#4---theoretical-analysis)
+- [5 - Emperical Analysis](#5---emperical-analysis)
+- [6 - Results and Discussion](#6---results-and-discussion)
 - [6 - Conclusion](#6---conclusion)
 - [7 - Future Work](#7---future-work)
 - [8 - References](#8---references)
@@ -98,7 +99,7 @@ The algorithms covered in this report are:
 
 
 
-# 2 - Background and Theory
+# 2 - Background
 Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient pathfinding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth First Search (DFS), which excels in exploring the depths of a graph's structure.
 
 In this section, we will delve into the theoretical foundations of DFS, its operational principles, and its applicability across various scenarios. By understanding DFS in the context of graph traversal algorithms, we can appreciate its unique strengths and limitations as we delve deeper into its mechanics.
@@ -298,9 +299,16 @@ However, as the implementation of Dijkstra's algorithm progressed, the necessity
 Therefore, the shift to Python was motivated by the intention to holistically comprehend algorithmic behavior through animations, leveraging Python's high-level capabilities and visualization tools, while the initial implementation in C addressed concerns of speed and efficiency.
 
 ## 3.1 - Depth First Search
-# 4 - Testing and Validation
+- C implementation can be found here [DFS in C](c-code/algorithms/DFS.h)
+- 🐍 Python implementation can be found here [DFS in Python](algorithms/DFS.py)
 
-# 5 - Results and Discussion
+The approach to implementing DFS was to leverage a stack data structure to store the nodes that were visited. The stack was implemented as a linked list, with each node containing a pointer to the next node in the stack. The stack was initialized with the source node, and the algorithm proceeded to pop nodes from the stack, marking them as visited, and pushing their unvisited neighbors onto the stack. This process continued until the destination node was reached, or the stack was empty. If the destination node was reached, the algorithm would backtrack to the source node, marking the shortest path. If the stack was empty, the algorithm would terminate, indicating that no path existed between the source and destination nodes.
+
+
+# 4 - Theoretical Analysis
+# 5 - Emperical Analysis
+
+# 6 - Results and Discussion
 
 <!-- ![20x20DFS](viz/DFS-20x20.gif) -->
 # 6 - Conclusion
