@@ -15,6 +15,7 @@
     - [2.2 - Dijkstra's Algorithm](#22---dijkstras-algorithm)
     - [2.3 - A\* Algorithm](#23---a-algorithm)
 - [3 - Implementation Details](#3---implementation-details)
+  - [3.1 - Depth First Search](#31---depth-first-search)
 - [4 - Testing and Validation](#4---testing-and-validation)
 - [5 - Results and Discussion](#5---results-and-discussion)
 - [6 - Conclusion](#6---conclusion)
@@ -28,6 +29,8 @@
 * **GitHub Repo**: [5008 Repo](www.github.com/cyber-shah/5008-Project)
 * **Semester**: Summer 2023
 * **Languages Used**: C and Python
+
+<!-- TODO : check time complexities -->
 
 # 0 - Abstract
 
@@ -286,8 +289,15 @@ So by now we know how to solve the question of `is there a path between A to B?`
 
 
 # 3 - Implementation Details
-![20x20Djikstra](viz/Djikstra-20x20.gif)
+Initially, the decision was made to implement all the algorithms in C, driven by concerns related to speed and efficiency. Given its status as a low-level programming language, C emerged as the natural choice for this purpose. The complete C implementation can be accessed within the [c-code](c-code) directory. 
+ 
+However, as the implementation of Dijkstra's algorithm progressed, the necessity to subject the algorithms to rigorous testing across a spectrum of mazes and scenarios became apparent. This testing was intended to evaluate their performance under diverse conditions. To facilitate this assessment, the aspiration emerged to create animations that would offer insights into how the algorithms explore nodes, quantify the number of nodes each algorithm traverses before identifying the shortest path, and much more. In essence, the goal was to **visualize** the algorithms' behavior.
 
+However, as the implementation of Dijkstra's algorithm progressed, the necessity to subject the algorithms to rigorous testing across a spectrum of mazes and scenarios became apparent. This testing was intended to evaluate their performance under diverse conditions. To facilitate this assessment, the aspiration emerged to create animations that would offer insights into how the algorithms explore nodes, quantify the number of nodes each algorithm traverses before identifying the shortest path, and much more. In essence, the goal was to visualize the algorithms' behavior.
+
+Therefore, the shift to Python was motivated by the intention to holistically comprehend algorithmic behavior through animations, leveraging Python's high-level capabilities and visualization tools, while the initial implementation in C addressed concerns of speed and efficiency.
+
+## 3.1 - Depth First Search
 # 4 - Testing and Validation
 
 # 5 - Results and Discussion
