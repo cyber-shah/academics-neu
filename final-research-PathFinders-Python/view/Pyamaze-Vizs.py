@@ -47,15 +47,15 @@ def pymaze():
     maze_col_size = 20
     source_row = 5
     source_col = 3
-    algorithm = 'A*'
+    algorithm = 'BFS'
 
     # create explored_agent maze of size 20 x 20
     custom_maze = maze(maze_row_size, maze_col_size)
     # set the goal at 4 , 4
     # loop percent means multiple paths in the maze
-    custom_maze.CreateMaze(goal_row, goal_col, loopPercent=30, loadMaze='maze--2023-08-09--14-03-48.csv')
+    custom_maze.CreateMaze(goal_row, goal_col, loopPercent=30, loadMaze='../tests/20x20-RandomMaze.csv')
 
-    custom_graph = graph_from_csv('maze--2023-08-09--14-03-48.csv')
+    custom_graph = graph_from_csv('../tests/20x20-RandomMaze.csv')
 
     if algorithm == 'Dijkstra':
         distance_list, explored_nodes_indexes, shortest_path = Dijkstra.dijkstra_path(
@@ -97,7 +97,7 @@ def pymaze():
 
 
 def main():
-    recording = False
+    recording = True
 
     if recording:
         global frame_array

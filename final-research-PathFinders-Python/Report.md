@@ -986,14 +986,22 @@ Dijkstra's algorithm is a weighted graph search algorithm that finds the shortes
 
 # 5 - Emperical Analysis
 
+## 5.1 - Experimental Setup
+
+
+
+![Maze-DFS](view/graphics/20x20-DFS.gif)
+![Maze-A*](view/graphics/20x20-Astar.gif)
+![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
+![Maze-BFS](view/graphics/20x20-BFS.gif)
+
 # 6 - Results and Discussion
 
 <!-- ![20x20DFS](view/DFS-20x20.gif) -->
 # 6 - Conclusion
 
-# 7 - Future Work
 
-# 8 - References
+# 7 - References
 
 
 
