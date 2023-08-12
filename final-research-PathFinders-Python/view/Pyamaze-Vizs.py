@@ -47,7 +47,7 @@ def pymaze():
     maze_col_size = 20
     source_row = 5
     source_col = 3
-    algorithm = 'Dijkstra'
+    algorithm = 'A*'
 
     # create explored_agent maze of size 20 x 20
     custom_maze = maze(maze_row_size, maze_col_size)

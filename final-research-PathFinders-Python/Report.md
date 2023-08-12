@@ -20,10 +20,16 @@
     - [3.0.2 - Graphs](#302---graphs)
     - [3.0.3 - Stacks and Queues](#303---stacks-and-queues)
   - [3.1 - Depth First Search](#31---depth-first-search)
-    - [Recursive Approach in C](#recursive-approach-in-c)
-    - [Stack Approach in Python](#stack-approach-in-python)
+    - [Recursive Approach](#recursive-approach)
+    - [Stack Approach](#stack-approach)
   - [3.2 - Breadth First Search](#32---breadth-first-search)
-  - [3.3 - Djikstra Search](#33---djikstra-search)
+  - [3.3 - Djikstra's Algorithm](#33---djikstras-algorithm)
+    - [Using Priority Queues](#using-priority-queues)
+    - [Using Arrays](#using-arrays)
+  - [3.4 - A\* Path finder](#34---a-path-finder)
+    - [Understanding A\* Path Finder](#understanding-a-path-finder)
+    - [Implementation](#implementation)
+    - [Heuristic Functions](#heuristic-functions)
 - [4 - Theoretical Analysis](#4---theoretical-analysis)
 - [5 - Emperical Analysis](#5---emperical-analysis)
 - [6 - Results and Discussion](#6---results-and-discussion)
@@ -40,6 +46,7 @@
 * **Languages Used**: C and Python
 
 <!-- TODO : check time complexities -->
+<!-- TODO : make sure A* is more elaborated in every section -->
 
 # 0 - Abstract
 
@@ -438,7 +445,7 @@ The python implementation uses the built in stacks and queues from the `collecti
 - C implementation can be found here [DFS in C](c-code/algorithms/DFS.h)
 - 🐍 Python implementation can be found here [DFS in Python](algorithms/DFS.py)
 
-### Recursive Approach in C
+### Recursive Approach
 
 The C implementation of DFS was based on recursion. The recursive approach was selected due to its simplicity and elegance. There's a helper function that is called recursively to visit all the nodes in the graph. The helper function takes in the graph, the source node index, and a boolean array that keeps track of the visited nodes.
 The recursive implementation can be found below:
@@ -462,7 +469,7 @@ void dfs_recursive(Graph *graph, int sourceNodeIndex) {
 }
 ```
 
-### Stack Approach in Python
+### Stack Approach
 
 The approach to implementing DFS was to leverage a stack data structure to store the nodes that were visited. The stack was implemented as a linked list, with each node containing a pointer to the next node in the stack. The stack was initialized with the source node, and the algorithm proceeded to pop nodes from the stack, marking them as visited, and pushing their unvisited neighbors onto the stack. This process continued until the destination node was reached, or the stack was empty. If the destination node was reached, the algorithm would backtrack to the source node, marking the shortest path. If the stack was empty, the algorithm would terminate, indicating that no path existed between the source and destination nodes.
 
@@ -597,11 +604,214 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
 
 <!-- TODO : maybe insert tests -->
 
-## 3.3 - Djikstra Search
+## 3.3 - Djikstra's Algorithm
+
 - C implementation can be found here [Djikstra in C](c-code/algorithms/Djikstra.h)
 - Python implementation can be found here [Djikstra in Python](algorithms/Dijkstra.py)
 
-The approach to implementing Djikstra was to leverage a priority queue data structure to store the nodes that were visited.  
+### Using Priority Queues
+The approach to implementing Djikstra was to leverage a priority queue data structure to store the nodes that were visited.  The priority queue is implemented using a min heap. The function performs Djikstra on the graph and returns the order of explored nodes and shortest path from source node.
+
+```Python
+def dijkstra_path(graph, source_node_name, destination_node_name):
+    total_nodes = graph.number_of_nodes
+    source_index = graph.get_node_via_name(source_node_name).get_index()
+    destination_index = graph.get_node_via_name(destination_node_name).get_index()
+    source_node = graph.get_node_via_index(source_index)
+
+    priority_queue = [(0, source_index)]  # (distance, node_index)
+    visited_list = [False] * total_nodes
+    # distance list init
+    distance_list = [float('inf')] * total_nodes
+    for neighbor in source_node.get_neighbors(graph):
+        neighbor_index = neighbor.get_index()
+        distance_list[neighbor_index] = graph.get_edge(source_node, neighbor)
+        heapq.heappush(priority_queue, (distance_list[neighbor_index], neighbor_index))
+    distance_list[source_index] = 0
+
+    explored_nodes_indexes = []
+    previous_nodes = [-1] * total_nodes
+
+    while priority_queue:
+        # Extract the node with the minimum distance from the priority queue
+        current_distance, current_node_index = heapq.heappop(priority_queue)
+        explored_nodes_indexes.append(current_node_index)
+        current_node = graph.get_node_via_index(current_node_index)
+        visited_list[current_node_index] = True
+
+        # If the destination node is visited, we can stop the algorithm
+        if current_node_index == destination_index:
+            break
+
+        # 2. Loop over all of its adjacent nodes.
+        for neighbour in current_node.get_neighbors(graph):
+            neighbour_index = neighbour.get_index()
+            edge_weight = graph.get_edge(current_node, neighbour)
+            new_distance = distance_list[current_node_index] + edge_weight
+            neighbor_distance = distance_list[neighbour_index]
+
+            # 2.1 Relax all adjacent unvisited nodes.
+            if visited_list[neighbour_index] is False and neighbour_index != source_index:
+                if new_distance < neighbor_distance:
+                    # 2.2 If the new distance is less than the current distance, update the distance.
+                    heapq.heappush(priority_queue, (new_distance, neighbour_index))
+                    previous_nodes[neighbour_index] = current_node_index
+                    distance_list[neighbour_index] = new_distance
+
+    shortest_path = []
+    current_node = destination_index
+    while current_node != -1:
+        shortest_path.insert(0, current_node)
+        current_node = previous_nodes[current_node]
+
+    return distance_list, explored_nodes_indexes, shortest_path
+```
+
+
+### Using Arrays
+However the C implementation of Djikstra does not use a priority queue, instead it uses a simple array to store the nodes that were visited.  The array is then passed into a function called `find_min_node` which returns the index of the node with the smallest distance.  The function performs Djikstra on the graph and returns the order of explored nodes and shortest path from source node.
+
+```C
+int* Dijkstra(int sourceNode, Graph *graph, bool print) {
+    
+    int totalNodes = graph->numberOfNodes;
+    
+    // initialize all the visited_list nodes to false.
+    bool* visited_list = (bool*) malloc(sizeof(bool) * totalNodes);
+    // array of nodes - to store the distance from the source node.
+    int* distances_list = (int*) malloc(sizeof(int) * totalNodes);
+
+
+    // initialize the distances array and visited array.
+    // They all mean from the source Node.
+    for (int i = 0; i < totalNodes; i++) {
+        // if the distance is not INF, then it is the distance.
+        if (graph->adjacencyMatrix[sourceNode][i] != INF) {
+            distances_list[i] = graph->adjacencyMatrix[sourceNode][i];
+        } else {
+            distances_list[i] = INF;
+        }
+        visited_list[i] = false;
+    }
+    // distance of source node from itself is 0.
+    distances_list[sourceNode] = 0;
+
+    // loop through all the nodes
+    for (int i = 0; i < (totalNodes - 1); ++i) {
+        // finds the node with the minimum distance to visit next.
+        int minDistanceNode = find_min_distance_node(visited_list, distances_list, totalNodes);
+
+        // mark the node as visited
+        visited_list[minDistanceNode] = true;
+
+        // loop through all the nodes.
+        for (int j = 0; j < totalNodes; ++j) {
+            // relax all the adjacent unvisited nodes. adjacent means distance != INF
+            if (visited_list[j] == false && graph->adjacencyMatrix[minDistanceNode][j] != INF && graph->adjacencyMatrix[minDistanceNode][j] != 0) {
+                int newDistance = distances_list [minDistanceNode] 
+                                  + graph->adjacencyMatrix[minDistanceNode][j];
+                if (newDistance < distances_list[j]) {
+                    // update the distance
+                    distances_list[j] = newDistance;
+                }
+            }
+        }
+    }
+    free(visited_list);
+
+    if (print == true) {
+        print_shortest_path(distances_list, sourceNode, graph);
+    }
+    return distances_list;
+}
+```
+
+<!-- TODO : review the time complexity -->
+
+Due to the lack of priority queue in the C implementation, the time complexity of the C implementation is $O(n^2)$ while the Python implementation is $O(n log n)$.  This is because the C implementation has to loop through all the nodes to find the node with the smallest distance.  The Python implementation uses a priority queue which is implemented using a min heap.
+
+```C
+int find_min_distance_node(const bool visited_list[], const int distances_list[], int totalNodes) {
+    int minDistance = INF;
+    int node_index = -1;
+
+    // for all nodes if unvisited and distance less than minDistance.
+    for (int i = 0; i < totalNodes; i++) {
+        if (visited_list[i] == false && distances_list[i] <= minDistance && distances_list[i] != 0) {
+            minDistance = distances_list[i];
+            node_index = i;
+        }
+    }
+    return node_index;
+}
+```
+
+
+
+## 3.4 - A* Path finder
+The python implementation can be found here : [A* Path Finder in Python](algorithms/A_star.py)
+### Understanding A* Path Finder
+Like we saw earlier, A* algorithms are pretty similar to Dijsktra except the fact that they have a secret function called `heuristic` function which simply allows us to explore nodes on in the `direction` of the destination node. More on Heuristic functions later.
+
+Apart from the heuristics, there are a few additional components that are required to implement A* path finder.
+For every node, we need to keep track of the following :
+- `g` - the distance from the source node to the current node.
+- `h` - the heuristic distance from the current node to the destination node.
+- `f` - the sum of `g` and `h`. This is the distance from the source node to the destination node via the current node.
+- `parent` - the previous node that was visited before the current node.
+
+The implementation uses a the concept of `closed_set` and an `open_set`. The `closed_set` is a set of nodes that have been visited. The `open_set` is a set of nodes that are yet to be visited. The `open_set` is implemented using a priority queue. The priority queue always returns the node with the smallest `f` value. The `open_set` is initialized with the source node. The `closed_set` is initialized as an empty set.
+
+### Implementation
+There are two ways in  which the algorithm can end:
+- If we find the destination node, we can stop the algorithm.
+- If the `open_set` = unvisited reachable nodes is empty, we can stop the algorithm.
+  
+So let's understand how it is implemented step by step.
+1. ***Part 1 - Initialize*** :
+   Similar to Djikstra, mark all nodes at `inf` distance away from the starting node. The starting node itself is at distance 0.
+   ```Python
+    open_unvisited_set = []  # unvisited nodes
+    closed_visited_set = set()  # visited nodes
+    explored_nodes_indices = []  # explored nodes
+    ```
+2. ***Part 2 - Set up the source node*** :
+   The `g` value for the source node is set to 0. The `h` value is set to the heuristic distance from the source node to the destination node. The `f` value is the sum of `g` and `h`. The source node is then pushed into the `open_unvisited_set` which is a priority queue. This priority queue always returns the node with the smallest `f` value.
+   
+   ```Python
+      source_node.g = 0
+      source_node.h = heuristic(source_node, destination_node)
+      source_node.f = source_node.g + source_node.h
+      heapq.heappush(open_unvisited_set, (source_node.f, source_node))
+    ```
+3. ***Part 3 - begin the exploration*** :
+   Pop the node with lowest `f` value from the `open_unvisited_set`. Make this node the focus for further steps. We check if this focus node is the destination node, if yes, we return the path. If not, we add the focus node to the `closed_visited_set` and add the index of the focus node to the `explored_nodes_indices` list.
+   ```Python
+    while open_unvisited_set:
+      # get the current node from the open_unvisited_set
+      # with the lowest f_score
+      f, current_node = heapq.heappop(open_unvisited_set)
+      closed_visited_set.add(current_node)
+      explored_nodes_indices.append(current_node.index)
+
+      # if destination node is found ______________________________
+      if current_node.index == destination_node.index:
+            break
+   ```
+4. ***Part 4 - Explore the neighbours*** :
+      For the chose nodes, we explore all the neighbours. For each neighbour, we calculate the `g` value, `h` value and `f` value. 
+      Hence, for all neighbors of the current node, we do the following:
+      1. If the neighbor is in the `closed_visited_set`, we skip it.
+      2. If the neighbor is not in `closed_visited_set`, we calculate `tentative_g` value which is the `g` value of the current node + the distance between the current node and the neighbor.
+      3. If the neighbor is already in the `open_unvisited_set`, we check if the `g` value of the current node + the distance between the current node and the neighbor is less than the `g` value of the neighbor. If yes, we update the `g` value, `h` value and `f` value of the neighbor.
+      ```Python
+      ```
+      
+
+### Heuristic Functions
+The approach for A* path finder is similar to Djikstra's algorithm. The only difference is that A* uses a heuristic function to estimate the distance from the current node to the destination node. The heuristic function is the Euclidean distance between the current node and the destination node.  
+
+There are various options for the heuristic function.  The popular heuristic functions are be the Euclidean distance, Manhattan distance, Diagonal or Weighted heuristics.
 
 
 # 4 - Theoretical Analysis
