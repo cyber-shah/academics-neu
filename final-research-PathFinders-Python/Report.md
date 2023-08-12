@@ -1,41 +1,42 @@
 <!-- TOC -->
 
-- [Final Report - Path Finders and A\* Algorithm](#final-report---path-finders-and-a-algorithm)
-- [0 - Abstract](#0---abstract)
-- [1 - Introduction](#1---introduction)
-    - [ 1.1 - Why Path Finding? ](#-11---why-path-finding-)
-    - [ 1.2 - What is Path Finding? ](#-12---what-is-path-finding-)
-    - [ 1.3 - How do computers find paths? ](#-13---how-do-computers-find-paths-)
-    - [ 1.4 Algorithms covered ](#-14-algorithms-covered-)
-- [2 - Background](#2---background)
-  - [Question 1: Is there a path between node A and node B?](#question-1-is-there-a-path-between-node-a-and-node-b)
-    - [1.1 - Depth First Search](#11---depth-first-search)
-  - [Question 2 : What is the shortest path between A to B?](#question-2--what-is-the-shortest-path-between-a-to-b)
-    - [2.1 - Breadth First Search](#21---breadth-first-search)
-    - [2.2 - Dijkstra's Algorithm](#22---dijkstras-algorithm)
-    - [2.3 - A\* Algorithm](#23---a-algorithm)
-- [3 - Implementation Details](#3---implementation-details)
-  - [3.0 - Data Structures](#30---data-structures)
-    - [3.0.1 - Nodes](#301---nodes)
-    - [3.0.2 - Graphs](#302---graphs)
-    - [3.0.3 - Stacks and Queues](#303---stacks-and-queues)
-  - [3.1 - Depth First Search](#31---depth-first-search)
-    - [Recursive Approach](#recursive-approach)
-    - [Stack Approach](#stack-approach)
-  - [3.2 - Breadth First Search](#32---breadth-first-search)
-  - [3.3 - Djikstra's Algorithm](#33---djikstras-algorithm)
-    - [Using Priority Queues](#using-priority-queues)
-    - [Using Arrays](#using-arrays)
-  - [3.4 - A\* Path finder](#34---a-path-finder)
-    - [Understanding A\* Path Finder](#understanding-a-path-finder)
-    - [Implementation](#implementation)
-    - [Heuristic Functions](#heuristic-functions)
-- [4 - Theoretical Analysis](#4---theoretical-analysis)
-- [5 - Emperical Analysis](#5---emperical-analysis)
-- [6 - Results and Discussion](#6---results-and-discussion)
-- [6 - Conclusion](#6---conclusion)
-- [7 - Future Work](#7---future-work)
-- [8 - References](#8---references)
+- [Final Report - Path Finders and A* Algorithm](#final-report---path-finders-and-a-algorithm)
+- [- Abstract](#--abstract)
+- [- Introduction](#--introduction)
+        - [<u> 1.1 - Why Path Finding? </u>](#u-11---why-path-finding-u)
+        - [<u> 1.2 - What is Path Finding? </u>](#u-12---what-is-path-finding-u)
+        - [<u> 1.3 - How do computers find paths? </u>](#u-13---how-do-computers-find-paths-u)
+        - [<u> 1.4 Algorithms covered </u>](#u-14-algorithms-covered-u)
+- [- Background](#--background)
+    - [Question 1: Is there a path between node A and node B?](#question-1-is-there-a-path-between-node-a-and-node-b)
+        - [- Depth First Search](#--depth-first-search)
+    - [Question 2 : What is the shortest path between A to B?](#question-2--what-is-the-shortest-path-between-a-to-b)
+        - [- Breadth First Search](#--breadth-first-search)
+        - [- Dijkstra's Algorithm](#--dijkstras-algorithm)
+        - [- A* Algorithm](#--a-algorithm)
+- [- Implementation Details](#--implementation-details)
+    - [- Data Structures](#--data-structures)
+        - [- Nodes](#--nodes)
+        - [- Graphs](#--graphs)
+        - [- Stacks and Queues](#--stacks-and-queues)
+    - [- Depth First Search](#--depth-first-search)
+        - [Recursive Approach](#recursive-approach)
+        - [Stack Approach](#stack-approach)
+    - [- Breadth First Search](#--breadth-first-search)
+    - [- Djikstra's Algorithm](#--djikstras-algorithm)
+        - [Using Priority Queues](#using-priority-queues)
+        - [Using Arrays](#using-arrays)
+    - [- A* Path finder](#--a-path-finder)
+        - [Understanding A* Path Finder](#understanding-a-path-finder)
+        - [Implementation](#implementation)
+        - [Heuristic Functions](#heuristic-functions)
+        - [Putting it all together](#putting-it-all-together)
+- [- Theoretical Analysis](#--theoretical-analysis)
+- [- Emperical Analysis](#--emperical-analysis)
+- [- Results and Discussion](#--results-and-discussion)
+- [- Conclusion](#--conclusion)
+- [- Future Work](#--future-work)
+- [- References](#--references)
 
 <!-- /TOC -->
 
@@ -801,18 +802,192 @@ So let's understand how it is implemented step by step.
 4. ***Part 4 - Explore the neighbours*** :
       For the chose nodes, we explore all the neighbours. For each neighbour, we calculate the `g` value, `h` value and `f` value. 
       Hence, for all neighbors of the current node, we do the following:
-      1. If the neighbor is in the `closed_visited_set`, we skip it.
-      2. If the neighbor is not in `closed_visited_set`, we calculate `tentative_g` value which is the `g` value of the current node + the distance between the current node and the neighbor.
-      3. If the neighbor is already in the `open_unvisited_set`, we check if the `g` value of the current node + the distance between the current node and the neighbor is less than the `g` value of the neighbor. If yes, we update the `g` value, `h` value and `f` value of the neighbor.
+      1. Calculate the `tentative_g` value which is the `g` value of the current node + the distance between the current node and the neighbor.
+      2. If is already visited and the `tentative_g` value is greater than the `g` value of the neighbor, we skip it.
+      3. If the neighbour is not already visited OR tentative_g is less than the `g` value of the neighbor, we update the `g` value, `h` value and `f` value of the neighbor.
+      4. If the neighbor is not in the `open_unvisited_set`, we add it to the `open_unvisited_set`.
       ```Python
+      for neighbor in current_node.get_neighbors(graph):
+            # calculate tentative_g
+            tentative_g = current_node.g + graph.get_edge(current_node, neighbor)
+
+            # if neighbor is visited and the tentative_g > neighbor.g,
+            # we already have a better path
+            if neighbor in closed_visited_set and tentative_g >= neighbor.g:
+                continue
       ```
-      
+
+5. ***Part 5 - A* Intelligence*** :
+      This is where the intelligence of A* comes in. It compares the `g` values of the neighbors and chooses the one with the lowest `f` value. This is the node that is added to the `open_unvisited_set`.
+      ```Python
+            # if the neighbor is not already visited or
+            # the tentative_g is less than the neighbor.g
+            if neighbor not in open_unvisited_set or tentative_g < neighbor.g:
+                # update all the values of neighbour to this new path
+                neighbor.g = tentative_g
+                neighbor.h = heuristic(neighbor, destination_node)
+                neighbor.f = neighbor.g + neighbor.h
+                neighbor.parent = current_node
+
+                # if neighbour is not in the unvisited set, add it to visit again
+                if neighbor not in open_unvisited_set:
+                    heapq.heappush(open_unvisited_set, (neighbor.f, neighbor))
+      ```
+
+6. ***Part 6 - Return the path*** :
+      Once the destination node is found, we can return the path. The path is the list of nodes that are in the `closed_visited_set`. The path is then reversed to get the path from the source node to the destination node.
+    ```Python
+    path = []
+    current = destination_node
+    while current is not None:
+        path.append(current.index)
+        current = current.parent
+    return explored_nodes_indices, path[::-1]
+      ```
+
+
 
 ### Heuristic Functions
-The approach for A* path finder is similar to Djikstra's algorithm. The only difference is that A* uses a heuristic function to estimate the distance from the current node to the destination node. The heuristic function is the Euclidean distance between the current node and the destination node.  
+The approach of the A* pathfinder is akin to Dijkstra's algorithm, with the distinctive feature of incorporating a heuristic function to estimate the distance from the current node to the destination node. This heuristic guides the A* algorithm in selecting the most promising paths to explore. The heuristic function employed is typically based on various distance metrics.
 
-There are various options for the heuristic function.  The popular heuristic functions are be the Euclidean distance, Manhattan distance, Diagonal or Weighted heuristics.
+There are several options for heuristic functions, and the commonly used ones include the Euclidean distance, Manhattan distance, diagonal distance, and weighted heuristics.
 
+1. ***Manhattan distance*** - This heuristic calculates the sum of the absolute differences of the x and y coordinates. It's also known as the L1 norm. When applied in a grid-based environment, where movement is restricted to horizontal and vertical directions, this heuristic provides an estimate of the minimum number of moves required to reach the goal.
+   
+   $h(A, B) = |x2 - x1| + |y2 - y1|$
+
+2. ***Euclidean Distance Heuristic:*** - This heuristic represents the straight-line distance between two points. It's also referred to as the L2 norm. The Euclidean distance heuristic offers an estimate of the actual distance between the two points and is widely used in pathfinding.
+   
+   $h(A, B) = \sqrt{(x2 - x1)^2 + (y2 - y1)^2}$
+
+3. ***Diagonal Distance Heuristic:*** - This heuristic calculates the maximum of the absolute differences of the x and y coordinates. It's associated with the L-infinity norm. The diagonal distance heuristic estimates the maximum distance between the two points and is particularly suitable for grid-based environments allowing horizontal, vertical, and diagonal movement.
+      
+      $h(A, B) = d + (\sqrt{2} - 2) * min(d_x, d_y)$
+      
+      where $d = max(d_x, d_y)$
+
+4. ***Weighted Heuristic:*** - This heuristic involves a weighted combination of the Manhattan distance and the Euclidean distance. It provides an estimate of the actual distance between two points. The weighted heuristic is useful for grid-based environments where movement can occur in various directions.
+   
+   $h(A, B) = w_1 * |x2 - x1| + w_2 * |y2 - y1| + w_3 * sqrt((x2 - x1)^2 + (y2 - y1)^2)$
+   
+   where $w_1 + w_2 + w_3 = 1$
+
+In this project, we have used the Manhattan distance heuristic function. This is because the movement is restricted to horizontal and vertical directions. Hence, the Manhattan distance heuristic provides an estimate of the minimum number of moves required to reach the goal.
+
+```Python
+def heuristic(source_node, goal_node):
+
+    return abs(source_node.row - goal_node.row) + abs(source_node.column - goal_node.column)
+```
+
+### Putting it all together
+Hence, the complete implementation of the A* algorithm is as follows:
+
+```Python
+def a_star_destination(graph, source_node_name, destination_node_name):
+    """
+    there's two ways algorithm can be completed
+    1. destination node is found
+    2. open_unvisited_set is empty - no path to destination node
+
+    closed set starts as empty set, and then just grows
+    start with only the source node in it and then add nodes to it as we visit them
+
+    psuedocode:
+    1. Create an open_unvisited_set (priority queue) to store nodes to be explored.
+    2. Create a closed_visited_set (set) to store nodes that have been visited.
+    3. Add the starting node to the open_unvisited_set.
+    4. while the open_unvisited_set is not empty
+        a. Get the current node from the open_unvisited_set with the lowest f_score.
+        b. Remove the current node from the open_unvisited_set and add it to the closed_visited_set.
+        c. If the current node is the destination node, terminate the loop.
+        d. Else, for each neighbor of the current node:
+            i. Calculate tentative_g = current_node_index.g + distance from current node to neighbor
+            ii. If neighbor in closed_visited_set and the tentative_g > neighbor.g
+                1. skip this iteration.
+            iii. If the neighbor not in open_unvisited_set or tentative_g_score < neighbor.g:
+                1. Set neighbor.g = tentative_g (update neighbor.g)
+                2. Set neighbor.h = distance from neighbor to destination node (update heuristic)
+                3. Set neighbor.f = neighbor.g + neighbor.h (update neighbor.f)
+                4. Set neighbor.parent = current_node_index (update parent)
+                5. If neighbor not in open_unvisited_set:
+                    a. Add neighbor to open_unvisited_set.
+    5. Once the loop terminates:
+        a. If the destination node has been visited:
+            i. reconstruct the path from destination node to source node using parent pointers.
+        b. Else:
+            i. No path exists from source node to destination node.
+    """
+    # instantiate ____________________________________________________
+    open_unvisited_set = []  # unvisited nodes
+    closed_visited_set = set()  # visited nodes
+    explored_nodes_indices = []  # explored nodes
+
+    # Getters ________________________________________________________
+    source_node_index = graph.get_node_via_name(source_node_name).index
+    destination_node_index = graph.get_node_via_name(destination_node_name).index
+    source_node = graph.get_node_via_index(source_node_index)
+    destination_node = graph.get_node_via_index(destination_node_index)
+
+    # Setters ______________________________________________________
+    source_node.g = 0
+    source_node.h = heuristic(source_node, destination_node)
+    source_node.f = source_node.g + source_node.h
+    heapq.heappush(open_unvisited_set, (source_node.f, source_node))
+
+    # while there are unvisited nodes
+    while open_unvisited_set:
+        # set operations ____________________________________________
+        # get the current node from the open_unvisited_set
+        # with the lowest f_score
+        f, current_node = heapq.heappop(open_unvisited_set)
+        if current_node in closed_visited_set:
+            continue
+        closed_visited_set.add(current_node)
+        explored_nodes_indices.append(current_node.index)
+
+        # if destination node is found ______________________________
+        if current_node.index == destination_node.index:
+            break
+
+        # for all neighbors _________________________________________
+        # else visit all the UNVISITED adjacent nodes of current node
+        for neighbor in current_node.get_neighbors(graph):
+            # calculate tentative_g
+            tentative_g = current_node.g + graph.get_edge(current_node, neighbor)
+
+            # if neighbor is visited and the tentative_g > neighbor.g,
+            # we already have a better path
+            if neighbor in closed_visited_set and tentative_g >= neighbor.g:
+                continue
+
+            # if the neighbor is not already visited or
+            # the tentative_g is less than the neighbor.g
+            if neighbor not in open_unvisited_set or tentative_g < neighbor.g:
+                # update all the values of neighbour to this new path
+                neighbor.g = tentative_g
+                neighbor.h = heuristic(neighbor, destination_node)
+                neighbor.f = neighbor.g + neighbor.h
+                neighbor.parent = current_node
+
+                # if neighbour is not in the unvisited set, add it to visit again
+                if neighbor not in open_unvisited_set:
+                    heapq.heappush(open_unvisited_set, (neighbor.f, neighbor))
+
+    # return the path
+    path = []
+    current = destination_node
+    while current is not None:
+        path.append(current.index)
+        current = current.parent
+    return explored_nodes_indices, path[::-1]
+
+
+def heuristic(source_node, goal_node):
+
+    return abs(source_node.row - goal_node.row) + abs(source_node.column - goal_node.column)
+
+```
 
 # 4 - Theoretical Analysis
 
