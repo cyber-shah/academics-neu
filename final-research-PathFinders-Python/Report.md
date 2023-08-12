@@ -15,7 +15,13 @@
     - [2.2 - Dijkstra's Algorithm](#22---dijkstras-algorithm)
     - [2.3 - A\* Algorithm](#23---a-algorithm)
 - [3 - Implementation Details](#3---implementation-details)
+  - [3.0 - Data Structures](#30---data-structures)
+    - [3.0.1 - Nodes](#301---nodes)
+    - [3.0.2 - Graphs](#302---graphs)
   - [3.1 - Depth First Search](#31---depth-first-search)
+    - [Recursive Approach in C](#recursive-approach-in-c)
+    - [Stack Approach in Python](#stack-approach-in-python)
+  - [3.2 - Breadth First Search](#32---breadth-first-search)
 - [4 - Theoretical Analysis](#4---theoretical-analysis)
 - [5 - Emperical Analysis](#5---emperical-analysis)
 - [6 - Results and Discussion](#6---results-and-discussion)
@@ -294,18 +300,208 @@ Initially, the decision was made to implement all the algorithms in C, driven by
  
 However, as the implementation of Dijkstra's algorithm progressed, the necessity to subject the algorithms to rigorous testing across a spectrum of mazes and scenarios became apparent. This testing was intended to evaluate their performance under diverse conditions. To facilitate this assessment, the aspiration emerged to create animations that would offer insights into how the algorithms explore nodes, quantify the number of nodes each algorithm traverses before identifying the shortest path, and much more. In essence, the goal was to **visualize** the algorithms' behavior.
 
+> In general, all the python implementations are higher in completeness and functionality than the C implementations. A lot of functionality was added to the python implementations while the C implementations were being ported to python. So python implementations are an improvement over the C implementations.
+
+This is because I started with the C implementations and then moved to Python. So the C implementations are not as complete as the Python implementations. But they help in understanding the memory management and the data structures used in the Python implementations.
+
 However, as the implementation of Dijkstra's algorithm progressed, the necessity to subject the algorithms to rigorous testing across a spectrum of mazes and scenarios became apparent. This testing was intended to evaluate their performance under diverse conditions. To facilitate this assessment, the aspiration emerged to create animations that would offer insights into how the algorithms explore nodes, quantify the number of nodes each algorithm traverses before identifying the shortest path, and much more. In essence, the goal was to visualize the algorithms' behavior.
 
 Therefore, the shift to Python was motivated by the intention to holistically comprehend algorithmic behavior through animations, leveraging Python's high-level capabilities and visualization tools, while the initial implementation in C addressed concerns of speed and efficiency.
 
+## 3.0 - Data Structures
+
+Initially the structs/classes that hold the graphs and nodes were based on XY coordinate system, however when I started using libraries like Matplotlib and Pygame, I realized that it would be easier to use a matrix to represent the graph. So I changed the structs/classes to use a matrix instead of XY coordinates.
+
+### 3.0.1 - Nodes
+The node data structure is responsible to hold the information about the node, heuristics, distance, parent and position. The node is represented as a struct in C and a class in Python. The C implementation of the node can be found here [Node in C](c-code/structs/Node.h).
+
+```C
+struct Node {
+    char *name;
+    int index;
+    int distance;
+} typedef Node;
+```
+
+The Python implementation of the node can be found here [Node in Python](model_rows/NodeRC.py). It holds the following attributes:
+- `index` - The index of the node in the graph.
+- `name` - name of the node.
+- `parent` - The parent node of the current node.
+- `g` - cost from the start node to the current node
+- `h` - The heuristic value of the node.
+- `f` - total estimated cost of the node. $f(n) = g(n) + h(n)$
+
+> A noteable difference between the C and Python implementations is the python implementations are a lot more object oriented. The C implementations are more procedural. Apart from that they are also a big upgrade in terms of functionality and completeness.
+
+```python
+class NodeRC:
+
+    def __init__(self, name,
+                 row=None, column=None, parent=None,
+                 g=None, h=None, f=None):
+        self.index = None
+        self.name = name
+        self.parent = parent
+        self.g = g
+        self.h = h
+        self.f = f
+        if row is None or column is None:
+            self.row = 0
+            self.column = 0
+        else:
+            self.row = row
+            self.column = column
+```
+Apart from getters and setters for all the attributes, the class also has the a method called `get_neighbors` that returns a list of nodes that are connected to the current node.
+```Python
+    def get_neighbors(self, graph):
+        # a list of nodes index
+        neighbors = []
+        for i in range(graph.number_of_nodes):
+            if graph.adjacency_matrix[self.index][i] != float('inf') and i != self.index:
+                neighbors.append(graph.get_node_via_index(i))
+        return neighbors
+        
+```
+
+> Another major difference is the use of `rows` and `columns` to represent the nodes instead of using XY coordinates. This was done to make it easier to use libraries like Matplotlib and Pygame to visualize the graph. This decision was made after the C implementation was completed. The C implementation uses XY coordinates to represent the nodes.
+
+### 3.0.2 - Graphs
+The graph data structure is responsible to hold the nodes and edges. The graph is represented as a matrix, where each row and column represents a node. The value of the matrix at the row and column index represents the weight of the edge between the two nodes. If the value is `inf`, it means that there is no edge between the two nodes.
+The C implementation of the graph can be found here [Graph in C](c-code/structs/Graph.h).
+```C
+struct Graph {
+    int numberOfNodes;
+    int adjacencyMatrix[MAX_NODES][MAX_NODES];
+    Node *nodes[MAX_NODES];
+} typedef Graph;
+```
+
+The python implementation of the graph can be found here [Graph in Python](model_rows/GraphRC.py). It holds the following attributes:
+``` Python
+class GraphRC:
+    def __init__(self):
+        self.number_of_nodes = 0
+        self.number_of_edges = 0
+        # Use a list of lists for the adjacency matrix
+        self.adjacency_matrix = []
+        # Use a dictionary key, value = (x pos, y pos), node
+        self.nodesDictionary = {}
+        # Use a dictionary key, value = index, node
+        self.nodeIndices = {}
+        # Use a dictionary key, value = name, node
+        self.nodeNames = {}
+```
+
+One notable difference was the use of a dictionary to store the nodes. This was done to make it easier to access the nodes. The dictionary uses the node name as the key and the node object as the value. This makes it easier to access the node object using the name of the node. The dictionary can be accessed using the `nodeNames` attribute of the graph object.
+
+
+
+  
+  - Graphs for C : [Graph.h](c-code/structs/Graph.h)
+  - Nodes for Python : [Node.py](model/Node.py)
+  - Nodes for C : [Node.h](c-code/structs/Node.h)
+- Priority Queue
+- Stack
+- Nodes
+- Queue
+
 ## 3.1 - Depth First Search
+
 - C implementation can be found here [DFS in C](c-code/algorithms/DFS.h)
 - 🐍 Python implementation can be found here [DFS in Python](algorithms/DFS.py)
 
+### Recursive Approach in C
+
+The C implementation of DFS was based on recursion. The recursive approach was selected due to its simplicity and elegance. There's a helper function that is called recursively to visit all the nodes in the graph. The helper function takes in the graph, the source node index, and a boolean array that keeps track of the visited nodes.
+The recursive implementation can be found below:
+
+```C
+void dfsHelper(Graph *graph, int sourceNodeIndex, bool visited[]) {
+    // base case - set the node to visited
+    visited[sourceNodeIndex] = true;
+
+    // recursive case - if there is an adjacent node that is not visited, then visit it
+    for (int i = 0; i < graph->numberOfNodes; ++i) {
+        if (graph->adjacencyMatrix[sourceNodeIndex][i] != INF && !visited[i]) {
+            dfsHelper(graph, i, visited);
+        }
+    }
+}
+
+void dfs_recursive(Graph *graph, int sourceNodeIndex) {
+    bool visited[MAX_NODES] = {false};
+    dfsHelper(graph, sourceNodeIndex, visited);
+}
+```
+
+### Stack Approach in Python
+
 The approach to implementing DFS was to leverage a stack data structure to store the nodes that were visited. The stack was implemented as a linked list, with each node containing a pointer to the next node in the stack. The stack was initialized with the source node, and the algorithm proceeded to pop nodes from the stack, marking them as visited, and pushing their unvisited neighbors onto the stack. This process continued until the destination node was reached, or the stack was empty. If the destination node was reached, the algorithm would backtrack to the source node, marking the shortest path. If the stack was empty, the algorithm would terminate, indicating that no path existed between the source and destination nodes.
+
+```Python
+def dfs_destination(graph, source_node_name, destination_node_name):
+    source_node_index = (graph.get_node_via_name
+                         (source_node_name).index)
+    destination_node_index = (graph.get_node_via_name
+                              (destination_node_name).index)
+
+    stack = deque()
+    visited = [False] * graph.number_of_nodes
+    distances_list = []  # to store the order of visited nodes
+    parent_map = {}  # To store parent nodes for backtracking
+
+    visited[source_node_index] = True
+    stack.append(source_node_index)
+    distances_list.append(source_node_index)
+
+    while stack:
+        current_node_index = stack.pop()
+
+        if current_node_index == destination_node_index:
+            break
+
+        for i in range(graph.number_of_nodes):
+            if graph.adjacency_matrix[current_node_index][i] != float('inf') and not visited[i]:
+                visited[i] = True
+                stack.append(i)
+                distances_list.append(i)
+                parent_map[i] = current_node_index  # Store parent information
+
+    if destination_node_index not in parent_map:
+        return distances_list, []
+
+    shortest_path = build_shortest_path(parent_map, source_node_index, destination_node_index)
+    return distances_list, shortest_path
+```
+
+Then the function called `build_shortest_path` is called to create a list of indices of nodes that represent the shortest path between the source and destination nodes. The function takes in the parent map, the source node index, and the destination node index. The function iterates through the parent map, starting from the destination node, and appends the current node index to the shortest path list. The function terminates when the current node index is equal to the source node index. The shortest path list is then reversed to obtain the correct order of nodes.
+
+```Python
+def build_shortest_path(parent_map, source_node_index, destination_node_index):
+    current_node_index = destination_node_index
+    shortest_path = []
+
+    while current_node_index != source_node_index:
+        shortest_path.append(current_node_index)
+        current_node_index = parent_map[current_node_index]
+
+    shortest_path.append(source_node_index)
+    shortest_path.reverse()
+    return shortest_path
+```
+
+
+<!-- TODO : maybe insert tests -->
+
+## 3.2 - Breadth First Search
+ 
+- C implementation can be found here [BFS in C](c-code/algorithms/BFS.h)
+- 🐍 Python implementation can be found here [BFS in Python](algorithms/BFS.py)
 
 
 # 4 - Theoretical Analysis
+
 # 5 - Emperical Analysis
 
 # 6 - Results and Discussion
