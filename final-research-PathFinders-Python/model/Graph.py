@@ -40,14 +40,15 @@ class GraphRC:
         self.number_of_edges += 1
 
     def set_edge_unweighted(self, node1, node2):
-        # get the index of each node
-        index1 = self.get_node_via_row_column(node1.row, node1.column).get_index()
-        index2 = self.get_node_via_row_column(node2.row, node2.column).get_index()
-        # set the edge in the adjacency matrix
-        self.adjacency_matrix[index1][index2] = 1
-        self.adjacency_matrix[index2][index1] = 1
-        # update the number of edges
-        self.number_of_edges += 1
+        # # get the index of each node
+        # index1 = self.get_node_via_row_column(node1.row, node1.column).get_index()
+        # index2 = self.get_node_via_row_column(node2.row, node2.column).get_index()
+        # # set the edge in the adjacency matrix
+        # self.adjacency_matrix[index1][index2] = 1
+        # self.adjacency_matrix[index2][index1] = 1
+        # # update the number of edges
+        # self.number_of_edges += 1
+        self.set_edge_weighted(node1, node2, 1)
 
     def get_node_via_row_column(self, row, column):
         return self.nodesDictionary.get((row, column))

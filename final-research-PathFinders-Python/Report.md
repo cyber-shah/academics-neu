@@ -18,10 +18,12 @@
   - [3.0 - Data Structures](#30---data-structures)
     - [3.0.1 - Nodes](#301---nodes)
     - [3.0.2 - Graphs](#302---graphs)
+    - [3.0.3 - Stacks and Queues](#303---stacks-and-queues)
   - [3.1 - Depth First Search](#31---depth-first-search)
     - [Recursive Approach in C](#recursive-approach-in-c)
     - [Stack Approach in Python](#stack-approach-in-python)
   - [3.2 - Breadth First Search](#32---breadth-first-search)
+  - [3.3 - Djikstra Search](#33---djikstra-search)
 - [4 - Theoretical Analysis](#4---theoretical-analysis)
 - [5 - Emperical Analysis](#5---emperical-analysis)
 - [6 - Results and Discussion](#6---results-and-discussion)
@@ -393,19 +395,43 @@ class GraphRC:
 
 Apart from getters and setters for all the attributes, the class also has the following methods:
 
+``` Python
+def add_node(self, node):
+      # 1. Update the node's index
+      node.set_index(self.number_of_nodes)
+      # 2. Update the graph's dictionary of nodes, adding   the new node
+      self.nodesDictionary[(node.row, node.column)] = node
+      self.nodeIndices[node.get_index()] = node
+      self.nodeNames[node.get_name()] = node
+      # 3. Update the graph's adjacency matrix
+      self.number_of_nodes += 1
+      # Update the adjacency matrix with a new row and      column for the new node
+      new_row = [float('inf')] * self.number_of_nodes
+      for row in self.adjacency_matrix:
+          row.append(float('inf'))
+      self.adjacency_matrix.append(new_row)
+      # edge from node to itself is 0
+      self.set_edge_weighted(node, node, 0)
+
+def set_edge_weighted(self, node1, node2, weight):
+      # get the index of each node
+      index1 = self.get_node_via_row_column(node1.row,      node1.column).get_index()
+      index2 = self.get_node_via_row_column(node2.row,      node2.column).get_index()
+      # set the edge in the adjacency matrix
+      self.adjacency_matrix[index1][index2] = weight
+      self.adjacency_matrix[index2][index1] = weight
+      # update the number of edges
+      self.number_of_edges += 1
+```
 
 One notable difference was the use of a dictionary to store the nodes. This was done to make it easier to access the nodes. The dictionary uses the node name as the key and the node object as the value. This makes it easier to access the node object using the name of the node. The dictionary can be accessed using the `nodeNames` attribute of the graph object.
 
+### 3.0.3 - Stacks and Queues
+The algorithms also use stacks and queues to keep track of the nodes that are visited.
+The C implementation uses stacks and queues developed in this class in the earlier assignements. The stacks and queues can be found here [Stacks in C](c-code/structs/mystack.h) and [Queues in C](c-code/structs/myQueue.h) respectively.
 
+The python implementation uses the built in stacks and queues from the `collections` library. 
 
-  
-  - Graphs for C : [Graph.h](c-code/structs/Graph.h)
-  - Nodes for Python : [Node.py](model/model_old/Node_old.py)
-  - Nodes for C : [Node.h](c-code/structs/Node.h)
-- Priority Queue
-- Stack
-- Nodes
-- Queue
 
 ## 3.1 - Depth First Search
 
@@ -499,6 +525,82 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
  
 - C implementation can be found here [BFS in C](c-code/algorithms/BFS.h)
 - 🐍 Python implementation can be found here [BFS in Python](algorithms/BFS.py)
+
+
+The approach to implementing BFS was to leverage a queue data structure to store the nodes that were visited. 
+This function performs BFS on the graph and returns the order of explored nodes and shortest path from source node
+
+    1. Initialize a queue and a visited array
+    2. Mark the source node as visited and enqueue it
+    3. While queue is not empty
+        3.1. Dequeue a node from the queue
+        3.2. If the dequeued node is the destination node, break the loop
+        3.3. Else visit all the adjacent nodes of current node
+            3.3.1. Enqueue all the unvisited adjacent nodes and mark them as visited
+    4. Repeat step 3 until queue is empty
+
+```Python
+def bfs_destination(graph, source_node_name, destination_node_name):
+    source_node_index = graph.get_node_via_name(source_node_name).index
+    destination_node_index = graph.get_node_via_name(destination_node_name).index
+
+    queue = deque()
+    visited = [False] * graph.number_of_nodes
+    explored_nodes_indices = []  # To store the order of visited nodes
+    parent_map = {}  # To store parent nodes for backtracking
+
+    visited[source_node_index] = True
+    queue.append(source_node_index)
+    explored_nodes_indices.append(source_node_index)
+
+    while queue:
+        current_node_index = queue.popleft()
+
+        # if destination node is found, break the loop
+        if current_node_index == destination_node_index:
+            break
+
+        # else visit all the adjacent nodes of current node
+        # append them to the queue and mark them as visited
+        for i in range(graph.number_of_nodes):
+            if graph.adjacency_matrix[current_node_index][i] != float('inf') and not visited[i]:
+                visited[i] = True
+                queue.append(i)
+                explored_nodes_indices.append(i)
+                parent_map[i] = current_node_index  # Store parent information
+
+    # If destination node is not found, return shortest path as empty list
+    if destination_node_index not in parent_map:
+        return explored_nodes_indices, []
+
+    # Else build the shortest path and return it
+    shortest_path = build_shortest_path(parent_map, source_node_index, destination_node_index)
+    return explored_nodes_indices, shortest_path
+```
+
+Apart from the above function, we also implemented a function to build the shortest path from the parent map. It takes in the parent map, the source node index, and the destination node index. The function iterates through the parent map, starting from the destination node, and appends the current node index to the shortest path list. The function terminates when the current node index is equal to the source node index. The shortest path list is then reversed to obtain the correct order of nodes.
+
+```Python
+def build_shortest_path(parent_map, source_node_index, destination_node_index):
+    current_node_index = destination_node_index
+    shortest_path = []
+
+    while current_node_index != source_node_index:
+        shortest_path.append(current_node_index)
+        current_node_index = parent_map[current_node_index]
+
+    shortest_path.append(source_node_index)
+    shortest_path.reverse()
+    return shortest_path
+```
+
+
+<!-- TODO : maybe insert tests -->
+
+## 3.3 - Djikstra Search
+- C implementation can be found here [Djikstra in C](c-code/algorithms/Djikstra.h)
+- Python implementation can be found here [Djikstra in Python](algorithms/Dijkstra.py)
+
 
 
 # 4 - Theoretical Analysis
