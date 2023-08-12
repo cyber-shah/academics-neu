@@ -85,9 +85,8 @@ Each algorithm is divided into the following sections:
 2. Overiew of how it works
 3. Advanatages
 4. Disadvantages
-5. Complexity
-6. Use cases
-7. Psuedo code
+5. Use cases
+6. Psuedo code
 
 The algorithms can be divided into two parts here: 1 that help us find out IF a path exists and 2 that help us find the SHORTEST path. The algorithms that help us find out IF a path exists are: DFS and BFS. The algorithms that help us find the SHORTEST path are: Dijkstra's Algorithm and A* Algorithm.
 
@@ -784,6 +783,11 @@ So let's understand how it is implemented step by step.
 ### Heuristic Functions
 The approach of the A* pathfinder is akin to Dijkstra's algorithm, with the distinctive feature of incorporating a heuristic function to estimate the distance from the current node to the destination node. This heuristic guides the A* algorithm in selecting the most promising paths to explore. The heuristic function employed is typically based on various distance metrics.
 
+> The time complexity of A * algorithm totally depends on the heuristic used. The heuristic function must be admissible, meaning it never overestimates the actual cost to get to the nearest goal node. 
+
+> It can vary from $O(VlogV+E)$, where V is the number of nodes in the graph and E is the number of edges - to $O(b^d)$ where $d$ is the depth of the solution and $b$ is the branching factor. The heuristic function is problem-specific and is often domain-specific. 
+> $O(b^d)$ is the worst case time complexity when the heuristic function is not admissible.
+
 There are several options for heuristic functions, and the commonly used ones include the Euclidean distance, Manhattan distance, diagonal distance, and weighted heuristics.
 
 1. ***Manhattan distance*** - This heuristic calculates the sum of the absolute differences of the x and y coordinates. It's also known as the L1 norm. When applied in a grid-based environment, where movement is restricted to horizontal and vertical directions, this heuristic provides an estimate of the minimum number of moves required to reach the goal.
@@ -900,21 +904,23 @@ The computational complexity of an algorithm is a measure of the amount of time 
 
 ### 4.1.1 - Time Complexity Analysis
 1. ***Initialization:*** The initialization step involves setting up various data structures and initial values for nodes. This step takes constant time.
-2. ***While loop:*** The while loop iterates over all the nodes in the graph. The number of iterations depends on the number of nodes in the graph. Hence, the time complexity of the while loop is $O(V)$, where V is the number of nodes in the graph.
-    1. ***Heap Operations:*** The heapq operations (heappop and heappush) take logarithmic time complexity $(O(log n))$ where n is the number of nodes in the heap.
-3. ***For loop:*** The for loop iterates over all the neighbors of the current node. The number of iterations depends on the number of neighbors of the current node. Hence, the time complexity of the for loop is $O(E)$, where E is the number of edges in the graph.
-4. ***Heuristic Function:*** The heuristic function takes constant time.
-5. ***Backtracking*** : The backtracking step involves following the parent pointers from the destination node to the source node to construct the path.
-    - In the worst case, where the path is the longest possible, the backtracking step would require traversing all nodes in the path, which takes $O(P)$, where P is the length of the path.
+2. ***While loop:*** The while loop iterates over all the nodes in the graph. The number of iterations depends on the number of nodes in the graph. Hence, the time complexity of the while loop is $O(V ∗ logV + E)$ , where V is the number of nodes in the graph and E is the number of edges in the graph.
+   1. ***Heap Operations:*** The heapq operations (heappop and heappush) take logarithmic time complexity $(O(log n))$ where n is the number of nodes in the heap.
+   2. ***For loop:*** The for loop iterates over all the neighbors of the current node. The number of iterations depends on the number of neighbors of the current node. Hence, the time complexity of the for loop is $O(E)$, where E is the number of edges in the graph.
+   3. ***Heuristic Function:*** The heuristic function takes constant time.
+3. ***Backtracking*** : The backtracking step involves following the parent pointers from the destination node to the source node to construct the path.
+      - n the worst case, where the path has many turns or changes in direction, the backtracking step would require traversing all nodes in the path, which takes $O(V)$ time.
 
 ***Combining these complexities:***
 1. ***Initialization:*** $O(1)$
-2. ***While loop:*** $O(V * log V)$
-3. ***For loop:*** $O(E)$
-4. ***Heuristic Function:*** $O(1)$
-5. ***Backtracking*** : $O(P)$
+2. ***While loop:*** $O(V * log V + E)$
+   1. ***For all nodes*** $O(V)$
+   2. ***Heap Operations:*** $O(log n)$
+   3. ***For loop:*** $O(E)$
+   4. ***Heuristic Function:*** $O(1)$
+3. ***Backtracking*** : $O(V)$
 
-Overall, the time complexity is dominated by the while loop and the backtracking step, resulting in a worst-case time complexity of O(V * log V + P).
+Overall, the time complexity is dominated by the while loop and the backtracking step, resulting in a worst-case time complexity of $O(V * log V + E)$.
 
 ### 4.1.2 - Space Complexity Analysis
 The space complexity is primarily determined by the data structures used to store nodes and their attributes:
@@ -928,36 +934,55 @@ Overall, the space complexity is dominated by the open set, closed set, and expl
 
 | Approach      | Time Complexity       | Space Complexity  |
 | ---           |----------------       | ---               |
-| Best Case     | Depends but can be, $O(1)$                | $O(V)$          |
-| Worst Case    | $O(V * log V + P)$    | $O(V + E)$        |
-| Average Case  | $O(V * log V + P)$    | $O(V + E)$        |
+| Best Case     | $O(d)$                | $O(V)$          |
+| Worst Case    | $O(V * log V + E)$    | $O(V)$        |
+| Average Case  | $O(V * log V + P)$    | $O(V)$        |
 
 ### 4.2.1 - Best Case
 
-In the best case, the heuristic consistently provides accurate estimates, leading to the algorithm finding the optimal path quickly.
+In the best case, the heuristic consistently provides accurate estimates, leading to the algorithm finding the optimal path quickly. This means that the algorithm only expands the nodes along the optimal path, and does not explore any other nodes. This is possible if the heuristic is admissible and consistent, meaning that it never overestimates the actual cost to reach the goal, and it satisfies the triangle inequality.
 
-Time Complexity: $O(1)$
+Time Complexity: $O(d)$
+where d is the depth of the optimal path.
 
 ### 4.2.2 - Worst Case
 
-In the worst case, the heuristic consistently provides inaccurate estimates, leading to the algorithm exploring all nodes in the graph.
+In the worst case, the heuristic consistently provides inaccurate estimates, leading to the algorithm exploring all nodes in the graph. This means that the algorithm behaves like a uniform-cost search or Dijkstra’s algorithm, and does not benefit from any guidance from the heuristic. This can happen if the heuristic is inadmissible, meaning that it overestimates the actual cost to reach the goal.
 
-Time Complexity: $O(V * log V + P)$
+Time Complexity: $O(V * log V + E)$, where V is the number of nodes in the graph, and E is the number of edges in the graph.
 
 ### 4.2.3 - Average Case
 
-In the average case, the heuristic provides a mix of accurate and inaccurate estimates, leading to the algorithm exploring some nodes in the graph.
+In the average case, the heuristic provides a mix of accurate and inaccurate estimates, leading to the algorithm exploring some nodes in the graph. This means that the algorithm behaves somewhere between a uniform-cost search and a greedy best-first search, depending on how good or bad the heuristic is. The average case is hard to analyze precisely, since it depends on many factors such as the graph structure, the start and goal nodes, and the heuristic function.
 
-Time Complexity: $O(V * log V + P)$
+Time Complexity: $O(V * log V + P)$, where V is the number of nodes in the graph, and P is the number of nodes in the path.
 
+> A point to be noted here is that all the complexities mentioned here refer to the implementation and configuration of the algorithm in this project. The complexities may vary for different implementations and configurations.
+> The actual worst case time complexity of the A* algorithm is $O(b^d)$, where b is the branching factor of the graph, and d is the depth of the optimal path. This is because the algorithm may explore all nodes in the graph, and the number of nodes in the graph is $O(b^d)$.
 
 ## 4.3 - Comparison with Other Algorithms
+In this section, we will compare A* search with two other graph search algorithms: breadth-first search (BFS) and Dijkstra’s algorithm.
+
 
 | Approach      | Time Complexity       | Space Complexity  |
 | ---           |----------------       | ---               |
 | A*            | $O(V * log V + P)$    | $O(V + E)$        |
 | BFS           | $O(V + E)$            | $O(V + E)$        |
-| Dijkstra      | $O(V * log V + P)$    | $O(V + E)$        |
+| Dijkstra      | $O(V * log V + E)$    | $O(V + E)$        |
+
+where V is the number of nodes in the graph, E is the number of edges in the graph, and P is the number of nodes in the path.
+
+In terms of time and space complexities, A* is faster than Dijkstra and BFS if the heuristic function is good and guides the search towards the goal. A good heuristic function can reduce the number of nodes that need to be explored, which can save time and space. However, if the heuristic function is bad or misleading, A* can be slower than Dijkstra and BFS, because it can explore more nodes than necessary.
+
+
+### 4.3.1 - Breadth-First Search (BFS)
+
+BFS explores nodes level by level from the source until the goal is found. While BFS ensures finding the shortest path on unweighted graphs, it can be computationally expensive. In terms of time complexity, BFS has a worst-case time complexity of $O(V + E)$, where V is the number of nodes and E is the number of edges in the graph. This is due to the need to explore the entire graph breadth-wise.
+
+### 4.3.2 - Dijkstra's Algorithm
+
+Dijkstra's algorithm is a weighted graph search algorithm that finds the shortest path between the source and the goal. It is similar to BFS, but instead of exploring nodes level by level, it explores nodes in order of increasing distance from the source. In terms of time complexity, Dijkstra’s algorithm has a worst-case time complexity of $O(VlogV+E)$, where V is the number of nodes and E is the number of edges in the graph. This is due to the need to maintain a priority queue of nodes to explore.
+
 
 # 5 - Emperical Analysis
 
