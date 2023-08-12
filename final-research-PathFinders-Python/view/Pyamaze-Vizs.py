@@ -58,7 +58,7 @@ def pymaze():
     custom_graph = graph_from_csv('../tests/20x20-RandomMaze.csv')
 
     if algorithm == 'Dijkstra':
-        distance_list, explored_nodes_indexes, shortest_path = Dijkstra.dijkstra_path(
+        explored_nodes_indexes, shortest_path = Dijkstra.dijkstra_path(
             custom_graph, '(5, 3)', '(15, 17)')
     elif algorithm == 'DFS':
         explored_nodes_indexes, shortest_path = algorithms.DFS.dfs_destination(

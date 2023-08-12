@@ -67,4 +67,4 @@ def dijkstra_path(graph, source_node_name, destination_node_name):
         shortest_path.insert(0, current_node)
         current_node = previous_nodes[current_node]
 
-    return distance_list, explored_nodes_indexes, shortest_path
+    return explored_nodes_indexes, shortest_path
