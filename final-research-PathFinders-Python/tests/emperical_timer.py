@@ -1,5 +1,6 @@
-import time
 import csv
+import random
+import time
 
 from algorithms import Dijkstra, DFS, BFS, A_star
 from model.GraphMakers import graph_from_csv
@@ -24,6 +25,9 @@ def run_all_algos(csv_files, algos):
         # create a graph from the csv file
         graph = graph_from_csv(csv_file)
 
+        # end_node = get_end_node_as_last_node(csv_file)
+        end_node = get_end_node_as_random(csv_file)
+
         # loop through the algorithms
         for algorithm in algos:
             # get the algorithm function from the dictionary using the algorithm name as a key
@@ -35,7 +39,8 @@ def run_all_algos(csv_files, algos):
                 start = time.time()
 
                 # run the algorithm function on the graph and get the path, explored nodes
-                explored_nodes_indexes, shortest_path = algo_function(graph, '(5, 3)', '(15, 17)')
+                explored_nodes_indexes, shortest_path = (
+                    algo_function(graph, '(1, 1)', end_node))
 
                 # stop the timer and get the elapsed time
                 end = time.time()
@@ -45,7 +50,8 @@ def run_all_algos(csv_files, algos):
                 path_length = len(shortest_path)
                 explored_length = len(explored_nodes_indexes)
 
-                # append a row to the results with the csv file name, algorithm name, time, path length and nodes explored
+                # append a row to the results with the csv file name, algorithm name, time, path length and nodes
+                # explored
                 results.append([csv_file, algorithm, elapsed, path_length, explored_length])
             else:
                 print("Invalid algorithm name")
@@ -67,3 +73,24 @@ def run_all_algos(csv_files, algos):
     # return the output file name
     return output_file
 
+
+def get_end_node_as_last_node(csv_file):
+    # split the file name by the '-' character and get the last element
+    last_int = csv_file.split('-')[-1]
+    # remove the '.csv' extension from the last element
+    last_int = last_int.replace('.csv', '')
+    # convert the last element to an integer
+    last_int = int(last_int)
+    # create a string that represents the destination node using the last integer
+    return f'({last_int}, {last_int})'
+
+
+def get_end_node_as_random(csv_file):
+    # get the size of the maze from the file name
+    last_int = (csv_file.split('-')[4])
+    size = int(last_int.replace('.csv', ''))
+
+    # generate a random end node within the size of the maze
+    end_x = random.randint(1, size)
+    end_y = random.randint(1, size)
+    return f'({end_x}, {end_y})'
