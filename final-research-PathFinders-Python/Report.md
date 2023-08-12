@@ -1,44 +1,4 @@
-<!-- TOC -->
 
-- [Final Report - Path Finders and A* Algorithm](#final-report---path-finders-and-a-algorithm)
-- [- Abstract](#--abstract)
-- [- Introduction](#--introduction)
-        - [<u> 1.1 - Why Path Finding? </u>](#u-11---why-path-finding-u)
-        - [<u> 1.2 - What is Path Finding? </u>](#u-12---what-is-path-finding-u)
-        - [<u> 1.3 - How do computers find paths? </u>](#u-13---how-do-computers-find-paths-u)
-        - [<u> 1.4 Algorithms covered </u>](#u-14-algorithms-covered-u)
-- [- Background](#--background)
-    - [Question 1: Is there a path between node A and node B?](#question-1-is-there-a-path-between-node-a-and-node-b)
-        - [- Depth First Search](#--depth-first-search)
-    - [Question 2 : What is the shortest path between A to B?](#question-2--what-is-the-shortest-path-between-a-to-b)
-        - [- Breadth First Search](#--breadth-first-search)
-        - [- Dijkstra's Algorithm](#--dijkstras-algorithm)
-        - [- A* Algorithm](#--a-algorithm)
-- [- Implementation Details](#--implementation-details)
-    - [- Data Structures](#--data-structures)
-        - [- Nodes](#--nodes)
-        - [- Graphs](#--graphs)
-        - [- Stacks and Queues](#--stacks-and-queues)
-    - [- Depth First Search](#--depth-first-search)
-        - [Recursive Approach](#recursive-approach)
-        - [Stack Approach](#stack-approach)
-    - [- Breadth First Search](#--breadth-first-search)
-    - [- Djikstra's Algorithm](#--djikstras-algorithm)
-        - [Using Priority Queues](#using-priority-queues)
-        - [Using Arrays](#using-arrays)
-    - [- A* Path finder](#--a-path-finder)
-        - [Understanding A* Path Finder](#understanding-a-path-finder)
-        - [Implementation](#implementation)
-        - [Heuristic Functions](#heuristic-functions)
-        - [Putting it all together](#putting-it-all-together)
-- [- Theoretical Analysis](#--theoretical-analysis)
-- [- Emperical Analysis](#--emperical-analysis)
-- [- Results and Discussion](#--results-and-discussion)
-- [- Conclusion](#--conclusion)
-- [- Future Work](#--future-work)
-- [- References](#--references)
-
-<!-- /TOC -->
 
 # Final Report - Path Finders and A* Algorithm
 * **Author**: Pranchal Shah
@@ -154,18 +114,12 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
       - It does not guarantee the shortest path. 
       - It can get stuck in a loop. 
       - The other disadvantage is that it may keep moving down the wrong path and may be too late to backtrack towards the right path.
-   5. **_Complexity_**:
-      | Approach | Time Complexity | Space Complexity |
-      | --- |----------------| --- |
-      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
-      | Adjacency List | $O(V + E)$           | $O(V + E)$ |
-      The implementation in this report uses an adjacency matrix, just because it is easier to implement.
-   6. **_Use Cases_**:
+   5. **_Use Cases_**:
       - DFS is used in maze generation algorithms.
       - It is also used in topological sorting.
       - DFS is used in finding connected components in a graph.
       - It is also used in cycle detection in a graph.
-   7. **_Psuedocode_**:
+   6. **_Psuedocode_**:
       ```
       DFS(Graph,vertex v)
          Stack S
@@ -203,18 +157,12 @@ So by now we know how to solve the question of `is there a path between A to B?`
 4. **_Disadvantages_**: 
       - It is less suitable for weighted graphs. In a weighted graph, where edges have different costs or distances, the standard BFS will not necessarily find the shortest path. This is because BFS explores nodes in layers, and the order in which nodes are explored might not correspond to the shortest path.
       - It uses more memory than DFS.
-5. **_Complexity_**:
-      | Approach | Time Complexity | Space Complexity |
-      | --- |----------------| --- |
-      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
-      | Adjacency List | $O(V + E)$           | $O(V + E)$ |
-      The implementation in this report uses an adjacency matrix, just because it is easier to implement.
-6. **_Use Cases_**:
+5. **_Use Cases_**:
    - BFS is used in shortest path algorithms, especially when the graph is unweighted or equally weighted.
    - It is employed for finding the shortest path between nodes in a graph.
    - BFS can be used to explore hierarchical structures or levels of depth in graphs.
    - It's useful for determining connected components in a graph.
-7. **_Psuedocode_**:
+6. **_Psuedocode_**:
       ```
       BFS(Graph, start_vertex)
          Queue Q
@@ -250,17 +198,12 @@ So by now we know how to solve the question of `is there a path between A to B?`
    - Limited to Positive Weights: Dijkstra's algorithm is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
    - Inapplicability to Negative Weights: The algorithm's reliance on selecting the minimum distance can break down when dealing with graphs containing negative edge weights.
    - Potential Inefficiency on Large Graphs: While Dijkstra's algorithm provides optimal solutions, it might not be the most efficient choice for large graphs due to its time complexity.
-5. **_Complexity_**:
-      | Approach | Time Complexity | Space Complexity |
-      | --- |----------------| --- |
-      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
-      | Priority Queues | $O((V + E) * log(V))$           | $O(V)$ |
-6. **_Use Cases_**:
+5. **_Use Cases_**:
    - Dijkstra's algorithm is used in shortest path algorithms, especially when the graph is weighted.
    - Routing and navigation systems use Dijkstra's algorithm to find the shortest path between two locations.
    - Network routing protocols use Dijkstra's algorithm to find the shortest path between two nodes in a network.
    - Resource Management and Allocation use Dijkstra's algorithm to find the shortest path between two resources.
-7. **_Psuedocode_**:
+6. **_Psuedocode_**:
       ```
       1. Initialize all nodes with distance INFINITY, except the source node with distance 0.
       2. Create a priority queue (min-heap) and insert the source node with distance 0.
@@ -291,12 +234,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
 4. **_Disadvantages_**:
       - A* does have limitations. Its guarantee of finding the shortest path hinges on using an admissible, consistent, and monotonic heuristic.
       - Other disadvantage include the fact that it is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
-5. **_Complexity_**:
-      | Approach | Time Complexity | Space Complexity |
-      | --- |----------------| --- |
-      | Adjacency Matrix | $O(V^2)$        | $O(V)$ |
-      | Priority Queues | $O((V + E) * log(V))$  | $O(V)$ |
-6. **_Use Cases_**:
+5. **_Use Cases_**:
       - Telecommunication networks to optimize call routing.
      - GPS navigation systems for optimal route planning.
      - Network routing to minimize data transmission costs.
@@ -747,8 +685,6 @@ int find_min_distance_node(const bool visited_list[], const int distances_list[]
 }
 ```
 
-
-
 ## 3.4 - A* Path finder
 The python implementation can be found here : [A* Path Finder in Python](algorithms/A_star.py)
 ### Understanding A* Path Finder
@@ -816,7 +752,6 @@ So let's understand how it is implemented step by step.
             if neighbor in closed_visited_set and tentative_g >= neighbor.g:
                 continue
       ```
-
 5. ***Part 5 - A* Intelligence*** :
       This is where the intelligence of A* comes in. It compares the `g` values of the neighbors and chooses the one with the lowest `f` value. This is the node that is added to the `open_unvisited_set`.
       ```Python
@@ -833,7 +768,6 @@ So let's understand how it is implemented step by step.
                 if neighbor not in open_unvisited_set:
                     heapq.heappush(open_unvisited_set, (neighbor.f, neighbor))
       ```
-
 6. ***Part 6 - Return the path*** :
       Once the destination node is found, we can return the path. The path is the list of nodes that are in the `closed_visited_set`. The path is then reversed to get the path from the source node to the destination node.
     ```Python
@@ -885,39 +819,6 @@ Hence, the complete implementation of the A* algorithm is as follows:
 
 ```Python
 def a_star_destination(graph, source_node_name, destination_node_name):
-    """
-    there's two ways algorithm can be completed
-    1. destination node is found
-    2. open_unvisited_set is empty - no path to destination node
-
-    closed set starts as empty set, and then just grows
-    start with only the source node in it and then add nodes to it as we visit them
-
-    psuedocode:
-    1. Create an open_unvisited_set (priority queue) to store nodes to be explored.
-    2. Create a closed_visited_set (set) to store nodes that have been visited.
-    3. Add the starting node to the open_unvisited_set.
-    4. while the open_unvisited_set is not empty
-        a. Get the current node from the open_unvisited_set with the lowest f_score.
-        b. Remove the current node from the open_unvisited_set and add it to the closed_visited_set.
-        c. If the current node is the destination node, terminate the loop.
-        d. Else, for each neighbor of the current node:
-            i. Calculate tentative_g = current_node_index.g + distance from current node to neighbor
-            ii. If neighbor in closed_visited_set and the tentative_g > neighbor.g
-                1. skip this iteration.
-            iii. If the neighbor not in open_unvisited_set or tentative_g_score < neighbor.g:
-                1. Set neighbor.g = tentative_g (update neighbor.g)
-                2. Set neighbor.h = distance from neighbor to destination node (update heuristic)
-                3. Set neighbor.f = neighbor.g + neighbor.h (update neighbor.f)
-                4. Set neighbor.parent = current_node_index (update parent)
-                5. If neighbor not in open_unvisited_set:
-                    a. Add neighbor to open_unvisited_set.
-    5. Once the loop terminates:
-        a. If the destination node has been visited:
-            i. reconstruct the path from destination node to source node using parent pointers.
-        b. Else:
-            i. No path exists from source node to destination node.
-    """
     # instantiate ____________________________________________________
     open_unvisited_set = []  # unvisited nodes
     closed_visited_set = set()  # visited nodes
@@ -990,6 +891,73 @@ def heuristic(source_node, goal_node):
 ```
 
 # 4 - Theoretical Analysis
+
+In this section, we will delve into a detailed analysis of the A* algorithm's efficiency, specifically examining its computational complexity in different scenarios and comparing it to other pathfinding algorithms such as Breadth First Search (BFS) and Dijkstra's Algorithm. We will also discuss the algorithm's best, worst, and average-case behaviors.
+
+## 4.1 - Computational Complexity
+
+The computational complexity of an algorithm is a measure of the amount of time and memory required to run the algorithm. It is usually expressed as a function of the input size.
+
+### 4.1.1 - Time Complexity Analysis
+1. ***Initialization:*** The initialization step involves setting up various data structures and initial values for nodes. This step takes constant time.
+2. ***While loop:*** The while loop iterates over all the nodes in the graph. The number of iterations depends on the number of nodes in the graph. Hence, the time complexity of the while loop is $O(V)$, where V is the number of nodes in the graph.
+    1. ***Heap Operations:*** The heapq operations (heappop and heappush) take logarithmic time complexity $(O(log n))$ where n is the number of nodes in the heap.
+3. ***For loop:*** The for loop iterates over all the neighbors of the current node. The number of iterations depends on the number of neighbors of the current node. Hence, the time complexity of the for loop is $O(E)$, where E is the number of edges in the graph.
+4. ***Heuristic Function:*** The heuristic function takes constant time.
+5. ***Backtracking*** : The backtracking step involves following the parent pointers from the destination node to the source node to construct the path.
+    - In the worst case, where the path is the longest possible, the backtracking step would require traversing all nodes in the path, which takes $O(P)$, where P is the length of the path.
+
+***Combining these complexities:***
+1. ***Initialization:*** $O(1)$
+2. ***While loop:*** $O(V * log V)$
+3. ***For loop:*** $O(E)$
+4. ***Heuristic Function:*** $O(1)$
+5. ***Backtracking*** : $O(P)$
+
+Overall, the time complexity is dominated by the while loop and the backtracking step, resulting in a worst-case time complexity of O(V * log V + P).
+
+### 4.1.2 - Space Complexity Analysis
+The space complexity is primarily determined by the data structures used to store nodes and their attributes:
+1. ***Open Set:*** The open set is a priority queue that stores nodes that have been visited but not expanded. The open set can contain at most V nodes, where V is the number of nodes in the graph. Hence, the space complexity of the open set is $O(V)$.
+2. ***Closed Set:*** The closed set is a set that stores nodes that have been visited and expanded. The closed set can contain at most V nodes, where V is the number of nodes in the graph. Hence, the space complexity of the closed set is $O(V)$.
+3. ***Explored Nodes:*** The explored nodes list stores the indices of all the nodes that have been visited. The explored nodes list can contain at most V nodes, where V is the number of nodes in the graph. Hence, the space complexity of the explored nodes list is $O(V)$.
+
+Overall, the space complexity is dominated by the open set, closed set, and explored nodes list, resulting in a space complexity of $O(V)$.
+
+## 4.2 - Best, Worst, and Average Case Analysis
+
+| Approach      | Time Complexity       | Space Complexity  |
+| ---           |----------------       | ---               |
+| Best Case     | Depends but can be, $O(1)$                | $O(V)$          |
+| Worst Case    | $O(V * log V + P)$    | $O(V + E)$        |
+| Average Case  | $O(V * log V + P)$    | $O(V + E)$        |
+
+### 4.2.1 - Best Case
+
+In the best case, the heuristic consistently provides accurate estimates, leading to the algorithm finding the optimal path quickly.
+
+Time Complexity: $O(1)$
+
+### 4.2.2 - Worst Case
+
+In the worst case, the heuristic consistently provides inaccurate estimates, leading to the algorithm exploring all nodes in the graph.
+
+Time Complexity: $O(V * log V + P)$
+
+### 4.2.3 - Average Case
+
+In the average case, the heuristic provides a mix of accurate and inaccurate estimates, leading to the algorithm exploring some nodes in the graph.
+
+Time Complexity: $O(V * log V + P)$
+
+
+## 4.3 - Comparison with Other Algorithms
+
+| Approach      | Time Complexity       | Space Complexity  |
+| ---           |----------------       | ---               |
+| A*            | $O(V * log V + P)$    | $O(V + E)$        |
+| BFS           | $O(V + E)$            | $O(V + E)$        |
+| Dijkstra      | $O(V * log V + P)$    | $O(V + E)$        |
 
 # 5 - Emperical Analysis
 
