@@ -601,6 +601,7 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
 - C implementation can be found here [Djikstra in C](c-code/algorithms/Djikstra.h)
 - Python implementation can be found here [Djikstra in Python](algorithms/Dijkstra.py)
 
+The approach to implementing Djikstra was to leverage a priority queue data structure to store the nodes that were visited.  
 
 
 # 4 - Theoretical Analysis

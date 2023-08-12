@@ -47,7 +47,7 @@ def pymaze():
     maze_col_size = 20
     source_row = 5
     source_col = 3
-    algorithm = 'A*'
+    algorithm = 'Dijkstra'
 
     # create explored_agent maze of size 20 x 20
     custom_maze = maze(maze_row_size, maze_col_size)
@@ -60,7 +60,6 @@ def pymaze():
     if algorithm == 'Dijkstra':
         distance_list, explored_nodes_indexes, shortest_path = Dijkstra.dijkstra_path(
             custom_graph, '(5, 3)', '(15, 17)')
-
     elif algorithm == 'DFS':
         explored_nodes_indexes, shortest_path = algorithms.DFS.dfs_destination(
             custom_graph, '(5, 3)', '(15, 17)')
@@ -98,7 +97,7 @@ def pymaze():
 
 
 def main():
-    recording = True
+    recording = False
 
     if recording:
         global frame_array
