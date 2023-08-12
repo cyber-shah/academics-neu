@@ -5,12 +5,12 @@ import model.Node as NodeRC
 from view.lib.pyaMaze.pyamaze.pyamaze import maze
 
 # global variables
-maze_row_size = 50
-maze_col_size = 50
-goal_row = 50
-goal_col = 50
+maze_row_size = 100
+maze_col_size = 100
+goal_row = 100
+goal_col = 100
 loop_percent = 10
-maze_save_file = 'maze-10-size-50'
+maze_save_file = 'maze-10-size-100'
 
 
 class DatasetGenerator:
