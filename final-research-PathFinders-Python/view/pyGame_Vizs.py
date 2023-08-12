@@ -3,7 +3,7 @@ import pygame
 import networkx as nx
 
 from algorithms import Dijkstra, DFS, BFS, A_star
-from viz.Matplotlib_Vizs import create_grid_graph
+from view.Matplotlib_Vizs import create_grid_graph
 """
 Written by : Pranchal Shah
 Github : cyber-shah

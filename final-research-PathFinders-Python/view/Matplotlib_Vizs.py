@@ -1,5 +1,5 @@
 from model import Node as Node, Graph
-from model_rows import NodeRC as NodeRC, GraphRC as GraphRC
+from model import Node as NodeRC, Graph as GraphRC
 import networkx as nx
 import matplotlib.pyplot as plt
 

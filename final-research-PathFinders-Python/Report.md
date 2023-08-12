@@ -135,7 +135,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
        - Depth First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
-       - ![DFS-basic](graphics/basic-DFS.gif)
+       - ![DFS-basic](view/graphics/basic-DFS.gif)
    3.  **_Advantages_**: 
        - The advantage of DFS is that it is very simple to implement. 
        - It is also very fast and uses very little memory. 
@@ -184,7 +184,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbours in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
-   ![BFS-basic](graphics/basic-BFS.gif)
+   ![BFS-basic](view/graphics/basic-BFS.gif)
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
@@ -273,7 +273,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
       - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
       - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
-      ![A*](graphics/basic-Astar.gif)
+      ![A*](view/graphics/basic-Astar.gif)
 3. **_Advantages_**: 
       - A* boasts notable efficiency due to its effective utilization of heuristics.
      - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
@@ -291,8 +291,6 @@ So by now we know how to solve the question of `is there a path between A to B?`
      - GPS navigation systems for optimal route planning.
      - Network routing to minimize data transmission costs.
      - Pathfinding in video games and robotics.
-
-
 
 
 # 3 - Implementation Details
@@ -323,7 +321,7 @@ struct Node {
 } typedef Node;
 ```
 
-The Python implementation of the node can be found here [Node in Python](model_rows/NodeRC.py). It holds the following attributes:
+The Python implementation of the node can be found here [Node in Python](model/Node.py). It holds the following attributes:
 - `index` - The index of the node in the graph.
 - `name` - name of the node.
 - `parent` - The parent node of the current node.
@@ -377,7 +375,7 @@ struct Graph {
 } typedef Graph;
 ```
 
-The python implementation of the graph can be found here [Graph in Python](model_rows/GraphRC.py). It holds the following attributes:
+The python implementation of the graph can be found here [Graph in Python](model/Graph.py). It holds the following attributes:
 ``` Python
 class GraphRC:
     def __init__(self):
@@ -393,13 +391,16 @@ class GraphRC:
         self.nodeNames = {}
 ```
 
+Apart from getters and setters for all the attributes, the class also has the following methods:
+
+
 One notable difference was the use of a dictionary to store the nodes. This was done to make it easier to access the nodes. The dictionary uses the node name as the key and the node object as the value. This makes it easier to access the node object using the name of the node. The dictionary can be accessed using the `nodeNames` attribute of the graph object.
 
 
 
   
   - Graphs for C : [Graph.h](c-code/structs/Graph.h)
-  - Nodes for Python : [Node.py](model/Node.py)
+  - Nodes for Python : [Node.py](model/model_old/Node_old.py)
   - Nodes for C : [Node.h](c-code/structs/Node.h)
 - Priority Queue
 - Stack
@@ -506,7 +507,7 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
 
 # 6 - Results and Discussion
 
-<!-- ![20x20DFS](viz/DFS-20x20.gif) -->
+<!-- ![20x20DFS](view/DFS-20x20.gif) -->
 # 6 - Conclusion
 
 # 7 - Future Work

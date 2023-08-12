@@ -1,7 +1,7 @@
 import re
 
 from algorithms import Dijkstra
-from viz.lib.pyaMaze.pyamaze.pyamaze import maze, agent, COLOR
+from view.lib.pyaMaze.pyamaze.pyamaze import maze, agent, COLOR
 import algorithms.Dijkstra
 import algorithms.DFS
 import algorithms.BFS
