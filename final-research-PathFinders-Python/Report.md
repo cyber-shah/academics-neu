@@ -1170,8 +1170,8 @@ The time is measured in milliseconds, and the path length and nodes explored are
 | $0.1$                             | DFS       | 9.00      | 130         | 280            |
 
 ## 6.7 - 50x50 Results 
-This is a visualization of how Dijkstra's algorithm solves a maze of size 2x20 with loop density 0.5
-![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
+This is a visualization of how BFS algorithm solves a maze of size 2x20 with loop density 0.5
+![Maze-BFS](view/graphics/20x20-BFS.gif)
 The following table shows the results for mazes of size 50x50.
 
 | Loops    | Algorithm | Time (ms)         | Path Length | Nodes Explored |
@@ -1221,9 +1221,12 @@ This is a visualization of how A* algorithm solves a maze of size 20x20 with loo
 | $0.1$   | A*        | 450.11              | 62          | 238            |
 | $0.1$   | DFS       | 6513.01             | 2366        | 5107           |
 
-![Maze-BFS](view/graphics/20x20-BFS.gif)
-
+This is a visualization of how Dijkstra algorithm solves a maze of size 20x20 with loop density 0.5
+![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
 <!-- TODO : maybe use different heuristics? and their results -->
+
+
+
 # 7 - Results and Discussion
 
 In this section, we delve into the outcomes of our empirical analysis, offering an evaluation of algorithmic performance, insights into implications, and a discussion of limitations.
@@ -1234,7 +1237,6 @@ In this section, we delve into the outcomes of our empirical analysis, offering 
 In the preceding tables, we observed a clear trend: as mazes grew in complexity and size, the distinctions between algorithms became more pronounced, resulting in a widening performance gap. This phenomenon emerges from the inherent intricacy of certain algorithms, such as Dijkstra's algorithm and BFS, which undertake more extensive exploration, thereby consuming more time. Conversely, streamlined algorithms, like A* and DFS, with fewer operational steps, exhibit faster execution and explore fewer nodes.
 
 Summarizing the outcomes of our experiments:
-
 1. ***Algorithmic Efficiency*** : A* consistently outperforms other algorithms in terms of time and nodes explored. It consistently finds the shortest path with the fewest explored nodes.
 2. ***Impact of Loop Density:*** 
    - The presence of loops in the maze has a significant impact on the performance of the algorithms. The more loops there are in the maze, the more time it takes for the algorithms to find the shortest path. This is because the algorithms have to explore more nodes to find the shortest path. This is why A* performed well in our experiments. However, if we used a heuristic function that is not admissible or consistent, A* would not have performed as well.
@@ -1243,27 +1245,15 @@ Summarizing the outcomes of our experiments:
 4. ***Algorithm Scaling***: A* maintains its efficiency even for larger mazes, showing its scalability. Dijkstra's and BFS experience significant increases in time and explored nodes.
 5. ***Trade-off Observation:*** In some cases while DFS explores fewer nodes compared to A*, it often fails to find the optimal path, making it less suitable for pathfinding in these scenarios.
 
-## 7.2 - Evaluation and Interpretation of Results
-
-In this subsection, we delve into the intricacies of our findings, probing the reasons behind these outcomes, and identifying the assumptions and constraints that influence the validity and generalizability of our conclusions.
-
-
-<!-- Critically evaluate and interpret the results
-Explain the reasons behind the results and provide evidence or examples to support your claims
-Identify any assumptions or limitations in your analysis and discuss how they affect the validity or generalizability of your results -->
-
-### 7.2.1 - Comparison of A* based on nodes explored
+## 7.2 - Comparison of A* based on nodes explored
 
 In the context of the maze, A* emerges as the most efficient algorithm. Its knack for finding the shortest path with minimal node exploration roots in its admissible and consistent heuristic function. This characteristic guarantees the shortest path discovery. Conversely, if a non-admissible or inconsistent heuristic function were employed, A*'s performance might differ.
 
 ![Size-15x15](view/graphics/Analysis_for_size_15x15.png)
 
-![Size-50x50]
-
+![Size-50x50](view/graphics/50x50_allcomplexities.png)
 
 ![Size-100x100-withoutDFS](view/graphics/100x100_all_complexities.png)
-
-
 
 Insight into graphs:
 1. Scaling Effect on Node Exploration:
@@ -1271,27 +1261,40 @@ Insight into graphs:
 2. Dijkstra and BFS Node Exploration.
    - Notably, the graphs reveal a similarity between Dijkstra's and BFS algorithms in terms of the number of nodes explored before discovering the optimal path. This similarity arises from the shared trait of these algorithms, where they systematically explore possible paths to reach the goal. However, while their exploration patterns align, the time taken by each algorithm might still differ due to their unique operational characteristics.
 
-
 ![Size-100x100](view/graphics/100x100_Low.png)
-
 
 The graph depicting DFS exploration in a 100x100 maze accentuates the algorithm's suboptimal behavior. DFS explores an excessive number of nodes before settling on a path. This behavior often results in paths that are far from optimal. This observation underscores the trade-off inherent in DFS between exploration depth and optimal path identification.
 
-## 7.2 - Comparison of A* based on time taken
+## 7.3 - Comparison of A* based on time taken
 
-## 7.3 - Comparison with Existing Literature
+The following are the graphs for time taken by the algorithms to find the shortest path in mazes of different sizes and complexities.
 
-Compare and contrast your results with existing literature or studies
-Discuss how your results agree or disagree with previous findings
-Discuss the similarities or differences in the methodology or data used
-Discuss the contributions or gaps in the current knowledge
-
+![15x15Time](view/graphics/Time%20Analysis%20-%2015x15.png)
+![50x50Time](view/graphics/Time_analysis_50x50.png))
+![100x100Time](view/graphics/Time%20Analysis%20-%20100x100.png)
 
 
+1. **BFS performs slightly better than Dijkstra in terms of time taken**
+   - Although Dijkstra and BFS have different time complexities in theory, in practice, they take almost the same time to find the shortest path. This is because the time complexity of Dijkstra and BFS is dependent on the number of nodes in the graph. 
+2. **A star and BFS having the same time complexity in the first case**
+   - In the first graph we can see that the time taken by A* and BFS is pretty much the same, even though BFS explored more nodes there. This is because BFS is a brute force algorithm and it explores all the nodes in the graph. On the other hand, A* is an informed search algorithm and it uses a heuristic function to find the shortest path. It is maybe because of the additional complexities of A* that BFS is able to find the shortest path in the same time as A*.
 
-## 7.4 - Implications and Applications of Results
-Discuss the implications and applications of your results
-Discuss the practical or theoretical benefits of using A*
+Below is a complied graph of the time taken by the algorithms to find the shortest path in mazes of different sizes and complexities.
+
+## 7.4 - Comparison with Theoretical analysis
+
+In this section, we embark on a comparison between our empirical findings and the theoretical analysis outlined earlier in the report. By juxtaposing our results with theoretical expectations, we gain a comprehensive understanding of the practical implications of the algorithms.
+
+Our experimental results often align with the theoretical analysis, reinforcing the credibility of both approaches. For instance:
+
+1. The theoretical analysis projected A* as a promising pathfinding algorithm due to its incorporation of heuristic functions. Our empirical findings affirm this projection, demonstrating A*'s consistent outperformance in terms of time efficiency and nodes explored.
+2. The theoretical consideration of Dijkstra's algorithm as a meticulous pathfinder is substantiated by our results. Dijkstra's indeed explores extensive paths to identify the shortest route, often exhibiting comparable performance with BFS in terms of nodes explored.
+3. We also understood that DFS is a suboptimal pathfinder, often failing to identify the shortest path. Our empirical findings corroborate this observation, with DFS often exploring more nodes than other algorithms before identifying a path.
+
+Disagreements
+1. The theoretical analysis projected a big difference between Dijkstra's and BFS in terms of time taken. However, our empirical findings reveal a more nuanced picture, with BFS often outperforming Dijkstra's in terms of time taken. This discrepancy arises from the fact that BFS explores fewer nodes than Dijkstra's, thereby consuming less time. However, BFS's time efficiency is often offset by its extensive node exploration, which is often comparable to Dijkstra's. This observation underscores the importance of considering both time and node exploration when evaluating algorithmic performance.
+2. There wasn't a big difference between the time complexities of Dijkstra and A* in theory, however, in practice, A* was much faster than Dijkstra. 
+
 
 
 # 8 - Conclusion

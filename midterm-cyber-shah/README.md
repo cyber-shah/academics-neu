@@ -1,5 +1,28 @@
 # Midterm p1: Report on Analysis of Fibonacci  Series
+<!-- TOC -->
 
+- [Midterm p1: Report on Analysis of Fibonacci  Series](#midterm-p1-report-on-analysis-of-fibonacci--series)
+  - [0 - Overview](#0---overview)
+    - [ 0.1 - The Significance of the Fibonacci Series and the Golden Ratio ](#-01---the-significance-of-the-fibonacci-series-and-the-golden-ratio-)
+    - [ 0.2 - Exploring Different Computation Approaches ](#-02---exploring-different-computation-approaches-)
+    - [ 0.3 - Conclusion ](#-03---conclusion-)
+  - [1 - Empirical Data \& Discussion](#1---empirical-data--discussion)
+    - [ 1.1 - Environmental Setup ](#-11---environmental-setup-)
+    - [ 1.2 - Performance Comparisons with Small N Values (\< 50) ](#-12---performance-comparisons-with-small-n-values--50-)
+    - [ 1.3 - Performance Comparisons with Large N Values (\> 30 million) ](#-13---performance-comparisons-with-large-n-values--30-million-)
+    - [ 1.4 - Conclusion ](#-14---conclusion-)
+  - [2 - Language Analysis](#2---language-analysis)
+    - [ 2.1 - Language 1: C ](#-21---language-1-c-)
+    - [ 2.2 - Language 2: Java ](#-22---language-2-java-)
+    - [ 2.3 - Comparison and Discussion Between Experiences ](#-23---comparison-and-discussion-between-experiences-)
+    - [ 2.3.1 - Limitations ](#-231---limitations-)
+      - [ 2.3.1 - Advantages and Disadvantages ](#-231---advantages-and-disadvantages-)
+  - [3 - Conclusions / Reflection](#3---conclusions--reflection)
+    - [ 3.1 - Lessons ](#-31---lessons-)
+    - [ 3.2 - Key Takeaways: ](#-32---key-takeaways-)
+  - [References](#references)
+
+<!-- /TOC -->
 
 * **Author**: Pranchal Shah
 * **GitHub Repo**: [linke to github repo with this report]
