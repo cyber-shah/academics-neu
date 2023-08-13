@@ -1231,6 +1231,11 @@ This is a visualization of how Dijkstra algorithm solves a maze of size 20x20 wi
 
 In this section, we delve into the outcomes of our empirical analysis, offering an evaluation of algorithmic performance, insights into implications, and a discussion of limitations.
 
+### 7.1.1 - Visualizations of Maze Solutions
+|   |  |
+| ------------- | ------------- |
+| Djikstra![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)  | A*![Maze-A*](view/graphics/20x20-Astar.gif) |
+|BFS![Maze-BFS](view/graphics/20x20-BFS.gif)| DFS![Maze-DFS](view/graphics/20x20-DFS.gif) |
 
 ## 7.1 - Summary of Results
 
@@ -1244,6 +1249,9 @@ Summarizing the outcomes of our experiments:
 3. ***Algorithm Performance:*** A* continues to exhibit strong performance, finding short paths with fewer explored nodes compared to Dijkstra's and BFS.
 4. ***Algorithm Scaling***: A* maintains its efficiency even for larger mazes, showing its scalability. Dijkstra's and BFS experience significant increases in time and explored nodes.
 5. ***Trade-off Observation:*** In some cases while DFS explores fewer nodes compared to A*, it often fails to find the optimal path, making it less suitable for pathfinding in these scenarios.
+
+
+
 
 ## 7.2 - Comparison of A* based on nodes explored
 
@@ -1276,6 +1284,7 @@ The following are the graphs for time taken by the algorithms to find the shorte
 
 1. **BFS performs slightly better than Dijkstra in terms of time taken**
    - Although Dijkstra and BFS have different time complexities in theory, in practice, they take almost the same time to find the shortest path. This is because the time complexity of Dijkstra and BFS is dependent on the number of nodes in the graph. 
+   - ![compiled](view/graphics/timeComparison.png)
 2. **A star and BFS having the same time complexity in the first case**
    - In the first graph we can see that the time taken by A* and BFS is pretty much the same, even though BFS explored more nodes there. This is because BFS is a brute force algorithm and it explores all the nodes in the graph. On the other hand, A* is an informed search algorithm and it uses a heuristic function to find the shortest path. It is maybe because of the additional complexities of A* that BFS is able to find the shortest path in the same time as A*.
 
@@ -1290,6 +1299,10 @@ Our experimental results often align with the theoretical analysis, reinforcing 
 1. The theoretical analysis projected A* as a promising pathfinding algorithm due to its incorporation of heuristic functions. Our empirical findings affirm this projection, demonstrating A*'s consistent outperformance in terms of time efficiency and nodes explored.
 2. The theoretical consideration of Dijkstra's algorithm as a meticulous pathfinder is substantiated by our results. Dijkstra's indeed explores extensive paths to identify the shortest route, often exhibiting comparable performance with BFS in terms of nodes explored.
 3. We also understood that DFS is a suboptimal pathfinder, often failing to identify the shortest path. Our empirical findings corroborate this observation, with DFS often exploring more nodes than other algorithms before identifying a path.
+
+The following graph shows the comparison between algorithms across datasets.
+![across-datasets](view/graphics/Across%20datasets_percents.png)
+![across-datasets-scatter](view/graphics/Across%20datasets_scatter.png)
 
 Disagreements
 1. The theoretical analysis projected a big difference between Dijkstra's and BFS in terms of time taken. However, our empirical findings reveal a more nuanced picture, with BFS often outperforming Dijkstra's in terms of time taken. This discrepancy arises from the fact that BFS explores fewer nodes than Dijkstra's, thereby consuming less time. However, BFS's time efficiency is often offset by its extensive node exploration, which is often comparable to Dijkstra's. This observation underscores the importance of considering both time and node exploration when evaluating algorithmic performance.
