@@ -100,7 +100,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
        - Depth First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
-        ![DFS-basic](view/graphics/basic-DFS.gif)
+        ![DFS-basic](view/images/basic-DFS.gif)
    3.  **_Advantages_**: 
        - The advantage of DFS is that it is very simple to implement. 
        - It is also very fast and uses very little memory. 
@@ -136,11 +136,11 @@ So by now we know how to solve the question of `is there a path between A to B?`
 1. ***Shortest Path Algorithms:***
     - BFS: It is used to find the shortest path between nodes in a graph, especially when the graph is unweighted or equally weighted. It can also be used to explore hierarchical structures or levels of depth in graphs, and to determine connected components in a graph.
     - Dijkstra’s Algorithm: It is used to find the shortest path between nodes in a graph, especially when the graph is weighted. It can also be used for routing and navigation systems, network routing protocols, and resource management and allocation.
-    - Astar: It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
+    - A* : It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
 2. ***Other Use Cases:***
     - BFS: It can be used for web crawling, social network analysis, and peer-to-peer networks.
     - Dijkstra’s Algorithm: It can be used for image segmentation, traffic engineering, and artificial intelligence.
-    - Astar: It can be used for natural language processing, machine learning, and computer vision.
+    - A* : It can be used for natural language processing, machine learning, and computer vision.
 
 ### 3.2.1 - Breadth First Search
 1. **_History_**:  
@@ -153,7 +153,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbors in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
-   ![BFS-basic](view/graphics/basic-BFS.gif)
+   ![BFS-basic](view/images/basic-BFS.gif)
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
@@ -223,7 +223,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
       - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
       - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
-      ![A*](view/graphics/basic-Astar.gif)
+      ![A*](view/images/basic-Astar.gif)
 3. **_Advantages_**: 
       - A* boasts notable efficiency due to its effective utilization of heuristics.
      - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
@@ -1150,7 +1150,7 @@ The measurement metrics used are:
 
 ## 6.6 - 15x15 Results
 This is a sample vizualization of how DFS solves a maze of size 20x20 with loop density 0.5. The red nodes are the explored nodes, and the yellow nodes are the nodes in the shortest path.
-![Maze-DFS](view/graphics/20x20-DFS.gif)
+![Maze-DFS](view/images/20x20-DFS.gif)
 
 The following table shows the results for mazes of size 15x15.
 The time is measured in milliseconds, and the path length and nodes explored are measured in number of nodes.
@@ -1177,7 +1177,7 @@ The time is measured in milliseconds, and the path length and nodes explored are
 
 ## 6.7 - 50x50 Results 
 This is a visualization of how BFS algorithm solves a maze of size 2x20 with loop density 0.5
-![Maze-BFS](view/graphics/20x20-BFS.gif)
+![Maze-BFS](view/images/20x20-BFS.gif)
 The following table shows the results for mazes of size 50x50.
 
 | Loops    | Algorithm | Time (ms)         | Path Length | Nodes Explored |
@@ -1204,7 +1204,7 @@ The following table shows the results for mazes of size 50x50.
 
 ## 6.8 - 100x100 Results 
 This is a visualization of how A* algorithm solves a maze of size 20x20 with loop density 0.5
-![Maze-A*](view/graphics/20x20-Astar.gif)
+![Maze-A*](view/images/20x20-Astar.gif)
 
 | Loops   | Algorithm | Time (ms)           | Path Length | Nodes Explored |
 |---------|-----------|---------------------|-------------|----------------|
@@ -1228,7 +1228,7 @@ This is a visualization of how A* algorithm solves a maze of size 20x20 with loo
 | $0.1$   | DFS       | 6513.01             | 2366        | 5107           |
 
 This is a visualization of how Dijkstra algorithm solves a maze of size 20x20 with loop density 0.5
-![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
+![Maze-Dijkstra](view/images/20x20-Djikstra.gif)
 <!-- TODO : maybe use different heuristics? and their results -->
 
 
@@ -1240,8 +1240,8 @@ In this section, we delve into the outcomes of our empirical analysis, offering 
 ### 7.1.1 - Visualizations of Maze Solutions
 |   |  |
 | ------------- | ------------- |
-| Djikstra![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)  | A*![Maze-A*](view/graphics/20x20-Astar.gif) |
-|BFS![Maze-BFS](view/graphics/20x20-BFS.gif)| DFS![Maze-DFS](view/graphics/20x20-DFS.gif) |
+| Djikstra![Maze-Dijkstra](view/images/20x20-Djikstra.gif)  | A*![Maze-A*](view/images/20x20-Astar.gif) |
+|BFS![Maze-BFS](view/images/20x20-BFS.gif)| DFS![Maze-DFS](view/images/20x20-DFS.gif) |
 
 ## 7.1 - Summary of Results
 
@@ -1263,11 +1263,11 @@ Summarizing the outcomes of our experiments:
 
 In the context of the maze, A* emerges as the most efficient algorithm. Its knack for finding the shortest path with minimal node exploration roots in its admissible and consistent heuristic function. This characteristic guarantees the shortest path discovery. Conversely, if a non-admissible or inconsistent heuristic function were employed, A*'s performance might differ.
 
-![Size-15x15](view/graphics/Analysis_for_size_15x15.png)
+![Size-15x15](view/images/Analysis_for_size_15x15.png)
 
-![Size-50x50](view/graphics/50x50_allcomplexities.png)
+![Size-50x50](view/images/50x50_allcomplexities.png)
 
-![Size-100x100-withoutDFS](view/graphics/100x100_all_complexities.png)
+![Size-100x100-withoutDFS](view/images/100x100_all_complexities.png)
 
 Insight into graphs:
 1. Scaling Effect on Node Exploration:
@@ -1275,7 +1275,7 @@ Insight into graphs:
 2. Dijkstra and BFS Node Exploration.
    - Notably, the graphs reveal a similarity between Dijkstra's and BFS algorithms in terms of the number of nodes explored before discovering the optimal path. This similarity arises from the shared trait of these algorithms, where they systematically explore possible paths to reach the goal. However, while their exploration patterns align, the time taken by each algorithm might still differ due to their unique operational characteristics.
 
-![Size-100x100](view/graphics/100x100_Low.png)
+![Size-100x100](view/images/100x100_Low.png)
 
 The graph depicting DFS exploration in a 100x100 maze accentuates the algorithm's suboptimal behavior. DFS explores an excessive number of nodes before settling on a path. This behavior often results in paths that are far from optimal. This observation underscores the trade-off inherent in DFS between exploration depth and optimal path identification.
 
@@ -1284,13 +1284,13 @@ The graph depicting DFS exploration in a 100x100 maze accentuates the algorithm'
 The following are the graphs for time taken by the algorithms to find the shortest path in mazes of different sizes and complexities.
 
 ![15x15Time](view/graphics/Time%20Analysis%20-%2015x15.png)
-![50x50Time](view/graphics/Time_analysis_50x50.png))
+![50x50Time](view/images/Time_analysis_50x50.png))
 ![100x100Time](view/graphics/Time%20Analysis%20-%20100x100.png)
 
 
 1. **BFS performs slightly better than Dijkstra in terms of time taken**
    - Although Dijkstra and BFS have different time complexities in theory, in practice, they take almost the same time to find the shortest path. This is because the time complexity of Dijkstra and BFS is dependent on the number of nodes in the graph. 
-   - ![compiled](view/graphics/timeComparison.png)
+   - ![compiled](view/images/timeComparison.png)
 2. **A star and BFS having the same time complexity in the first case**
    - In the first graph we can see that the time taken by A* and BFS is pretty much the same, even though BFS explored more nodes there. This is because BFS is a brute force algorithm and it explores all the nodes in the graph. On the other hand, A* is an informed search algorithm and it uses a heuristic function to find the shortest path. It is maybe because of the additional complexities of A* that BFS is able to find the shortest path in the same time as A*.
 
