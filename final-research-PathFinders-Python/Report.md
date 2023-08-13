@@ -1167,7 +1167,7 @@ The time is measured in milliseconds, and the path length and nodes explored are
 | $0.1$                             | Dijkstra  | 7.00      | 54          | 218            |
 | $0.1$                             | BFS       | 4.09      | 54          | 218            |
 | $0.1$                             | A*        | 4.99      | 54          | 191            |
-| $0.1$                             | DFS       | 4.58      | 130         | 191            |
+| $0.1$                             | DFS       | 9.00      | 130         | 280            |
 
 ## 6.7 - 50x50 Results 
 This is a visualization of how Dijkstra's algorithm solves a maze of size 2x20 with loop density 0.5
@@ -1226,7 +1226,8 @@ This is a visualization of how A* algorithm solves a maze of size 20x20 with loo
 <!-- TODO : maybe use different heuristics? and their results -->
 # 7 - Results and Discussion
 
-In this section we will discuss the results from the emperical analysis section and analyze the performance of the algorithms. We will also discuss the limitations of the experiments and the algorithms.
+In this section, we delve into the outcomes of our empirical analysis, offering an evaluation of algorithmic performance, insights into implications, and a discussion of limitations.
+
 
 ## 7.1 - Summary of Results
 
@@ -1240,17 +1241,43 @@ Summarizing the outcomes of our experiments:
    - For higher loop densities, A* demonstrates remarkable efficiency, while Dijkstra's and BFS exhibit longer times and more nodes explored
 3. ***Algorithm Performance:*** A* continues to exhibit strong performance, finding short paths with fewer explored nodes compared to Dijkstra's and BFS.
 4. ***Algorithm Scaling***: A* maintains its efficiency even for larger mazes, showing its scalability. Dijkstra's and BFS experience significant increases in time and explored nodes.
-5. ***Trade-off Observation:*** While DFS explores fewer nodes compared to A*, it often fails to find the optimal path, making it less suitable for pathfinding in these scenarios.
+5. ***Trade-off Observation:*** In some cases while DFS explores fewer nodes compared to A*, it often fails to find the optimal path, making it less suitable for pathfinding in these scenarios.
 
 ## 7.2 - Evaluation and Interpretation of Results
 
-Critically evaluate and interpret the results
+In this subsection, we delve into the intricacies of our findings, probing the reasons behind these outcomes, and identifying the assumptions and constraints that influence the validity and generalizability of our conclusions.
+
+
+<!-- Critically evaluate and interpret the results
 Explain the reasons behind the results and provide evidence or examples to support your claims
-Identify any assumptions or limitations in your analysis and discuss how they affect the validity or generalizability of your results
+Identify any assumptions or limitations in your analysis and discuss how they affect the validity or generalizability of your results -->
 
-<!-- ![20x20DFS](view/DFS-20x20.gif) -->
+### 7.2.1 - Comparison of A* based on nodes explored
+
+In the context of the maze, A* emerges as the most efficient algorithm. Its knack for finding the shortest path with minimal node exploration roots in its admissible and consistent heuristic function. This characteristic guarantees the shortest path discovery. Conversely, if a non-admissible or inconsistent heuristic function were employed, A*'s performance might differ.
+
+![Size-15x15](view/graphics/Analysis_for_size_15x15.png)
+
+![Size-50x50]
 
 
+![Size-100x100-withoutDFS](view/graphics/100x100_all_complexities.png)
+
+
+
+Insight into graphs:
+1. Scaling Effect on Node Exploration:
+   - As maze complexity increases with larger sizes, the number of nodes explored by all algorithms naturally increases. This trend aligns with the inherent challenge of navigating more intricate mazes. However, what's remarkable is that even as mazes become more complex, A* consistently explores the least number of nodes before identifying the shortest path. This underscores the algorithm's efficiency in prioritizing the most promising paths, aided by its intelligent heuristic-guided exploration.
+2. Dijkstra and BFS Node Exploration.
+   - Notably, the graphs reveal a similarity between Dijkstra's and BFS algorithms in terms of the number of nodes explored before discovering the optimal path. This similarity arises from the shared trait of these algorithms, where they systematically explore possible paths to reach the goal. However, while their exploration patterns align, the time taken by each algorithm might still differ due to their unique operational characteristics.
+
+
+![Size-100x100](view/graphics/100x100_Low.png)
+
+
+The graph depicting DFS exploration in a 100x100 maze accentuates the algorithm's suboptimal behavior. DFS explores an excessive number of nodes before settling on a path. This behavior often results in paths that are far from optimal. This observation underscores the trade-off inherent in DFS between exploration depth and optimal path identification.
+
+## 7.2 - Comparison of A* based on time taken
 
 ## 7.3 - Comparison with Existing Literature
 
