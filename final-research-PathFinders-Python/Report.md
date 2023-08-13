@@ -45,7 +45,7 @@ I got really interested into it when I learned that a logistics company (UPS) co
 UPS says it’s saved 10 million gallons of fuel, avoided the emission of 20,000 tons of CO2, and delivered 350,000 more packages a year, just due to efficient path finding!
 More on that here: [Science Behind UPS Trucks!](https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/)
 
-I was also intrusted in it because I am a largely intrusted in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications and it solves a very important problem. A problem that we as humans encounter almost everyday.
+I was also interested in it because I am a largely interested in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications and it solves a very important problem. A problem that we as humans encounter almost everyday.
 
 
 <img src = https://happycoding.io/tutorials/libgdx/images/pathfinding-12.png> 
@@ -65,11 +65,10 @@ An analogy to it would be like a blind person trying to find the shortest path b
 
 ### <u> 2.4 Algorithms covered </u>
 The algorithms covered in this report are:
-1. Depth First Search
-2. Breadth First Search
-3. Dijkstra's Algorithm
-4. A* Algorithm
-
+1. Depth First Search (DFS)
+2. Breadth First Search (BFS)
+3. Dijkstra's Algorithm (Dijkstra)
+4. A* Algorithm (A*)
 
 
 # 3 - Background
@@ -82,8 +81,7 @@ Each algorithm is divided into the following sections:
 2. Overview of how it works
 3. Advantages
 4. Disadvantages
-5. Use cases
-6. Pseudo code
+5. Pseudo code
 
 The algorithms can be divided into two parts here: 1 that help us find out IF a path exists and 2 that help us find the SHORTEST path. The algorithms that help us find out IF a path exists are: DFS and BFS. The algorithms that help us find the SHORTEST path are: Dijkstra's Algorithm and A* Algorithm.
 
@@ -93,16 +91,16 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
 > All the GIFs shown in this section are made by me, unless  otherwise stated. 
 >  Kindly note that the algorithms have been implemented by me and pygame is used to create animations. The pygame animation code can be found here : [pyGame_Vizs.py](vizs/pyGame_Vizs.py)
 
-### 3.1.1 - Depth First Search
+### 3.1.1 - Depth First Search (DFS)
    1. **_History_**: 
       - Depth First search dates back to 19th century. It was first used by French mathematician Charles Pierre Trémaux as a strategy for solving mazes. 
       - DFS is was pretty much the background for most of the modern day path finding algorithms. From Bellman Ford to Dijkstra to A* to Prim's Algorithm, have all built on top of DFS.
       - It's simplicity and efficiency makes it a very popular algorithm. It is also very easy to implement.
-   2.  **Overview of how it works_**:  
+   2.  **Overview of how it works**:  
        - Depth First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
-       - ![DFS-basic](view/graphics/basic-DFS.gif)
+        ![DFS-basic](view/graphics/basic-DFS.gif)
    3.  **_Advantages_**: 
        - The advantage of DFS is that it is very simple to implement. 
        - It is also very fast and uses very little memory. 
@@ -132,11 +130,17 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
 
 
 ## 3.2 - The Shortest Path Problem
-<!-- TODO : move the use cases here -->
 So by now we know how to solve the question of `is there a path between A to B?`. Now the next two algorithms will help us solve the question of `what is the shortest path between A to B?`.
 
-Use cases of the algorithms:
-
+**_Use Cases_**:
+1. ***Shortest Path Algorithms:***
+    - BFS: It is used to find the shortest path between nodes in a graph, especially when the graph is unweighted or equally weighted. It can also be used to explore hierarchical structures or levels of depth in graphs, and to determine connected components in a graph.
+    - Dijkstra’s Algorithm: It is used to find the shortest path between nodes in a graph, especially when the graph is weighted. It can also be used for routing and navigation systems, network routing protocols, and resource management and allocation.
+    - Astar: It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
+2. ***Other Use Cases:***
+    - BFS: It can be used for web crawling, social network analysis, and peer-to-peer networks.
+    - Dijkstra’s Algorithm: It can be used for image segmentation, traffic engineering, and artificial intelligence.
+    - Astar: It can be used for natural language processing, machine learning, and computer vision.
 
 ### 3.2.1 - Breadth First Search
 1. **_History_**:  
@@ -147,7 +151,7 @@ Use cases of the algorithms:
       - BFS is a core algorithm in computer science and is widely used in fields like network routing, social network analysis, and more.
 2.  **_Overview of how it works_**: 
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
-       - It starts from the source node and explores it neighbours in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
+       - It starts from the source node and explores it neighbors in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
    ![BFS-basic](view/graphics/basic-BFS.gif)
 3. **_Advantages_**: 
@@ -158,12 +162,7 @@ Use cases of the algorithms:
 4. **_Disadvantages_**: 
       - It is less suitable for weighted graphs. In a weighted graph, where edges have different costs or distances, the standard BFS will not necessarily find the shortest path. This is because BFS explores nodes in layers, and the order in which nodes are explored might not correspond to the shortest path.
       - It uses more memory than DFS.
-5. **_Use Cases_**:
-   - BFS is used in shortest path algorithms, especially when the graph is unweighted or equally weighted.
-   - It is employed for finding the shortest path between nodes in a graph.
-   - BFS can be used to explore hierarchical structures or levels of depth in graphs.
-   - It's useful for determining connected components in a graph.
-6. **_Pseudo code_**:
+5. **_Pseudo code_**:
       ```
       BFS(Graph, start_vertex)
          Queue Q
@@ -200,12 +199,7 @@ Use cases of the algorithms:
    - Limited to Positive Weights: Dijkstra's algorithm is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
    - Inapplicability to Negative Weights: The algorithm's reliance on selecting the minimum distance can break down when dealing with graphs containing negative edge weights.
    - Potential Inefficiency on Large Graphs: While Dijkstra's algorithm provides optimal solutions, it might not be the most efficient choice for large graphs due to its time complexity.
-5. **_Use Cases_**:
-   - Dijkstra's algorithm is used in shortest path algorithms, especially when the graph is weighted.
-   - Routing and navigation systems use Dijkstra's algorithm to find the shortest path between two locations.
-   - Network routing protocols use Dijkstra's algorithm to find the shortest path between two nodes in a network.
-   - Resource Management and Allocation use Dijkstra's algorithm to find the shortest path between two resources.
-6. **_Psuedocode_**:
+5. **_Psuedocode_**:
       ```
       1. Initialize all nodes with distance INFINITY, except the source node with distance 0.
       2. Create a priority queue (min-heap) and insert the source node with distance 0.
@@ -237,11 +231,20 @@ Use cases of the algorithms:
 4. **_Disadvantages_**:
       - A* does have limitations. Its guarantee of finding the shortest path hinges on using an admissible, consistent, and monotonic heuristic.
       - Other disadvantage include the fact that it is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
-5. **_Use Cases_**:
-      - Telecommunication networks to optimize call routing.
-     - GPS navigation systems for optimal route planning.
-     - Network routing to minimize data transmission costs.
-     - Pathfinding in video games and robotics.
+5. **_Psuedocode_**:
+      ```
+    1. Initialize all nodes with distance INFINITY, except the source node with distance 0.
+    2. Create a priority queue (min-heap) and insert the source node with distance 0.
+    3. While the priority queue is not empty:
+        3.1 Extract the node with the minimum distance from the priority queue.
+        3.2 For each adjacent node of the extracted node:
+                3.2.1 Calculate a tentative distance by adding the edge weight to the extracted node's distance.
+                3.2.2 If the tentative distance is less than the current distance of the adjacent node:
+                    3.2.2.1 Update the adjacent node's distance to the tentative distance.
+                    3.2.2.2 Set the adjacent node's parent to be the extracted node.
+                    3.2.2.3 Add the adjacent node to the priority queue with its updated distance.
+    4. Return the shortest path from source to destination by following the parent pointers from destination to source.
+    ```
 
 
 # 4 - Implementation Details
