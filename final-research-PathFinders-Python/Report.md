@@ -2,7 +2,7 @@
 
 # Final Report - Path Finders and A* Algorithm
 * **Author**: Pranchal Shah
-* **GitHub Repo**: [5008 Repo](www.github.com/cyber-shah/5008-Project)
+* **GitHub Repo**: [5008 Repo](www.github.com/cyber-shah/5008-Project) Also refer [Main Repo](https://github.com/cyber-shah/CS-5008/tree/mainn/final-research-PathFinders-Python)
 * **Semester**: Summer 2023
 * **Languages Used**: C and Python
 
@@ -41,11 +41,11 @@ The algorithms are tested on the following conditions:
 
 ### <u> 2.1 - Why Path Finding? </u>
 Path finding has been a very important problem in computer science. It has been used in many applications such as logistics planning, least cost call or IP routing, and gaming simulation. 
-I got really intrested into it when I learned that a logistics company (UPS) collceted years of data and used algorithms to navigate better.
+I got really interested into it when I learned that a logistics company (UPS) collected years of data and used algorithms to navigate better.
 UPS says it’s saved 10 million gallons of fuel, avoided the emission of 20,000 tons of CO2, and delivered 350,000 more packages a year, just due to efficient path finding!
 More on that here: [Science Behind UPS Trucks!](https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/)
 
-I was also intrested in it because I am a largely intrested in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications and it solves a very important problem. A problem that we as humans encounter almost everyday.
+I was also intrusted in it because I am a largely intrusted in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications and it solves a very important problem. A problem that we as humans encounter almost everyday.
 
 
 <img src = https://happycoding.io/tutorials/libgdx/images/pathfinding-12.png> 
@@ -56,10 +56,10 @@ Image Source: [Happy Coding/ Path finding](https://happycoding.io/tutorials/libg
 Path finding is the process of finding a path between two points in a graph.
 A graph is a data structure that consists of nodes and edges. The nodes are the points in the graph and the edges are the connections between the nodes. The edges can be weighted or unweighted. The weight of an edge is the cost of traversing that edge. The cost can be anything such as distance, time, fuel, etc. The edges can also be directed or undirected. The directed edges are one way and the undirected edges are two way.
 
-The goal of path finding is to find the shortest path between two nodes in a graph. The path can be defined as the sequence of nodes that need to be traversed to reach the destination node from the source node.  
+The goal of path finding is to determine the shortest path between two nodes in a graph. The path can be defined as the sequence of nodes that need to be traversed to reach the destination node from the source node.  
 
 ### <u> 2.3 - How do computers find paths? </u>
-A computer starts at a souce node and then starts 'scanning' or 'exploring' the graph. It scans the graph by exploring the nodes and edges. It explores the nodes and edges by traversing them. The computer traverses the nodes and edges by following the edges. The computer follows the edges by selecting the edge with the lowest cost. 
+A computer starts at a source node and then starts 'scanning' or 'exploring' the graph. It scans the graph by exploring the nodes and edges. It explores the nodes and edges by traversing them. The computer traverses the nodes and edges by following the edges. The computer follows the edges by selecting the edge with the lowest cost. 
 
 An analogy to it would be like a blind person trying to find the shortest path between two points. Instead of using his eyes to see the path, he uses his hands to feel the path. He follows on one path and then feels the edges to see if there is a better path. If there is a better path, he follows that path. He keeps doing this until he reaches the destination.
 
@@ -73,17 +73,17 @@ The algorithms covered in this report are:
 
 
 # 3 - Background
-Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient pathfinding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth First Search (DFS), which excels in exploring the depths of a graph's structure.
+Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient path-finding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth First Search (DFS), which excels in exploring the depths of a graph's structure.
 
 In this section, we will delve into the theoretical foundations of DFS, its operational principles, and its applicability across various scenarios. By understanding DFS in the context of graph traversal algorithms, we can appreciate its unique strengths and limitations as we delve deeper into its mechanics.
 
 Each algorithm is divided into the following sections:
 1. History
-2. Overiew of how it works
-3. Advanatages
+2. Overview of how it works
+3. Advantages
 4. Disadvantages
 5. Use cases
-6. Psuedo code
+6. Pseudo code
 
 The algorithms can be divided into two parts here: 1 that help us find out IF a path exists and 2 that help us find the SHORTEST path. The algorithms that help us find out IF a path exists are: DFS and BFS. The algorithms that help us find the SHORTEST path are: Dijkstra's Algorithm and A* Algorithm.
 
@@ -135,6 +135,9 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
 <!-- TODO : move the use cases here -->
 So by now we know how to solve the question of `is there a path between A to B?`. Now the next two algorithms will help us solve the question of `what is the shortest path between A to B?`.
 
+Use cases of the algorithms:
+
+
 ### 3.2.1 - Breadth First Search
 1. **_History_**:  
       - Breadth First Search was invented by Konrad Zuse in 1945. 
@@ -160,7 +163,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
    - It is employed for finding the shortest path between nodes in a graph.
    - BFS can be used to explore hierarchical structures or levels of depth in graphs.
    - It's useful for determining connected components in a graph.
-6. **_Psuedocode_**:
+6. **_Pseudo code_**:
       ```
       BFS(Graph, start_vertex)
          Queue Q
