@@ -90,7 +90,7 @@ Each algorithm is divided into the following sections:
 
 The algorithms can be divided into two parts here: 1 that help us find out IF a path exists and 2 that help us find the SHORTEST path. The algorithms that help us find out IF a path exists are: DFS and BFS. The algorithms that help us find the SHORTEST path are: Dijkstra's Algorithm and A* Algorithm.
 
-## Question 1: Is there a path between node A and node B?
+## 01 - The Path Existence Problem
 The two algorithms that help us find out IF a path exists are: DFS and BFS. 
 > All the GIFs shown in this section are made by me, unless  otherwise stated. 
 >  Kindly note that the algorithms have been implemented by me and pygame is used to create animations. The pygame animation code can be found here : [pyGame_Vizs.py](vizs/pyGame_Vizs.py)
@@ -133,7 +133,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
       ```
 
 
-## Question 2 : What is the shortest path between A to B?
+## 02 - The Shortest Path Problem
 <!-- TODO : move the use cases here -->
 So by now we know how to solve the question of `is there a path between A to B?`. Now the next two algorithms will help us solve the question of `what is the shortest path between A to B?`.
 ### 2.1 - Breadth First Search
@@ -986,9 +986,105 @@ Dijkstra's algorithm is a weighted graph search algorithm that finds the shortes
 
 # 5 - Emperical Analysis
 
-## 5.1 - Experimental Setup
+## 5.1 - Overview
+
+## 5.2 - Grid Analysis
+
+### 5.2.1 - Libraries Used
+
+### 5.2.2 - Grid Generation
+
+### 5.2.3 - Grid Solving
+
+### 5.2.4 - Results
+
+## 5.3 - Maze Analysis
+
+In this section, we will analyze and compare the performance of the A* algorithm on different types of mazes. We will also compare the performance of the A* algorithm with other graph search algorithms such as Depth-first search, breadth-first search (BFS) and Dijkstra’s algorithm. This will help us understand conditions where A* performs well, and where it does not.
+
+### 5.3.1 - Libraries Used
+There are two libraries used for analyzing the algorithms on mazes: `pygame` and `pyamaze`.
+
+***Pygame*** is a cross-platform set of Python modules designed for writing video games. It includes computer graphics and sound libraries designed to be used with the Python programming language. It is useful for creating the maze environment, and for visualizing the results.
+
+***Pyamaze*** library is a custom library created by Muhammad Ahsan Naeem, and is available on GitHub [here](https://github.com/MAN1986/pyamaze). I further modified the pyamaze source code to add the following features:
+1. Show the pygame window size based on the grid size.
+2. create attributes called `maze_width` and `maze_height` to store the width and height of the maze.
+
+The modified pyamaze library is available in this directory [pyamaze.py](view/lib/pyaMaze/pyamaze/pyamaze.py).
+
+### 5.3.2 - Maze Dataset Generation
+The maze datasets are generated using the [DatasetGenerator](tests\DatasetGenerator.py), and are stored in here [maze-csvs](tests\maze-csvs)
+
+<!--TODO : maybe show snippets of code here?-->
+
+Maze datasets are generated using the following parameters:
+1. **Grid Size:** Signifies the size of the maze. The maze is a square grid of size (grid_size x grid_size).
+   - The grid sizes used are 15x15, 50x50, and 100x100.
+2. **Loop Density:** Signifies the density of loops in the maze. The amount of obstacles are inversely proportional to the loop density. The higher the loop density, the lesser the obstacles.
+   - The loop densities used are 1, 0.5, and 0.1.
+3. **Start and Goal:** The start is always set to the top-left corner of the maze, and the goal is randomly generated.
+   - The goal is randomly generated for each maze.
+
+<!--TODO : insert images of different loops and sizes-->
+
+### 5.3.3 - Maze Solving
+Once the mazes are generated and saved as CSV files in `tests\maze-csvs` they are loaded into the [Emperical Timer.py](tests\emperical_timer.py) file. This file has a function called `run_all_algos` which solves the mazes using all the four algorithms covered in this report. The results are then saved as CSV files in the [maze-results.csv](tests\maze-results.csv) directory.
+
+```Python
+def run_all_algos(csv_files, algos):
+    algo_dict = {
+        "Dijkstra": Dijkstra.dijkstra_path,
+        "DFS": DFS.dfs_destination,
+        "BFS": BFS.bfs_destination,
+        "A*": A_star.a_star_destination
+    }
+    results = []
+    for csv_file in csv_files:
+        graph = graph_from_csv(csv_file)
+        end_node = get_end_node_as_random(csv_file)
+
+        for algorithm in algos:
+            algo_function = algo_dict.get(algorithm)
+
+            if algo_function is not None:
+                start = time.time()
+
+                explored_nodes_indexes, shortest_path = (
+                    algo_function(graph, '(1, 1)', end_node))
+
+                end = time.time()
+                elapsed = end - start
 
 
+                path_length = len(shortest_path)
+                explored_length = len(explored_nodes_indexes)
+
+                results.append([csv_file, algorithm, elapsed, path_length, explored_length])
+            else:
+                print("Invalid algorithm name")
+
+    output_file = "results.csv"
+
+    with open(output_file, "w") as f:
+        writer = csv.writer(f)
+        writer.writerow(["CSV File", "Algorithm", "Time", "Path Length", "Nodes Explored"])
+        writer.writerows(results)
+
+    return output_file
+```
+
+### 5.3.4 - Results
+
+## 5.0 - Libraries
+There are two libraries used for testing the algorithms: **matplotlib**, **networkX**, **pygame** and **pyamaze**. 
+
+Matplotlib is a plotting library for Python, and is used for plotting the results. The networkX library is used for creating the converting my custom graph class to a networkX graph, which is then used for plotting the results.
+
+The matplotlib library is used for plotting the results, and the pyamaze library is used for creating the mazes. 
+
+## 5.1 - Datasets and Test Setup
+There are two kinds of datasets used for testing the algorithms: **Grid** and **Maze**.  and [grid-csvs](tests\grid-csvs). 
 
 ![Maze-DFS](view/graphics/20x20-DFS.gif)
 ![Maze-A*](view/graphics/20x20-Astar.gif)
