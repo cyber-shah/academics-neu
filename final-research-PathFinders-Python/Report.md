@@ -72,7 +72,7 @@ The algorithms covered in this report are:
 
 
 
-# 3 -Background
+# 3 - Background
 Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient pathfinding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth First Search (DFS), which excels in exploring the depths of a graph's structure.
 
 In this section, we will delve into the theoretical foundations of DFS, its operational principles, and its applicability across various scenarios. By understanding DFS in the context of graph traversal algorithms, we can appreciate its unique strengths and limitations as we delve deeper into its mechanics.
@@ -988,12 +988,9 @@ Dijkstra's algorithm is a weighted graph search algorithm that finds the shortes
 
 ## 6.1 - Overview
 
-
-## 6.2 - Maze Analysis
-
 In this section, we will analyze and compare the performance of the A* algorithm on different types of mazes. We will also compare the performance of the A* algorithm with other graph search algorithms such as Depth-first search, breadth-first search (BFS) and Dijkstra’s algorithm. This will help us understand conditions where A* performs well, and where it does not.
 
-### 6.2.1 - Libraries Used
+## 6.2 - Libraries Used
 There are two libraries used for analyzing the algorithms on mazes: `pygame` and `pyamaze`.
 
 ***Pygame*** is a cross-platform set of Python modules designed for writing video games. It includes computer graphics and sound libraries designed to be used with the Python programming language. It is useful for creating the maze environment, and for visualizing the results.
@@ -1004,7 +1001,7 @@ There are two libraries used for analyzing the algorithms on mazes: `pygame` and
 
 The modified pyamaze library is available in this directory [pyamaze.py](view/lib/pyaMaze/pyamaze/pyamaze.py).
 
-### 6.2.2 - Maze Dataset Generation
+## 6.3 - Maze Dataset Generation
 The maze datasets are generated using the [DatasetGenerator](tests\DatasetGenerator.py), and are stored in here [maze-csvs](tests\maze-csvs)
 
 ```Python
@@ -1091,7 +1088,7 @@ Maze datasets are generated using the following parameters:
 
 <!--TODO : insert images of different loops and sizes-->
 
-### 6.2.3 - Maze Solving
+## 6.4 - Maze Solving
 Once the mazes are generated and saved as CSV files in `tests\maze-csvs` they are loaded into the [Emperical Timer.py](tests\emperical_timer.py) file. This file has a function called `run_all_algos` which solves the mazes using all the four algorithms covered in this report. The results are then saved as CSV files in the [maze-results.csv](tests\maze-results.csv) directory.
 
 ```Python
@@ -1137,7 +1134,7 @@ def run_all_algos(csv_files, algos):
     return output_file
 ```
 
-### 6.2.4 - Results and Metrics
+## 6.5 - Results and Metrics
 The results are stored in [maze-results.csv](tests\maze-results.csv). They can are then vizualized using the [pyamaze_Vizs.py](view/Pyamaze_Vizs.py) file. 
 
 The measurement metrics used are:
@@ -1145,7 +1142,7 @@ The measurement metrics used are:
 2. **Path Length:** The length of the shortest path from the start to the goal.
 3. **Nodes Explored:** The number of nodes explored by the algorithm.
 
-### 6.2.5 - Results with Maze Size 15x15
+## 6.6 - 15x15 Results
 This is a sample vizualization of how DFS solves a maze of size 20x20 with loop density 0.5. The red nodes are the explored nodes, and the yellow nodes are the nodes in the shortest path.
 ![Maze-DFS](view/graphics/20x20-DFS.gif)
 
@@ -1172,7 +1169,7 @@ The time is measured in milliseconds, and the path length and nodes explored are
 | $0.1$                             | A*        | 4.99      | 54          | 191            |
 | $0.1$                             | DFS       | 4.58      | 130         | 191            |
 
-### 6.2.6 - Results with Maze Size 50x50
+## 6.7 - 50x50 Results 
 This is a visualization of how Dijkstra's algorithm solves a maze of size 2x20 with loop density 0.5
 ![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
 The following table shows the results for mazes of size 50x50.
@@ -1199,7 +1196,7 @@ The following table shows the results for mazes of size 50x50.
 | $0.1$    | DFS       | 734.62            | 143         | 2390           |
 
 
-### 6.2.7 - Results with Maze Size 100x100
+## 6.8 - 100x100 Results 
 This is a visualization of how A* algorithm solves a maze of size 20x20 with loop density 0.5
 ![Maze-A*](view/graphics/20x20-Astar.gif)
 
@@ -1226,12 +1223,49 @@ This is a visualization of how A* algorithm solves a maze of size 20x20 with loo
 
 ![Maze-BFS](view/graphics/20x20-BFS.gif)
 
-
+<!-- TODO : maybe use different heuristics? and their results -->
 # 7 - Results and Discussion
 
+In this section we will discuss the results from the emperical analysis section and analyze the performance of the algorithms. We will also discuss the limitations of the experiments and the algorithms.
 
+## 7.1 - Summary of Results
+
+In the preceding tables, we observed a clear trend: as mazes grew in complexity and size, the distinctions between algorithms became more pronounced, resulting in a widening performance gap. This phenomenon emerges from the inherent intricacy of certain algorithms, such as Dijkstra's algorithm and BFS, which undertake more extensive exploration, thereby consuming more time. Conversely, streamlined algorithms, like A* and DFS, with fewer operational steps, exhibit faster execution and explore fewer nodes.
+
+Summarizing the outcomes of our experiments:
+
+1. ***Algorithmic Efficiency*** : A* consistently outperforms other algorithms in terms of time and nodes explored. It consistently finds the shortest path with the fewest explored nodes.
+2. ***Impact of Loop Density:*** 
+   - The presence of loops in the maze has a significant impact on the performance of the algorithms. The more loops there are in the maze, the more time it takes for the algorithms to find the shortest path. This is because the algorithms have to explore more nodes to find the shortest path. This is why A* performed well in our experiments. However, if we used a heuristic function that is not admissible or consistent, A* would not have performed as well.
+   - For higher loop densities, A* demonstrates remarkable efficiency, while Dijkstra's and BFS exhibit longer times and more nodes explored
+3. ***Algorithm Performance:*** A* continues to exhibit strong performance, finding short paths with fewer explored nodes compared to Dijkstra's and BFS.
+4. ***Algorithm Scaling***: A* maintains its efficiency even for larger mazes, showing its scalability. Dijkstra's and BFS experience significant increases in time and explored nodes.
+5. ***Trade-off Observation:*** While DFS explores fewer nodes compared to A*, it often fails to find the optimal path, making it less suitable for pathfinding in these scenarios.
+
+## 7.2 - Evaluation and Interpretation of Results
+
+Critically evaluate and interpret the results
+Explain the reasons behind the results and provide evidence or examples to support your claims
+Identify any assumptions or limitations in your analysis and discuss how they affect the validity or generalizability of your results
 
 <!-- ![20x20DFS](view/DFS-20x20.gif) -->
+
+
+
+## 7.3 - Comparison with Existing Literature
+
+Compare and contrast your results with existing literature or studies
+Discuss how your results agree or disagree with previous findings
+Discuss the similarities or differences in the methodology or data used
+Discuss the contributions or gaps in the current knowledge
+
+
+
+
+## 7.4 - Implications and Applications of Results
+Discuss the implications and applications of your results
+Discuss the practical or theoretical benefits of using A*
+
 
 # 8 - Conclusion
 
