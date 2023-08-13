@@ -1016,7 +1016,79 @@ The modified pyamaze library is available in this directory [pyamaze.py](view/li
 ### 5.3.2 - Maze Dataset Generation
 The maze datasets are generated using the [DatasetGenerator](tests\DatasetGenerator.py), and are stored in here [maze-csvs](tests\maze-csvs)
 
-<!--TODO : maybe show snippets of code here?-->
+```Python
+# global variables
+maze_row_size = 100
+maze_col_size = 100
+goal_row = 100
+goal_col = 100
+loop_percent = 10
+maze_save_file = 'maze-10-size-100'
+
+
+class DatasetGenerator:
+    def __init__(self):
+        self.graph = None
+
+    def create_maze(self):
+        custom_maze = maze(maze_row_size, maze_col_size)
+        custom_maze.CreateMaze(goal_row, goal_col,
+                               loopPercent=loop_percent, saveMaze=True)
+        custom_maze.run()
+
+    def create_grid_graph(self):
+        graph = GraphRC.GraphRC()
+
+        # create Nodes and add them to the graph
+        for x in range(maze_col_size):
+            for y in range(maze_row_size):
+                name = "(" + str(x) + ", " + str(y) + ")"
+                graph.add_node(NodeRC.NodeRC(name, x, y))
+
+        # create edges
+        for x in range(maze_col_size):
+            for y in range(maze_row_size):
+                if x > 0:
+                    graph.set_edge_unweighted(graph.get_node_via_row_column
+                                              (x, y), graph.get_node_via_row_column(x - 1, y))
+                if y > 0:
+                    graph.set_edge_unweighted(graph.get_node_via_row_column
+                                              (x, y), graph.get_node_via_row_column(x, y - 1))
+                if x < maze_col_size - 1:
+                    graph.set_edge_unweighted(graph.get_node_via_row_column
+                                              (x, y), graph.get_node_via_row_column(x + 1, y))
+                if y < maze_row_size - 1:
+                    graph.set_edge_unweighted(graph.get_node_via_row_column
+                                              (x, y), graph.get_node_via_row_column(x, y + 1))
+
+        return self.plot_graph(graph)
+
+    def plot_graph(self, graph):
+        nx_graph = nx.Graph()
+
+        # Add nodes
+        for node in graph.nodesDictionary.values():
+            nx_graph.add_node(node.get_index())
+
+        # Add edges
+        for i in range(graph.number_of_nodes):
+            for j in range(i + 1, graph.number_of_nodes):
+                if graph.adjacency_matrix[i][j] != float('inf'):
+                    nx_graph.add_edge(i, j)
+
+        # Create a grid layout for the nodes
+        grid_size = int(graph.number_of_nodes ** 0.5)
+        grid_spacing = 1.0  # Adjust this to control the spacing between nodes
+
+        # Calculate positions for the nodes
+        pos = {}
+        for i in range(graph.number_of_nodes):
+            row = i // grid_size
+            col = i % grid_size
+            pos[i] = (col * grid_spacing, row * grid_spacing)
+
+        return nx_graph, pos
+```
 
 Maze datasets are generated using the following parameters:
 1. **Grid Size:** Signifies the size of the maze. The maze is a square grid of size (grid_size x grid_size).
@@ -1074,7 +1146,95 @@ def run_all_algos(csv_files, algos):
     return output_file
 ```
 
-### 5.3.4 - Results
+### 5.3.4 - Results and Metrics
+The results are stored in [maze-results.csv](tests\maze-results.csv). They can are then vizualized using the [pyamaze_Vizs.py](view/Pyamaze_Vizs.py) file. 
+
+The measurement metrics used are:
+1. **Time:** The time taken to solve the maze.
+2. **Path Length:** The length of the shortest path from the start to the goal.
+3. **Nodes Explored:** The number of nodes explored by the algorithm.
+
+### 5.3.5 - Results with Maze Size 15x15
+This is a sample vizualization of how DFS solves a maze of size 20x20 with loop density 0.5. The red nodes are the explored nodes, and the yellow nodes are the nodes in the shortest path.
+![Maze-DFS](view/graphics/20x20-DFS.gif)
+
+The following table shows the results for mazes of size 15x15.
+The time is measured in milliseconds, and the path length and nodes explored are measured in number of nodes.
+| Loops                             | Algorithm | Time (ms) | Path Length | Nodes Explored |
+|-----------------------------------|-----------|-----------|-------------|----------------|
+| $1$                               | Dijkstra  | 3.99      | 18          | 137            |
+| $1$                               | BFS       | 3.00      | 18          | 151            |
+| $1$                               | A*        | 1.00      | 18          | 40             |
+| $1$                               | DFS       | 2.99      | 90          | 170            |
+
+| Loops                             | Algorithm | Time (ms) | Path Length | Nodes Explored |
+|-----------------------------------|-----------|-----------|-------------|----------------|
+| $0.5$                             | Dijkstra  | 1.00      | 13          | 48             |
+| $0.5$                             | BFS       | 1.00      | 13          | 58             |
+| $0.5$                             | A*        | 0.99      | 13          | 16             |
+| $0.5$                             | DFS       | 2.99      | 83          | 137            |
+
+| Loops                             | Algorithm | Time (ms) | Path Length | Nodes Explored |
+|-----------------------------------|-----------|-----------|-------------|----------------|
+| $0.1$                             | Dijkstra  | 7.00      | 54          | 218            |
+| $0.1$                             | BFS       | 4.09      | 54          | 218            |
+| $0.1$                             | A*        | 4.99      | 54          | 191            |
+| $0.1$                             | DFS       | 4.58      | 130         | 191            |
+
+### 5.3.6 - Results with Maze Size 50x50
+This is a visualization of how Dijkstra's algorithm solves a maze of size 2x20 with loop density 0.5
+![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
+The following table shows the results for mazes of size 50x50.
+
+| Loops    | Algorithm | Time (ms)         | Path Length | Nodes Explored |
+|----------|-----------|-------------------|-------------|----------------|
+| $1$      | Dijkstra  | 1.00              | 2           | 2              |
+| $1$      | BFS       | 0.00              | 2           | 3              |
+| $1$      | A*        | 1.11              | 2           | 2              |
+| $1$      | DFS       | 777.49            | 2           | 2500           |
+
+| Loops    | Algorithm | Time (ms)         | Path Length | Nodes Explored |
+|----------|-----------|-------------------|-------------|----------------|
+| $0.5$    | Dijkstra  | 355.27            | 54          | 989            |
+| $0.5$    | BFS       | 359.38            | 54          | 1025           |
+| $0.5$    | A*        | 124.62            | 54          | 315            |
+| $0.5$    | DFS       | 22.00             | 60          | 95             |
+
+| Loops    | Algorithm | Time (ms)         | Path Length | Nodes Explored |
+|----------|-----------|-------------------|-------------|----------------|
+| $0.1$    | Dijkstra  | 622.92            | 143         | 1688           |
+| $0.1$    | BFS       | 605.84            | 143         | 1699           |
+| $0.1$    | A*        | 366.23            | 143         | 1006           |
+| $0.1$    | DFS       | 734.62            | 143         | 2390           |
+
+
+### 5.3.7 - Results with Maze Size 100x100
+This is a visualization of how A* algorithm solves a maze of size 20x20 with loop density 0.5
+![Maze-A*](view/graphics/20x20-Astar.gif)
+
+| Loops                          | Algorithm | Time (ms)           | Path Length | Nodes Explored |
+|-----------------------------------|-----------|---------------------|-------------|----------------|
+| $1$   | Dijkstra  | 0.18075180053710938 | 14         | 90             |
+| $1$   | BFS       | 0.16682934761047363 | 14         | 102            |
+| $1$   | A*        | 0.05780482292175293 | 14         | 29             |
+| $1$   | DFS       | 9.25686264038086    | 4712       | 8651           |
+
+
+| Loops                          | Algorithm | Time (ms)           | Path Length | Nodes Explored |
+|-----------------------------------|-----------|---------------------|-------------|----------------|
+| $0.5$    | Dijkstra  | 0.3012821674346924  | 19         | 158            |
+| $0.5$    | BFS       | 0.28941917419433594 | 19         | 170            |
+| $0.5$    | A*        | 0.125870943069458   | 19         | 67             |
+| $0.5$    | DFS       | 10.68337345123291   | 4199       | 9077           |
+
+| Loops                          | Algorithm | Time (ms)           | Path Length | Nodes Explored |
+|-----------------------------------|-----------|---------------------|-------------|----------------|
+| $0.1$    | Dijkstra  | 0.6615235805511475 | 62          | 349            |
+| $0.1$    | BFS       | 0.6444342136383057 | 62          | 361            |
+| $0.1$    | A*        | 0.45010948181152344| 62          | 238            |
+| $0.1$    | DFS       | 6.513006925582886  | 2366        | 5107           |
+![Maze-BFS](view/graphics/20x20-BFS.gif)
+
 
 ## 5.0 - Libraries
 There are two libraries used for testing the algorithms: **matplotlib**, **networkX**, **pygame** and **pyamaze**. 
@@ -1086,12 +1246,10 @@ The matplotlib library is used for plotting the results, and the pyamaze library
 ## 5.1 - Datasets and Test Setup
 There are two kinds of datasets used for testing the algorithms: **Grid** and **Maze**.  and [grid-csvs](tests\grid-csvs). 
 
-![Maze-DFS](view/graphics/20x20-DFS.gif)
-![Maze-A*](view/graphics/20x20-Astar.gif)
-![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
-![Maze-BFS](view/graphics/20x20-BFS.gif)
 
 # 6 - Results and Discussion
+
+
 
 <!-- ![20x20DFS](view/DFS-20x20.gif) -->
 # 6 - Conclusion
