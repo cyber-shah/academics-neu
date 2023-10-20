@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git filter-branch --env-filter '
+git filter-branch -f --env-filter '
 
 n=$GIT_COMMIT
 i=0
