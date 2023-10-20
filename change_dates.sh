@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git filter-branch --env-filter '
+git filter-branch -f --env-filter '
 
 OLD_GIT_AUTHOR_DATE=$(git show -s --format="%ai" $GIT_COMMIT)
 OLD_GIT_COMMITTER_DATE=$(git show -s --format="%ci" $GIT_COMMIT)
@@ -12,3 +12,4 @@ then
 fi
 
 ' HEAD
+
