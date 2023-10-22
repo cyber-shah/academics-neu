@@ -34,7 +34,7 @@ void draw() {
   // 3. add to text
   for (int i = 0; i < lines.length; i++) {
     fill(100, 50, 80);
-    text(lines[i] + "add", 150, 500 + i * 50);
+    text(lines[i] + "added text", 150, 500 + i * 50);
   }
   
 }
