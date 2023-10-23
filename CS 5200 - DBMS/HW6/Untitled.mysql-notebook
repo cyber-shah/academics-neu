@@ -2,7 +2,7 @@
     "type": "MySQLNotebook",
     "version": "1.0",
     "caption": "DB Notebook",
-    "content": "\\about\n\\help\nUSE crime_db2022shahp;\n\nselect * from district;\nselect * from incidents;\nselect * from neighbourhood;\nselect * from offense_code;\n-- 4\nSELECT  COUNT(incident_id) AS `num_crimes`, \n        DATE(occurred_date) AS occurred_date\n\nFROM incidents\n\nGROUP BY DATE(occurred_date)\nORDER BY DATE(occurred_date) ASC;\n-- 5\nSELECT  street,\n        COUNT(incident_id) as `num_crimes`\n\nfrom incidents\n\nGROUP BY(street)\nORDER BY(COUNT(incident_id)) DESC\nLIMIT 1;\n-- 6\nSELECT COUNT(incident_id) as `num_crimes`\n\nFROM incidents\n\nGROUP BY (district_code)\nHAVING district_code = 'A1';\n\n-- 7\nSELECT COUNT(incident_id) as `num_crimes`\n\nFROM incidents\nWHERE incidents.district_code = 'E18'\n\nGROUP BY incidents.district_code;\n",
+    "content": "\\about\n\\help\nUSE crime_db2022shahp;\n\nselect * from district;\nselect * from incidents;\nselect * from neighbourhood;\nselect * from offense_code;\n-- 4\nSELECT  COUNT(incident_id) AS `num_crimes`, \n        DATE(occurred_date) AS occurred_date\n\nFROM incidents\n\nGROUP BY DATE(occurred_date)\nORDER BY DATE(occurred_date) ASC;\n-- 5\nSELECT  street,\n        COUNT(incident_id) as `num_crimes`\n\nfrom incidents\n\nGROUP BY(street)\nORDER BY(COUNT(incident_id)) DESC\nLIMIT 1;\n-- 6\nSELECT COUNT(incident_id) as `num_crimes`\n\nFROM incidents\n\nGROUP BY (district_code)\nHAVING district_code = 'A1';\n\n-- 7\nSELECT COUNT(incident_id) as `num_crimes`\n\nFROM incidents\nWHERE incidents.district_code = 'E18'\n\nGROUP BY incidents.district_code;\n-- 8 \nSELECT  COUNT(incident_id) as `num_crimes`,\n        incidents.o_code,\n        district_code,\n        occurred_date,\n        offense_code.description\n\nFROM incidents\nINNER JOIN offense_code on offense_code.o_code = incidents.o_code\n\nWHERE offense_code.description LIKE '%rape%'\nGROUP BY incidents.o_code, district_code, occurred_date;\n-- 9\nSELECT  offense_code.o_code,\n        offense_code.description,\n        COUNT(incidents.o_code) as 'num_occurrences'\n\nFROM incidents\nRIGHT JOIN offense_code on offense_code.o_code = incidents.o_code\n\nGROUP BY offense_code.description, offense_code.o_code\nORDER BY (COUNT(incidents.o_code)) DESC;\n\n--10",
     "options": {
         "tabSize": 4,
         "insertSpaces": true,
@@ -15,22 +15,22 @@
             {
                 "inSelectionMode": false,
                 "selectionStart": {
-                    "lineNumber": 30,
-                    "column": 1
+                    "lineNumber": 61,
+                    "column": 47
                 },
                 "position": {
-                    "lineNumber": 30,
-                    "column": 1
+                    "lineNumber": 61,
+                    "column": 47
                 }
             }
         ],
         "viewState": {
             "scrollLeft": 0,
             "firstPosition": {
-                "lineNumber": 9,
+                "lineNumber": 34,
                 "column": 1
             },
-            "firstPositionDeltaTop": -3
+            "firstPositionDeltaTop": 8
         },
         "contributionsState": {
             "editor.contrib.folding": {},
@@ -76,15 +76,14 @@
                 "result": {
                     "type": "resultIds",
                     "list": [
-                        "611a65fe-e8d9-451a-b524-f87847912f9a",
-                        "20e7ce07-4ba6-45a4-c57d-d6df59591dcc",
-                        "290d0942-af33-4caf-c4be-2f4cb5ffd50a",
-                        "04e81390-e419-45ce-c34d-5bca5bef791f",
-                        "bb13b287-469e-4d51-b030-17b504179af4"
+                        "cc3f325a-ed0b-45c3-91a7-b2c0e209c8aa",
+                        "e1f2aba0-a325-4ef6-e15c-e51c13ea6bd2",
+                        "e57211b4-4efd-4271-ae30-0e69864652d5",
+                        "8d026052-1126-42f9-d251-33f321a274a4",
+                        "85dd5cf0-99e2-47cd-9f08-d4ce8643ea88"
                     ]
                 },
-                "currentHeight": 330.79296875,
-                "currentSet": 3,
+                "currentHeight": 36,
                 "statements": [
                     {
                         "delimiter": ";",
@@ -135,8 +134,8 @@
             },
             "data": [
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "611a65fe-e8d9-451a-b524-f87847912f9a",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "cc3f325a-ed0b-45c3-91a7-b2c0e209c8aa",
                     "rows": [
                         {
                             "0": "A1",
@@ -208,7 +207,7 @@
                         }
                     ],
                     "executionInfo": {
-                        "text": "OK, 13 records retrieved in 0.417ms"
+                        "text": "OK, 13 records retrieved in 0.551ms"
                     },
                     "totalRowCount": 13,
                     "hasMoreRows": false,
@@ -217,8 +216,8 @@
                     "sql": "\n\nselect * from district"
                 },
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "20e7ce07-4ba6-45a4-c57d-d6df59591dcc",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "e1f2aba0-a325-4ef6-e15c-e51c13ea6bd2",
                     "rows": [
                         {
                             "0": "220594238",
@@ -11199,7 +11198,7 @@
                         }
                     ],
                     "executionInfo": {
-                        "text": "OK, 992 records retrieved in 0.878ms"
+                        "text": "OK, 992 records retrieved in 0.931ms"
                     },
                     "totalRowCount": 992,
                     "hasMoreRows": false,
@@ -11208,8 +11207,8 @@
                     "sql": "\nselect * from incidents"
                 },
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "290d0942-af33-4caf-c4be-2f4cb5ffd50a",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "e57211b4-4efd-4271-ae30-0e69864652d5",
                     "rows": [
                         {
                             "0": "Beacon Hill",
@@ -11317,7 +11316,7 @@
                         }
                     ],
                     "executionInfo": {
-                        "text": "OK, 22 records retrieved in 0.545ms"
+                        "text": "OK, 22 records retrieved in 0.484ms"
                     },
                     "totalRowCount": 22,
                     "hasMoreRows": false,
@@ -11326,8 +11325,8 @@
                     "sql": "\nselect * from neighbourhood"
                 },
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "04e81390-e419-45ce-c34d-5bca5bef791f",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "8d026052-1126-42f9-d251-33f321a274a4",
                     "rows": [
                         {
                             "0": 111,
@@ -13047,7 +13046,7 @@
                         }
                     ],
                     "executionInfo": {
-                        "text": "OK, 425 records retrieved in 0.677ms"
+                        "text": "OK, 425 records retrieved in 0.745ms"
                     },
                     "totalRowCount": 425,
                     "hasMoreRows": false,
@@ -13056,11 +13055,11 @@
                     "sql": "\nselect * from offense_code"
                 },
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "bb13b287-469e-4d51-b030-17b504179af4",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "85dd5cf0-99e2-47cd-9f08-d4ce8643ea88",
                     "rows": [],
                     "executionInfo": {
-                        "text": "OK, 0 records retrieved in 0.45ms",
+                        "text": "OK, 0 records retrieved in 0.446ms",
                         "type": 4
                     },
                     "totalRowCount": 0,
@@ -13079,7 +13078,7 @@
                 "result": {
                     "type": "resultIds",
                     "list": [
-                        "4f10474e-f154-4445-e13c-21b066655616"
+                        "1adbf510-2427-47c4-a6f1-66fe223df147"
                     ]
                 },
                 "currentHeight": 163.9296875,
@@ -13097,8 +13096,8 @@
             },
             "data": [
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "4f10474e-f154-4445-e13c-21b066655616",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "1adbf510-2427-47c4-a6f1-66fe223df147",
                     "rows": [
                         {
                             "0": 172,
@@ -13164,7 +13163,7 @@
                 "result": {
                     "type": "resultIds",
                     "list": [
-                        "18ecb90f-e04a-4488-def0-c249e5c57e26"
+                        "2e0cc1f8-4c4f-4eed-c474-0cb378718f52"
                     ]
                 },
                 "currentHeight": 111.34765625,
@@ -13182,8 +13181,8 @@
             },
             "data": [
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "18ecb90f-e04a-4488-def0-c249e5c57e26",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "2e0cc1f8-4c4f-4eed-c474-0cb378718f52",
                     "rows": [
                         {
                             "0": "WASHINGTON ST",
@@ -13225,10 +13224,10 @@
                 "result": {
                     "type": "resultIds",
                     "list": [
-                        "17ad4112-17d0-4eea-b4f0-8bd2f5388b2f"
+                        "cfd0897f-ac85-4e63-caa8-1b7a2dff5d30"
                     ]
                 },
-                "currentHeight": 112.53515625,
+                "currentHeight": 112.53125,
                 "statements": [
                     {
                         "delimiter": ";",
@@ -13252,8 +13251,8 @@
             },
             "data": [
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "17ad4112-17d0-4eea-b4f0-8bd2f5388b2f",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "cfd0897f-ac85-4e63-caa8-1b7a2dff5d30",
                     "rows": [
                         {
                             "0": 97
@@ -13287,7 +13286,7 @@
                 "result": {
                     "type": "resultIds",
                     "list": [
-                        "07508131-686d-47a2-fb6a-c26ad65b03ff"
+                        "1d29c086-bd94-40b0-9b4e-cbfcdf6f1b65"
                     ]
                 },
                 "currentHeight": 112.65625,
@@ -13305,8 +13304,8 @@
             },
             "data": [
                 {
-                    "tabId": "41d21cd9-746f-46a0-eee4-bdf5a3efe3d1",
-                    "resultId": "07508131-686d-47a2-fb6a-c26ad65b03ff",
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "1d29c086-bd94-40b0-9b4e-cbfcdf6f1b65",
                     "rows": [
                         {
                             "0": 63
@@ -13335,10 +13334,2249 @@
         {
             "state": {
                 "start": 41,
-                "end": 41,
+                "end": 52,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 4,
+                            "index": 0,
+                            "resultId": "0d107f92-2dfc-45d4-db99-800f3d8b2023",
+                            "content": "OK, 0 records retrieved in 3.892ms"
+                        }
+                    ]
+                },
+                "currentHeight": 71.11328125,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 339
+                        },
+                        "contentStart": 6,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 53,
+                "end": 63,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "ba4c9468-b345-4d67-a370-45a194aa5b92"
+                    ]
+                },
+                "currentHeight": 352,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 299
+                        },
+                        "contentStart": 5,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 299,
+                            "length": 1
+                        },
+                        "contentStart": 298,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "be937594-10b0-417f-e830-845bb0ac2a36",
+                    "resultId": "ba4c9468-b345-4d67-a370-45a194aa5b92",
+                    "rows": [
+                        {
+                            "0": 3115,
+                            "1": "INVESTIGATE PERSON",
+                            "2": 125
+                        },
+                        {
+                            "0": 1831,
+                            "1": "DRUGS - SICK ASSIST - OTHER NARCOTIC",
+                            "2": 93
+                        },
+                        {
+                            "0": 3831,
+                            "1": "M/V - LEAVING SCENE - PROPERTY DAMAGE",
+                            "2": 65
+                        },
+                        {
+                            "0": 3114,
+                            "1": "INVESTIGATE PROPERTY",
+                            "2": 62
+                        },
+                        {
+                            "0": 613,
+                            "1": "LARCENY SHOPLIFTING",
+                            "2": 43
+                        },
+                        {
+                            "0": 3410,
+                            "1": "TOWED MOTOR VEHICLE",
+                            "2": 34
+                        },
+                        {
+                            "0": 617,
+                            "1": "LARCENY THEFT FROM BUILDING",
+                            "2": 32
+                        },
+                        {
+                            "0": 3301,
+                            "1": "VERBAL DISPUTE",
+                            "2": 32
+                        },
+                        {
+                            "0": 3201,
+                            "1": "PROPERTY - LOST",
+                            "2": 30
+                        },
+                        {
+                            "0": 619,
+                            "1": "LARCENY ALL OTHERS",
+                            "2": 27
+                        },
+                        {
+                            "0": 614,
+                            "1": "LARCENY THEFT FROM MV - NON-ACCESSORY",
+                            "2": 26
+                        },
+                        {
+                            "0": 801,
+                            "1": "ASSAULT - SIMPLE",
+                            "2": 26
+                        },
+                        {
+                            "0": 1402,
+                            "1": "VANDALISM",
+                            "2": 25
+                        },
+                        {
+                            "0": 3802,
+                            "1": "M/V ACCIDENT - PROPERTY DAMAGE",
+                            "2": 21
+                        },
+                        {
+                            "0": 2647,
+                            "1": "THREATS TO DO BODILY HARM",
+                            "2": 19
+                        },
+                        {
+                            "0": 3801,
+                            "1": "M/V ACCIDENT - OTHER",
+                            "2": 19
+                        },
+                        {
+                            "0": 1810,
+                            "1": "DRUGS - SALE / MANUFACTURING",
+                            "2": 18
+                        },
+                        {
+                            "0": 3006,
+                            "1": "SICK/INJURED/MEDICAL - PERSON",
+                            "2": 18
+                        },
+                        {
+                            "0": 2905,
+                            "1": "VAL - OPERATING WITHOUT LICENSE",
+                            "2": 16
+                        },
+                        {
+                            "0": 301,
+                            "1": "ROBBERY - STREET",
+                            "2": 15
+                        },
+                        {
+                            "0": 724,
+                            "1": "AUTO THEFT",
+                            "2": 14
+                        },
+                        {
+                            "0": 3803,
+                            "1": "M/V ACCIDENT - PERSONAL INJURY",
+                            "2": 14
+                        },
+                        {
+                            "0": 3001,
+                            "1": "DEATH INVESTIGATION",
+                            "2": 13
+                        },
+                        {
+                            "0": 3501,
+                            "1": "MISSING PERSON",
+                            "2": 13
+                        },
+                        {
+                            "0": 3108,
+                            "1": "FIRE REPORT - HOUSE, BUILDING, ETC.",
+                            "2": 12
+                        },
+                        {
+                            "0": 423,
+                            "1": "ASSAULT - AGGRAVATED",
+                            "2": 11
+                        },
+                        {
+                            "0": 520,
+                            "1": "BURGLARY - RESIDENTIAL - FORCE",
+                            "2": 11
+                        },
+                        {
+                            "0": 3207,
+                            "1": "PROPERTY - FOUND",
+                            "2": 11
+                        },
+                        {
+                            "0": 615,
+                            "1": "LARCENY THEFT OF MV PARTS & ACCESSORIES",
+                            "2": 9
+                        },
+                        {
+                            "0": 1832,
+                            "1": "DRUGS - SICK ASSIST - OTHER HARMFUL DRUG",
+                            "2": 8
+                        },
+                        {
+                            "0": 2670,
+                            "1": "CRIMINAL HARASSMENT",
+                            "2": 8
+                        },
+                        {
+                            "0": 3402,
+                            "1": "ANIMAL INCIDENTS",
+                            "2": 8
+                        },
+                        {
+                            "0": 1106,
+                            "1": "FRAUD - CREDIT CARD / ATM FRAUD",
+                            "2": 7
+                        },
+                        {
+                            "0": 3106,
+                            "1": "PROPERTY - ACCIDENTAL DAMAGE",
+                            "2": 7
+                        },
+                        {
+                            "0": 3820,
+                            "1": "M/V ACCIDENT INVOLVING PEDESTRIAN - INJURY",
+                            "2": 7
+                        },
+                        {
+                            "0": 1001,
+                            "1": "FORGERY / COUNTERFEITING",
+                            "2": 6
+                        },
+                        {
+                            "0": 1102,
+                            "1": "FRAUD - FALSE PRETENSE / SCHEME",
+                            "2": 5
+                        },
+                        {
+                            "0": 2610,
+                            "1": "TRESPASSING",
+                            "2": 5
+                        },
+                        {
+                            "0": 2907,
+                            "1": "VAL - OPERATING AFTER REV/SUSP.",
+                            "2": 5
+                        },
+                        {
+                            "0": 3502,
+                            "1": "MISSING PERSON - LOCATED",
+                            "2": 5
+                        },
+                        {
+                            "0": 540,
+                            "1": "BURGLARY - COMMERICAL - FORCE",
+                            "2": 4
+                        },
+                        {
+                            "0": 735,
+                            "1": "RECOVERED - MV RECOVERED IN BOSTON (STOLEN OUTSIDE BOSTON)",
+                            "2": 4
+                        },
+                        {
+                            "0": 1109,
+                            "1": "FRAUD - WIRE",
+                            "2": 4
+                        },
+                        {
+                            "0": 1501,
+                            "1": "WEAPON - FIREARM - CARRYING / POSSESSING, ETC",
+                            "2": 4
+                        },
+                        {
+                            "0": 3007,
+                            "1": "SUDDEN DEATH",
+                            "2": 4
+                        },
+                        {
+                            "0": 900,
+                            "1": "ARSON",
+                            "2": 3
+                        },
+                        {
+                            "0": 2403,
+                            "1": "DISTURBING THE PEACE",
+                            "2": 3
+                        },
+                        {
+                            "0": 3112,
+                            "1": "LANDLORD - TENANT SERVICE",
+                            "2": 3
+                        },
+                        {
+                            "0": 3205,
+                            "1": "M/V PLATES - LOST",
+                            "2": 3
+                        },
+                        {
+                            "0": 3821,
+                            "1": "M/V ACCIDENT - INVOLVING PEDESTRIAN - NO INJURY",
+                            "2": 3
+                        },
+                        {
+                            "0": 3830,
+                            "1": "M/V - LEAVING SCENE - PERSONAL INJURY",
+                            "2": 3
+                        },
+                        {
+                            "0": 530,
+                            "1": "B&E NON-RESIDENCE NIGHT - FORCE",
+                            "2": 2
+                        },
+                        {
+                            "0": 727,
+                            "1": "AUTO THEFT - LEASED/RENTED VEHICLE",
+                            "2": 2
+                        },
+                        {
+                            "0": 2101,
+                            "1": "OPERATING UNDER THE INFLUENCE ALCOHOL",
+                            "2": 2
+                        },
+                        {
+                            "0": 2612,
+                            "1": "FIRE REPORT/ALARM - FALSE",
+                            "2": 2
+                        },
+                        {
+                            "0": 2662,
+                            "1": "BALLISTICS EVIDENCE/FOUND",
+                            "2": 2
+                        },
+                        {
+                            "0": 3018,
+                            "1": "SICK/INJURED/MEDICAL - POLICE",
+                            "2": 2
+                        },
+                        {
+                            "0": 3110,
+                            "1": "SERVICE TO OTHER PD OUTSIDE OF MA.",
+                            "2": 2
+                        },
+                        {
+                            "0": 3119,
+                            "1": "FIREARM/WEAPON - FOUND OR CONFISCATED",
+                            "2": 2
+                        },
+                        {
+                            "0": 3625,
+                            "1": "DANGEROUS OR HAZARDOUS CONDITION",
+                            "2": 2
+                        },
+                        {
+                            "0": 3807,
+                            "1": "M/V ACCIDENT - OTHER CITY VEHICLE",
+                            "2": 2
+                        },
+                        {
+                            "0": 706,
+                            "1": "AUTO THEFT - MOTORCYCLE / SCOOTER",
+                            "2": 1
+                        },
+                        {
+                            "0": 1107,
+                            "1": "FRAUD - IMPERSONATION",
+                            "2": 1
+                        },
+                        {
+                            "0": 1300,
+                            "1": "STOLEN PROPERTY - BUYING / RECEIVING / POSSESSING",
+                            "2": 1
+                        },
+                        {
+                            "0": 2660,
+                            "1": "OTHER OFFENSE",
+                            "2": 1
+                        },
+                        {
+                            "0": 3008,
+                            "1": "SUICIDE / SUICIDE ATTEMPT",
+                            "2": 1
+                        },
+                        {
+                            "0": 3111,
+                            "1": "LICENSE PREMISE VIOLATION",
+                            "2": 1
+                        },
+                        {
+                            "0": 3125,
+                            "1": "WARRANT ARREST",
+                            "2": 1
+                        },
+                        {
+                            "0": 3170,
+                            "1": "INTIMIDATING WITNESS",
+                            "2": 1
+                        },
+                        {
+                            "0": 3503,
+                            "1": "MISSING PERSON - NOT REPORTED - LOCATED",
+                            "2": 1
+                        },
+                        {
+                            "0": 111,
+                            "1": "MURDER, NON-NEGLIGIENT MANSLAUGHTER",
+                            "2": 0
+                        },
+                        {
+                            "0": 112,
+                            "1": "KILLING OF FELON BY POLICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 113,
+                            "1": "KILLING OF FELON BY CITIZEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 114,
+                            "1": "KILLING OF POLICE BY FELON",
+                            "2": 0
+                        },
+                        {
+                            "0": 121,
+                            "1": "MANSLAUGHTER - VEHICLE - NEGLIGENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 122,
+                            "1": "MANSLAUGHTER - TRAIN ETC. VICTIM NON-NEGLIGENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 123,
+                            "1": "MANSLAUGHTER - NON-VEHICLE - NEGLIGENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 124,
+                            "1": "MANSLAUGHTER - VEHICLE - NEGLIGENCE OF VICTIM",
+                            "2": 0
+                        },
+                        {
+                            "0": 125,
+                            "1": "MANSLAUGHTER - TRAIN ETC. VICTIM NEGLIGENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 211,
+                            "1": "RAPE - FEMALE - FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 212,
+                            "1": "RAPE - MALE - FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 213,
+                            "1": "RAPE - FEMALE/MALE - FORCE - UNNATURAL ACT",
+                            "2": 0
+                        },
+                        {
+                            "0": 222,
+                            "1": "RAPE - FEMALE ATTEMPT FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 223,
+                            "1": "RAPE - MALE - ATTEMPT FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 224,
+                            "1": "RAPE - FEMALE/MALE - ATTEMPT FORCE - UNNATURAL ACT",
+                            "2": 0
+                        },
+                        {
+                            "0": 230,
+                            "1": "RAPE - FEMALE - ATTEMPT FORCE - UNDER 16",
+                            "2": 0
+                        },
+                        {
+                            "0": 231,
+                            "1": "RAPE - MALE - ATTEMPT FORCE - UNDER 16",
+                            "2": 0
+                        },
+                        {
+                            "0": 232,
+                            "1": "RAPE - FEMALE FORCE - UNDER 16",
+                            "2": 0
+                        },
+                        {
+                            "0": 233,
+                            "1": "RAPE - FEMALE - FORCE UNDER 16 DSS/DA REFFERRAL",
+                            "2": 0
+                        },
+                        {
+                            "0": 234,
+                            "1": "RAPE - MALE - FORCE - UNDER 16",
+                            "2": 0
+                        },
+                        {
+                            "0": 235,
+                            "1": "RAPE - MALE - FORCE - UNDER 16 DSS/DA REFERRAL",
+                            "2": 0
+                        },
+                        {
+                            "0": 236,
+                            "1": "RAPE - FEMALE - DRUGGING",
+                            "2": 0
+                        },
+                        {
+                            "0": 237,
+                            "1": "RAPE - MALE - DRUGGING",
+                            "2": 0
+                        },
+                        {
+                            "0": 241,
+                            "1": "RAPE - ATTEMPT - FORCIBLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 242,
+                            "1": "RAPE - ATTEMPT - SODOMY",
+                            "2": 0
+                        },
+                        {
+                            "0": 243,
+                            "1": "RAPE - ATTEMPT - SEXUAL ASSAULT W/ OBJECT",
+                            "2": 0
+                        },
+                        {
+                            "0": 244,
+                            "1": "RAPE - ATTEMPT - FONDLING",
+                            "2": 0
+                        },
+                        {
+                            "0": 251,
+                            "1": "RAPE - COMPLETE - FORCIBLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 252,
+                            "1": "RAPE - COMPLETE - SODOMY",
+                            "2": 0
+                        },
+                        {
+                            "0": 253,
+                            "1": "RAPE - COMPLETE - SEXUAL ASSAULT W/ OBJECT",
+                            "2": 0
+                        },
+                        {
+                            "0": 254,
+                            "1": "RAPE - COMPLETE - FONDLING",
+                            "2": 0
+                        },
+                        {
+                            "0": 261,
+                            "1": "RAPE - ATTEMPT - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 271,
+                            "1": "RAPE - COMPLETE - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 302,
+                            "1": "ROBBERY - FIREARM - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 303,
+                            "1": "ROBBERY - FIREARM - CHAIN STORE",
+                            "2": 0
+                        },
+                        {
+                            "0": 304,
+                            "1": "ROBBERY - FIREARM - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 305,
+                            "1": "ROBBERY - FIREARM  - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 306,
+                            "1": "ROBBERY - FIREARM - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 307,
+                            "1": "ROBBERY - FIREARM - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 308,
+                            "1": "ROBBERY - FIREARM - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 309,
+                            "1": "ROBBERY - KNIFE - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 310,
+                            "1": "ROBBERY - KNIFE - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 311,
+                            "1": "ROBBERY - COMMERCIAL",
+                            "2": 0
+                        },
+                        {
+                            "0": 312,
+                            "1": "ROBBERY - KNIFE - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 313,
+                            "1": "ROBBERY - KNIFE - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 314,
+                            "1": "ROBBERY - KNIFE- RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 315,
+                            "1": "ROBBERY - KNIFE - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 316,
+                            "1": "ROBBERY - KNIFE - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 317,
+                            "1": "ROBBERY - OTHER WEAPON - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 318,
+                            "1": "ROBBERY - OTHER WEAPON - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 319,
+                            "1": "ROBBERY - OTHER WEAPON - CHAIN STORE",
+                            "2": 0
+                        },
+                        {
+                            "0": 320,
+                            "1": "ROBBERY - OTHER WEAPON - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 321,
+                            "1": "ROBBERY - OTHER WEAPON - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 322,
+                            "1": "ROBBERY - OTHER WEAPON - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 323,
+                            "1": "ROBBERY - OTHER WEAPON - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 324,
+                            "1": "ROBBERY - OTHER WEAPON - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 333,
+                            "1": "ROBBERY - UNARMED - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 334,
+                            "1": "ROBBERY - UNARMED - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 335,
+                            "1": "ROBBERY - UNARMED - CHAIN STORE",
+                            "2": 0
+                        },
+                        {
+                            "0": 336,
+                            "1": "ROBBERY - UNARMED - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 337,
+                            "1": "ROBBERY - UNARMED - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 338,
+                            "1": "ROBBERY - UNARMED - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 339,
+                            "1": "ROBBERY - UNARMED - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 340,
+                            "1": "ROBBERY - UNARMED - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 341,
+                            "1": "ROBBERY ATTEMPT - FIREARM - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 342,
+                            "1": "ROBBERY ATTEMPT - FIREARM - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 343,
+                            "1": "ROBBERY ATTEMPT - FIREARM - CHAIN STORE",
+                            "2": 0
+                        },
+                        {
+                            "0": 344,
+                            "1": "ROBBERY ATTEMPT - FIREARM - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 345,
+                            "1": "ROBBERY ATTEMPT - FIREARM - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 346,
+                            "1": "ROBBERY ATTEMPT - FIREARM - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 347,
+                            "1": "ROBBERY ATTEMPT - FIREARM - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 348,
+                            "1": "ROBBERY ATTEMPT - FIREARM - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 349,
+                            "1": "ROBBERY ATTEMPT - KNIFE - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 350,
+                            "1": "ROBBERY ATTEMPT - KNIFE - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 351,
+                            "1": "ROBBERY - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 352,
+                            "1": "ROBBERY ATTEMPT - KNIFE - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 353,
+                            "1": "ROBBERY ATTEMPT - KNIFE - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 354,
+                            "1": "ROBBERY ATTEMPT - KNIFE - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 355,
+                            "1": "ROBBERY ATTEMPT - KNIFE - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 356,
+                            "1": "ROBBERY ATTEMPT - KNIFE - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 357,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 358,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 359,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - CHAIN STORE",
+                            "2": 0
+                        },
+                        {
+                            "0": 360,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 361,
+                            "1": "ROBBERY - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 362,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 363,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 364,
+                            "1": "ROBBERY ATTEMPT - OTHER WEAPON - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 371,
+                            "1": "ROBBERY - HOME INVASION",
+                            "2": 0
+                        },
+                        {
+                            "0": 373,
+                            "1": "ROBERRY ATTEMPT - UNARMED - BANK",
+                            "2": 0
+                        },
+                        {
+                            "0": 374,
+                            "1": "ROBERRY ATTEMPT - UNARMED - BUSINESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 375,
+                            "1": "ROBERRY ATTEMPT - UNARMED - CHAIN STORE",
+                            "2": 0
+                        },
+                        {
+                            "0": 376,
+                            "1": "ROBERRY ATTEMPT - UNARMED - GAS STATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 377,
+                            "1": "ROBERRY ATTEMPT - UNARMED - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 378,
+                            "1": "ROBERRY ATTEMPT - UNARMED - RESIDENCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 379,
+                            "1": "ROBERRY ATTEMPT - UNARMED - STREET",
+                            "2": 0
+                        },
+                        {
+                            "0": 380,
+                            "1": "ROBERRY ATTEMPT - UNARMED - TAXI",
+                            "2": 0
+                        },
+                        {
+                            "0": 381,
+                            "1": "ROBBERY - CAR JACKING",
+                            "2": 0
+                        },
+                        {
+                            "0": 401,
+                            "1": "ASSAULT & BATTERY D/W - GUN",
+                            "2": 0
+                        },
+                        {
+                            "0": 402,
+                            "1": "ASSAULT & BATTERY D/W - KNIFE",
+                            "2": 0
+                        },
+                        {
+                            "0": 403,
+                            "1": "ASSAULT & BATTERY D/W - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 404,
+                            "1": "A&B HANDS, FEET, ETC.  - MED. ATTENTION REQ.",
+                            "2": 0
+                        },
+                        {
+                            "0": 411,
+                            "1": "ASSAULT D/W - GUN",
+                            "2": 0
+                        },
+                        {
+                            "0": 412,
+                            "1": "ASSAULT D/W - KNIFE",
+                            "2": 0
+                        },
+                        {
+                            "0": 413,
+                            "1": "ASSAULT - AGGRAVATED - BATTERY",
+                            "2": 0
+                        },
+                        {
+                            "0": 421,
+                            "1": "ASSAULT & BATTERY D/W - GUN ON POLICE OFFICER",
+                            "2": 0
+                        },
+                        {
+                            "0": 422,
+                            "1": "ASSAULT & BATTERY D/W - KNIFE ON POLICE OFFICER",
+                            "2": 0
+                        },
+                        {
+                            "0": 424,
+                            "1": "A&B HANDS, FEET, ETC. - PO MED. ATTENTION REQ. ",
+                            "2": 0
+                        },
+                        {
+                            "0": 431,
+                            "1": "ASSAULT D/W - GUN ON POLICE OFFICER",
+                            "2": 0
+                        },
+                        {
+                            "0": 432,
+                            "1": "ASSAULT D/W - KNIFE ON POLICE OFFICER",
+                            "2": 0
+                        },
+                        {
+                            "0": 433,
+                            "1": "ASSAULT D/W - OTHER ON POLICE OFFICER",
+                            "2": 0
+                        },
+                        {
+                            "0": 510,
+                            "1": "B&E RESIDENCE NIGHT - FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 511,
+                            "1": "B&E RESIDENCE NIGHT - ATTEMPT FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 512,
+                            "1": "B&E RESIDENCE NIGHT - NO FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 517,
+                            "1": "B&E RESIDENCE NIGHT - NO PROP TAKEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 521,
+                            "1": "BURGLARY - RESIDENTIAL - ATTEMPT",
+                            "2": 0
+                        },
+                        {
+                            "0": 522,
+                            "1": "BURGLARY - RESIDENTIAL - NO FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 527,
+                            "1": "B&E RESIDENCE DAY - NO PROP TAKEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 531,
+                            "1": "B&E NON-RESIDENCE NIGHT - ATTEMPT FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 532,
+                            "1": "B&E NON-RESIDENCE NIGHT - NO FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 537,
+                            "1": "B&E NON-RESIDENCE NIGHT - NO PROP TAKEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 541,
+                            "1": "BURGLARY - COMMERICAL - ATTEMPT",
+                            "2": 0
+                        },
+                        {
+                            "0": 542,
+                            "1": "BURGLARY - COMMERICAL - NO FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 543,
+                            "1": "B&E NON-RESIDENCE DAY - NO PROP TAKEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 547,
+                            "1": "B&E NON-RESIDENCE DAY - NO PROP TAKEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 560,
+                            "1": "BURGLARY - OTHER - FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 561,
+                            "1": "BURGLARY - OTHER - ATTEMPT",
+                            "2": 0
+                        },
+                        {
+                            "0": 562,
+                            "1": "BURGLARY - OTHER - NO FORCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 611,
+                            "1": "LARCENY PICK-POCKET",
+                            "2": 0
+                        },
+                        {
+                            "0": 612,
+                            "1": "LARCENY PURSE SNATCH - NO FORCE ",
+                            "2": 0
+                        },
+                        {
+                            "0": 616,
+                            "1": "LARCENY THEFT OF BICYCLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 618,
+                            "1": "LARCENY THEFT FROM COIN-OP MACHINE",
+                            "2": 0
+                        },
+                        {
+                            "0": 621,
+                            "1": "LARCENY PICK-POCKET $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 622,
+                            "1": "LARCENY PURSE SNATCH INCL.NO FORCE $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 623,
+                            "1": "LARCENY SHOPLIFTING $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 624,
+                            "1": "LARCENY NON-ACCESSORY FROM VEH. $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 625,
+                            "1": "LARCENY VEH. ACCESSORY $50 & $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 626,
+                            "1": "LARCENY BICYCLE $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 627,
+                            "1": "LARCENY IN A BUILDING $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 628,
+                            "1": "LARCENY FROM COIN MACHINE $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 629,
+                            "1": "LARCENY OTHER $50 TO $199",
+                            "2": 0
+                        },
+                        {
+                            "0": 631,
+                            "1": "LARCENY PICK-POCKET UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 632,
+                            "1": "LARCENY PURSE SNATCH INCL.NO FORCE UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 633,
+                            "1": "LARCENY SHOPLIFTING UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 634,
+                            "1": "LARCENY NON-ACCESSORY FROM VEH. UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 635,
+                            "1": "LARCENY VEH. ACESSORY UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 636,
+                            "1": "LARCENY BICYCLE UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 637,
+                            "1": "LARCENY IN A BUILDING UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 638,
+                            "1": "LARCENY FROM COIN MACHINE UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 639,
+                            "1": "LARCENY OTHER UNDER $50",
+                            "2": 0
+                        },
+                        {
+                            "0": 649,
+                            "1": "LARCENY MOTOR VEHICLE PLATES",
+                            "2": 0
+                        },
+                        {
+                            "0": 670,
+                            "1": "RECOVERED STOLEN PLATE",
+                            "2": 0
+                        },
+                        {
+                            "0": 701,
+                            "1": "AUTO THEFT TRUCK - RECOVERED IN BY POLICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 702,
+                            "1": "AUTO THEFT TRUCK - RECOVERED IN BY OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 704,
+                            "1": "AUTO THEFT TRUCK",
+                            "2": 0
+                        },
+                        {
+                            "0": 711,
+                            "1": "AUTO THEFT OTHER - RECOVERED IN BY POLICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 712,
+                            "1": "AUTO THEFT OTHER - RECOVERED IN BY OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 713,
+                            "1": "AUTO THEFT OTHER - RECOVERED OUTSIDE",
+                            "2": 0
+                        },
+                        {
+                            "0": 714,
+                            "1": "AUTO THEFT OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 715,
+                            "1": "AUTO THEFT OTHER - OUTSIDE RECOVERED IN BOS",
+                            "2": 0
+                        },
+                        {
+                            "0": 723,
+                            "1": "ATTEMPTED AUTO THEFT",
+                            "2": 0
+                        },
+                        {
+                            "0": 770,
+                            "1": "AUTO THEFT - RECOVERED IN BY POLICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 780,
+                            "1": "AUTO THEFT - RECOVERED IN BY OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 790,
+                            "1": "AUTO THEFT - RECOVERED OUTSIDE",
+                            "2": 0
+                        },
+                        {
+                            "0": 802,
+                            "1": "ASSAULT SIMPLE - BATTERY",
+                            "2": 0
+                        },
+                        {
+                            "0": 803,
+                            "1": "A&B ON POLICE OFFICER",
+                            "2": 0
+                        },
+                        {
+                            "0": 804,
+                            "1": "STALKING",
+                            "2": 0
+                        },
+                        {
+                            "0": 901,
+                            "1": "ARSON - SINGLE DWELLING",
+                            "2": 0
+                        },
+                        {
+                            "0": 902,
+                            "1": "ARSON - MULTIPLE DWELLING",
+                            "2": 0
+                        },
+                        {
+                            "0": 905,
+                            "1": "ARSON - OTHER COMMERCIAL",
+                            "2": 0
+                        },
+                        {
+                            "0": 906,
+                            "1": "ARSON - COMMUNITY/PUB.STRUC.",
+                            "2": 0
+                        },
+                        {
+                            "0": 907,
+                            "1": "ARSON - ALL OTHER STRUCTURES",
+                            "2": 0
+                        },
+                        {
+                            "0": 920,
+                            "1": "ARSON - MOTOR VEHICLES",
+                            "2": 0
+                        },
+                        {
+                            "0": 930,
+                            "1": "ARSON - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1002,
+                            "1": "FORGERY OR UTTERING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1101,
+                            "1": "PASSING WORTHLESS CHECK",
+                            "2": 0
+                        },
+                        {
+                            "0": 1103,
+                            "1": "CONFIDENCE GAMES",
+                            "2": 0
+                        },
+                        {
+                            "0": 1105,
+                            "1": "FRAUDS - ALL OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1108,
+                            "1": "FRAUD - WELFARE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1201,
+                            "1": "EMBEZZLEMENT",
+                            "2": 0
+                        },
+                        {
+                            "0": 1301,
+                            "1": "PROPERTY - BUYING STOLEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 1302,
+                            "1": "PROPERTY - RECEIVING STOLEN",
+                            "2": 0
+                        },
+                        {
+                            "0": 1304,
+                            "1": "PROPERTY - STOLEN THEN RECOVERED",
+                            "2": 0
+                        },
+                        {
+                            "0": 1401,
+                            "1": "WILFUL & MAL. DESTRUCTION OF PROPERTY W/ARREST",
+                            "2": 0
+                        },
+                        {
+                            "0": 1415,
+                            "1": "GRAFFITI",
+                            "2": 0
+                        },
+                        {
+                            "0": 1502,
+                            "1": "WEAPON - FIREARM - SALE / TRAFFICKING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1503,
+                            "1": "WEAPON - OTHER - CARRYING / POSSESSING, ETC",
+                            "2": 0
+                        },
+                        {
+                            "0": 1504,
+                            "1": "WEAPON - OTHER - OTHER VIOLATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 1510,
+                            "1": "WEAPON - FIREARM - OTHER VIOLATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 1601,
+                            "1": "PROSTITUTION",
+                            "2": 0
+                        },
+                        {
+                            "0": 1602,
+                            "1": "PROSTITUTION - SOLICITING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1603,
+                            "1": "PROSTITUTION - ASSISTING OR PROMOTING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1605,
+                            "1": "PROSTITUTION - COMMON NIGHTWALKER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1607,
+                            "1": "PROSTITUTION/VICE - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1610,
+                            "1": "HUMAN TRAFFICKING - COMMERCIAL SEX ACTS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1620,
+                            "1": "HUMAN TRAFFICKING - INVOLUNTARY SERVITUDE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1702,
+                            "1": "INDECENT ASSAULT AND BATTERY",
+                            "2": 0
+                        },
+                        {
+                            "0": 1703,
+                            "1": "INDECENT EXPOSURE / LEWD AND LASCIVIOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1704,
+                            "1": "STATUTORY RAPE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1710,
+                            "1": "LEWD & LACIVIOUS SPEECH & BEHAVIOR",
+                            "2": 0
+                        },
+                        {
+                            "0": 1711,
+                            "1": "OPEN & GROSS LEWDNESS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1720,
+                            "1": "SEX OFFENSE - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1721,
+                            "1": "FAILURE TO REGISTER AS A SEX OFFENDER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1723,
+                            "1": "SEARCH WARRANT - RAPE INVESTIGATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 1725,
+                            "1": "INDECENT A&B ON PERSON 14 AND OVER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1726,
+                            "1": "INDECENT A&B MENTALLY RETARDED PERSON UNDER 14",
+                            "2": 0
+                        },
+                        {
+                            "0": 1727,
+                            "1": "INDECENT A&B MENTALLY RETARDED PERSON 14 AND OVER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1730,
+                            "1": "SEXUAL ASSAULT INVESTIGATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 1731,
+                            "1": "INCEST",
+                            "2": 0
+                        },
+                        {
+                            "0": 1805,
+                            "1": "DRUGS - CLASS A TRAFFICKING OVER 18 GRAMS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1806,
+                            "1": "DRUGS - CLASS B TRAFFICKING OVER 18 GRAMS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1807,
+                            "1": "DRUGS - CLASS D TRAFFICKING OVER 50 GRAMS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1815,
+                            "1": "DRUGS - POSSESSION",
+                            "2": 0
+                        },
+                        {
+                            "0": 1825,
+                            "1": "DRUGS - POSSESSION OF DRUG PARAPHANALIA",
+                            "2": 0
+                        },
+                        {
+                            "0": 1830,
+                            "1": "DRUGS - SICK ASSIST - HEROIN",
+                            "2": 0
+                        },
+                        {
+                            "0": 1840,
+                            "1": "DRUGS - TRAFFICKING IN HEROIN",
+                            "2": 0
+                        },
+                        {
+                            "0": 1841,
+                            "1": "DRUGS - POSS CLASS A - INTENT TO MFR DIST DISP",
+                            "2": 0
+                        },
+                        {
+                            "0": 1842,
+                            "1": "DRUGS - POSS CLASS A - HEROIN, ETC. ",
+                            "2": 0
+                        },
+                        {
+                            "0": 1843,
+                            "1": "DRUGS - PRESENT AT HEROIN",
+                            "2": 0
+                        },
+                        {
+                            "0": 1844,
+                            "1": "DRUGS - POSS CLASS C",
+                            "2": 0
+                        },
+                        {
+                            "0": 1845,
+                            "1": "DRUGS - POSS CLASS D",
+                            "2": 0
+                        },
+                        {
+                            "0": 1846,
+                            "1": "DRUGS - POSS CLASS E",
+                            "2": 0
+                        },
+                        {
+                            "0": 1847,
+                            "1": "DRUGS - TRAFFICKING IN COCAINE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1848,
+                            "1": "DRUGS - POSS CLASS B - INTENT TO MFR DIST DISP",
+                            "2": 0
+                        },
+                        {
+                            "0": 1849,
+                            "1": "DRUGS - POSS CLASS B - COCAINE, ETC.",
+                            "2": 0
+                        },
+                        {
+                            "0": 1850,
+                            "1": "DRUGS - POSS CLASS E - INTENT TO MFR DIST DISP",
+                            "2": 0
+                        },
+                        {
+                            "0": 1855,
+                            "1": "DRUGS - POSS CLASS C - INTENT TO MFR DIST DISP",
+                            "2": 0
+                        },
+                        {
+                            "0": 1858,
+                            "1": "DRUGS - POSS  CLASS C",
+                            "2": 0
+                        },
+                        {
+                            "0": 1863,
+                            "1": "DRUGS - POSS CLASS D - MARIJUANA, ETC.",
+                            "2": 0
+                        },
+                        {
+                            "0": 1864,
+                            "1": "DRUGS - POSS CLASS D - INTENT MFR DIST DISP",
+                            "2": 0
+                        },
+                        {
+                            "0": 1866,
+                            "1": "DRUGS - POSS CLASS E INTENT TO MF DIST DISP",
+                            "2": 0
+                        },
+                        {
+                            "0": 1868,
+                            "1": "DRUGS - POSS. HYPODERMIC NEEDLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1870,
+                            "1": "DRUGS - CONSP TO VIOL CONTROLLED SUBSTANCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1873,
+                            "1": "DRUGS - UTTERING PRESC CONT SUBSTANCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 1874,
+                            "1": "DRUGS - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 1875,
+                            "1": "DRUGS - SICK ASSIST - METH",
+                            "2": 0
+                        },
+                        {
+                            "0": 1901,
+                            "1": "GAMBLING - BETTING / WAGERING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1902,
+                            "1": "GAMBLING - OPERATING/PROMOTING/ASSISTING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1903,
+                            "1": "GAMBLING - EQUIP VIOLATIONS",
+                            "2": 0
+                        },
+                        {
+                            "0": 1904,
+                            "1": "GAMBLING - SPORTS TAMPERING",
+                            "2": 0
+                        },
+                        {
+                            "0": 1921,
+                            "1": "GAMING OFFENSE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2003,
+                            "1": "CHILD ENDANGERMENT (NO ASSAULT)",
+                            "2": 0
+                        },
+                        {
+                            "0": 2004,
+                            "1": "CHILD ABANDONMENT (NO ASSAULT)",
+                            "2": 0
+                        },
+                        {
+                            "0": 2005,
+                            "1": "CHILD ENDANGERMENT",
+                            "2": 0
+                        },
+                        {
+                            "0": 2006,
+                            "1": "VIOL. OF RESTRAINING ORDER W ARREST",
+                            "2": 0
+                        },
+                        {
+                            "0": 2007,
+                            "1": "VIOL. OF RESTRAINING ORDER W NO ARREST",
+                            "2": 0
+                        },
+                        {
+                            "0": 2010,
+                            "1": "HOME INVASION",
+                            "2": 0
+                        },
+                        {
+                            "0": 2102,
+                            "1": "OPERATING UNDER THE INFLUENCE DRUGS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2201,
+                            "1": "LIQUOR - INVOLVING MINORS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2202,
+                            "1": "LIQUOR - ILLEGAL SALES - KEEPING - EXPOSING",
+                            "2": 0
+                        },
+                        {
+                            "0": 2204,
+                            "1": "LIQUOR LAW VIOLATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 2401,
+                            "1": "AFFRAY",
+                            "2": 0
+                        },
+                        {
+                            "0": 2405,
+                            "1": "DISORDERLY CONDUCT",
+                            "2": 0
+                        },
+                        {
+                            "0": 2407,
+                            "1": "ANNOYING AND ACCOSTING",
+                            "2": 0
+                        },
+                        {
+                            "0": 2511,
+                            "1": "KIDNAPPING - ENTICING OR ATTEMPTED",
+                            "2": 0
+                        },
+                        {
+                            "0": 2602,
+                            "1": "FIRE REPORT/ALARM - FALSE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2604,
+                            "1": "EXTORTION OR BLACKMAIL",
+                            "2": 0
+                        },
+                        {
+                            "0": 2605,
+                            "1": "CONTRIBUTING TO DELINQUENCY OF MINOR",
+                            "2": 0
+                        },
+                        {
+                            "0": 2606,
+                            "1": "PRISONER ATTEMPT TO RESCUE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2608,
+                            "1": "CHINS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2609,
+                            "1": "DRUGS - GLUE INHALATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 2611,
+                            "1": "ABDUCTION - INTICING",
+                            "2": 0
+                        },
+                        {
+                            "0": 2613,
+                            "1": "ANIMAL ABUSE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2616,
+                            "1": "POSSESSION OF BURGLARIOUS TOOLS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2617,
+                            "1": "CONSPIRACY EXCEPT DRUG LAW",
+                            "2": 0
+                        },
+                        {
+                            "0": 2618,
+                            "1": "EXPLOSIVES - POSSESSION OR USE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2619,
+                            "1": "FUGITIVE FROM JUSTICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2622,
+                            "1": "KIDNAPPING/CUSTODIAL KIDNAPPING",
+                            "2": 0
+                        },
+                        {
+                            "0": 2623,
+                            "1": "OBSCENE MATERIALS - PORNOGRAPHY",
+                            "2": 0
+                        },
+                        {
+                            "0": 2624,
+                            "1": "VAL - OPERATING W/O AUTHORIZATION LAWFUL",
+                            "2": 0
+                        },
+                        {
+                            "0": 2628,
+                            "1": "OBSCENE PHONE CALLS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2629,
+                            "1": "HARASSMENT",
+                            "2": 0
+                        },
+                        {
+                            "0": 2631,
+                            "1": "PROPERTY - CONCEALING LEASED",
+                            "2": 0
+                        },
+                        {
+                            "0": 2632,
+                            "1": "EVADING FARE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2633,
+                            "1": "RUNAWAY",
+                            "2": 0
+                        },
+                        {
+                            "0": 2636,
+                            "1": "PRISONER ESCAPE / ESCAPE & RECAPTURE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2641,
+                            "1": "VIOLATION - HAWKER AND PEDDLER",
+                            "2": 0
+                        },
+                        {
+                            "0": 2642,
+                            "1": "TRUANCY / RUNAWAY",
+                            "2": 0
+                        },
+                        {
+                            "0": 2646,
+                            "1": "LIQUOR - DRINKING IN PUBLIC",
+                            "2": 0
+                        },
+                        {
+                            "0": 2648,
+                            "1": "BOMB THREAT",
+                            "2": 0
+                        },
+                        {
+                            "0": 2650,
+                            "1": "VIOLATION - AUTO RENTAL LAWS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2651,
+                            "1": "HARBOR - VIOL. REGS. & STATUTES",
+                            "2": 0
+                        },
+                        {
+                            "0": 2657,
+                            "1": "VIOLATION - CITY ORDINANCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2658,
+                            "1": "VIOLATION - HACKNEY REGS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2663,
+                            "1": "VIOLATION - CITY ORDINANCE CONSTRUCTION PERMIT",
+                            "2": 0
+                        },
+                        {
+                            "0": 2664,
+                            "1": "CUSTODIAL KIDNAPPING",
+                            "2": 0
+                        },
+                        {
+                            "0": 2665,
+                            "1": "OTHER SERVICE/EVENT",
+                            "2": 0
+                        },
+                        {
+                            "0": 2667,
+                            "1": "PRISONER - SUICIDE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2668,
+                            "1": "PRISONER - ESCAPE AND RECAPTURED",
+                            "2": 0
+                        },
+                        {
+                            "0": 2672,
+                            "1": "BIOLOGICAL THREATS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2801,
+                            "1": "PARKING VIOLATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 2900,
+                            "1": "VAL - VIOLATION OF AUTO LAW - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 2901,
+                            "1": "VAL - FAILING TO SLOW - INTERSECTION",
+                            "2": 0
+                        },
+                        {
+                            "0": 2902,
+                            "1": "VAL - DRIVING TO ENDANGER ",
+                            "2": 0
+                        },
+                        {
+                            "0": 2903,
+                            "1": "VAL - SPEEDING",
+                            "2": 0
+                        },
+                        {
+                            "0": 2904,
+                            "1": "VAL - TRAFFIC SIGNALS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2906,
+                            "1": "VAL - OPERATING UNREG/UNINS CAR",
+                            "2": 0
+                        },
+                        {
+                            "0": 2908,
+                            "1": "M/V - LEAVING SCENE - PERSONAL INJURY",
+                            "2": 0
+                        },
+                        {
+                            "0": 2909,
+                            "1": "VAL - M/V STICKER",
+                            "2": 0
+                        },
+                        {
+                            "0": 2910,
+                            "1": "VAL - OPERATING AFTER REV/SUSP.",
+                            "2": 0
+                        },
+                        {
+                            "0": 2911,
+                            "1": "VAL - USING M/V W/O AUTHORITY UNLAWFUL",
+                            "2": 0
+                        },
+                        {
+                            "0": 2912,
+                            "1": "VAL - M/V CURFEW RESTRICTING 16-18Y",
+                            "2": 0
+                        },
+                        {
+                            "0": 2913,
+                            "1": "VAL - REFUSING TO STOP FOR POLICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 2914,
+                            "1": "VAL - OPERATING W/O AUTHORIZATION LAWFUL",
+                            "2": 0
+                        },
+                        {
+                            "0": 2915,
+                            "1": "VAL - MISCELLANEOUS",
+                            "2": 0
+                        },
+                        {
+                            "0": 2916,
+                            "1": "VAL - PEDESTRIAN LAW",
+                            "2": 0
+                        },
+                        {
+                            "0": 2917,
+                            "1": "TOWED M/V FOR INVESTIGATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 3002,
+                            "1": "ANIMAL CONTROL - DOG BITES - ETC.",
+                            "2": 0
+                        },
+                        {
+                            "0": 3004,
+                            "1": "INJURY BICYCLE NO M/V INVOLVED",
+                            "2": 0
+                        },
+                        {
+                            "0": 3009,
+                            "1": "SUICIDE ATTEMPT",
+                            "2": 0
+                        },
+                        {
+                            "0": 3016,
+                            "1": "FIREARM/WEAPON - ACCIDENTAL INJURY / DEATH",
+                            "2": 0
+                        },
+                        {
+                            "0": 3017,
+                            "1": "FIREARM/WEAPON - ACCIDENTAL DEATH",
+                            "2": 0
+                        },
+                        {
+                            "0": 3021,
+                            "1": "DRUGS - SICK ASSIST - HEROIN",
+                            "2": 0
+                        },
+                        {
+                            "0": 3022,
+                            "1": "DRUGS - SICK ASSIST - OTHER NARCOTICS",
+                            "2": 0
+                        },
+                        {
+                            "0": 3023,
+                            "1": "DRUGS - SICK ASSIST - HARMFUL DRUG",
+                            "2": 0
+                        },
+                        {
+                            "0": 3029,
+                            "1": "PRISONER - SUICIDE / SUICIDE ATTEMPT",
+                            "2": 0
+                        },
+                        {
+                            "0": 3040,
+                            "1": "DEATH INVESTIGATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 3102,
+                            "1": "INVESTIGATION FOR ANOTHER AGENCY",
+                            "2": 0
+                        },
+                        {
+                            "0": 3107,
+                            "1": "EXPLOSIONS",
+                            "2": 0
+                        },
+                        {
+                            "0": 3109,
+                            "1": "SERVICE TO OTHER PD INSIDE OF MA.",
+                            "2": 0
+                        },
+                        {
+                            "0": 3116,
+                            "1": "HARBOR INCIDENT / VIOLATION",
+                            "2": 0
+                        },
+                        {
+                            "0": 3117,
+                            "1": "LABOR & STRIKE REPORT",
+                            "2": 0
+                        },
+                        {
+                            "0": 3122,
+                            "1": "AIRCRAFT INCIDENTS",
+                            "2": 0
+                        },
+                        {
+                            "0": 3123,
+                            "1": "EXPLOSIVES - TURNED IN OR FOUND",
+                            "2": 0
+                        },
+                        {
+                            "0": 3130,
+                            "1": "SEARCH WARRANT",
+                            "2": 0
+                        },
+                        {
+                            "0": 3151,
+                            "1": "HARASSING PHONE CALLS ",
+                            "2": 0
+                        },
+                        {
+                            "0": 3152,
+                            "1": "INVESTIGATION FOR ANOTHER AGENCY",
+                            "2": 0
+                        },
+                        {
+                            "0": 3160,
+                            "1": "FIRE REPORT - CAR, BRUSH, ETC.",
+                            "2": 0
+                        },
+                        {
+                            "0": 3202,
+                            "1": "PROPERTY - LOST THEN LOCATED",
+                            "2": 0
+                        },
+                        {
+                            "0": 3203,
+                            "1": "FIREARM/WEAPON - LOST",
+                            "2": 0
+                        },
+                        {
+                            "0": 3204,
+                            "1": "FIREARM/WEAPON - LOST THEN LOCATED",
+                            "2": 0
+                        },
+                        {
+                            "0": 3206,
+                            "1": "M/V PLATES - LOST THEN LOCATED",
+                            "2": 0
+                        },
+                        {
+                            "0": 3208,
+                            "1": "PROPERTY - MISSING",
+                            "2": 0
+                        },
+                        {
+                            "0": 3209,
+                            "1": "PROPERTY - MISSING THEN LOCATED",
+                            "2": 0
+                        },
+                        {
+                            "0": 3210,
+                            "1": "PROPERTY - ABANDONED",
+                            "2": 0
+                        },
+                        {
+                            "0": 3302,
+                            "1": "GATHERING CAUSING ANNOYANCE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3303,
+                            "1": "NOISY PARTY/RADIO-ARREST",
+                            "2": 0
+                        },
+                        {
+                            "0": 3304,
+                            "1": "NOISY PARTY/RADIO-NO ARREST",
+                            "2": 0
+                        },
+                        {
+                            "0": 3305,
+                            "1": "DEMONSTRATIONS/RIOT",
+                            "2": 0
+                        },
+                        {
+                            "0": 3403,
+                            "1": "PROTECTIVE CUSTODY / SAFEKEEPING",
+                            "2": 0
+                        },
+                        {
+                            "0": 3404,
+                            "1": "ESCORT DUTY",
+                            "2": 0
+                        },
+                        {
+                            "0": 3408,
+                            "1": "POLICE SERVICES - TRAFFIC ETC.",
+                            "2": 0
+                        },
+                        {
+                            "0": 3412,
+                            "1": "LOCKOUT SERVICE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3414,
+                            "1": "PROTECTIVE CUSTODY - ALCOHOL",
+                            "2": 0
+                        },
+                        {
+                            "0": 3612,
+                            "1": "RACIAL - RELIGIOUS REPORT",
+                            "2": 0
+                        },
+                        {
+                            "0": 3620,
+                            "1": "REPORT AFFECTING OTHER DEPTS.",
+                            "2": 0
+                        },
+                        {
+                            "0": 3701,
+                            "1": "M/V ACCIDENT - PROPERTY DAMAGE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3702,
+                            "1": "M/V ACCIDENT - PERSONAL INJURY",
+                            "2": 0
+                        },
+                        {
+                            "0": 3704,
+                            "1": "M/V ACCIDENT - POLICE VEHICLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3706,
+                            "1": "M/V ACCIIDENT - OTHER CITY VEHICLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3709,
+                            "1": "M/V ACCIDENT - INVOLVING BICYCLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3712,
+                            "1": "M/V ACCIDENT - OTHER",
+                            "2": 0
+                        },
+                        {
+                            "0": 3805,
+                            "1": "M/V ACCIDENT - POLICE VEHICLE",
+                            "2": 0
+                        },
+                        {
+                            "0": 3810,
+                            "1": "M/V ACCIDENT - INVOLVING BICYCLE - INJURY",
+                            "2": 0
+                        },
+                        {
+                            "0": 3811,
+                            "1": "M/V ACCIDENT - INVOLVING BICYCLE - NO INJURY",
+                            "2": 0
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "o_code",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4
+                            }
+                        },
+                        {
+                            "title": "description",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17
+                            }
+                        },
+                        {
+                            "title": "num_occurrences",
+                            "field": "2",
+                            "dataType": {
+                                "type": 4
+                            }
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 425 records retrieved in 2.893ms"
+                    },
+                    "totalRowCount": 425,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "-- 9\n\nSELECT  offense_code.o_code,\n        offense_code.description,\n        COUNT(incidents.o_code) as 'num_occurrences'\n\nFROM incidents\nRIGHT JOIN offense_code on offense_code.o_code = incidents.o_code\n\nGROUP BY offense_code.description, offense_code.o_code\nORDER BY (COUNT(incidents.o_code)) DESC"
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 64,
+                "end": 64,
                 "language": "mysql",
                 "currentHeight": 180,
-                "statements": []
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 4
+                        },
+                        "contentStart": 0,
+                        "state": 3
+                    }
+                ]
             },
             "data": []
         }
