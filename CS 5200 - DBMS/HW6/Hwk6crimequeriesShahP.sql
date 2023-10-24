@@ -58,6 +58,7 @@ INNER JOIN offense_code on offense_code.o_code = incidents.o_code
 WHERE offense_code.description LIKE '%rape%'
 GROUP BY incidents.o_code, district_code, occurred_date;
 
+
 -- 9
 SELECT  offense_code.o_code,
         offense_code.description,
@@ -70,3 +71,41 @@ GROUP BY offense_code.description, offense_code.o_code
 ORDER BY (COUNT(incidents.o_code)) DESC;
 
 
+-- 10
+SELECT  COUNT(incidents.incident_id) AS `num_crimes`,
+        district.district_code,
+        district.district_name
+
+FROM incidents
+INNER JOIN district ON district.district_code = incidents.district_code
+GROUP BY district.district_code, district.district_name;
+
+
+
+-- 11 
+SELECT  offense_code.o_code,
+        COUNT(DISTINCT incidents.district_code) AS `num_districts`
+        
+
+FROM offense_code
+
+LEFT JOIN incidents ON incidents.o_code = offense_code.o_code
+GROUP BY offense_code.o_code
+ORDER BY `num_districts` DESC;
+
+
+-- 12
+
+
+
+-- 18
+SELECT  
+        offense_code.o_code,
+        offense_code.description
+
+FROM offense_code
+
+LEFT JOIN incidents on incidents.o_code = offense_code.o_code
+
+GROUP BY offense_code.o_code, offense_code.description
+HAVING COUNT(incidents.incident_id) = 0;
