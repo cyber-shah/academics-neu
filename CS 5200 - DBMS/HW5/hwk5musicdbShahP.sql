@@ -1,6 +1,7 @@
 use musicShahP;
 
 -- 1 SELECT
+-- @block
 select artist_name, record_label_id from artists;
 -- ------------------------------------------------
 
@@ -216,7 +217,7 @@ select 	artists.artist_name,
         order by(most_songs) desc;
 -- ------------------------------------------------
 
-
+-- @block
 -- 18 Artist who PERFORMED most number of songs
 select 	artists.artist_name,
 		count(artist_performs_song.sid) as num_songs
