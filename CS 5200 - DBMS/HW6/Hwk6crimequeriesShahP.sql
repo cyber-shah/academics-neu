@@ -95,7 +95,74 @@ ORDER BY `num_districts` DESC;
 
 
 -- 12
+SELECT  incidents.incident_id,
+        district.district_name,
+        offense_code.description,
+        incidents.occurred_date
 
+FROM incidents
+
+INNER JOIN district on district.district_code = incidents.district_code
+INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+
+WHERE incidents.occurred_date > '2022-12-25' AND incidents.occurred_date < '2022-12-29' 
+
+ORDER BY incidents.occurred_date ASC;
+
+
+-- 13 select only one now!
+SELECT  district.district_name,
+        offense_code.description,
+        offense_code.o_code,
+        COUNT(incidents.incident_id) 
+
+FROM district
+
+INNER JOIN incidents on district.district_code = incidents.district_code
+INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+
+GROUP BY district.district_name, offense_code.description, offense_code.o_code;
+
+
+-- 14
+
+
+
+-- 15
+
+
+-- 16
+SELECT
+    DAYNAME(incidents.occurred_date) AS day_name,
+    COUNT(incidents.incident_id) AS daily_incidents
+
+FROM incidents
+
+GROUP BY day_name
+
+ORDER BY CASE
+    WHEN day_name = 'Monday' THEN 1
+    WHEN day_name = 'Tuesday' THEN 2
+    WHEN day_name = 'Wednesday' THEN 3
+    WHEN day_name = 'Thursday' THEN 4
+    WHEN day_name = 'Friday' THEN 5
+    WHEN day_name = 'Saturday' THEN 6
+    WHEN day_name = 'Sunday' THEN 7
+END;
+
+
+-- 17
+SELECT AVG(subquery.daily_incidents)
+
+FROM (
+    SELECT  
+        DATE(incidents.occurred_date),
+        COUNT(incidents.incident_id) AS daily_incidents
+
+    FROM incidents
+
+    GROUP BY DATE(incidents.occurred_date)
+) AS subquery;
 
 
 -- 18
