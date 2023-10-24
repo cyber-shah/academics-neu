@@ -1,3 +1,4 @@
+-- @block
 USE crime_db2022shahp;
 
 select * from district;
@@ -5,18 +6,18 @@ select * from incidents;
 select * from neighbourhood;
 select * from offense_code;
 
-
--- 4
-SELECT  COUNT(incident_id) AS `num_crimes`, 
-        DATE(occurred_date) AS occurred_date
+-- @block 4 
+-- number of crimes per day
+SELECT  DATE(occurred_date) AS occurred_date,
+        COUNT(incident_id) AS `num_crimes`
 
 FROM incidents
 
 GROUP BY DATE(occurred_date)
 ORDER BY DATE(occurred_date) ASC;
 
-
--- 5
+-- @block 5 
+-- street with the most crimes
 SELECT  street,
         COUNT(incident_id) as `num_crimes`
 
@@ -27,7 +28,8 @@ ORDER BY(COUNT(incident_id)) DESC
 LIMIT 1;
 
 
--- 6
+-- @block 6
+-- max crimes that could have occurred in - north end
 SELECT COUNT(incident_id) as `num_crimes`
 
 FROM incidents
@@ -36,7 +38,8 @@ GROUP BY (district_code)
 HAVING district_code = 'A1';
 
 
--- 7
+-- @block 7
+-- crimes occurred in hyde park
 SELECT COUNT(incident_id) as `num_crimes`
 
 FROM incidents
@@ -45,21 +48,24 @@ WHERE incidents.district_code = 'E18'
 GROUP BY incidents.district_code;
 
 
--- 8 
+-- @block 8 
+-- rape crimes, ordered by date and then district
 SELECT  COUNT(incident_id) as `num_crimes`,
         incidents.o_code,
-        district_code,
-        occurred_date,
+        incidents.district_code,
+        incidents.occurred_date,
         offense_code.description
 
 FROM incidents
 INNER JOIN offense_code on offense_code.o_code = incidents.o_code
 
 WHERE offense_code.description LIKE '%rape%'
-GROUP BY incidents.o_code, district_code, occurred_date;
+GROUP BY incidents.o_code, incidents.district_code, incidents.occurred_date
+ORDER BY incidents.occurred_date DESC, incidents.district_code DESC;
 
 
--- 9
+-- @block 9
+-- number of crimes per offense code
 SELECT  offense_code.o_code,
         offense_code.description,
         COUNT(incidents.o_code) as 'num_occurrences'
@@ -71,22 +77,25 @@ GROUP BY offense_code.description, offense_code.o_code
 ORDER BY (COUNT(incidents.o_code)) DESC;
 
 
--- 10
+-- @block 10
+-- number of crimes per district
 SELECT  COUNT(incidents.incident_id) AS `num_crimes`,
         district.district_code,
         district.district_name
 
 FROM incidents
 INNER JOIN district ON district.district_code = incidents.district_code
-GROUP BY district.district_code, district.district_name;
+GROUP BY district.district_code, district.district_name
+ORDER BY `num_crimes` DESC;
 
 
 
--- 11 
+-- @block 11 
+-- for each offense code, number of districts that have had that crime
 SELECT  offense_code.o_code,
-        COUNT(DISTINCT incidents.district_code) AS `num_districts`
+        COUNT(DISTINCT incidents.district_code) AS `num_districts`,
+        offense_code.description
         
-
 FROM offense_code
 
 LEFT JOIN incidents ON incidents.o_code = offense_code.o_code
@@ -94,7 +103,9 @@ GROUP BY offense_code.o_code
 ORDER BY `num_districts` DESC;
 
 
--- 12
+
+-- @block 12
+-- crimes that occurred between 12/25/2022 and 12/28/2022
 SELECT  incidents.incident_id,
         district.district_name,
         offense_code.description,
@@ -110,7 +121,9 @@ WHERE incidents.occurred_date > '2022-12-25' AND incidents.occurred_date < '2022
 ORDER BY incidents.occurred_date ASC;
 
 
--- 13 select only one now!
+
+-- @block 13 select only one now!
+-- TODO : this!
 SELECT  district.district_name,
         offense_code.description,
         offense_code.o_code,
@@ -124,14 +137,33 @@ INNER JOIN offense_code on offense_code.o_code = incidents.o_code
 GROUP BY district.district_name, offense_code.description, offense_code.o_code;
 
 
--- 14
+-- @block 14
+-- for each offense code, aggregate districts and number of times it took place
+SELECT offense_code.description,
+         GROUP_CONCAT(DISTINCT district.district_name) AS districts,
+         COUNT(incidents.incident_id) AS num_crimes
+
+FROM offense_code
+INNER JOIN incidents on incidents.o_code = offense_code.o_code
+INNER JOIN district on district.district_code = incidents.district_code
+
+GROUP BY offense_code.description
+ORDER BY num_crimes DESC;
+
+-- @block 15
+-- crimes per hour of day between 18:00 to 23:59
+SELECT  HOUR(incidents.occurred_date) AS hour_day,
+        COUNT(incidents.incident_id)
+
+FROM incidents
+GROUP BY hour_day
+HAVING hour_day BETWEEN 18 AND 24
+ORDER BY hour_day ASC;
 
 
-
--- 15
-
-
--- 16
+-- @block 16
+-- number of crimes per day of the week
+/** TODO : remove case */
 SELECT
     DAYNAME(incidents.occurred_date) AS day_name,
     COUNT(incidents.incident_id) AS daily_incidents
@@ -151,7 +183,8 @@ ORDER BY CASE
 END;
 
 
--- 17
+-- @block 17
+-- average number of crimes per day
 SELECT AVG(subquery.daily_incidents)
 
 FROM (
@@ -165,7 +198,8 @@ FROM (
 ) AS subquery;
 
 
--- 18
+-- @block 18
+-- crimes that were never committed
 SELECT  
         offense_code.o_code,
         offense_code.description

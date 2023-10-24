@@ -93,9 +93,9 @@ ORDER BY `num_crimes` DESC;
 -- @block 11 
 -- for each offense code, number of districts that have had that crime
 SELECT  offense_code.o_code,
-        COUNT(DISTINCT incidents.district_code) AS `num_districts`
+        COUNT(DISTINCT incidents.district_code) AS `num_districts`,
+        offense_code.description
         
-
 FROM offense_code
 
 LEFT JOIN incidents ON incidents.o_code = offense_code.o_code
@@ -122,25 +122,59 @@ ORDER BY incidents.occurred_date ASC;
 
 
 
--- @block 13 select only one now!
-SELECT  district.district_name,
-        offense_code.description,
-        offense_code.o_code,
-        COUNT(incidents.incident_id) 
+-- @block 13
+-- subquery : incident count for = each offense in each district
+-- outerquery : for each district in subquery, return the max num_incidents
+SELECT  d1.district_name,
+        d1.of_code,
+        d1.num_incidents
+FROM (
+    SELECT  district.district_code as d_code,
+            offense_code.o_code as of_code,
+            COUNT(incidents.incident_id) as num_incidents
+    FROM district
+    INNER JOIN incidents on district.district_code = incidents.district_code
+    INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+    GROUP BY district.district_code, offense_code.o_code
+) as d1
+INNER JOIN (
+    SELECT  district.district_code as d_code,
+            MAX(COUNT(incidents.incident_id)) as max_num_incidents
+    FROM district
+    INNER JOIN incidents on district.district_code = incidents.district_code
+    INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+    GROUP BY district.district_code
+) as d2 ON d1.d_code = d2.d_code AND d1.num_incidents = d2.max_num_incidents;
 
-FROM district
 
-INNER JOIN incidents on district.district_code = incidents.district_code
-INNER JOIN offense_code on offense_code.o_code = incidents.o_code
 
-GROUP BY district.district_name, offense_code.description, offense_code.o_code;
 
 
 -- @block 14
+-- for each offense code, aggregate districts and number of times it took place
+SELECT offense_code.description,
+         GROUP_CONCAT(DISTINCT district.district_name) AS districts,
+         COUNT(incidents.incident_id) AS num_crimes
+
+FROM offense_code
+INNER JOIN incidents on incidents.o_code = offense_code.o_code
+INNER JOIN district on district.district_code = incidents.district_code
+
+GROUP BY offense_code.description
+ORDER BY num_crimes DESC;
 
 
 
 -- @block 15
+-- crimes per hour of day between 18:00 to 23:59
+SELECT  HOUR(incidents.occurred_date) AS hour_day,
+        COUNT(incidents.incident_id)
+
+FROM incidents
+GROUP BY hour_day
+HAVING hour_day BETWEEN 18 AND 24
+ORDER BY hour_day ASC;
+
 
 
 -- @block 16
@@ -153,15 +187,9 @@ FROM incidents
 
 GROUP BY day_name
 
-ORDER BY CASE
-    WHEN day_name = 'Monday' THEN 1
-    WHEN day_name = 'Tuesday' THEN 2
-    WHEN day_name = 'Wednesday' THEN 3
-    WHEN day_name = 'Thursday' THEN 4
-    WHEN day_name = 'Friday' THEN 5
-    WHEN day_name = 'Saturday' THEN 6
-    WHEN day_name = 'Sunday' THEN 7
-END;
+ORDER BY FIELD(day_name, 
+'Monday', 'Tuesday', 'Wednesday', 
+'Thursday', 'Friday', 'Saturday', 'Sunday');
 
 
 -- @block 17
