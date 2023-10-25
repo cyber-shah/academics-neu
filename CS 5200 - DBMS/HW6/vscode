@@ -123,29 +123,45 @@ ORDER BY incidents.occurred_date ASC;
 
 
 -- @block 13
--- subquery : incident count for = each offense in each district
--- outerquery : for each district in subquery, return the max num_incidents
+-- aggregation and selection
+-- d1 : 
 SELECT  d1.district_name,
-        d1.of_code,
+        d1.of_description,
         d1.num_incidents
+
 FROM (
-    SELECT  district.district_code as d_code,
+    SELECT  district.district_name,
+            district.district_code as d_code,
             offense_code.o_code as of_code,
+            offense_code.description as of_description,
             COUNT(incidents.incident_id) as num_incidents
     FROM district
     INNER JOIN incidents on district.district_code = incidents.district_code
     INNER JOIN offense_code on offense_code.o_code = incidents.o_code
-    GROUP BY district.district_code, offense_code.o_code
+    GROUP BY district.district_name, district.district_code, offense_code.o_code, of_description
 ) as d1
-INNER JOIN (
-    SELECT  district.district_code as d_code,
-            MAX(COUNT(incidents.incident_id)) as max_num_incidents
-    FROM district
-    INNER JOIN incidents on district.district_code = incidents.district_code
-    INNER JOIN offense_code on offense_code.o_code = incidents.o_code
-    GROUP BY district.district_code
-) as d2 ON d1.d_code = d2.d_code AND d1.num_incidents = d2.max_num_incidents;
+-- COUNT total incidents GROUPED BY offense code and district
 
+INNER JOIN (
+    SELECT  d_code,
+            MAX(num_incidents) as max_num_incidents
+    
+    FROM (
+        SELECT  district.district_code as d_code,
+                COUNT(incidents.incident_id) as num_incidents
+        FROM district
+        INNER JOIN incidents on district.district_code = incidents.district_code
+        INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+        GROUP BY district.district_code, offense_code.o_code
+    ) as incident_counts
+    -- COUNT incidents for each GROUP district and offense
+    
+    GROUP BY d_code
+
+) as d2 
+-- return MAX(number of incidents) for the offense which has max number of incidents for each district
+
+ON d1.d_code = d2.d_code AND d1.num_incidents = d2.max_num_incidents;
 
 
 

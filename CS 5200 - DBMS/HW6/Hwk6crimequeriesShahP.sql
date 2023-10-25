@@ -122,19 +122,42 @@ ORDER BY incidents.occurred_date ASC;
 
 
 
--- @block 13 select only one now!
--- TODO : this!
-SELECT  district.district_name,
-        offense_code.description,
-        offense_code.o_code,
-        COUNT(incidents.incident_id) 
+-- @block 13
+-- aggregation and selection
+SELECT  d1.district_name,
+        d1.of_description,
+        d1.num_incidents
 
-FROM district
+FROM (
+    SELECT  district.district_name,
+            district.district_code as d_code,
+            offense_code.o_code as of_code,
+            offense_code.description as of_description,
+            COUNT(incidents.incident_id) as num_incidents
+    FROM district
+    INNER JOIN incidents on district.district_code = incidents.district_code
+    INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+    GROUP BY district.district_name, district.district_code, offense_code.o_code, of_description
+) as d1
+-- COUNT total incidents GROUPED BY offense code and district
 
-INNER JOIN incidents on district.district_code = incidents.district_code
-INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+INNER JOIN (
+    SELECT  d_code,
+            MAX(num_incidents) as max_num_incidents
+    FROM (
+        SELECT  district.district_code as d_code,
+                COUNT(incidents.incident_id) as num_incidents
+        FROM district
+        INNER JOIN incidents on district.district_code = incidents.district_code
+        INNER JOIN offense_code on offense_code.o_code = incidents.o_code
+        GROUP BY district.district_code, offense_code.o_code
+    ) as incident_counts
+    -- COUNT incidents for each GROUP district and offense
+    GROUP BY d_code
+) as d2 
+-- return MAX(number of incidents) for the offense which has max number of incidents for each district
+ON d1.d_code = d2.d_code AND d1.num_incidents = d2.max_num_incidents;
 
-GROUP BY district.district_name, offense_code.description, offense_code.o_code;
 
 
 -- @block 14
@@ -150,6 +173,8 @@ INNER JOIN district on district.district_code = incidents.district_code
 GROUP BY offense_code.description
 ORDER BY num_crimes DESC;
 
+
+
 -- @block 15
 -- crimes per hour of day between 18:00 to 23:59
 SELECT  HOUR(incidents.occurred_date) AS hour_day,
@@ -161,9 +186,9 @@ HAVING hour_day BETWEEN 18 AND 24
 ORDER BY hour_day ASC;
 
 
+
 -- @block 16
 -- number of crimes per day of the week
-/** TODO : remove case */
 SELECT
     DAYNAME(incidents.occurred_date) AS day_name,
     COUNT(incidents.incident_id) AS daily_incidents
@@ -172,15 +197,9 @@ FROM incidents
 
 GROUP BY day_name
 
-ORDER BY CASE
-    WHEN day_name = 'Monday' THEN 1
-    WHEN day_name = 'Tuesday' THEN 2
-    WHEN day_name = 'Wednesday' THEN 3
-    WHEN day_name = 'Thursday' THEN 4
-    WHEN day_name = 'Friday' THEN 5
-    WHEN day_name = 'Saturday' THEN 6
-    WHEN day_name = 'Sunday' THEN 7
-END;
+ORDER BY FIELD(day_name, 
+'Monday', 'Tuesday', 'Wednesday', 
+'Thursday', 'Friday', 'Saturday', 'Sunday');
 
 
 -- @block 17
