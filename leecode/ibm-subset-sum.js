@@ -1,4 +1,7 @@
-/* 
+
+/**
+ * IBM Coding Challenge
+
 1. Array Subsets
 Given an integer array, divide the array into 2 subsets A and B while respecting the following conditions:
 The intersection of A and B is null.
@@ -41,37 +44,56 @@ B's elements. If more than one subset exists, return the one with the maximal su
  * The function accepts INTEGER_ARRAY arr as parameter.
  */
 
-function subsetA(arr) {
-    // Write your code here
-    arr.sort((a, b) => a - b);
-
-    let totalSum = arr.reduce((a, b) => a + b, 0);
+/* This is too long, time out error
+1. Sort the array in decreasing order
+2. Initialize two empty subsets, A and B
+3. Iterate over the sorted array
+4. Check if the sum of A’s elements is greater than the sum of B’s elements: 
+    4.1 If not, move elements from B to A until this condition is met.
+5. Sort subset A in increasing order
+*/
+function subsetAIterative(arr) {
+    arr.sort((a,b) => b - a);
+    console.log(arr);
+    // two subsets A and B
     let A = [];
-    let B = [];
+    let B = [...arr];
+    
+    // sums to store the totals
     let sumA = 0;
-    let sumB = totalSum;
-
-    // Iterate over the sorted array
-    for (let i = arr.length - 1; i >= 0; i--) {
-        if (sumA + arr[i] <= sumB) {
+    let sumB = arr.reduce((a, b) => a + b, 0);
+    
+    // for every item in array
+    for (let i = 0; i < arr.length; i++) {
+        // keep adding to A until the sumA > sumB
+        if (sumA > sumB) {
+            break;
+        }
+        else {
             A.push(arr[i]);
             sumA += arr[i];
+            B.splice(B.indexOf(arr[i], 1));
             sumB -= arr[i];
-        } else {
-            B.push(arr[i]);
         }
     }
     
-    // Sort A in ascending order and return it
-    console.log("A = " + A);
-    console.log("Original =" + arr);
-    console.log(sumA +", " + sumB);
-    
-    // Sort A in ascending order and return it
-    A.sort((a, b) => a - b);
-    return A;
+    // debug statements
+    // console.log("A = " + A);
+    // console.log("sumA = " + sumA);
+    // console.log("sumB = " + sumB);
+    return A.sort((a, b) => a - b);
 
 }
+
+
+function subsetA(arr) {
+    
+}
+
+
+
+
+
 
 function main() {
     const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
