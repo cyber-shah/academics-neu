@@ -34,3 +34,17 @@ group by(vendor_name)
 order by(count(i.invoice_id)) desc;
 
 
+
+-- Retrieve the vendor names and the total payment amount for each vendor.
+select 	v.vendor_name,
+		sum(i.invoice_total)
+	
+from vendors as v
+
+left join invoices i on i.vendor_id = v.vendor_id
+
+group by(v.vendor_id)
+order by (sum(i.invoice_total)) desc;
+
+
+
