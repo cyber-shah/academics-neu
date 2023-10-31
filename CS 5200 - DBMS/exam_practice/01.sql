@@ -97,21 +97,66 @@ from invoices as i
 where (i.payment_date > i.invoice_due_date);
 
 
-(select 	count(i.invoice_id) as num_invoices,
-					i.vendor_id
-                    
-		from invoices as i
-        group by(i.vendor_id)
-        );
+
+-- subquery 
+(select 
+			avg(num_invoices) as avg_invoices_per_vendor
+				from 
+				(select count(i.invoice_id) as num_invoices
+						from invoices as i
+						group by(i.vendor_id)
+						order by num_invoices desc)
+						as invoice_count);
+
 
 
 -- Retrieve the vendor names and the count of invoices for vendors who have issued more invoices than the average number of invoices per vendor.
-select 	v.vendor_name,
-		count(i.invoice_id)
-					
+select 	i.vendor_id,
+		count(i.invoice_id) as num_invoices,
+        (select 
+			avg(num_invoices) as avg_invoices_per_vendor
+				from 
+				(select count(i.invoice_id) as num_invoices
+						from invoices as i
+						group by(i.vendor_id)
+						order by num_invoices desc)
+						as invoice_count) as avg_invoices_per_vendor
         
 from invoices as i
 
-left join vendors as v on v.vendor_id = i.invoice_id;
+inner join vendors as v on v.vendor_id = i.invoice_id
+
+group by (i.vendor_id)
+having (num_invoices > avg_invoices_per_vendor);
+
+
+
+
+-- List the vendor names and their associated default account descriptions for vendors who have at least one invoice with a total greater than $1,000.
+select 	i.vendor_id,
+		v.vendor_name,
+		v.default_account_number
+        
+from invoices as i
+
+inner join vendors as v on i.vendor_id = v.vendor_id
+
+where i.invoice_total > 1000
+group by i.vendor_id,
+		v.vendor_name,
+		v.default_account_number
+        
+order by vendor_id;
+
+
+
+
+-- Find the invoice numbers and their corresponding invoice dates for invoices that have payment dates earlier than the earliest payment date for invoices in the invoice archive table.
+select 	i.invoice_id,
+		i.invoice_date,
+        
+
+
+
 
 
