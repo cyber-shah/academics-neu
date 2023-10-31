@@ -34,40 +34,76 @@
  */
 
 function candies(n, arr) {
-    /*
-        start with arr[i] at 0, with 1 candy
-        if arr[i + 1] > arr[i] {
-            then candy[i + 1] = candy[i] + 1
-        }
-        keep doing this recursively until you get an increasing streak
-        else if arr[i+1] < arr[i] {
-            if (candy[i] - 1 == 0) {
-                candy[i] = candy[i] + 1;
-            }
-            else { 
-                candy[i + 1] = candy[i] - 1
-            }
-        }
-    */
-    
-    
     /**
      * [3,4]            [1,2]
-     * [3,4,3]          [1,2,1]    
+     * [3,4,3]          [1,2,1]
+     * 
+     * [3,4,3,2]        [1,2,1,0]
+     * [3,4,3,2]        [1,2,2,0]
+     * ...
      * [3,4,3,2]        [1,3,2,1]
+     * 
      * [3,4,3,2,1]      [1,4,3,2,1]
      * [3,4,3,2,1,4]    [1,4,3,2,1,2]
      * 
      * 
-     * if next (score) < prev (score)
-     *      if prev (score) 
-     *      DECREASE the candy given by 1
-     * else if next (score) > prev (score)
-     *      INCREASE the candy given by 1
      * 
+     * difference(a, b) will return the difference
+     * 
+     * start with a = 0, b = 1
+     * if difference(a, b) > 0 
+     *      then candy[b] = candy[a] + 1
+     *      a = b 
+     *      b = b + 1
+     * else if difference(a, b) < 0
+     *      if candy[a] - 1 == 0
+     *          while (difference(a,b) < 0) 
+     *              candy[a] = candy[a] + 1
+     *              candy[b] = candy[a] - 1
+     *              b = a
+     *              a = a - 1
+     *      once done with if and while
+     *      candy[b] = candy[a] - 1
      */
     
+    const difference = (a,b) => a - b;
 
+    let prev = 0, current = 1;
+    let candies = new Array(n);
+    // start with 1 
+    candies[prev] = 1;
+
+    while (prev != n) {
+        let diff = difference(prev, current);
+        // if increasing
+        
+        if (diff > 0) {
+            candies[current] = candies[prev] + 1;
+        }
+
+        // if decreasing
+        else {
+            // if previous is 1
+            if (candies[prev] == 1) {
+                // go back until the diff is increasing
+                while (diff <= 0) {
+                    // move back
+                    current = prev;
+                    prev = prev - 1;
+                    // add one to both
+                    candies[current] = candies[prev];
+                    candies[prev] = candies[prev] + 1;
+                }
+            }
+            // once this is done
+            candies[current] = candies[prev] - 1;
+        }
+
+        prev = current;
+        current = current + 1;
+    }
+
+    return candies;
 }
 
 function main() {
