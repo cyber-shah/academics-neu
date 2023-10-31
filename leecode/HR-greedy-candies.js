@@ -89,8 +89,8 @@ function candies(n, arr) {
             if (candies[prev] == 1) {
             // if previous is 1
                 while (diff <= 0 && ((candies[new_prev] == 1) || (candies[new_prev] == candies[new_current]))) {
+                    candies[new_current] = candies[prev];
                     candies[new_prev] = candies[new_prev] + 1;
-                    candies[new_current] = candies[new_current] + 1;
                     new_prev --;
                     new_current --;
                     diff = difference(arr[new_current], arr[new_prev]);
@@ -104,6 +104,7 @@ function candies(n, arr) {
 
         prev = current;
         current = current + 1;
+        console.log("Finally=");
         console.log(candies)
     }
 
