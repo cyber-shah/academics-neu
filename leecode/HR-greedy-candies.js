@@ -67,15 +67,17 @@ function candies(n, arr) {
      */
     
         
+    
     const difference = (a,b) => a - b;
 
     let prev = 0, current = 1;
     let candies = new Array(n);
     // start with 1 
     candies[prev] = 1;
-
+    console.log(candies)
+    
     for (let i = 0; current < n; i++) {
-        let diff = difference(arr[prev], arr[current]);
+        let diff = difference(arr[current], arr[prev]);
         // if increasing
         
         if (diff > 0) {
@@ -86,10 +88,19 @@ function candies(n, arr) {
         else {
             // if previous is 1
             if (candies[prev] == 1) {
-                // let new_current = prev;
-                // let new_prev = prev - 1;
+                if (candies[prev - 1] != 2) {
+                    candies[prev] = 2;
+                }
+                else {
+                    candies [prev - 1] = candies [prev - 1] + 1;
+                }
+                // let new_current = current;
+                // let new_prev = prev;
                 // // go back until the diff is increasing
                 // while (diff <= 0) {
+                //     console.log("Before Operations");
+                //     console.log(candies);
+                    
                 //     // move back
                 //     new_current = new_prev;
                 //     new_prev = new_prev - 1;
@@ -97,15 +108,19 @@ function candies(n, arr) {
                 //     candies[new_current] = candies[new_prev];
                 //     candies[new_prev] = candies[new_prev] + 1;
                     
-                //     diff = difference(arr[prev], arr[current]);
+                //     diff = difference(arr[new_current], arr[new_prev]);
+                    
+                //     console.log(candies);
+                //     console.log("After Operations");
                 // }
             }
             // once this is done
-            candies[current] = candies[prev] - 1;
+            candies[current] = 1;
         }
 
         prev = current;
         current = current + 1;
+        console.log(candies)
     }
 
     return candies.reduce((a,b) => a+b);
