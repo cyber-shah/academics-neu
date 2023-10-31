@@ -66,6 +66,7 @@ function candies(n, arr) {
      *      candy[b] = candy[a] - 1
      */
     
+        
     const difference = (a,b) => a - b;
 
     let prev = 0, current = 1;
@@ -73,8 +74,8 @@ function candies(n, arr) {
     // start with 1 
     candies[prev] = 1;
 
-    while (prev != n) {
-        let diff = difference(prev, current);
+    for (let i = 0; current < n; i++) {
+        let diff = difference(arr[prev], arr[current]);
         // if increasing
         
         if (diff > 0) {
@@ -85,15 +86,19 @@ function candies(n, arr) {
         else {
             // if previous is 1
             if (candies[prev] == 1) {
-                // go back until the diff is increasing
-                while (diff <= 0) {
-                    // move back
-                    current = prev;
-                    prev = prev - 1;
-                    // add one to both
-                    candies[current] = candies[prev];
-                    candies[prev] = candies[prev] + 1;
-                }
+                // let new_current = prev;
+                // let new_prev = prev - 1;
+                // // go back until the diff is increasing
+                // while (diff <= 0) {
+                //     // move back
+                //     new_current = new_prev;
+                //     new_prev = new_prev - 1;
+                //     // add one to both
+                //     candies[new_current] = candies[new_prev];
+                //     candies[new_prev] = candies[new_prev] + 1;
+                    
+                //     diff = difference(arr[prev], arr[current]);
+                // }
             }
             // once this is done
             candies[current] = candies[prev] - 1;
@@ -103,7 +108,7 @@ function candies(n, arr) {
         current = current + 1;
     }
 
-    return candies;
+    return candies.reduce((a,b) => a+b);
 }
 
 function main() {
