@@ -66,8 +66,6 @@ function candies(n, arr) {
      *      candy[b] = candy[a] - 1
      */
     
-        
-    
     const difference = (a,b) => a - b;
 
     let prev = 0, current = 1;
@@ -86,33 +84,19 @@ function candies(n, arr) {
 
         // if decreasing
         else {
-            // if previous is 1
+            let new_prev = prev; let new_current = current;
+
             if (candies[prev] == 1) {
-                if (candies[prev - 1] != 2) {
-                    candies[prev] = 2;
+            // if previous is 1
+                while (diff <= 0 && ((candies[new_prev] == 1) || (candies[new_prev] == candies[new_current]))) {
+                    candies[new_prev] = candies[new_prev] + 1;
+                    candies[new_current] = candies[new_current] + 1;
+                    new_prev --;
+                    new_current --;
+                    diff = difference(arr[new_current], arr[new_prev]);
+                    console.log("Inside the while loop");
+                    console.log(candies);
                 }
-                else {
-                    candies [prev - 1] = candies [prev - 1] + 1;
-                }
-                // let new_current = current;
-                // let new_prev = prev;
-                // // go back until the diff is increasing
-                // while (diff <= 0) {
-                //     console.log("Before Operations");
-                //     console.log(candies);
-                    
-                //     // move back
-                //     new_current = new_prev;
-                //     new_prev = new_prev - 1;
-                //     // add one to both
-                //     candies[new_current] = candies[new_prev];
-                //     candies[new_prev] = candies[new_prev] + 1;
-                    
-                //     diff = difference(arr[new_current], arr[new_prev]);
-                    
-                //     console.log(candies);
-                //     console.log("After Operations");
-                // }
             }
             // once this is done
             candies[current] = 1;
