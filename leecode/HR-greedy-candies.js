@@ -66,6 +66,7 @@ function candies(n, arr) {
      *      candy[b] = candy[a] - 1
      */
     
+    /* 
     const difference = (a,b) => a - b;
 
     let prev = 0, current = 1;
@@ -83,7 +84,7 @@ function candies(n, arr) {
         }
 
         // if decreasing
-        else {
+        else if (diff < 0) {
             let new_prev = prev; let new_current = current;
 
             if (candies[prev] == 1) {
@@ -102,13 +103,61 @@ function candies(n, arr) {
             candies[current] = 1;
         }
 
+        else {
+            if (candies[prev] == 1){
+                candies[current] = candies[prev] + 1;
+            }
+            else {
+                candies[current] = candies[prev] - 1;
+            }
+            
+        }
+
         prev = current;
         current = current + 1;
         console.log("Finally=");
         console.log(candies)
     }
 
-    return candies.reduce((a,b) => a+b);
+    return candies.reduce((a,b) => a+b); 
+    */
+
+    /*
+    Attempt 2 :
+    loop from left to right
+    if current > prev
+        candies[current] = candies[prev] + 1
+    if current < prev
+        candies[current] = candies[prev] - 1;
+
+    
+    loop from right to left
+    if current < prev 
+        candies 
+    
+    
+    */
+
+    // everyone gets one candy at least
+    let candies = new Array(n).fill(1);
+    let current = 1, prev = 0;
+
+    for (var i = 1; i < n; i++) {
+        if (arr[current] > arr[prev]) {
+            candies[current] = candies[prev] + 1;
+        }
+        current ++, prev ++;
+    }
+
+    current = n - 2;
+    prev = n - 1;
+    for (var i = n - 1; i = 0; i --) {
+        if (arr[current] > arr[prev] && candies[current] >! candies[prev]) {
+            candies[current] = candies[prev] + 1;
+        } 
+    }
+    
+    return candies.reduce((aggregator, value) => aggregator +=value, 0);
 }
 
 function main() {
