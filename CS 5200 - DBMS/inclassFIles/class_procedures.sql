@@ -110,3 +110,4 @@ create procedure ToKhouryDiffSkUl(IN student_id INT )
     END$$
 delimiter ;
 call ToKhoury(2);
+

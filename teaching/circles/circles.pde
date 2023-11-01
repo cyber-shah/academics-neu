@@ -7,7 +7,7 @@ void setup(){
     float y = random(100, height-100);
     float size = random(10, 60);
     float velocity = random(1, 10);
-    circles[i] = new Circle(x, y, velocity, size, random(0,255), random(0,255), random(0,255));
+    circles[i] = new Circle(x, y, velocity, size);
   }
 }
 
@@ -49,9 +49,13 @@ class Circle{
   }
   
   void move(){
+    velocity += 1.5;
     y += velocity;
     if((y > (height - size/2)) || (y < size/2)){
       velocity *= -1;
+    }
+    else if (y > (height - size / 3) ) {
+      velocity = 0;
     }
   }
 }
