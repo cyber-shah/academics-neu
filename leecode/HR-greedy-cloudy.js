@@ -38,8 +38,35 @@
  */
 
 function maximumPeople(p, x, y, r) {
-    // Return the maximum number of people that will be in a sunny town after removing exactly one cloud.
+    // p = population of the town(p1, p2, ... , pi)
+    // x = location of the town(x1, x2, ....., xi)
+    // y = location of clouds(y1, y2, ......, yi)
+    // r = range of clouds r_i is the range of cloud y_i
+    let max_score = 0;
+    let max_cloud = 0;
 
+    // for all clouds [i]
+    for (var i = 0; i < y.length; i++) {
+        var start_cloud = y[i] - r[i]; 
+        var end_cloud = y[i] + r[i];
+        var current_score = 0;
+        // for all towns [j]
+        for (var j = 0; j < x.length ; j++) {
+            console.log("comparing " + start_cloud + " " + x[j] + " " + end_cloud)
+            if (start_cloud <= x[j] && x[j] <= end_cloud) {
+                console.log("getting score, adding city " + j)
+                current_score += p[j]
+            }
+        }
+        if(current_score > max_score) {
+            max_score = current_score;
+            max_cloud = i;
+            console.log("max score so far " + max_score);
+            console.log("best cloud " + i)
+        }
+    }
+
+    return max_score;
 }
 
 function main() {
