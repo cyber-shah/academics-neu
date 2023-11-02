@@ -1,6 +1,6 @@
 class Circle{
   float x, y, velocity, size, r, g, b;
-  float lifespan;
+  float lifespan = 10;
   
   Circle(float xpos, float ypos, float vel, float s){
     x = xpos;
@@ -10,7 +10,16 @@ class Circle{
     r = 0;
     g = 0;
     b = 0;
-    lifespan = random(1, 18);
+  }
+  
+  Circle(float xpos, float ypos, float vel, float s, float red, float green, float blue){
+    x = xpos;
+    y = ypos;
+    velocity = vel;
+    size = s;
+    r = red;
+    g = green;
+    b = blue;
   }
   
   void display(){
@@ -23,7 +32,6 @@ class Circle{
     if((y > (height - size/2)) || (y < size/2)){
       velocity *= -1;
     }
-    
-    lifespan -= 0.3;
+    lifespan -= 0.1;
   }
 }

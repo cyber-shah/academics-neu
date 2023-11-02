@@ -1,3 +1,7 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'aH24fkWu*}Q';
+
+
+
 /** 
 database procedures
 database programming objects
@@ -110,3 +114,4 @@ create procedure ToKhouryDiffSkUl(IN student_id INT )
     END$$
 delimiter ;
 call ToKhoury(2);
+

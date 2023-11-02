@@ -1,29 +1,22 @@
 class Circle{
-  float x, y, velocity, size, r, g, b;
-  float lifespan;
+  float x, y, velocity, size;
   
   Circle(float xpos, float ypos, float vel, float s){
     x = xpos;
     y = ypos;
     velocity = vel;
     size = s;
-    r = 0;
-    g = 0;
-    b = 0;
-    lifespan = random(1, 18);
   }
   
   void display(){
-    fill(this.r, this.g, this.b);
+    fill(0);
     ellipse(x, y, size, size);
   }
   
   void move(){
     y += velocity;
     if((y > (height - size/2)) || (y < size/2)){
-      velocity *= -1;
+    velocity *= -1;
     }
-    
-    lifespan -= 0.3;
   }
 }

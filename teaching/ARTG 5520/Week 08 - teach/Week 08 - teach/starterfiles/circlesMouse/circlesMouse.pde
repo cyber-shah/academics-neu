@@ -15,13 +15,11 @@ void draw(){
   for(int i = circles.size() - 1; i >= 0; i--){
     Circle c = circles.get(i);
     if(c.lifespan <= 0){
-    circles.remove(i);
+      circles.remove(i);
     }
   }
-  
 }
 
 void mouseClicked() {
-  float r = random (10, 30); 
-  float k = randonm
+  circles.add(new Circle(mouseX, mouseY, random(1,10), random(1,60)));
 }
