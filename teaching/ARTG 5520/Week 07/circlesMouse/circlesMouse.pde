@@ -11,4 +11,4 @@ void draw(){
     c.move();
     c.display();
   }
-}
+}  
