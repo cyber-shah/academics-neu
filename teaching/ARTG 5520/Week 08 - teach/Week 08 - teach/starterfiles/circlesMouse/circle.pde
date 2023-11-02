@@ -1,5 +1,6 @@
 class Circle{
   float x, y, velocity, size, r, g, b;
+  float lifespan = 10;
   
   Circle(float xpos, float ypos, float vel, float s){
     x = xpos;
@@ -31,5 +32,6 @@ class Circle{
     if((y > (height - size/2)) || (y < size/2)){
       velocity *= -1;
     }
+    lifespan -= 0.1;
   }
 }
