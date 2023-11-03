@@ -11,6 +11,14 @@ void draw(){
     c.move();
     c.display();
   }
+  
+  for (int i = 0; i < circles.size(); i++) {
+    println("Starting the for loop with size : " + circles.size());
+     if (circles.get(i).lifeSpan < 0) {
+       circles.remove(i);
+       println("After removing " + circles.size());
+     }
+  }
 }
 
 void mousePressed(){

@@ -2,6 +2,7 @@ class Circle{
   PVector pos;
   PVector vel;
   float size;
+  float lifeSpan = 2;
   
   Circle(float xpos, float ypos){
     pos = new PVector(xpos, ypos);
@@ -17,6 +18,7 @@ class Circle{
   void display(){
     fill(0);
     ellipse(pos.x, pos.y, size, size);
+    lifeSpan -= 0.01;
   }
   
   void move(){
