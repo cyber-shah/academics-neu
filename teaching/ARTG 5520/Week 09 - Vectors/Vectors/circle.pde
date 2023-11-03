@@ -4,9 +4,14 @@ class Circle{
   float size;
   
   Circle(float xpos, float ypos){
-    size = 20;
     pos = new PVector(xpos, ypos);
     vel = new PVector(-3, -3);
+    
+    // create a random speed and then adjust size based on it
+    float speed = random(1, 20);
+    // Map the speed to the size of the circle
+    size = map(speed, 1, 20, 50, 10); 
+    vel.setMag(speed); 
   }
   
   void display(){
