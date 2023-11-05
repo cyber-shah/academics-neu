@@ -200,6 +200,64 @@ SELECT MORE_FOLLOWERS('Low Hum', 'Vulfpeck');
 SELECT MORE_FOLLOWERS('Low Hum', 'Still Woozy');
 
 
+
+-- 7
+-- Create a procedure named create_song( title_p, artist_p, record_label_p, mood_p, genre_p, album_title) 
+-- that inserts a song  into the database . Make sure you create the appropriate tuples in the album and 
+-- other required tables before attempting to insert the song.  
+-- Also, ensure that the specified record label, genre name and mood name already exist in the database. 
+-- If they do not exist, use SIGNAL with error number 450000.  When adding a song, it can be associated with
+-- a known artist’s current existing album or the song could belong to a new album for the artist. 
+-- Also, assume the producer of the song performs on the song. 
+-- (HINT: The combination of album name and musician is unique for each album. ) 
+-- Insert the following song  into the song table.Title = “Me about You” , Artist = “The Turtles”,  
+-- recording_label  = “Def Jam Recordings“ , genre = “Pop”, mood = “Calm”, album = “Happy Together”. 
+-- Please also provide SELECT statements that verify the tuples have been inserted into the appropriate tables.  (10 points)
+DELIMITER $$
+CREATE PROCEDURE create_song (
+	title_p VARCHAR(50),
+	artist_p VARCHAR(50), 
+	record_label_p VARCHAR(50),
+	mood_p VARCHAR(50),
+	genre_p VARCHAR(50),
+	album_title VARCHAR(50)
+)
+BEGIN
+	DECLARE fetch_mood_id INT;
+	DECLARE fetch_genre_id INT;
+	DECLARE fetch_record_id INT;
+    DECLARE fetch_alid INT;
+        
+	SELECT gid INTO fetch_genre_id FROM genres WHERE genre_name = genre_p LIMIT 1;
+	IF fetch_genre_id IS NULL THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Genre not found in database';
+	END IF;
+
+	SELECT mid INTO fetch_mood_id FROM moods WHERE mood_name = mood_p LIMIT 1;
+	IF fetch_mood_id IS NULL THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mood not found in database';
+	END IF;
+
+	SELECT rid INTO fetch_record_id FROM record_label WHERE label_name = record_label_p LIMIT 1;
+	IF fetch_record_id IS NULL THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Record not found in database';
+	END IF;
+    
+    SELECT alid INTO fetch_alid FROM albums WHERE album_name = album_title LIMIT 1;
+	IF fetch_record_id IS NULL THEN
+		INSERT INTO albums 		(album_name)
+        VALUES					(album_title);
+	END IF;
+
+    
+    INSERT INTO songs	(song_name, mood_p, genre_p)
+    VALUES 				(title_p, mood_p, genre_p);
+END $$
+DELIMITER ;
+
+
+
+
 -- 8. Write a procedure named get_songs_with_mood() that accepts a mood name and  
 -- returns the song name, the mood name, mood description and the artist who released the song. (5 points)
 DELIMITER $$
