@@ -225,3 +225,11 @@ DELIMITER ;
 
 call get_songs_with_mood('Happy');
 call get_songs_with_mood('Calm');
+
+
+
+
+-- 10. Create a procedure named update_all_artists_num_releases( ) that assigns the artist.num_releases  
+-- to the correct value. The correct value is determined by the number of albums the artist has released. 
+-- Use the procedure from problem 9 to complete this procedure. 
+-- You will need a cursor and a handler to complete this procedure (5 points)
