@@ -143,6 +143,9 @@ BEGIN
 END $$
 DELIMITER ;
 
+call get_song_details('Escape');
+call get_song_details('Habit');
+call get_song_details('');
 
 
 
@@ -197,4 +200,28 @@ SELECT MORE_FOLLOWERS('Low Hum', 'Vulfpeck');
 SELECT MORE_FOLLOWERS('Low Hum', 'Still Woozy');
 
 
+-- 8. Write a procedure named get_songs_with_mood() that accepts a mood name and  
+-- returns the song name, the mood name, mood description and the artist who released the song. (5 points)
+DELIMITER $$
+CREATE PROCEDURE get_songs_with_mood (input_name VARCHAR(50))
+BEGIN
+	SELECT 
+		s.song_name,
+		m.mood_name,
+        m.mood_description,
+        artists.artist_name
+	FROM
+		songs AS s
+			LEFT JOIN
+		albums AS al ON al.alid = s.album_id
+			LEFT JOIN
+		artists ON artists.artist_name = al.artist
+			LEFT JOIN
+		moods AS m ON m.mid = s.mood_id
+	WHERE 
+		m.mood_name = input_name;
+END $$
+DELIMITER ;
 
+call get_songs_with_mood('Happy');
+call get_songs_with_mood('Calm');
