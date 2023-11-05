@@ -48,16 +48,38 @@ call get_artists_with_label('Capitol Music Group');
 -- If a genre is provided that is not found in the genre table, generate an error from the procedure 
 -- stating that the passed genre is not valid and use SIGNAL to throw error ‘45000’.  (10 points)
 
+drop procedure if exists song_has_genre;
+
 DELIMITER $$
-CREATE PROCEDURE song_has_genre (
-	input_name VARCHAR(50)
-)
+CREATE PROCEDURE song_has_genre (input_name VARCHAR(50))
 BEGIN
+  DECLARE genre_count INT;
 
+  SELECT COUNT(*) INTO genre_count
+  FROM genres
+  WHERE genre_name = input_name;
 
+  IF genre_count = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Genre not found in database';
+  ELSE
+    SELECT 
+      songs.sid, songs.song_name, albums.album_name
+    FROM
+      songs
+        INNER JOIN
+      albums ON albums.alid = songs.album_id
+        INNER JOIN
+      genres ON genres.gid = songs.genre_id
+    WHERE
+      genres.genre_name = input_name;
+  END IF;
 END $$
 DELIMITER ;
 
+
+select * from genres;
+call song_has_genre('Rock');
+call song_has_genre('Hey');
 
 
 
@@ -87,6 +109,42 @@ DELIMITER ;
 SELECT ALBUM_LENGTH(1);
 SELECT ALBUM_LENGTH(2);
 SELECT ALBUM_LENGTH(4);
+
+
+
+-- 5. Write a procedure  named get_song_details()  that accepts a song name as an argument  
+-- and returns the song name, the song id, the recording label, the album name, the genre name and 
+-- the mood name. (10 points)
+
+DELIMITER $$
+CREATE PROCEDURE get_song_details (input_name VARCHAR(50))
+BEGIN
+	SELECT 
+		s.song_name,
+		s.sid,
+		r.label_name,
+		al.album_name,
+		g.genre_name,
+		m.mood_name
+	FROM
+		songs AS s
+			LEFT JOIN
+		albums AS al ON al.alid = s.album_id
+			LEFT JOIN
+		artists ON artists.artist_name = al.artist
+			LEFT JOIN
+		record_label AS r ON r.rid = artists.record_label_id
+			LEFT JOIN
+		genres AS g ON g.gid = s.genre_id
+			LEFT JOIN
+		moods AS m ON m.mid = s.mood_id
+	WHERE 
+		s.song_name = input_name;
+END $$
+DELIMITER ;
+
+
+
 
 
 -- 6 
