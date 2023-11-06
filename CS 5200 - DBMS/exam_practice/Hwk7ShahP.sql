@@ -292,6 +292,11 @@ SELECT * FROM artist_performs_song
 WHERE sid = (SELECT sid FROM songs
 WHERE song_name = 'Me about You');
 
+
+
+
+
+
 -- 8. Write a procedure named get_songs_with_mood() that accepts a mood name and  
 -- returns the song name, the mood name, mood description and the artist who released the song. (5 points)
 DELIMITER $$
@@ -321,7 +326,79 @@ call get_songs_with_mood('Calm');
 
 
 
--- 10. Create a procedure named update_all_artists_num_releases( ) that assigns the artist.num_releases  
+-- 9. 
+-- Modify the artists table to contain a field called num_released of type INTEGER and write a procedure called set_num_released_count(artist)  
+-- that accepts an artist name and initializes the num_released field to the number of albums the artist has released. 
+-- The artist table modification can occur outside or inside of the procedure but must be executed only once. (10 points)
+DROP PROCEDURE IF EXISTS set_num_released_count;
+
+ALTER TABLE artists ADD COLUMN num_released INT;
+DELIMITER $$
+CREATE PROCEDURE set_num_released_count (
+	input_artist VARCHAR(50)
+)
+BEGIN
+	DECLARE count_albums INT;
+    
+	SELECT COUNT(alid) INTO count_albums
+	FROM albums 
+	WHERE artist = input_artist;
+    
+	UPDATE artists
+	SET num_released = count_albums
+	WHERE artist_name = input_artist;
+    
+END $$
+DELIMITER ;
+
+CALL set_num_released_count('Vulfpeck');
+SELECT * FROM artists;
+
+
+
+
+
+-- 10. 
+-- Create a procedure named update_all_artists_num_releases( ) that assigns the artist.num_releases  
 -- to the correct value. The correct value is determined by the number of albums the artist has released. 
 -- Use the procedure from problem 9 to complete this procedure. 
 -- You will need a cursor and a handler to complete this procedure (5 points)
+DELIMITER $$
+CREATE PROCEDURE update_all_artists_num_releases()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE a_name VARCHAR(50);
+    
+    DECLARE cur CURSOR FOR SELECT artist_name FROM artists;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO a_name;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        CALL set_num_released_count(a_name);
+    END LOOP;
+    
+    CLOSE cur;
+END$$
+DELIMITER ;
+
+CALL update_all_artists_num_releases();
+
+
+
+-- 11.
+-- Write a trigger that updates the artist table when an album  tuple is inserted into the database. 
+-- The trigger will need to  assign the correct value of albums released for the artist. Name the trigger 
+-- artist_update_after_insert_album. Insert an album  into the album table to verify your trigger is working;  
+-- The album name  = “Justice”, Artist = “Justin Beiber”. (10 points)
+DELIMITER $$
+CREATE TRIGGER artist_update_after_insert_album
+AFTER INSERT ON albums
+FOR 
