@@ -213,6 +213,7 @@ SELECT MORE_FOLLOWERS('Low Hum', 'Still Woozy');
 -- Insert the following song  into the song table.Title = “Me about You” , Artist = “The Turtles”,  
 -- recording_label  = “Def Jam Recordings“ , genre = “Pop”, mood = “Calm”, album = “Happy Together”. 
 -- Please also provide SELECT statements that verify the tuples have been inserted into the appropriate tables.  (10 points)
+DROP PROCEDURE IF EXISTS create_song;
 DELIMITER $$
 CREATE PROCEDURE create_song (
 	title_p VARCHAR(50),
@@ -227,7 +228,10 @@ BEGIN
 	DECLARE fetch_genre_id INT;
 	DECLARE fetch_record_id INT;
     DECLARE fetch_alid INT;
-        
+    DECLARE fetch_artist_name VARCHAR(50);
+    DECLARE fetch_aid INT;
+	DECLARE fetch_sid INT; 
+    
 	SELECT gid INTO fetch_genre_id FROM genres WHERE genre_name = genre_p LIMIT 1;
 	IF fetch_genre_id IS NULL THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Genre not found in database';
@@ -243,20 +247,50 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Record not found in database';
 	END IF;
     
-    SELECT alid INTO fetch_alid FROM albums WHERE album_name = album_title LIMIT 1;
-	IF fetch_record_id IS NULL THEN
-		INSERT INTO albums 		(album_name)
-        VALUES					(album_title);
-	END IF;
-
     
-    INSERT INTO songs	(song_name, mood_p, genre_p)
-    VALUES 				(title_p, mood_p, genre_p);
+    -- look for artists now
+    SELECT artist_name INTO fetch_artist_name FROM artists WHERE artist_name = artist_p LIMIT 1;
+	IF fetch_artist_name IS NULL THEN
+		INSERT INTO artists 	(artist_name, record_label_id)
+		VALUES 					(artist_p, fetch_record_id);
+	END IF;
+	SELECT artist_name INTO fetch_artist_name FROM artists WHERE artist_name = artist_p LIMIT 1;
+	SELECT aid INTO fetch_aid FROM artists WHERE artist_name = artist_p LIMIT 1;
+    
+    -- albums now
+    SELECT alid INTO fetch_alid FROM albums WHERE album_name = album_title LIMIT 1;
+	IF fetch_alid IS NULL THEN
+		INSERT INTO albums 		(album_name, artist)
+        VALUES					(album_title, artist_p);
+	END IF;
+	-- after adding get the alid
+	SELECT alid INTO fetch_alid FROM albums WHERE album_name = album_title LIMIT 1;
+	
+    
+	-- insert finally into song
+    INSERT INTO songs	(song_name, mood_id, genre_id, album_id)
+    VALUES 				(title_p, fetch_mood_id, fetch_genre_id, fetch_alid);
+    
+    SELECT sid INTO fetch_sid FROM songs WHERE (song_name = title_p AND album_id = fetch_alid) LIMIT 1;
+    
+    
+    -- insert into artist_performs
+    INSERT INTO artist_performs_song 	(sid, aid)
+	VALUES 								(fetch_sid, fetch_aid);
+    
 END $$
 DELIMITER ;
 
+-- add it to the database
+CALL create_song ('Me about You', 'The Turtles', 'Def Jam Recordings', 'Calm', 'Pop', 'Happy Together');
 
-
+-- check if it has been added
+SELECT * FROM songs
+WHERE song_name = 'Me about You';
+-- from artist_performs
+SELECT * FROM artist_performs_song
+WHERE sid = (SELECT sid FROM songs
+WHERE song_name = 'Me about You');
 
 -- 8. Write a procedure named get_songs_with_mood() that accepts a mood name and  
 -- returns the song name, the mood name, mood description and the artist who released the song. (5 points)
