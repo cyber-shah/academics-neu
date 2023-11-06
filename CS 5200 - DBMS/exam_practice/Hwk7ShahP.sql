@@ -459,7 +459,9 @@ DEALLOCATE PREPARE stmt;
 -- 14. 
 -- Create and execute a prepared statement from the SQL workbench that calls the function num_songs_with_genre(genre_p) . 
 -- Use a user session variable to pass the genre name to the function. Pass the value  “Rock” as the length  (5 points)
-
-
+PREPARE stmt FROM 'SELECT num_songs_with_genre(?)';
+SET @genre = 'Rock'; 
+EXECUTE stmt USING @genre;
+DEALLOCATE PREPARE stmt;
 
 
