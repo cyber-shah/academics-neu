@@ -390,6 +390,7 @@ END$$
 DELIMITER ;
 
 CALL update_all_artists_num_releases();
+SELECT * FROM artists;
 
 
 
@@ -401,4 +402,64 @@ CALL update_all_artists_num_releases();
 DELIMITER $$
 CREATE TRIGGER artist_update_after_insert_album
 AFTER INSERT ON albums
-FOR 
+FOR EACH ROW -- for each row inserted in albums
+BEGIN 
+	UPDATE artists 
+    SET num_released = num_released + 1
+    WHERE artist_name = NEW.artist; -- where artist_name is equal to the new row that was inserted
+END $$
+DELIMITER ;
+
+INSERT INTO albums 	(album_name, artist)
+VALUES 				('Justice', 'Justin Beiber');
+INSERT INTO albums 	(album_name, artist)
+VALUES 				('Justice 2', 'Justin Beiber');
+SELECT * FROM artists;
+
+
+
+-- 12.
+-- Write a trigger that updates the artist table when an album is deleted from the album table. 
+-- The trigger will need to assign the correct value to the   artist.num_released field for the corresponding artist. 
+-- Name the trigger artist_update_after_delete_artist. Delete  an album  from the album table to verify your trigger is working;
+-- The album name  = “Justice”, Artist = “Justin Beiber”. (5 points)
+DELIMITER $$
+CREATE TRIGGER artist_update_after_delete_artist
+AFTER DELETE ON albums
+FOR EACH ROW 
+BEGIN
+	UPDATE artists
+    SET num_released = num_released - 1
+    WHERE artist_name = OLD.artist; 
+END $$
+DELIMITER ;
+
+
+DELETE FROM albums WHERE album_name = 'Justice 2' AND artist = 'Justin Beiber';
+DELETE FROM albums WHERE album_name = 'Justice' AND artist = 'Justin Beiber';
+SELECT * FROM artists;
+
+
+
+
+-- 13.
+-- Create and execute a prepared statement from the SQL workbench that calls the function more_followers(artist1,artist2). 
+-- Use 2 user session variables to pass the two arguments to the function. Pass the values “Vanilla” and “The Turtles” as the author values.  (5 points)
+SET @artist1 = 'Vanilla';
+SET @artist2 = 'The Turtles';
+
+PREPARE stmt FROM 'SELECT more_followers(?, ?)';
+EXECUTE stmt USING @artist1, @artist2;
+DEALLOCATE PREPARE stmt;
+
+
+
+
+
+-- 14. 
+-- Create and execute a prepared statement from the SQL workbench that calls the function num_songs_with_genre(genre_p) . 
+-- Use a user session variable to pass the genre name to the function. Pass the value  “Rock” as the length  (5 points)
+
+
+
+
