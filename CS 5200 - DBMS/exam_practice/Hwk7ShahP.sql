@@ -20,9 +20,10 @@ DELIMITER ;
 SELECT NUM_SONGS_WITH_GENRE('none');
 SELECT NUM_SONGS_WITH_GENRE('Rock');
 
--- 2. Write a procedure get_artists_with_label(label_p) that accepts a record label name and 
--- returns a result set of all artist names and the corresponding label name. (5 points) 
 
+-- 2. 
+-- Write a procedure get_artists_with_label(label_p) that accepts a record label name and 
+-- returns a result set of all artist names and the corresponding label name. (5 points) 
 DELIMITER $$
 CREATE PROCEDURE get_artists_with_label (
 	input_label VARCHAR(50)
@@ -297,7 +298,8 @@ WHERE song_name = 'Me about You');
 
 
 
--- 8. Write a procedure named get_songs_with_mood() that accepts a mood name and  
+-- 8. 
+-- Write a procedure named get_songs_with_mood() that accepts a mood name and  
 -- returns the song name, the mood name, mood description and the artist who released the song. (5 points)
 DELIMITER $$
 CREATE PROCEDURE get_songs_with_mood (input_name VARCHAR(50))
