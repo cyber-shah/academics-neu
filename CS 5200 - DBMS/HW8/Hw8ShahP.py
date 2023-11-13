@@ -28,6 +28,7 @@ def main():
         except Exception as e:
             print("Invalid userId or password")
 
+
     # 4. Print all the genres
     genre_dict = Functions.printGenres(cursor)
 
@@ -41,18 +42,18 @@ def main():
     # 6. Use the genre  as an argument to the song_has_genre(genre_p) . 
     # Call the procedure.
     cursor.callproc("song_has_genre", [ str(genre_dict[genreInput]) ])
-    # print the results
+    
+    # 7. print the results
     print("Songs with genre: " + genre_dict[genreInput])
     for result in cursor.stored_results():
         rows = result.fetchall()
         for row in rows:
             print(row)
 
-
-
-
+    # 8. Once the records are written to standard output, 
+    #close the connection to the database and end the application program.
     cursor.close()
-
+    connection.close()
 
 
 
