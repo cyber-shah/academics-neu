@@ -22,13 +22,13 @@ def printGenres(db_manager):
 
 
 
-def validateInputs(genre_dict):
+def validateInputs(input_dict, ask_string):
     # Validate user input for integer
     while True:
-        genreInput = input("Please enter a music genre ID: ")
+        userInput = input(ask_string)
         try:
-            genreInput = int(genreInput)
-            if genreInput in genre_dict:
+            userInput = int(userInput)
+            if userInput in input_dict:
                 break  # Exit the loop if the input is a valid ID
             else:
                 print("Please enter a valid ID.")
@@ -37,7 +37,6 @@ def validateInputs(genre_dict):
 
 
     # At this point, genreInput contains a valid genre ID
-    selected_genre_name = genre_dict[genreInput]
-    print(f"You selected: {selected_genre_name}")
+    print(f"You selected: {userInput} - {input_dict[userInput]}")
 
-    return genreInput
+    return userInput
