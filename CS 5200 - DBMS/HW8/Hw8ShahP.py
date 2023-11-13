@@ -1,36 +1,8 @@
 import mysql.connector
-
-
-class DatabaseManager:
-    def __init__(self, host, user, password, database):
-        self.host = host
-        self.user = user
-        self.password = password
-        self.database = database
-        self.connection = None
-        self.cursor = None
-
-    def connect(self):
-        self.connection = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database
-        )
-        self.cursor = self.connection.cursor()
-
-    def execute_query(self, query):
-        self.cursor.execute(query)
-        return self.cursor.fetchall()
-
-    def close_connection(self):
-        if self.cursor:
-            self.cursor.close()
-        if self.connection:
-            self.connection.close()
-
+from DatabaseManager import DatabaseManager
 
 def main():
+    print("Hello and welcome to the music database!")
     # Replace these values with your MySQL server information
     host = "localhost"
     user = input("Enter MySQL username: ")
@@ -44,17 +16,61 @@ def main():
         # Establish a connection to the MySQL server
         db_manager.connect()
 
-        # Execute a query
-        query = "SELECT * FROM albums"
-        results = db_manager.execute_query(query)
+        # 1. print all the genres
+        genre_dict = printGenres(db_manager)
 
-        # Print the results
-        for row in results:
-            print(row)
+        # 2. validate input
+        genreInput = validateInputs(genre_dict)
+
+
 
     finally:
         # Close the connection
         db_manager.close_connection()
+
+
+
+"""
+Prints genres and returns a dictionary
+"""
+def printGenres(db_manager):
+
+    results = db_manager.execute_query("Select gid, genre_name from genres")
+    # store everything inside a dictionary
+    genre_dict = {}
+    for row in results:
+        genre_id, genre_name = row
+        genre_dict[genre_id] = genre_name
+
+    # Print the results
+    for genre_id, genre_name in genre_dict.items():
+        print(f"Genre ID: {genre_id}, Name: {genre_name}")
+
+    return genre_dict
+
+
+
+
+def validateInputs(genre_dict):
+    # Validate user input for integer
+    while True:
+        genreInput = input("Please enter a music genre ID: ")
+        try:
+            genreInput = int(genreInput)
+            if genreInput in genre_dict:
+                break  # Exit the loop if the input is a valid ID
+            else:
+                print("Please enter a valid ID.")
+        except ValueError:
+            print("Please enter a valid integer.")
+
+
+    # At this point, genreInput contains a valid genre ID
+    selected_genre_name = genre_dict[genreInput]
+    print(f"You selected: {selected_genre_name}")
+
+    return genreInput
+
 
 if __name__ == "__main__":
     main()
