@@ -30,14 +30,36 @@ def main():
 
 
     # 4. Print all the genres
-    genre_dict = Functions.printGenres(cursor)
+    cursor.execute("Select gid, genre_name from genres")
+    results = cursor.fetchall()
+    # store everything inside a dictionary
+    genre_dict = {}
+    for row in results:
+        genre_id, genre_name = row
+        genre_dict[genre_id] = genre_name
+    # Print the results
+    for genre_id, genre_name in genre_dict.items():
+        print(f"Genre ID: {genre_id}, Name: {genre_name}")
+
+
 
     # 3. Prompt the user to enter a particular music genre. 
     # Store the result in a host language variable.
-    # validate input
-    # 5. Generate an error message to standard output and re-prompt the 
-    # user for input, if the user provides invalid input.
-    genreInput = Functions.validateInputs(genre_dict, "Please enter a GenreID : ")
+    while True:
+        genreInput = input("Please enter a GenreID : ")
+        try:
+            genreInput = int(genreInput)
+            if genreInput in genre_dict:
+                break
+            else:
+                print("Please enter a valid ID.")
+        # 5. Generate an error message to standard output and re-prompt the 
+        # user for input, if the user provides invalid input.
+        except ValueError:
+            print("Please enter a valid integer.")
+    # At this point, genreInput contains a valid genre ID
+    print(f"You selected: {genreInput} - {genre_dict[genreInput]}")
+
 
     # 6. Use the genre  as an argument to the song_has_genre(genre_p) . 
     # Call the procedure.
