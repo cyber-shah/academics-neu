@@ -27,3 +27,7 @@ class DatabaseManager:
             self.cursor.close()
         if self.connection:
             self.connection.close()
+
+    def callproc (self, proc):
+        self.cursor.execute(query)
+        return self.cursor.fetchall()

@@ -4,9 +4,10 @@ from DatabaseManager import DatabaseManager
 """
 Prints genres and returns a dictionary
 """
-def printGenres(db_manager):
+def printGenres(cursor):
 
-    results = db_manager.execute_query("Select gid, genre_name from genres")
+    cursor.execute("Select gid, genre_name from genres")
+    results = cursor.fetchall()
     # store everything inside a dictionary
     genre_dict = {}
     for row in results:
@@ -18,8 +19,6 @@ def printGenres(db_manager):
         print(f"Genre ID: {genre_id}, Name: {genre_name}")
 
     return genre_dict
-
-
 
 
 def validateInputs(input_dict, ask_string):
