@@ -1,5 +1,4 @@
 import mysql.connector
-import Functions
 
 def main():
     print("Hello and welcome to the music database!")
