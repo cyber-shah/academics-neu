@@ -21,7 +21,7 @@ class Particle{
     acc.normalize();
    
     vel.add(acc);
-    vel.mult(0.99);
+    vel.mult(1);
     pos.add(vel);
   }
   
