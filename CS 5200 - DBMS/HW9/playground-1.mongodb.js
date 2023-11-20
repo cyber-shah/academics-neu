@@ -225,6 +225,7 @@ print(db.listingsAndReviews.find(twentyTwo).count());
 const twentyFour = 
 {
     'host.host_name': { $eq: "Ali" },
+    "host.host_identity_verified" : true
 }
 db.listingsAndReviews.find(twentyFour);
 
