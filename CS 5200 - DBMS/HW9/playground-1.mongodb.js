@@ -233,11 +233,59 @@ db.listingsAndReviews.find(twentyFour);
 print(db.listingsAndReviews.find(twentyFour).count());
 
 
-// Write a filter to return all documents where the first amenity  listed is “Wifi”. 
+
+
+
+
+
+// Write a filter to return all documents where the first amenity listed is “Wifi”. 
 // How many records are returned for question 27? 
+
+
+
+
+
+
+
 // Write  a filter to return all documents where one of the amenities begins with the letter ‘H”. 
 // How many records are returned for question 29? 
+
+
+
+
+
+
+
+
 // Write a filter to return all documents.
+const thirty =
+{
+
+}
+db.listingsAndReviews.find(thirty);
+
 // How many records are returned for question 31?
-// Write a filter that returns all documents that have a market equal to: “Hong Kong”, “New York”, “Porto”,  “Sydney” or “Istanbul” in the address field.
+print(db.listingsAndReviews.find(thirty).count());
+
+
+
+
+
+
+
+// Write a filter that returns all documents that have a market equal to: 
+// “Hong Kong”, “New York”, “Porto”,  “Sydney” or “Istanbul” in the address field.
+const thirtyTwo =
+{
+    "address.market": {
+        $or: [
+            "Hong Kong",
+            "New York",
+            'Porto',
+            'Sydney',
+            'Istanbul'
+        ]
+    }
+}
+db.listingsAndReviews.find(thirtyTwo);
 // How many records are returned for question 33? 
