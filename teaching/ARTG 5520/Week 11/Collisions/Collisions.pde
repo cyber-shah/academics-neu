@@ -3,6 +3,8 @@ class Circle{
   PVector vel;
   float radius;
   color co;
+  boolean hovered = false;
+
   
   Circle(float x, float y){
     pos = new PVector(x, y);
@@ -17,7 +19,13 @@ class Circle{
   }
   
   void display(){
-    noStroke();
+    if(hovered){
+      strokeWeight(2);
+      stroke(0, 0, 100);
+      } 
+    else{
+      noStroke();
+    }
     fill(co);
     circle(pos.x, pos.y, radius * 2);
   }
