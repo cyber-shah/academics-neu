@@ -14,9 +14,6 @@ use('sample_airbnb');
 
 
 
-
-
-
 // Write a filter to return all documents where the listed property type is Chalet 
 // and the chalet has at least 1 bedroom. 
 db.listingsAndReviews.find({
@@ -223,17 +220,18 @@ print(db.listingsAndReviews.find(twentyTwo).count());
 
 
 
-
 // Write a filter to return all documents where the host name is  “Ali”, 
 // and the identity is verified.(host_identity_verified) 
 const twentyFour = 
 {
     'host.host_name': { $eq: "Ali" },
-    host_identity_verified : true
 }
 db.listingsAndReviews.find(twentyFour);
 
 // How many records are returned for question 25? 
+// print(db.listingsAndReviews.find(twentyFour).count());
+
+
 // Write a filter to return all documents where the first amenity  listed is “Wifi”. 
 // How many records are returned for question 27? 
 // Write  a filter to return all documents where one of the amenities begins with the letter ‘H”. 
