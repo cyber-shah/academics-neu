@@ -275,17 +275,16 @@ print(db.listingsAndReviews.find(thirty).count());
 
 // Write a filter that returns all documents that have a market equal to: 
 // “Hong Kong”, “New York”, “Porto”,  “Sydney” or “Istanbul” in the address field.
-const thirtyTwo =
-{
-    "address.market": {
-        $or: [
-            "Hong Kong",
-            "New York",
-            'Porto',
-            'Sydney',
-            'Istanbul'
-        ]
-    }
-}
+const thirtyTwo = {
+  $or: [
+    { "address.market": "Hong Kong" },
+    { "address.market": "New York" },
+    { "address.market": "Porto" },
+    { "address.market": "Sydney" },
+    { "address.market": "Istanbul" }
+  ]
+};
 db.listingsAndReviews.find(thirtyTwo);
+
 // How many records are returned for question 33? 
+print(db.listingsAndReviews.find(thirtyTwo).count());
