@@ -230,7 +230,7 @@ const twentyFour =
 db.listingsAndReviews.find(twentyFour);
 
 // How many records are returned for question 25? 
-// print(db.listingsAndReviews.find(twentyFour).count());
+print(db.listingsAndReviews.find(twentyFour).count());
 
 
 // Write a filter to return all documents where the first amenity  listed is “Wifi”. 
