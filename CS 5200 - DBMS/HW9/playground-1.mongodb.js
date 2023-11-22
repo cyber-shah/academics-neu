@@ -22,10 +22,10 @@ db.listingsAndReviews.find({
 });
 
 // How many records are returned for question 1?
-print(db.listingsAndReviews.countDocuments({
+db.listingsAndReviews.countDocuments({
     property_type: 'Chalet',
     bedrooms: { $gte: 1 }
-}));
+});
 
 
 
@@ -39,10 +39,10 @@ db.listingsAndReviews.find(
     { 'address.country': 'Turkey', 'host.host_is_superhost': true });
     
 // How many records are returned for question 3?
-print(db.listingsAndReviews.countDocuments({
+db.listingsAndReviews.countDocuments({
     'address.country': 'Turkey',
     'host.host_is_superhost': true
-}));
+});
 
 
 
@@ -52,13 +52,12 @@ print(db.listingsAndReviews.countDocuments({
 // Write a filter to return all documents that can accommodate exactly 2 people. 
 db.listingsAndReviews.find(
     { accommodates: { $eq: 2 }, extra_people : {$eq : 0.00} },
-    { _id: 1, accommodates: 1, extra_people: 1 }
 );
 
 // How many records are returned for question 7?
-print(db.listingsAndReviews.countDocuments(
+db.listingsAndReviews.countDocuments(
     { accommodates: { $eq: 2 }, extra_people: { $eq: 0.00 } }
-));
+);
 
 
 
@@ -72,9 +71,9 @@ db.listingsAndReviews.find(
 );
 
 // How many records are returned for question 9?
-print(db.listingsAndReviews.countDocuments(
+db.listingsAndReviews.countDocuments(
     {cancellation_policy: 'moderate', price: {$lte : 50}}
-));
+);
 
 
 
@@ -88,9 +87,9 @@ db.listingsAndReviews.find(
 );
 
 // How many records are returned for question 11?
-print(db.listingsAndReviews.countDocuments(
+db.listingsAndReviews.countDocuments(
     { amenities: { $all: ["TV", "Wifi"] } }
-));
+);
 
 
 
@@ -100,20 +99,17 @@ print(db.listingsAndReviews.countDocuments(
 
 // Write a filter to return all documents where the number of bedrooms is 
 // not provided(null or undefined).
-db.listingsAndReviews.find({
+const thirteen = 
+{
     $or: [
         { bedrooms: null },
         { bedrooms: undefined }
     ]
-});
+};
+db.listingsAndReviews.find(thirteen);
 
 // How many records are returned for question 13?
-print(db.listingsAndReviews.countDocuments(
-    {$or: [
-        { bedrooms: null },
-        { bedrooms: undefined }
-    ]}
-));
+db.listingsAndReviews.find(thirteen).count();
 
 
 
@@ -122,7 +118,7 @@ print(db.listingsAndReviews.countDocuments(
 // Write a filter to return all documents where the host location is 
 // "Montreal, Quebec, Canada" and the host has been verified via a  
 // “government_id” and a “phone”. 
-const fourteen = 
+const fifteen = 
     {
         'address.street': 'Montréal, Québec, Canada',
         'host.host_verifications': {
@@ -132,10 +128,10 @@ const fourteen =
             ]
         }
     };
-db.listingsAndReviews.find(fourteen);
+db.listingsAndReviews.find(fifteen);
 
 // How many records are returned for question 15?
-print(db.listingsAndReviews.find(fourteen).count());
+db.listingsAndReviews.find(fifteen).count();
 
 
 
@@ -144,15 +140,15 @@ print(db.listingsAndReviews.find(fourteen).count());
 
 // Write a filter to return all documents where the property type is  
 // Serviced apartment and have a cleanliness review score > 9. 
-const sixteen =
+const seventeen =
     {
         property_type: "Serviced apartment",
         'review_scores.review_scores_cleanliness': { $gt: 9 }
     };
-db.listingsAndReviews.find(sixteen);
+db.listingsAndReviews.find(seventeen);
 
 // How many records are returned for question 17?
-db.listingsAndReviews.find(sixteen).count();
+db.listingsAndReviews.find(seventeen).count();
 
 
 
@@ -162,7 +158,7 @@ db.listingsAndReviews.find(sixteen).count();
 
 // Write a filter to return all documents where cancellation policy is 
 // “flexible” or “super_strict_60” and  picture urls for images are provided.
-const eighteen = 
+const nineteen = 
 {
     $or : [
         {cancellation_policy: 'flexible'},
@@ -170,10 +166,10 @@ const eighteen =
     ],
     'images.picture_url' : {$exists : true}
 }
-db.listingsAndReviews.find(eighteen);
+db.listingsAndReviews.find(nineteen);
 
 // How many records are returned for question 19?
-db.listingsAndReviews.find(eighteen).count();
+db.listingsAndReviews.find(nineteen).count();
 
 
 
@@ -183,24 +179,24 @@ db.listingsAndReviews.find(eighteen).count();
 
 // Write a filter to return all documents mentioning the word  “clean” in the reviews and 
 // having a review score cleanliness greater than 9. 
-const twenty =
+const twentyOne =
 {
     'review_scores.review_scores_cleanliness': { $gt: 9 },
     'reviews.comments': {
         $regex: /clean/
     }
 };
-db.listingsAndReviews.find(twenty);
+db.listingsAndReviews.find(twentyOne);
 
 // How many records are returned for question 21? 
-db.listingsAndReviews.find(twenty).count();
+db.listingsAndReviews.find(twentyOne).count();
 
 
 
 
 // Write a filter to return all documents with property type “Resort” 
 // that have all of  the following amenities: “Wifi”, “Hot tub”, “Wheelchair accessible”. 
-const twentyTwo = 
+const twentyThree = 
 {
     property_type: "Resort",
     amenities: {
@@ -211,26 +207,26 @@ const twentyTwo =
         ]
     }
 }
-db.listingsAndReviews.find(twentyTwo);
+db.listingsAndReviews.find(twentyThree);
 
 
 // How many records are returned for question 23? 
-db.listingsAndReviews.find(twentyTwo).count();
+db.listingsAndReviews.find(twentyThree).count();
 
 
 
 
 // Write a filter to return all documents where the host name is  “Ali”, 
 // and the identity is verified.(host_identity_verified) 
-const twentyFour = 
+const twentyFive = 
 {
     'host.host_name': { $eq: "Ali" },
     "host.host_identity_verified" : true
 }
-db.listingsAndReviews.find(twentyFour);
+db.listingsAndReviews.find(twentyFive);
 
 // How many records are returned for question 25? 
-db.listingsAndReviews.find(twentyFour).count();
+db.listingsAndReviews.find(twentyFive).count();
 
 
 
@@ -239,12 +235,12 @@ db.listingsAndReviews.find(twentyFour).count();
 
 
 // Write a filter to return all documents where the first amenity listed is “Wifi”. 
-const twentySix = {
+const twentySeven = {
     "amenities.0": "Wifi"
 }
-db.listingsAndReviews.find(twentySix);
+db.listingsAndReviews.find(twentySeven);
 // How many records are returned for question 27? 
-db.listingsAndReviews.find(twentySix).count();
+db.listingsAndReviews.find(twentySeven).count();
 
 
 
@@ -252,25 +248,29 @@ db.listingsAndReviews.find(twentySix).count();
 
 
 // Write  a filter to return all documents where one of the amenities begins with the letter ‘H”. 
-
+const twentyNine = {
+    "amenities": {
+        $regex: /^H/
+    }
+}
+db.listingsAndReviews.find(twentyNine);
 // How many records are returned for question 29? 
+db.listingsAndReviews.find(twentyNine).count();
 
 
 
 
 
 
+// Write a filter to return all documents.
+const thirtyOne =
+{
 
-
-// // Write a filter to return all documents.
-// const thirty =
-// {
-
-// }
-// db.listingsAndReviews.find(thirty);
+}
+db.listingsAndReviews.find(thirtyOne);
 
 // // How many records are returned for question 31?
-// print(db.listingsAndReviews.find(thirty).count());
+db.listingsAndReviews.find(thirtyOne).count();
 
 
 
@@ -280,16 +280,16 @@ db.listingsAndReviews.find(twentySix).count();
 
 // Write a filter that returns all documents that have a market equal to: 
 // “Hong Kong”, “New York”, “Porto”,  “Sydney” or “Istanbul” in the address field.
-// const thirtyTwo = {
-//   $or: [
-//     { "address.market": "Hong Kong" },
-//     { "address.market": "New York" },
-//     { "address.market": "Porto" },
-//     { "address.market": "Sydney" },
-//     { "address.market": "Istanbul" }
-//   ]
-// };
-// db.listingsAndReviews.find(thirtyTwo);
+const thirtyTwo = {
+  $or: [
+    { "address.market": "Hong Kong" },
+    { "address.market": "New York" },
+    { "address.market": "Porto" },
+    { "address.market": "Sydney" },
+    { "address.market": "Istanbul" }
+  ]
+};
+db.listingsAndReviews.find(thirtyTwo);
 
-// // How many records are returned for question 33? 
-// print(db.listingsAndReviews.find(thirtyTwo).count());
+// How many records are returned for question 33? 
+db.listingsAndReviews.find(thirtyTwo).count();
