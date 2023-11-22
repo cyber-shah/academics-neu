@@ -152,7 +152,7 @@ const sixteen =
 db.listingsAndReviews.find(sixteen);
 
 // How many records are returned for question 17?
-print(db.listingsAndReviews.find(sixteen).count());
+db.listingsAndReviews.find(sixteen).count();
 
 
 
@@ -173,7 +173,7 @@ const eighteen =
 db.listingsAndReviews.find(eighteen);
 
 // How many records are returned for question 19?
-print(db.listingsAndReviews.find(eighteen).count());
+db.listingsAndReviews.find(eighteen).count();
 
 
 
@@ -187,13 +187,13 @@ const twenty =
 {
     'review_scores.review_scores_cleanliness': { $gt: 9 },
     'reviews.comments': {
-        $regex: /clean/i
+        $regex: /clean/
     }
 };
 db.listingsAndReviews.find(twenty);
 
 // How many records are returned for question 21? 
-print(db.listingsAndReviews.find(twenty).count());
+db.listingsAndReviews.find(twenty).count();
 
 
 
@@ -215,7 +215,7 @@ db.listingsAndReviews.find(twentyTwo);
 
 
 // How many records are returned for question 23? 
-print(db.listingsAndReviews.find(twentyTwo).count());
+db.listingsAndReviews.find(twentyTwo).count();
 
 
 
@@ -230,7 +230,7 @@ const twentyFour =
 db.listingsAndReviews.find(twentyFour);
 
 // How many records are returned for question 25? 
-print(db.listingsAndReviews.find(twentyFour).count());
+db.listingsAndReviews.find(twentyFour).count();
 
 
 
@@ -239,8 +239,12 @@ print(db.listingsAndReviews.find(twentyFour).count());
 
 
 // Write a filter to return all documents where the first amenity listed is “Wifi”. 
+const twentySix = {
+    "amenities.0": "Wifi"
+}
+db.listingsAndReviews.find(twentySix);
 // How many records are returned for question 27? 
-
+db.listingsAndReviews.find(twentySix).count();
 
 
 
@@ -248,6 +252,7 @@ print(db.listingsAndReviews.find(twentyFour).count());
 
 
 // Write  a filter to return all documents where one of the amenities begins with the letter ‘H”. 
+
 // How many records are returned for question 29? 
 
 
@@ -257,15 +262,15 @@ print(db.listingsAndReviews.find(twentyFour).count());
 
 
 
-// Write a filter to return all documents.
-const thirty =
-{
+// // Write a filter to return all documents.
+// const thirty =
+// {
 
-}
-db.listingsAndReviews.find(thirty);
+// }
+// db.listingsAndReviews.find(thirty);
 
-// How many records are returned for question 31?
-print(db.listingsAndReviews.find(thirty).count());
+// // How many records are returned for question 31?
+// print(db.listingsAndReviews.find(thirty).count());
 
 
 
@@ -275,16 +280,16 @@ print(db.listingsAndReviews.find(thirty).count());
 
 // Write a filter that returns all documents that have a market equal to: 
 // “Hong Kong”, “New York”, “Porto”,  “Sydney” or “Istanbul” in the address field.
-const thirtyTwo = {
-  $or: [
-    { "address.market": "Hong Kong" },
-    { "address.market": "New York" },
-    { "address.market": "Porto" },
-    { "address.market": "Sydney" },
-    { "address.market": "Istanbul" }
-  ]
-};
-db.listingsAndReviews.find(thirtyTwo);
+// const thirtyTwo = {
+//   $or: [
+//     { "address.market": "Hong Kong" },
+//     { "address.market": "New York" },
+//     { "address.market": "Porto" },
+//     { "address.market": "Sydney" },
+//     { "address.market": "Istanbul" }
+//   ]
+// };
+// db.listingsAndReviews.find(thirtyTwo);
 
-// How many records are returned for question 33? 
-print(db.listingsAndReviews.find(thirtyTwo).count());
+// // How many records are returned for question 33? 
+// print(db.listingsAndReviews.find(thirtyTwo).count());
