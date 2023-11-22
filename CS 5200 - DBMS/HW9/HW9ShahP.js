@@ -22,7 +22,6 @@ db.listingsAndReviews.find({
 });
 
 // How many records are returned for question 1?
-// 2
 db.listingsAndReviews.countDocuments({
     property_type: 'Chalet',
     bedrooms: { $gte: 1 }
@@ -40,7 +39,6 @@ db.listingsAndReviews.find(
     { 'address.country': 'Turkey', 'host.host_is_superhost': true });
     
 // How many records are returned for question 3?
-// 50
 db.listingsAndReviews.countDocuments({
     'address.country': 'Turkey',
     'host.host_is_superhost': true
@@ -57,7 +55,6 @@ db.listingsAndReviews.find(
 );
 
 // How many records are returned for question 7?
-// 1288
 db.listingsAndReviews.countDocuments(
     { accommodates: { $eq: 2 }, extra_people: { $eq: 0.00 } }
 );
@@ -74,7 +71,6 @@ db.listingsAndReviews.find(
 );
 
 // How many records are returned for question 9?
-// 256 
 db.listingsAndReviews.countDocuments(
     {cancellation_policy: 'moderate', price: {$lte : 50}}
 );
@@ -91,7 +87,6 @@ db.listingsAndReviews.find(
 );
 
 // How many records are returned for question 11?
-// 4140
 db.listingsAndReviews.countDocuments(
     { amenities: { $all: ["TV", "Wifi"] } }
 );
@@ -114,7 +109,6 @@ const thirteen =
 db.listingsAndReviews.find(thirteen);
 
 // How many records are returned for question 13?
-// 5
 db.listingsAndReviews.find(thirteen).count();
 
 
@@ -137,7 +131,6 @@ const fifteen =
 db.listingsAndReviews.find(fifteen);
 
 // How many records are returned for question 15?
-// 313
 db.listingsAndReviews.find(fifteen).count();
 
 
@@ -155,7 +148,6 @@ const seventeen =
 db.listingsAndReviews.find(seventeen);
 
 // How many records are returned for question 17?
-// 62
 db.listingsAndReviews.find(seventeen).count();
 
 
@@ -177,7 +169,6 @@ const nineteen =
 db.listingsAndReviews.find(nineteen);
 
 // How many records are returned for question 19?
-// 1761
 db.listingsAndReviews.find(nineteen).count();
 
 
@@ -198,7 +189,6 @@ const twentyOne =
 db.listingsAndReviews.find(twentyOne);
 
 // How many records are returned for question 21? 
-// 1596
 db.listingsAndReviews.find(twentyOne).count();
 
 
@@ -221,7 +211,6 @@ db.listingsAndReviews.find(twentyThree);
 
 
 // How many records are returned for question 23? 
-// 2
 db.listingsAndReviews.find(twentyThree).count();
 
 
@@ -237,7 +226,6 @@ const twentyFive =
 db.listingsAndReviews.find(twentyFive);
 
 // How many records are returned for question 25? 
-// 6
 db.listingsAndReviews.find(twentyFive).count();
 
 
@@ -252,7 +240,6 @@ const twentySeven = {
 }
 db.listingsAndReviews.find(twentySeven);
 // How many records are returned for question 27? 
-// 811
 db.listingsAndReviews.find(twentySeven).count();
 
 
@@ -268,7 +255,6 @@ const twentyNine = {
 }
 db.listingsAndReviews.find(twentyNine);
 // How many records are returned for question 29? 
-// 5203
 db.listingsAndReviews.find(twentyNine).count();
 
 
@@ -283,8 +269,7 @@ const thirtyOne =
 }
 db.listingsAndReviews.find(thirtyOne);
 
-// How many records are returned for question 31?
-// 5555
+// // How many records are returned for question 31?
 db.listingsAndReviews.find(thirtyOne).count();
 
 
@@ -307,5 +292,4 @@ const thirtyTwo = {
 db.listingsAndReviews.find(thirtyTwo);
 
 // How many records are returned for question 33? 
-// 3049
 db.listingsAndReviews.find(thirtyTwo).count();
