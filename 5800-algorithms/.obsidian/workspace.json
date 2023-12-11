@@ -26,9 +26,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "bf7bc12addb989a6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Lecture 18 - MSTs.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -78,7 +90,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "a8700312452815ed",
@@ -94,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Lecture 22.md",
+                "file": "Lecture 18 - MSTs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +124,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Lecture 22.md",
+                "file": "Lecture 18 - MSTs.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +147,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Lecture 22.md"
+                "file": "Lecture 18 - MSTs.md"
               }
             }
           },
@@ -168,9 +181,10 @@
       "publish:Publish changes...": false
     }
   },
-  "active": "e32218e66fb6cce2",
+  "active": "bf7bc12addb989a6",
   "lastOpenFiles": [
-    "Pasted image 20231130122305.png",
-    "Lecture 22.md"
+    "Lecture 22.md",
+    "Lecture 18 - MSTs.md",
+    "Pasted image 20231130122305.png"
   ]
 }
