@@ -47,5 +47,38 @@ For any (directed) edge ($u,v$):
 - DAG: A directed graph with no directed cycles
 - DAGs represent precedence relationships
 ### Topological Ordering
+If a graph G is a DAG then it must be possible to topological order it.
+
+> In any DAG, there is always a node with no outgoing edges (i.e., out-degree of 0)
+
+Proof by contradiction: lets imagine that there is no node with out-degree of 0. Then, we can start at any node and follow the outgoing edges. Since there are no cycles, we will never return to the starting node. Therefore, we can keep following the outgoing edges forever, which is a contradiction because there are a finite number of nodes in the graph.\
+
+Therefore as a theorem we can say that:\
+**Theorem:** If G is a DAG, then G has a topological ordering.
+**Fact**: In any DAG there is always a node with no outgoing edges (i.e., out-degree of 0).
+
+### Topological Ordering Algorithm using DFS
+1. Init a stack S
+2. For each node u in G:
+   1. If u is not visited, call dfs(u)
+   2. In dfs(u), once all of u's neighbors are visited, push u onto S
+   3. Return from dfs(u)
+3. Return S
+4. Pop elements from S to get the topological ordering
+
+**Time Complexity**: $O(|V|+|E|)$ ( because we are using DFS and each node is visited once and each edge is visited once) 
+**Space Complexity:** $O(|V|)$ (because we are using a stack)
+
+
+
+
+# Breadth First Search
+1. Init a queue Q
+2. Add the start node s to Q
+3. While Q is not empty:
+   1. Pop the first node from Q
+   2. For each neighbor of this node:
+      1. If the neighbor is not visited, add it to Q
+      2. Mark the neighbor as visited
 
 
