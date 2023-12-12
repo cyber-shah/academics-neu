@@ -22,8 +22,14 @@ def dfs_directed(graph, start, visited):
         for neighbor in graph[start]:
             dfs_directed(graph, neighbor, visited)
 ```
+### Time and Space Complexity:
+In the worst case, where all vertices and edges are explored, the time complexity is 
+$O(V + E)$, where V is the number of vertices and E is the number of edges.
+
+This is because each vertex and each edge is visited once. The adjacency list representation allows us to efficiently iterate over the neighbors of a vertex, resulting in a linear time complexity proportional to the sum of vertices and edges.
 
 ### Kinds of edges
+
 ![[Pasted image 20231212131612.png]]
 - **Tree Edge:** An edge in the DFS tree.
 - **Back Edge:** An edge that goes from a node to one of its ancestors in the DFS tree.
@@ -81,4 +87,14 @@ Therefore as a theorem we can say that:\
       1. If the neighbor is not visited, add it to Q
       2. Mark the neighbor as visited
 
+![[Pasted image 20231212174245.png]]
 
+### Time and Space Complexity:
+In the worst case, where all vertices and edges are explored, the time complexity is 
+$O(V + E)$, where V is the number of vertices and E is the number of edges.
+
+
+# Strongly Connected Components
+**Definition**: In a directed graph, we say two vertices $u$ and $v$ are strongly connected if there is a path from $v$ to $u$ and a path from $u$ to $v$.
+
+> Algorithm to find strongly connected components: DFS!
