@@ -16,3 +16,4 @@ Let $T = ∅$
 	- If adding , would decrease the number of connected components add $e$ to $T$.
 - Time complexity: $m(logn)$ 
 - Correctness: every edge we add is $safe$ and every edge we don’t add is $useless$
+

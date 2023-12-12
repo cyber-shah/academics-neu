@@ -8,14 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "080201854e8440b5",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
             "id": "e32218e66fb6cce2",
             "type": "leaf",
             "state": {
@@ -34,6 +26,18 @@
               "type": "markdown",
               "state": {
                 "file": "Lecture 18 - MSTs.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "9e784b9cd18ea6c0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "14 - Graphs.md",
                 "mode": "source",
                 "source": false
               }
@@ -107,7 +111,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Lecture 18 - MSTs.md",
+                "file": "14 - Graphs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -124,7 +128,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Lecture 18 - MSTs.md",
+                "file": "14 - Graphs.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -147,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Lecture 18 - MSTs.md"
+                "file": "14 - Graphs.md"
               }
             }
           },
@@ -181,10 +185,12 @@
       "publish:Publish changes...": false
     }
   },
-  "active": "bf7bc12addb989a6",
+  "active": "9e784b9cd18ea6c0",
   "lastOpenFiles": [
     "Lecture 22.md",
     "Lecture 18 - MSTs.md",
+    "14 - Graphs.md",
+    "Pasted image 20231212131612.png",
     "Pasted image 20231130122305.png"
   ]
 }
