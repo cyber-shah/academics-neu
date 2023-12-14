@@ -2,5 +2,6 @@
   "accentColor": "#00a6ff",
   "cssTheme": "Things",
   "interfaceFontFamily": "Inter",
-  "textFontFamily": "Inter"
+  "textFontFamily": "Inter",
+  "theme": "moonstone"
 }
