@@ -56,9 +56,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "0ad27a5349c84d09",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -124,7 +136,11 @@
             "state": {
               "type": "backlink",
               "state": {
+<<<<<<< HEAD
                 "file": "13-Greedy.md",
+=======
+                "file": "Untitled.md",
+>>>>>>> 7774c36 (sockets)
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -141,7 +157,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+<<<<<<< HEAD
                 "file": "13-Greedy.md",
+=======
+                "file": "Untitled.md",
+>>>>>>> 7774c36 (sockets)
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -164,7 +184,11 @@
             "state": {
               "type": "outline",
               "state": {
+<<<<<<< HEAD
                 "file": "13-Greedy.md"
+=======
+                "file": "Untitled.md"
+>>>>>>> 7774c36 (sockets)
               }
             }
           },
@@ -174,7 +198,9 @@
             "state": {
               "type": "all-properties",
               "state": {
-                "sortOrder": "frequency"
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
               }
             }
           }
@@ -198,7 +224,11 @@
       "publish:Publish changes...": false
     }
   },
+<<<<<<< HEAD
   "active": "b8934c7b6caf18d3",
+=======
+  "active": "0ad27a5349c84d09",
+>>>>>>> 7774c36 (sockets)
   "lastOpenFiles": [
     "Pasted image 20231213203646.png",
     "Pasted image 20231213203453.png",
@@ -206,6 +236,12 @@
     "Pasted image 20231213201819.png",
     "16-MSTs.md",
     "13-Greedy.md",
+<<<<<<< HEAD
+=======
+    "Untitled.md",
+    "15-WeightedGraphs.md",
+    "Images/Pasted image 20231212180430.png",
+>>>>>>> 7774c36 (sockets)
     "Lecture 22.md",
     "14-BasicGraphs.md",
     "15-WeightedGraphs.md",
