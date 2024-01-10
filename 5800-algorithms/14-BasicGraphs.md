@@ -1,5 +1,5 @@
 # Binary Graphs
-## What is a tree?
+### What is a tree?
 In graph theory, a tree is an undirected, connected, and acyclic graph. This means that there is exactly one path between any two nodes, and there are no cycles (loops). Trees are fundamental data structures in computer science and are widely used in various algorithms and applications.
 
 # Depth First Search
@@ -54,7 +54,6 @@ For any (directed) edge ($u,v$):
 - DAGs represent precedence relationships
 ### Topological Ordering
 If a graph G is a DAG then it must be possible to topological order it.
-
 > In any DAG, there is always a node with no outgoing edges (i.e., out-degree of 0)
 
 Proof by contradiction: lets imagine that there is no node with out-degree of 0. Then, we can start at any node and follow the outgoing edges. Since there are no cycles, we will never return to the starting node. Therefore, we can keep following the outgoing edges forever, which is a contradiction because there are a finite number of nodes in the graph.\

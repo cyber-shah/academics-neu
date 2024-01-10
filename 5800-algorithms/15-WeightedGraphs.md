@@ -71,7 +71,6 @@ We need to **support** the following operations:
 
 Heaps are a specialized tree-based data structure that satisfy the heap property. A heap is a complete binary tree where every node satisfies the heap property, which means that the key of each node is either always greater than or always less than the keys of its children, depending on whether it's a max-heap or a min-heap.
 ![[0*ok7-U3UxzYtOz5b9.gif]]
-
 There are two main types of heaps:
 1. **Max-Heap:**
     - In a max-heap, the key of each node is always greater than or equal to the keys of its children.
