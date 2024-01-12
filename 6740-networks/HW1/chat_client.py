@@ -1,5 +1,6 @@
 import socket
 import argparse
+import threading
 
 
 class Client:
@@ -13,8 +14,18 @@ class Client:
         print(
             f"Connected to {self.server_ip}:{self.server_port} as {self.username}")
 
-    def start(self):
-        while True:
+    def parse_input(self, input):
+        message = input.capitalize().split()
+        if message[0] == "List":
+            print("List of users:")
+        elif message[0] == "Send":
+            print("Sending message")
+        elif message[0] == "Exit":
+            print("Exiting")
+            self.sock.close()
+            exit()
+        else:
+            pass
 
 
 if __name__ == "__main__":
@@ -25,3 +36,9 @@ if __name__ == "__main__":
     parser.add_argument("-sp", help="port number", required=True)
     args = parser.parse_args()
     client = Client(args.u, args.sip, int(args.sp))
+    # start a thread to listen to messages from the server
+    threading.Thread(target=client.start).start()
+
+    while True:
+        message = input()
+        client.parse_input(message)
