@@ -10,7 +10,11 @@ class Client:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.sendto(self.username.encode(),
                          (self.server_ip, self.server_port))
-        print(f"Connected to {self.server_ip}:{self.server_port}")
+        print(
+            f"Connected to {self.server_ip}:{self.server_port} as {self.username}")
+
+    def start(self):
+        while True:
 
 
 if __name__ == "__main__":

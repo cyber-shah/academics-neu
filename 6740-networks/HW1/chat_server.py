@@ -27,9 +27,17 @@ class Server:
 
     def start(self):
         while True:
-            client_socket, client_address = self.sock.accept()
-            username = client_socket.recv(1024).decode()
-            self.clients_details[username] = {client_socket, client_address}
+            data, client_address = self.sock.recvfrom(1024)
+            host, port = client_address
+            username = data.decode()
+            if username in self.clients_details:
+                self.sock.sendto(
+                    f"Username {username} already exists, please try again".encode(), client_address)
+                continue
+            else:
+                self.sock.sendto(
+                    f"Username {username} is registered".encode(), client_address)
+            self.clients_details[username] = {'IP': host, 'PORT': port}
             print(
                 f"New connection from {self.clients_details[username]} at {username}")
             print(self.clients_details)
@@ -41,4 +49,7 @@ if __name__ == "__main__":
     parser.add_argument("-sp", help="port number", required=True)
     args = parser.parse_args()
     server = Server(int(args.sp))
-    server.start()
+    try:
+        server.start()
+    except KeyboardInterrupt:
+        print(" gracefully shutting down the server....bye!")
