@@ -80,20 +80,24 @@ class Server:
         :return a message
         """
         message = {'response': 'success',
+                   'type': 'list',
                    'message': 'List of clients\n'}
         for client in self.clients_details:
             message['message'] += f"    {client}\n"
         return message
 
-    def send_client_address(self, username):
+    def send_client_address(self, data):
         """
         Send the client address to the client
         """
+        username = data['username']
         if username not in self.clients_details:
             return {'response': 'error',
                     'message': 'Username does not exist'}
         else:
-            return self.clients_details[username]
+            return {'response': 'success',
+                    'type': 'client_address',
+                    'message': self.clients_details[username]}
 
 
 if __name__ == "__main__":
