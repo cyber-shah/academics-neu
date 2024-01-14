@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "96b0242e8ab710a4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Extra.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -69,7 +82,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "4c159b50d024aeb5",
@@ -85,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Lecture 1 - Review of Protocols.md",
+                "file": "Extra.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Lecture 1 - Review of Protocols.md",
+                "file": "Extra.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Lecture 1 - Review of Protocols.md"
+                "file": "Extra.md"
               }
             }
           }
@@ -146,8 +160,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c3a2b1c080d49450",
+  "active": "96b0242e8ab710a4",
   "lastOpenFiles": [
+    "Pasted image 20240110114417.png",
+    "Pasted image 20240109213706.png",
+    "Extra.md",
     "Lecture 1 - Review of Protocols.md",
     "Lecture Notes"
   ]

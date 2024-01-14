@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "21672039941da513",
+        "id": "aacdbe096face17f",
         "type": "tabs",
         "children": [
           {
-            "id": "eb5a569f0b831321",
+            "id": "c70c9bb346147542",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Linkedin strategy.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linkedin strategy.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linkedin strategy.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Linkedin strategy.md"
-              }
+              "state": {}
             }
           },
           {
@@ -160,7 +152,7 @@
       "audio-recorder:Start/stop recording": false
     }
   },
-  "active": "eb5a569f0b831321",
+  "active": "c70c9bb346147542",
   "lastOpenFiles": [
     "Linkedin strategy.md"
   ]
