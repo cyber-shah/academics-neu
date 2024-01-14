@@ -1,6 +1,5 @@
 import socket
 import argparse
-import threading
 import json
 
 
@@ -28,6 +27,28 @@ class Client:
             print(data['message'])
             exit()
 
+    def list(self):
+        self.sock.sendto(json.dumps({"command": "list"}).encode(),
+                         (self.server_ip, self.server_port))
+
+    def send(self, message):
+        # 1. get the destinations port and IP
+        self.sock.sendto(json.dumps({"command": "send", "username": message[1]}).encode(),
+                         (self.server_ip, self.server_port))
+        # 2. send the message to that destination port and IP
+        self.sock.sendto(json.dumps(
+                                    {"command": "client_message", "message": message[2:]}
+                        ).encode(), (self.server_ip, self.server_port))
+
+    def receive(self):
+        """
+        Receive messges from other clients
+
+        """
+
+    def exit(self):
+        pass
+
     def listen(self):
         while True:
             data, server_address = self.sock.recvfrom(1024)
@@ -38,21 +59,18 @@ class Client:
     def parse_input(self, input):
         message = input.capitalize().split()
         if message[0] == "List":
-            self.sock.sendto(json.dumps({"command": "list"}).encode(
-            ), (self.server_ip, self.server_port))
+            self.list()
         elif message[0] == "Send":
-            print("Sending message")
+            self.send(message)
         elif message[0] == "Exit":
-            print("Exiting")
-            self.sock.close()
-            exit()
+            self.exit()
         else:
             pass
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Client for chat application, \
+        description = "Client for chat application, \
         starts with -u <username> -sip <server-ip> -sp <PORT>")
     parser.add_argument("-u", help="username", required=True)
     parser.add_argument("-sip", help="server ip", required=True)
