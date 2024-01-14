@@ -20,6 +20,11 @@ class Server:
     """
     Server class to handle all the server side operations
     All messages MUST be sent in JSON format
+    {
+        'response': <response>,
+        'type': <type>,
+        'message': <message>,
+    }
     """
     clients_details = {}
 
@@ -47,6 +52,7 @@ class Server:
                 message = self.send_client_address(data)
             else:
                 message = {'response': 'error',
+                           'type': 'command',
                            'message': 'Invalid command'}
             # eventually send the message to the client
             self.sock.sendto(json.dumps(message).encode(), client_address)
@@ -62,10 +68,12 @@ class Server:
         username = data['username']
         if username in self.clients_details:
             message = {'response': 'error',
+                       'type': 'register',
                        'message': 'Username already exists'}
             return message
         else:
             message = {'response': 'success',
+                       'type': 'register',
                        'message': 'Welcome to the chat app'}
             self.clients_details[username] = {
                 'IP': client_address[0], 'PORT': client_address[1]}
@@ -81,6 +89,7 @@ class Server:
         """
         message = {'response': 'success',
                    'type': 'list',
+                   "sender": "server",
                    'message': 'List of clients\n'}
         for client in self.clients_details:
             message['message'] += f"    {client}\n"
@@ -93,9 +102,12 @@ class Server:
         username = data['username']
         if username not in self.clients_details:
             return {'response': 'error',
+                    'sender': 'server',
+                    'type': 'client_address',
                     'message': 'Username does not exist'}
         else:
             return {'response': 'success',
+                    'sender': 'server',
                     'type': 'client_address',
                     'message': self.clients_details[username]}
 

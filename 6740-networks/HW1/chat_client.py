@@ -5,6 +5,24 @@ import threading
 
 
 class Client:
+    """
+    Client supports the following commands:
+    1. list: list all the clients connected to the server
+    2. send <username> <message>: send a message to a particular client
+
+    All messages sent from the client must be in the following format:
+    {
+        'command': <command>,
+        'username': <username>,
+
+        'response': <response>,
+        'sender': <sender>,
+        'type': <type>,
+        'message': <message>,
+
+    }
+    """
+
     def __init__(self, username, server_ip, server_port):
         self.username = username
         self.server_ip = server_ip
@@ -17,7 +35,9 @@ class Client:
         self.register()
 
     def register(self):
-        message = {"command": "register", "username": self.username}
+        message = {"command": "register",
+                   "sender": "client",
+                   "username": self.username}
         self.sock.sendto(json.dumps(message).encode(),
                          (self.server_ip, self.server_port))
 
@@ -31,13 +51,16 @@ class Client:
             exit()
 
     def list(self):
-        self.sock.sendto(json.dumps({"command": "list"}).encode(),
+        self.sock.sendto(json.dumps({"command": "list",
+                                     "sender": "client"}).encode(),
                          (self.server_ip, self.server_port))
 
     def send(self, message):
         # 1. get the destinations port and IP
         self.sock.sendto(json.dumps(
-            {"command": "send", "username": message[1]}
+            {"command": "send",
+             "sender": "client",
+             "username": message[1]}
         ).encode(), (self.server_ip, self.server_port))
         # wait for the server to respond with the client address
         self.client_address_event.wait()
@@ -45,37 +68,54 @@ class Client:
         PORT = self.client_address['PORT']
         # 2. send the message to that destination port and IP
         self.sock.sendto(json.dumps(
-            {"command": "client_message", "message": message[2:]}
+            {"command": "client_message",
+             "sender": "client",
+             "message": message[2:]}
         ).encode(), (IP, PORT))
 
-    def receive(self):
+    def receive_client(self):
         """
         Receive messges from other clients
         """
+        while True:
+            data, client_address = self.sock.recvfrom(1024)
+            data = json.loads(data.decode())
+            # if the data has command as client_message then it is a message
+            if data["sender"] == "client":
+                print(f"Message from {data['username']}: {data['message']}")
 
     def exit(self):
         pass
 
-    def listen(self):
+    def listen_server(self):
         while True:
             data, server_address = self.sock.recvfrom(1024)
             data = json.loads(data.decode())
-            if data['response'] == "success":
+            # if data has response has then it is a response from the server
+            if data["sender"] == "server":
                 if data['type'] == "client_address":
                     self.client_address = data['message']
                     # Set the event to signal that the client address is updated
                     self.client_address_event.set()
+                if data['type'] == "list":
+                    print(data['message'])
 
     def parse_input(self):
         while True:
             user_input = input("Enter a command>> ")
+            # if the user just hits enter then continue
+            if user_input == "":
+                continue
             message = user_input.split()
             command = message[0].lower()
             if command == "list":
+                print("Listing all clients")
                 self.list()
             elif command == "send":
+                print("Sending message")
                 self.send(message)
             elif command == "exit":
+                print("Exiting")
                 self.exit()
             else:
                 pass
@@ -92,10 +132,11 @@ if __name__ == "__main__":
     client = Client(args.u, args.sip, int(args.sp))
 
     # start a thread to listen to messages from the server_ip
-    server_thread = threading.Thread(target=client.listen)
+    server_thread = threading.Thread(target=client.listen_server)
     server_thread.start()
-    # another thread to listen to messages from other clients
-
+    # another thread to listen to messages from other client_message
+    client_thread = threading.Thread(target=client.receive_client)
+    client_thread.start()
     # another thread to listen to user input
     input_thread = threading.Thread(target=client.parse_input)
     input_thread.start()
