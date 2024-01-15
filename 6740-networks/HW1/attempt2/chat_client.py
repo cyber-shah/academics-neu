@@ -42,7 +42,7 @@ class Client:
         """
         message = {
             "response": "success",
-            "sender": "client",
+            "sender": self.username,
             "type": "register",
             "payload": {
                 "username": self.username
@@ -50,6 +50,16 @@ class Client:
         }
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
+        # wait for the server to respond for confirmation
+        data, server_address = self.socket.recvfrom(1024)
+        data = json.loads(data.decode())
+        # ERROR HANDLING -- if the server responds with an error
+        # print the error and exit
+        if data['response'] == "success":
+            print(data['payload'])
+        else:
+            print(data['payload'])
+            exit()
 
     def listen(self):
         """
@@ -66,11 +76,15 @@ class Client:
         """
         while True:
             message = input("Enter a command>> ")
+            if not message:
+                continue
             command = message.split()[0].lower()
             if command == "list":
                 self.list()
             elif command.startswith("send"):
                 self.send(message)
+            elif command == "exit":
+                self.exit()
             else:
                 print("Invalid command")
 
@@ -80,7 +94,7 @@ class Client:
         """
         message = {
             "response": "success",
-            "sender": "client",
+            "sender": self.username,
             "type": "list",
             "payload": ""
         }
@@ -93,6 +107,20 @@ class Client:
         """
         # 1. get the client address from the server
         pass
+
+    def exit(self):
+        """
+        Exit the client
+        """
+        message = {
+            "response": "success",
+            "sender": self.username,
+            "type": "exit",
+            "payload": ""
+        }
+        self.socket.sendto(json.dumps(message).encode(),
+                           (self.server_host, self.server_port))
+        exit()
 
 
 if __name__ == "__main__":

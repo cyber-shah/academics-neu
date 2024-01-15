@@ -48,7 +48,9 @@ class Server:
             elif data['type'] == 'list':
                 self.list_clients(client_address, data)
             elif data['type'] == 'send':
-                self.send_client_address(data)
+                self.send_client_address(client_address, data)
+            elif data['type'] == 'exit':
+                self.client_exit(client_address, data)
             else:
                 message = {'response': 'error',
                            'type': 'command',
@@ -99,6 +101,42 @@ class Server:
                    'payload': list}
         self.socket.sendto(json.dumps(message).encode(),
                            client_address)
+
+    def send_client_address(self, client_address, data):
+        """
+        Sends the requested client address to the client
+        """
+        # get the client address
+        client = data['payload']['username']
+        if client in self.client_details:
+            message = {'sender': 'server',
+                       'response': 'success',
+                       'type': 'send',
+                       'payload': self.client_details[client]}
+            self.socket.sendto(json.dumps(message).encode(),
+                               client_address)
+        else:
+            message = {'sender': 'server',
+                       'response': 'error',
+                       'type': 'send',
+                       'payload': f'User {client} not found'}
+            self.socket.sendto(json.dumps(message).encode(),
+                               client_address)
+
+    def client_exit(self, client_address, data):
+        """
+        Removes the cleint from the list of clients
+        and notifies all the other clients
+        """
+        username = data['sender']
+        message = {'sender': 'server',
+                   'response': 'success',
+                   'type': 'exit',
+                   'payload': f'User {username} exited'}
+        for client in self.client_details:
+            self.socket.sendto(json.dumps(message).encode(),
+                               (self.client_details[client]['IP'],
+                                self.client_details[client]['PORT']))
 
 
 if __name__ == "__main__":
