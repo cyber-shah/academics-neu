@@ -2,10 +2,15 @@ import socket
 import json
 import argparse
 import threading
+import sys
 
 
 # TODO : format the display of messages
 # wait for the server to print before printing >> prompt
+#
+# TODO: store all clients in lower case
+#
+# TODO : exit the client correctly
 
 
 class Client:
@@ -35,11 +40,14 @@ class Client:
         except ValueError:
             print("Port number must be an integer")
             exit()
-        self.exit_flag = False
         self.username = username
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         # register the client with the server
         self.register()
+        self.listen_thread = threading.Thread(target=self.listen)
+        self.listen_thread.start()
+        self.user_thread = threading.Thread(target=self.parse_input)
+        self.user_thread.start()
 
     def register(self):
         """
@@ -62,8 +70,10 @@ class Client:
         # print the error and exit
         if data['response'] == "success":
             print(data['payload'])
+
         else:
             print(data['payload'])
+            exit()
 
     def listen(self):
         """
@@ -90,7 +100,8 @@ class Client:
             if command == "list":
                 self.list()
             elif command.startswith("send"):
-                self.send(message)
+
+                self.send_client(message)
             elif command == "exit":
                 self.exit_client()
             else:
@@ -109,6 +120,9 @@ class Client:
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
 
+    # ------------------------------------------------------------
+    #                       SEND CLIENT
+    # ------------------------------------------------------------
     def send_client(self, message):
         """
         Send a message to a client
@@ -127,15 +141,11 @@ class Client:
                            (self.server_host, self.server_port))
 
         # 2. wait for the server to respond with the client address
-
         # 3. send the message to the client
-        message = {
-            "response": "success",
-            "sender": self.username,
-            "type": "send",
-            "payload": " ".join(message.split()[2:])
-        }
 
+    # ------------------------------------------------------------
+    #                      EXIT CLIENT
+    # ------------------------------------------------------------
     def exit_client(self):
         """
         Exit the client
@@ -149,9 +159,9 @@ class Client:
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
         # TODO: stop all the threads
-        self.exit_flag = True
-        print("Exiting...")
-        exit()
+        self.user_thread.join()
+        self.listen_thread.join()
+        sys.exit()
 
 
 if __name__ == "__main__":
@@ -166,15 +176,3 @@ if __name__ == "__main__":
 
     # 2. create a client object
     client = Client(args.u, args.sip, args.sp)
-
-    while client.exit_flag is False:
-        # 3. Start threads for listening to events and parsing user input
-        user_thread = threading.Thread(target=client.parse_input)
-        user_thread.start()
-
-        listen_thread = threading.Thread(target=client.listen)
-        listen_thread.start()
-
-    if client.exit_flag is True:
-        print("Exiting...")
-        exit()
