@@ -3,6 +3,8 @@ import socket
 import argparse
 import json
 
+# TODO: store all clients in lower case
+
 
 class Server:
     """
@@ -137,6 +139,7 @@ class Server:
             self.socket.sendto(json.dumps(message).encode(),
                                (self.client_details[client]['IP'],
                                 self.client_details[client]['PORT']))
+        self.client_details.pop(username)
 
 
 if __name__ == "__main__":
