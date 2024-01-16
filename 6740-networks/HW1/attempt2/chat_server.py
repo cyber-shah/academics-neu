@@ -1,9 +1,6 @@
-import threading
 import socket
 import argparse
 import json
-
-# TODO: store all clients in lower case
 
 
 class Server:
@@ -66,7 +63,7 @@ class Server:
         Send a success message to the client if registration is successful
         Send an error message to the client if registration is unsuccessful
         """
-        username = data['payload']['username']
+        username = data['payload']['username'].lower()
         if username in self.client_details:
             message = {'sender': 'server',
                        'response': 'error',
@@ -109,7 +106,7 @@ class Server:
         Sends the requested client address to the client
         """
         # get the client address
-        client = data['payload']['username']
+        client = data['payload']['username'].lower()
         if client in self.client_details:
             message = {'sender': 'server',
                        'response': 'success',

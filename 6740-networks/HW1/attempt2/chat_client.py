@@ -8,8 +8,6 @@ import sys
 # TODO : format the display of messages
 # wait for the server to print before printing >> prompt
 #
-# TODO: store all clients in lower case
-#
 # TODO : exit the client correctly
 
 
@@ -40,7 +38,7 @@ class Client:
         except ValueError:
             print("Port number must be an integer")
             exit()
-        self.username = username
+        self.username = username.lower()
         self.send_address = None
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         # register the client with the server
