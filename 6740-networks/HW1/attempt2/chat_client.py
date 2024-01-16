@@ -41,6 +41,7 @@ class Client:
             print("Port number must be an integer")
             exit()
         self.username = username
+        self.send_address = None
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         # register the client with the server
         self.register()
@@ -80,6 +81,9 @@ class Client:
             print(data['payload'])
             exit()
 
+    # ------------------------------------------------------------
+    #                      LISTEN
+    # ------------------------------------------------------------
     def listen(self):
         """
         Listen to events
@@ -89,11 +93,21 @@ class Client:
             data = json.loads(data.decode())
             # if server sends the username of the client
             if data['type'] == 'send' and data['sender'] == 'server':
-                # self.send_client(data)
-                print(f"{data['sender']}: {data['payload']}")
+                if data['response'] == 'error':
+                    print(data['payload'])
+                    self.response_event.set()
+                    continue
+                else:
+                    self.response_event.set()
+                    self.send_address = (
+                        data['payload']['IP'], data['payload']['PORT'])
+            # else if message is from another client
             else:
                 print(f"{data['sender']}: {data['payload']}")
 
+    # ------------------------------------------------------------
+    #                      PARSE INPUT
+    # ------------------------------------------------------------
     def parse_input(self):
         """
         Parse the user input and call the appropriate function
@@ -120,21 +134,35 @@ class Client:
         """
         Send a message to a client
         """
-        username 
+        username = message.split()[1]
         # 1. get the client address from the server
-        message = {
+        server_message = {
             "response": "success",
             "sender": self.username,
             "type": "send",
             "payload": {
-                "username": 
+                "username": username,
             }
         }
-        self.socket.sendto(json.dumps(message).encode(),
+        # clear the event before sending the message
+        self.response_event.clear()
+        self.socket.sendto(json.dumps(server_message).encode(),
                            (self.server_host, self.server_port))
-
         # 2. wait for the server to respond with the client address
-        # 3. send the message to the client
+        self.response_event.wait()
+        # 3. send the message to the Client
+        if self.send_address is None:
+            print("Client not found")
+            return
+        client_message = {
+            'response': "success",
+            'sender': self.username,
+            'type': "message",
+            'payload': message.split(' ', 2)[2]
+        }
+        self.socket.sendto(json.dumps(
+            client_message).encode(), self.send_address)
+        self.send_address = None
 
     # ------------------------------------------------------------
     #                      LIST CLIENTS
@@ -155,7 +183,6 @@ class Client:
     # ------------------------------------------------------------
     #                      EXIT CLIENT
     # ------------------------------------------------------------
-
     def exit_client(self):
         """
         Exit the client
@@ -169,8 +196,6 @@ class Client:
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
         # TODO: stop all the threads
-        self.user_thread.join()
-        self.listen_thread.join()
         sys.exit()
 
 
