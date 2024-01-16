@@ -2,114 +2,142 @@ import socket
 import argparse
 import json
 
-HOST = "localhost"
-
-"""
-Server's job:
-1. LIST : show all the clients connected
-2. REGISTER : register the client with this format
-    -u <username> -sip <server-ip> -sp <PORT>
-3. SEND <username> <message> : send message to the user
-    emit the message to the client : <FROM IP:PORT Carole> : <Message>
-4. START : start the server
-    python server.py -sp <PORT>
-"""
-
 
 class Server:
     """
-    Server class to handle all the server side operations
-    All messages MUST be sent in JSON format
+    Server has the following responsibilities:
+    - Register clients
+    - notify clients of other clients
+    - share port and IP of clients with other clients
+    Each message must have the following format
     {
-        'response': <response>,
-        'type': <type>,
-        'message': <message>,
+        response: <response>,
+        sender: <sender>,
+        type: <type>,
+        payload: <payload>
     }
     """
-    clients_details = {}
 
-    def __init__(self, port):
-        self.port = port
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind((HOST, self.port))
+    def __init__(self, server_port):
+        """
+        Initialize the server
+        """
+        self.server_ip = "localhost"
+        try:
+            self.server_port = int(server_port)
+        except ValueError:
+            print("Port number must be an integer")
+            exit()
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket.bind((self.server_ip, self.server_port))
+        self.client_details = {}
         print("Server Initialized...")
 
     def start(self):
         """
-        Start the server and
-        listen to incoming connections
+        Start the server and listen to incoming connections
+        Parse the message and call the appropriate function
+        :note Sending messages to clients is done in the respective functions
         """
         while True:
-            data, client_address = self.sock.recvfrom(1024)
-            # see what the data type is and
-            # then forward it to the appropriate function
+            data, client_address = self.socket.recvfrom(1024)
             data = json.loads(data.decode())
-            if data['command'] == 'register':
-                message = self.register_client(client_address, data)
-            elif data['command'] == 'list':
-                message = self.list_clients()
-            elif data['command'] == 'send':
-                message = self.send_client_address(data)
+            if data['type'] == 'register':
+                self.register_client(client_address, data)
+            elif data['type'] == 'list':
+                self.list_clients(client_address, data)
+            elif data['type'] == 'send':
+                self.send_client_address(client_address, data)
+            elif data['type'] == 'exit':
+                self.client_exit(client_address, data)
             else:
                 message = {'response': 'error',
                            'type': 'command',
                            'message': 'Invalid command'}
-            # eventually send the message to the client
-            self.sock.sendto(json.dumps(message).encode(), client_address)
+                self.socket.sendto(json.dumps(
+                    message).encode(), client_address)
 
     def register_client(self, client_address, data):
         """
-        Checks if the client is already registered
-        and registers the client if not
-
-        :return a message
+        Register a client with the server
+        Send a success message to the client if registration is successful
+        Send an error message to the client if registration is unsuccessful
         """
-        # 1. see if the client is already registered
-        username = data['username']
-        if username in self.clients_details:
-            message = {'response': 'error',
+        username = data['payload']['username'].lower()
+        if username in self.client_details:
+            message = {'sender': 'server',
+                       'response': 'error',
                        'type': 'register',
-                       'message': 'Username already exists'}
-            return message
+                       'payload': 'Username already exists'}
+            self.socket.sendto(json.dumps(message).encode(), client_address)
         else:
-            message = {'response': 'success',
+            message = {'sender': 'server',
+                       'response': 'success',
                        'type': 'register',
-                       'message': 'Welcome to the chat app'}
-            self.clients_details[username] = {
-                'IP': client_address[0], 'PORT': client_address[1]}
+                       'payload': f'User {username} registered'}
+            self.client_details[username] = {
+                'IP': client_address[0], 'PORT': int(client_address[1])}
             print(f"New connection from \
-                {self.clients_details[username]} at {username}")
-            return message
+                {self.client_details[username]} at {username}")
+            # notify all the clients that a new client has joined
+            for client in self.client_details:
+                self.socket.sendto(json.dumps(message).encode(),
+                                   (self.client_details[client]['IP'],
+                                   self.client_details[client]['PORT']))
 
-    def list_clients(self):
+    def list_clients(self, client_address, data):
         """
-        List all the clients connected
-
-        :return a message
+        List all the clients registered with the server
         """
-        message = {'response': 'success',
+        # construct the list of clients
+        list = "Signed in users: "
+        for client in self.client_details:
+            list += f" {client}"
+        # send the message
+        message = {'sender': 'server',
+                   'response': 'success',
                    'type': 'list',
-                   "sender": "server",
-                   'message': 'List of clients\n'}
-        for client in self.clients_details:
-            message['message'] += f"    {client}\n"
-        return message
+                   'payload': list}
+        self.socket.sendto(json.dumps(message).encode(),
+                           client_address)
 
-    def send_client_address(self, data):
+    def send_client_address(self, client_address, data):
         """
-        Send the client address to the client
+        Sends the requested client address to the client
         """
-        username = data['username']
-        if username not in self.clients_details:
-            return {'response': 'error',
-                    'sender': 'server',
-                    'type': 'client_address',
-                    'message': 'Username does not exist'}
+        # get the client address
+        client = data['payload']['username'].lower()
+        if client in self.client_details:
+            message = {'sender': 'server',
+                       'response': 'success',
+                       'type': 'send',
+                       'payload': self.client_details[client]}
+            self.socket.sendto(json.dumps(message).encode(),
+                               client_address)
+        # Error handle if the client is not found
         else:
-            return {'response': 'success',
-                    'sender': 'server',
-                    'type': 'client_address',
-                    'message': self.clients_details[username]}
+            message = {'sender': 'server',
+                       'response': 'error',
+                       'type': 'send',
+                       'payload': f'User {client} not found'}
+            self.socket.sendto(json.dumps(message).encode(),
+                               client_address)
+
+    def client_exit(self, client_address, data):
+        """
+        Removes the cleint from the list of clients
+        and notifies all the other clients
+        """
+        username = data['sender']
+        message = {'sender': 'server',
+                   'response': 'success',
+                   'type': 'exit',
+                   'payload': f'User {username} exited'}
+        for client in self.client_details:
+            self.socket.sendto(json.dumps(message).encode(),
+                               (self.client_details[client]['IP'],
+                                self.client_details[client]['PORT']))
+        self.client_details.pop(username)
 
 
 if __name__ == "__main__":
