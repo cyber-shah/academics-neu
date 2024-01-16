@@ -117,6 +117,7 @@ class Server:
                        'payload': self.client_details[client]}
             self.socket.sendto(json.dumps(message).encode(),
                                client_address)
+        # Error handle if the client is not found
         else:
             message = {'sender': 'server',
                        'response': 'error',

@@ -48,7 +48,12 @@ class Client:
         self.listen_thread.start()
         self.user_thread = threading.Thread(target=self.parse_input)
         self.user_thread.start()
+        # create a event that is set when the server responds
+        self.response_event = threading.Event()
 
+    # ------------------------------------------------------------
+    #                     REGISTER CLIENT
+    # ------------------------------------------------------------
     def register(self):
         """
         Register the client with the server
@@ -84,7 +89,8 @@ class Client:
             data = json.loads(data.decode())
             # if server sends the username of the client
             if data['type'] == 'send' and data['sender'] == 'server':
-                self.send_client(data)
+                # self.send_client(data)
+                print(f"{data['sender']}: {data['payload']}")
             else:
                 print(f"{data['sender']}: {data['payload']}")
 
@@ -97,16 +103,42 @@ class Client:
             if not message:
                 continue
             command = message.split()[0].lower()
+
             if command == "list":
                 self.list()
             elif command.startswith("send"):
-
                 self.send_client(message)
             elif command == "exit":
                 self.exit_client()
             else:
                 print("Invalid command")
 
+    # ------------------------------------------------------------
+    #                       SEND CLIENT
+    # ------------------------------------------------------------
+    def send_client(self, message):
+        """
+        Send a message to a client
+        """
+        username 
+        # 1. get the client address from the server
+        message = {
+            "response": "success",
+            "sender": self.username,
+            "type": "send",
+            "payload": {
+                "username": 
+            }
+        }
+        self.socket.sendto(json.dumps(message).encode(),
+                           (self.server_host, self.server_port))
+
+        # 2. wait for the server to respond with the client address
+        # 3. send the message to the client
+
+    # ------------------------------------------------------------
+    #                      LIST CLIENTS
+    # ------------------------------------------------------------
     def list(self):
         """
         List all the clients registered with the server
@@ -121,31 +153,9 @@ class Client:
                            (self.server_host, self.server_port))
 
     # ------------------------------------------------------------
-    #                       SEND CLIENT
-    # ------------------------------------------------------------
-    def send_client(self, message):
-        """
-        Send a message to a client
-        """
-        # 1. get the client address from the server
-        send_username = message.split()[1]
-        message = {
-            "response": "success",
-            "sender": self.username,
-            "type": "send",
-            "payload": {
-                "username": send_username
-            }
-        }
-        self.socket.sendto(json.dumps(message).encode(),
-                           (self.server_host, self.server_port))
-
-        # 2. wait for the server to respond with the client address
-        # 3. send the message to the client
-
-    # ------------------------------------------------------------
     #                      EXIT CLIENT
     # ------------------------------------------------------------
+
     def exit_client(self):
         """
         Exit the client
