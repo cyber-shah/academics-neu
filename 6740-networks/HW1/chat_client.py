@@ -3,6 +3,7 @@ import json
 import argparse
 import threading
 import sys
+import select
 
 
 # TODO : format the display of messages
@@ -55,8 +56,8 @@ class Client:
          # register the client with the server
         self.register()
         self.listen_thread = threading.Thread(target=self.listen)
-        self.listen_thread.start()
         self.user_thread = threading.Thread(target=self.parse_input)
+        self.listen_thread.start()
         self.user_thread.start()
         # wait for the threads to end
         self.user_thread.join()
@@ -87,7 +88,6 @@ class Client:
         # print the error and exit
         if data['response'] == "success":
             print(data['payload'])
-
         else:
             print(data['payload'])
             exit()
@@ -100,28 +100,32 @@ class Client:
         Listen to events
         """
         while not self.exit_event.is_set():
-            data, sender_address  = self.socket.recvfrom(1024)
-            data = json.loads(data.decode())
-            # if server sends 
-            if  data['sender'] == 'server':
-                # of the type send, then store it / print error
-                if data['type'] == 'send':
-                    if data['response'] == 'error':
-                        print(data['payload'])
-                        self.response_event.set()
-                        continue
-                    else:
-                        self.response_event.set()
-                        self.send_address = (
-                            data['payload']['IP'], data['payload']['PORT'])
-                # if server sends but not of the type send
-                else:
-                    print(f"server: {data['payload']}")
-                    
-            # else if message is from another client
-            else:
-                print(f"FROM IP {sender_address[0]}: PORT {sender_address[1]} : USER {data['sender']} : {data['payload']}")
+            try:
+                readable, _, _ = select.select([self.socket], [], [], 0.1)
+                if self.socket in readable:
+                    data, sender_address  = self.socket.recvfrom(1024)
+                    data = json.loads(data.decode())
+                    # if server sends 
+                    if  data['sender'] == 'server':
+                        # of the type send, then store it / print error
+                        if data['type'] == 'send':
+                            if data['response'] == 'error':
+                                print(f"<- {data['payload']}")
+                                self.response_event.set()
+                                continue
+                            else:
+                                self.response_event.set()
+                                self.send_address = (
+                                    data['payload']['IP'], data['payload']['PORT'])
+                        # if server sends but not of the type send
+                        else:
+                            print(f"<- server: {data['payload']}")
 
+                    # else if message is from another client
+                    else:
+                        print(f"<- FROM IP {sender_address[0]}: PORT {sender_address[1]} : USER {data['sender']} : {data['payload']}")
+            finally:
+                pass
     # ------------------------------------------------------------
     #                      PARSE INPUT
     # ------------------------------------------------------------
@@ -130,18 +134,24 @@ class Client:
         Parse the user input and call the appropriate function
         """
         while not self.exit_event.is_set():
-            message = input("Enter a command>> ")
-            if not message:
-                continue
-            command = message.split()[0].lower()
-            if command == "list":
-                self.list()
-            elif command.startswith("send"):
-                self.send_client(message)
-            elif command == "exit":
-                self.exit_client()
-            else:
-                print("Invalid command")
+            try:
+                # Use select to check for user input without blocking
+                readable, _, _ = select.select([sys.stdin], [], [], 0.1) 
+                if sys.stdin in readable:
+                    message = input("+> ")
+                    if not message:
+                        continue
+                    command = message.split()[0].lower()
+                    if command == "list":
+                        self.list()
+                    elif command.startswith("send"):
+                        self.send_client(message)
+                    elif command == "exit":
+                        self.exit_client()
+                    else:
+                        print("<- Invalid command")
+            finally:
+               pass
 
     # ------------------------------------------------------------
     #                       SEND CLIENT
