@@ -7,10 +7,6 @@ import sys
 
 # TODO : format the display of messages
 # wait for the server to print before printing >> prompt
-#
-# TODO : exit the client correctly
-
-
 class Client:
     """
     Client class for the chat client.
@@ -22,7 +18,9 @@ class Client:
     Each message has the following format:
     {
         response: <response>,
-        sender: <sender>,
+        sender: <sender_username> 
+                <sender_IP> 
+                <sender_PORT>,
         type: <type>,
         payload: <payload>
     }
@@ -41,14 +39,29 @@ class Client:
         self.username = username.lower()
         self.send_address = None
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # register the client with the server
+        # create a event that is set when the server responds
+        self.response_event = threading.Event()
+        self.exit_event = threading.Event()
+        # start the client
+        self.start()
+
+
+    def start(self):
+        """
+        1. Register the client
+        2. start the threads
+        3. wait for the threads to complete
+        """
+         # register the client with the server
         self.register()
         self.listen_thread = threading.Thread(target=self.listen)
         self.listen_thread.start()
         self.user_thread = threading.Thread(target=self.parse_input)
         self.user_thread.start()
-        # create a event that is set when the server responds
-        self.response_event = threading.Event()
+        # wait for the threads to end
+        self.user_thread.join()
+        self.listen_thread.join()
+
 
     # ------------------------------------------------------------
     #                     REGISTER CLIENT
@@ -59,7 +72,7 @@ class Client:
         """
         message = {
             "response": "success",
-            "sender": self.username,
+            "sender": self.username, 
             "type": "register",
             "payload": {
                 "username": self.username
@@ -86,22 +99,28 @@ class Client:
         """
         Listen to events
         """
-        while True:
-            data, server_address = self.socket.recvfrom(1024)
+        while not self.exit_event.is_set():
+            data, sender_address  = self.socket.recvfrom(1024)
             data = json.loads(data.decode())
-            # if server sends the username of the client
-            if data['type'] == 'send' and data['sender'] == 'server':
-                if data['response'] == 'error':
-                    print(data['payload'])
-                    self.response_event.set()
-                    continue
+            # if server sends 
+            if  data['sender'] == 'server':
+                # of the type send, then store it / print error
+                if data['type'] == 'send':
+                    if data['response'] == 'error':
+                        print(data['payload'])
+                        self.response_event.set()
+                        continue
+                    else:
+                        self.response_event.set()
+                        self.send_address = (
+                            data['payload']['IP'], data['payload']['PORT'])
+                # if server sends but not of the type send
                 else:
-                    self.response_event.set()
-                    self.send_address = (
-                        data['payload']['IP'], data['payload']['PORT'])
+                    print(f"server: {data['payload']}")
+                    
             # else if message is from another client
             else:
-                print(f"{data['sender']}: {data['payload']}")
+                print(f"FROM IP {sender_address[0]}: PORT {sender_address[1]} : USER {data['sender']} : {data['payload']}")
 
     # ------------------------------------------------------------
     #                      PARSE INPUT
@@ -110,12 +129,11 @@ class Client:
         """
         Parse the user input and call the appropriate function
         """
-        while True:
-            message = input("Enter a command>> ")
+        while not self.exit_event.is_set():
+            ge = input("Enter a command>> ")
             if not message:
                 continue
             command = message.split()[0].lower()
-
             if command == "list":
                 self.list()
             elif command.startswith("send"):
@@ -194,6 +212,8 @@ class Client:
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
         # TODO: stop all the threads
+        print("exiting... bye!")
+        self.exit_event.set()
         sys.exit()
 
 
