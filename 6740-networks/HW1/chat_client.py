@@ -130,7 +130,7 @@ class Client:
         Parse the user input and call the appropriate function
         """
         while not self.exit_event.is_set():
-            ge = input("Enter a command>> ")
+            message = input("Enter a command>> ")
             if not message:
                 continue
             command = message.split()[0].lower()
@@ -211,7 +211,6 @@ class Client:
         }
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
-        # TODO: stop all the threads
         print("exiting... bye!")
         self.exit_event.set()
         sys.exit()
