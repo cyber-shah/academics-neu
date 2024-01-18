@@ -18,7 +18,7 @@ The development of the Internet Protocol (IP) was driven by the need for a netwo
 - **Scalability:** The ability to concatenate or link networks is essential for accommodating the increasing number of devices and users on the Internet.
 - **Interconnectedness:** Concatenation facilitates the connection of diverse networks, promoting a more extensive and interconnected global communication infrastructure.
 
-![[Pasted image 20240109213706.png]]
+![[Pasted image 20240109213706 1.png]]
 
 
 ## 1. What is IP Service model?

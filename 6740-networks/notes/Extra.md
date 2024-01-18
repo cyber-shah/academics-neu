@@ -4,7 +4,7 @@
 
 
 # HTTPS
-![[Pasted image 20240110114417.png]]
+![[Pasted image 20240110114417 1.png]]
 
 ### How is the data encrypted and decrypted?
 **Step 1** - The client (browser) and the server establish a TCP connection.

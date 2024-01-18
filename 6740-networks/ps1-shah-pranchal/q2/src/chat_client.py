@@ -5,7 +5,6 @@ import threading
 import sys
 import select
 
-
 # TODO : format the display of messages
 # wait for the server to print before printing >> prompt
 class Client:
@@ -87,9 +86,9 @@ class Client:
         # ERROR HANDLING -- if the server responds with an error
         # print the error and exit
         if data['response'] == "success":
-            print(data['payload'])
+            print(f"<- <server>: {data['payload']}")
         else:
-            print(data['payload'])
+            print(f"<- <server>: {data['payload']}")
             exit()
 
     # ------------------------------------------------------------
@@ -119,11 +118,11 @@ class Client:
                                     data['payload']['IP'], data['payload']['PORT'])
                         # if server sends but not of the type send
                         else:
-                            print(f"<- server: {data['payload']}")
+                            print(f"<- <server>: {data['payload']}")
 
                     # else if message is from another client
                     else:
-                        print(f"<- FROM IP {sender_address[0]}: PORT {sender_address[1]} : USER {data['sender']} : {data['payload']}")
+                        print(f"<- <From {sender_address[0]}:{sender_address[1]}:{data['sender']}>: {data['payload']}")
             finally:
                 pass
     # ------------------------------------------------------------
@@ -135,10 +134,9 @@ class Client:
         """
         while not self.exit_event.is_set():
             try:
-                # Use select to check for user input without blocking
-                readable, _, _ = select.select([sys.stdin], [], [], 0.1) 
-                if sys.stdin in readable:
-                    message = input("+> ")
+                _, writeable, _ = select.select([], [sys.stdin], [], 0.1) 
+                if sys.stdin in writeable:
+                    message = input("")
                     if not message:
                         continue
                     command = message.split()[0].lower()
@@ -221,7 +219,7 @@ class Client:
         }
         self.socket.sendto(json.dumps(message).encode(),
                            (self.server_host, self.server_port))
-        print("exiting... bye!")
+        print("<- exiting... bye!")
         self.exit_event.set()
         sys.exit()
 

@@ -38,3 +38,10 @@ reciever tells the source about amount of packets it can handle before getting o
 syn flood attacks
 
 congestion window
+
+
+## NATs
+
+## ARPs
+
+### 

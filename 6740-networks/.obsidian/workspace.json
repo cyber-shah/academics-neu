@@ -1,52 +1,39 @@
 {
   "main": {
-    "id": "35cd136d719a98ef",
+    "id": "71bf4446a71fa494",
     "type": "split",
     "children": [
       {
-        "id": "63b5c9633f54a186",
+        "id": "94d972cfff49b950",
         "type": "tabs",
         "children": [
           {
-            "id": "1fb68722c8575500",
+            "id": "3c80cbead690d2a2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Lecture 2.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "c8480c22822138d0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Lecture 3.md",
+                "file": "ps1-shah-pranchal/q1/report.md.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "ea08c89408b65bac",
+    "id": "63a4d307de214fce",
     "type": "split",
     "children": [
       {
-        "id": "63ad40e4486914b2",
+        "id": "fa1838d7e22f4965",
         "type": "tabs",
         "children": [
           {
-            "id": "f3bed68acbbebfde",
+            "id": "eb8b75d21d0f9db9",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -56,7 +43,7 @@
             }
           },
           {
-            "id": "a3d6fbe9522eba97",
+            "id": "9817927b0888a248",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -71,7 +58,7 @@
             }
           },
           {
-            "id": "b0878b2bbe9a67dc",
+            "id": "99b49c4d66ad0c5a",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -82,24 +69,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
-    "id": "4dd6950d136efb1e",
+    "id": "95496bc593a06e30",
     "type": "split",
     "children": [
       {
-        "id": "46db26a857198d83",
+        "id": "51c945493bf2933f",
         "type": "tabs",
         "children": [
           {
-            "id": "655536846f84cd25",
+            "id": "83b1b968a037baa7",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Lecture 3.md",
+                "file": "ps1-shah-pranchal/q1/report.md.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,19 +97,19 @@
             }
           },
           {
-            "id": "6471283e39d1b577",
+            "id": "44ae2e04c4aaeafa",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Lecture 3.md",
+                "file": "ps1-shah-pranchal/q1/report.md.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "6b952278d2fc0acd",
+            "id": "27480c54dc45fb10",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -134,12 +120,12 @@
             }
           },
           {
-            "id": "d57b8d9b81739a9c",
+            "id": "3004e61e95144c6c",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "Lecture 3.md"
+                "file": "ps1-shah-pranchal/q1/report.md.md"
               }
             }
           }
@@ -160,9 +146,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c8480c22822138d0",
+  "active": "eb8b75d21d0f9db9",
   "lastOpenFiles": [
-    "Lecture 2.md",
-    "Lecture 3.md"
+    "ps1-shah-pranchal/q1/report.md.md",
+    "ps1-shah-pranchal/q1/report.pdf",
+    "notes/Lecture 2.md",
+    "notes/Tools.md",
+    "notes/Lecture 3.md",
+    "notes/Extra.md",
+    "notes/images/Pasted image 20240109213706 1.png",
+    "notes/images",
+    "notes",
+    "notes/Lecture 1 - Review of Protocols.md"
   ]
 }
