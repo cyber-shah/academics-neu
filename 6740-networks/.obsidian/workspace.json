@@ -1,19 +1,19 @@
 {
   "main": {
-    "id": "71bf4446a71fa494",
+    "id": "35cd136d719a98ef",
     "type": "split",
     "children": [
       {
-        "id": "94d972cfff49b950",
+        "id": "63b5c9633f54a186",
         "type": "tabs",
         "children": [
           {
-            "id": "3c80cbead690d2a2",
+            "id": "c8480c22822138d0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md",
+                "file": "notes/Lecture 2.md",
                 "mode": "source",
                 "source": false
               }
@@ -25,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "63a4d307de214fce",
+    "id": "ea08c89408b65bac",
     "type": "split",
     "children": [
       {
-        "id": "fa1838d7e22f4965",
+        "id": "63ad40e4486914b2",
         "type": "tabs",
         "children": [
           {
-            "id": "eb8b75d21d0f9db9",
+            "id": "f3bed68acbbebfde",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -43,7 +43,7 @@
             }
           },
           {
-            "id": "9817927b0888a248",
+            "id": "a3d6fbe9522eba97",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -58,7 +58,7 @@
             }
           },
           {
-            "id": "99b49c4d66ad0c5a",
+            "id": "b0878b2bbe9a67dc",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -72,20 +72,20 @@
     "width": 300
   },
   "right": {
-    "id": "95496bc593a06e30",
+    "id": "4dd6950d136efb1e",
     "type": "split",
     "children": [
       {
-        "id": "51c945493bf2933f",
+        "id": "46db26a857198d83",
         "type": "tabs",
         "children": [
           {
-            "id": "83b1b968a037baa7",
+            "id": "655536846f84cd25",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md",
+                "file": "notes/Lecture 2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,19 +97,19 @@
             }
           },
           {
-            "id": "44ae2e04c4aaeafa",
+            "id": "6471283e39d1b577",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md",
+                "file": "notes/Lecture 2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "27480c54dc45fb10",
+            "id": "6b952278d2fc0acd",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -120,12 +120,12 @@
             }
           },
           {
-            "id": "3004e61e95144c6c",
+            "id": "d57b8d9b81739a9c",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md"
+                "file": "notes/Lecture 2.md"
               }
             }
           }
@@ -146,17 +146,33 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "eb8b75d21d0f9db9",
+  "active": "c8480c22822138d0",
   "lastOpenFiles": [
-    "ps1-shah-pranchal/q1/report.md.md",
-    "ps1-shah-pranchal/q1/report.pdf",
-    "notes/Lecture 2.md",
-    "notes/Tools.md",
     "notes/Lecture 3.md",
-    "notes/Extra.md",
+    "Lecture 3.md",
+    "Lecture 1 - Review of Protocols.md",
+    "validate_submission.sh",
+    "ps1-shah-pranchal/q2/src/chat_server.py",
+    "ps1-shah-pranchal/q2/src/chat_client.py",
+    "ps1-shah-pranchal/q2/src/README.txt",
+    "ps1-shah-pranchal/q1/report.pdf",
+    "ps1-shah-pranchal/q1/report.md",
+    "ps1-shah-pranchal/q1/image.png",
+    "ps1-shah-pranchal/q1/image-3.png",
+    "ps1-shah-pranchal/q1/image-2.png",
+    "ps1-shah-pranchal/q1/image-1.png",
+    "ps1-shah-pranchal/q1/Screenshot 2024-01-17 at 18.57.41.png",
+    "ps1-shah-pranchal/q2/src",
+    "ps1-shah-pranchal/q2",
+    "ps1-shah-pranchal/q1",
+    "ps1-shah-pranchal",
+    "notes/images/Pasted image 20240110114417 1.png",
     "notes/images/Pasted image 20240109213706 1.png",
     "notes/images",
-    "notes",
-    "notes/Lecture 1 - Review of Protocols.md"
+    "notes/Tools.md",
+    "notes/Lecture 2.md",
+    "notes/Lecture 1 - Review of Protocols.md",
+    "notes/Extra.md",
+    "Lecture 2.md"
   ]
 }
