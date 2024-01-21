@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md",
+                "file": "ps1-shah-pranchal/q1/report.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md",
+                "file": "ps1-shah-pranchal/q1/report.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md",
+                "file": "ps1-shah-pranchal/q1/report.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ps1-shah-pranchal/q1/report.md.md"
+                "file": "ps1-shah-pranchal/q1/report.md"
               }
             }
           }
@@ -146,10 +146,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "eb8b75d21d0f9db9",
+  "active": "3c80cbead690d2a2",
   "lastOpenFiles": [
-    "ps1-shah-pranchal/q1/report.md.md",
+    "report.pdf",
     "ps1-shah-pranchal/q1/report.pdf",
+    "ps1-shah-pranchal/q1/report.md.md",
     "notes/Lecture 2.md",
     "notes/Tools.md",
     "notes/Lecture 3.md",

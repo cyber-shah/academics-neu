@@ -40,7 +40,7 @@ Therefore, the DNS server responds with the IP address of the website. In this c
 ## 1.2 TCP connection
 Once the IP address is known, the client initiates a TCP connection with the server. I used a browser to connect to the IP address and wire shark to capture the packets. The packets are shown below:
 
-![Alt text](<Screenshot 2024-01-17 at 18.57.41.png>)
+![Alt text](proof-log/image-4.png)
 
 ### 1.2.1 TCP handshake
 1. Source sends a SYN packet to the destination's IP address and port.
@@ -59,19 +59,19 @@ Once the TCP connection is established, the client sends an HTTP request to the 
 1. Source sends an HTTP GET request to the destination, specifying the desired resource (e.g., /index.html).
 2. Destination acknowledges the request with an ACK packet.
 
-![Alt text](image.png)
+![Alt text](proof-log/image.png)
 
 ### 1.2.3 HTTP response
 1. Destination sends an HTTP response with the requested resource.
 2. Source acknowledges the response with an ACK packet
-   ![Alt text](image-1.png)
+   ![Alt text](proof-log/image-1.png)
 3. A snapshot of the HTTP sent by the destination is shown below:
-    ![Alt text](image-2.png)
+    ![Alt text](proof-log/image-2.png)
 
 
 ## 1.4 TCP connection termination
 Once the HTTP response is received, the client terminates the TCP connection. The packets are shown below:
-![Alt text](image-3.png)
+![Alt text](proof-log/image-3.png)
 
 ### 1.3.1 TCP connection termination
 1. Source sends a FIN, ACK packet to the destination.
