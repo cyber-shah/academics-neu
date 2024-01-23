@@ -1,0 +1,16 @@
+2024-01-21 21:00:37 OpenVPN 2.6.8 [git:makepkg/3b0d9489cc423da3+] x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO] built on Nov 17 2023
+2024-01-21 21:00:37 library versions: OpenSSL 3.2.0 23 Nov 2023, LZO 2.10
+2024-01-21 21:00:37 DCO version: N/A
+Enter Auth Username: test
+Enter Auth Password: ••••                    
+2024-01-21 21:00:40 TCP/UDP: Preserving recently used remote address: [AF_INET]129.10.112.35:1194
+2024-01-21 21:00:40 UDPv4 link local: (not bound)
+2024-01-21 21:00:40 UDPv4 link remote: [AF_INET]129.10.112.35:1194
+2024-01-21 21:00:40 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+2024-01-21 21:00:42 [Net-Sec CA] Peer Connection Initiated with [AF_INET]129.10.112.35:1194
+2024-01-21 21:00:43 TUN/TAP device tun0 opened
+2024-01-21 21:00:43 net_iface_mtu_set: mtu 1500 for tun0
+2024-01-21 21:00:43 net_iface_up: set tun0 up
+2024-01-21 21:00:43 net_addr_v4_add: 10.10.192.2/18 dev tun0
+2024-01-21 21:00:43 Initialization Sequence Completed
+

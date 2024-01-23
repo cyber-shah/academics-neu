@@ -4,7 +4,7 @@ Reconnaissance is a process of gathering information about a system to identify 
 [Article on recon](https://www.makeuseof.com/what-are-reconnaissance-attacks-and-how-do-they-work/)
 [Adversary tactics and techniques](https://attack.mitre.org/)
 
-## 1. Active Reconnaissance
+##  Reconnaissance
 In active reconnaissance, the attacker **engages with the target actively**. They communicate with you just to get information about your system. Active reconnaissance is quite effective as it gives the attacker valuable information about your system.
 ### Social Engineering
 Social engineering is a process where a cyber threat actor [manipulates targets to reveal confidential information](https://www.makeuseof.com/tag/social-engineering-makeuseof-explains/) to them. They may contact you online via instant chats, emails, and other interactive means to build a connection with you. 
@@ -72,3 +72,45 @@ echo
 1. The port scanner sends requests to a range of port numbers and waits for responses, classifying each port based on the response it receives. 
 2. Open ports will acknowledge the request, closed ports will reject it, and a filtered port won't send any response at all. 
 3. When executed with malicious intent, this becomes a port scanning attack.
+
+### Whois 
+	- The Whois database via Internic (now managed by ICANN) is a publicly-available starting point for obtaining information about domain registrations, including contacts, name servers, and more.
+    - Detailed information can be queried from the registrar, providing entries such as contacts, postal addresses, name servers, and email details.
+
+#####  1. What can be extracted?
+    - Contacts associated with domain registration.
+    - Name servers and their details.
+    - Email addresses and their formats.
+##### 2. How can it be exploited or why must it be protected?
+    - Email addresses may be targeted for phishing attacks.
+    - Contact details could be used for social engineering.
+    - Understanding name servers may aid in identifying potential vulnerabilities.
+
+
+### Intrusive Scans and Probes
+#### From Insecure Modems to Insecure Access Points:
+- **Historical Perspective:**
+    - In the past, techniques like War Dialers (ToneLoc, THC-Scan), Demon Dialers, and Rogue RAS were used to exploit insecure modems.
+    - Today, the focus has shifted to War Driving, where rogue and insecure Wireless Access Points are identified and exploited using tools like NetStumbler, Wellenreiter, kismet, and ESSID-Jack.
+- **Tools and Techniques:**
+    - Detection tools such as high-gain antennas, NetStumbler, Wellenreiter, and ESSID-Jack are employed to identify rogue wireless access points.
+- **Examples:**
+    - War Driving involves detecting RF signals up to 2 km away using high-gain antennas and specialized tools.
+#### Determine if a Networked Host is Alive:
+- **Techniques:**
+    - ICMP (Ping, Echo Request/Reply) Sweeps.
+    - TCP/UDP Packet Sweeps (commonly known as "TCP Ping").
+- **Defenses:**
+    - Configure firewalls and border routers to limit ICMP and UDP traffic to specific systems.
+    - Implement monitoring with Intrusion Detection Systems (IDS).
+#### Why do we need to defend against it?
+1. **Prevent Unauthorized Reconnaissance:**
+    - Attackers often perform host-alive checks as part of reconnaissance to identify potential targets. Defending against these sweeps helps thwart unauthorized information gathering about the network.
+2. **Security through Obscurity:**
+    - Limiting the information exposed to ICMP and UDP/TCP sweeps follows the principle of "Security through Obscurity." By restricting the visibility of networked hosts, organizations reduce the likelihood of being targeted based on known information.
+3. **Avoid Potential Exploitation:**
+    - If attackers can successfully determine which hosts are alive, they may focus their efforts on exploiting vulnerabilities in those systems. Defending against these sweeps helps minimize the risk of targeted attacks.
+4. **Prevent Network Mapping:**
+    - ICMP and TCP/UDP sweeps are often used to map network topologies. By limiting the response to these sweeps, organizations make it more challenging for attackers to create an accurate map of the network structure.
+
+
