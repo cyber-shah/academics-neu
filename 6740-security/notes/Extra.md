@@ -14,3 +14,18 @@ The server then sends the SSL certificate to the client. The certificate contain
 **Step 4** - Now that both the client and the server hold the same session key (symmetric encryption), the encrypted data is transmitted in a secure bi-directional channel.
 #### Why does HTTPS switch to symmetric encryption during data transmission? 
 1. **Server resources**: The asymmetric encryption adds quite a lot of mathematical overhead. It is not suitable for data transmissions in long sessions.
+
+
+# Hashing
+#### 1. What is Hashing in Security?
+ Hashing in security is a process of converting input data (of any size) into a fixed-size string of characters, which is typically a hash value or hash code. This process is accomplished by a mathematical function called a hash function.
+
+#### 2. Why Do We Need Hashing?
+The main answer here is security and integrity.
+- **Data Integrity:**
+    - Hashing ensures data integrity by generating a unique hash value for each unique input. Any change in the input data results in a significantly different hash, allowing detection of tampering or corruption.
+- **Password Storage:**
+    - Hashing is crucial for secure password storage. Instead of storing actual passwords, systems store their hashed values. This adds a layer of security, as even if the hashed values are compromised, the original passwords are not easily retrievable.
+- **Data Verification:**
+    - Hashing is used to verify data authenticity. By comparing hash values before and after transmission, parties can confirm that the data has not been altered during transit.
+
