@@ -97,11 +97,44 @@ so one key can be used only for encryption. and you can give it to everyone, the
 
 
 
+# Hashing
+
+## Birthday attacks
+
+why? adversary wants to replace one message with other so that the 
+find collisions without having to explore all the space.
+
+usually for 64 bits the adversary needs to look at only 2^32 bits.
+
+why are collisions good for an adversary?
+
+two mesasges with the same hash
+
+Hash of M1 = Hash of M2
+![[Pasted image 20240126101831.png]]
+
+#### Applications
+1. Authentication - In authentication systems, when users create a new account and input their chosen password, the application code passes that password through a hashing function and stores the result in the database. When the user wants to authenticate later, the process is repeated and the result is compared to the value from the database. If it’s a match, the user provided the right password.
+2. Encryption - 
+3. Message Authentication Codes -
+
+HMAC
+
+![[Pasted image 20240126105536.png]]
+question on this in the quiz next week, p and q will be given.
+
+https://en.wikipedia.org/wiki/RSA_%28cryptosystem%29
 
 
 
+RSA
+$(M^e)^d$  where e is something that only you know and d is known by everyone
+and $(M^d)^e$ and then you use e to decrypt the message.
 
+Flaws in using textbook RSA
 
+what is IND CPA security
+check jupyter notebook
 
 
 
