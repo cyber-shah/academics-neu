@@ -105,21 +105,20 @@ class cryptoer:
         # 1. create a kdf - symmetric key
         # TODO: if someone uses this file can they see the symmetric key?
         self.symmetric_key = self.create_symmetric_key(self.sender_SK)
+        print(f"symmetric key: {self.symmetric_key}")
 
         # 2. encrypt the plaintext with the symmetric key
         # appends the iv in front of the ciphertext
         ciphertext = self.encrypt_plaintext(self.symmetric_key, self.in_file)
-        print(f"ciphertext: {binascii.hexlify(ciphertext).decode()}")
+        print(f"ciphertext: {ciphertext}")
 
         # 3. encrypt the symmetric key with destination public key
         encrypted_symmetric_key = self.encrypt_symmetric_key(
             self.symmetric_key, self.dest_PK)
-        print(
-            f"encrypted_symmetric_key: {binascii.hexlify(encrypted_symmetric_key).decode()}")
+        print(f"encrypted symmetric key: {encrypted_symmetric_key}")
 
         # 4. sign the hash of the plaintext with rsa
         signature = self.sign_plaintext(self.sender_SK, self.in_file)
-        print(f"signature: {binascii.hexlify(signature).decode()}")
 
         # 5. output the symmetric key, ciphertext, and signature to a File
         with open(out_file, 'wb') as f:
