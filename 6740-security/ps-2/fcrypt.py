@@ -17,8 +17,15 @@ Here's the flow of the program:
 
 
 import argparse
-import cryptography.hazmat.primitives
 import os
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives.hashes import SHA256
+import cryptography.hazmat.primitives
+import cryptography.hazmat.backends
+import cryptography.hazmat.primitives.padding
+import cryptography.hazmat.primitives.serialization
+import binascii
+
 """
 For encryption and signatures generating ciphertext_file: ALL MUST BE FILES
 python fcrypt.py -e <dest_PK> <sender_SK> <in_plaintext> <out_ciphertext>
@@ -59,41 +66,60 @@ class cryptoer:
             self.in_file = in_file_bytes
         if dest_PK:
             with open(dest_PK, 'rb') as f:
-                dest_PK_bytes = f.read()
-            self.dest_PK = dest_PK_bytes
+                self.dest_PK_bytes = f.read()
+            self.dest_PK = cryptography.hazmat.primitives.serialization.load_pem_public_key(
+                self.dest_PK_bytes,
+                backend=cryptography.hazmat.backends.default_backend()
+            )
         if dest_SK:
             with open(dest_SK, 'rb') as f:
-                dest_SK_bytes = f.read()
-            self.dest_SK = dest_SK_bytes
+                self.dest_SK_bytes = f.read()
+            self.dest_SK = cryptography.hazmat.primitives.serialization.load_pem_private_key(
+                self.dest_SK_bytes,
+                password=None,
+                backend=cryptography.hazmat.backends.default_backend()
+            )
         if sender_PK:
             with open(sender_PK, 'rb') as f:
-                sender_PK_bytes = f.read()
-            self.sender_PK = sender_PK_bytes
+                self.sender_PK_bytes = f.read()
+            self.sender_PK = cryptography.hazmat.primitives.serialization.load_pem_public_key(
+                self.sender_PK_bytes,
+                backend=cryptography.hazmat.backends.default_backend()
+            )
         if sender_SK:
             with open(sender_SK, 'rb') as f:
-                sender_SK_bytes = f.read()
-            self.sender_SK = sender_SK_bytes
+                self.sender_SK_bytes = f.read()
+            self.sender_SK = cryptography.hazmat.primitives.serialization.load_pem_private_key(
+                self.sender_SK_bytes,
+                password=None,
+                backend=cryptography.hazmat.backends.default_backend()
+            )
 
-    def encrypt(self, dest_PK, sender_SK, in_plaintext, out_file):
+    def encrypt(self, out_file):
         """
         encrypts the plaintext and signs it
         """
+        # TODO: figure out what is the format of the final output file
         # NOTE: for each message/encyption session, a new symmetric key is used
 
         # 1. create a kdf - symmetric key
         # TODO: if someone uses this file can they see the symmetric key?
-        self.symmetric_key = self.create_symmetric_key(sender_SK)
+        self.symmetric_key = self.create_symmetric_key(self.sender_SK)
 
         # 2. encrypt the plaintext with the symmetric key
         # appends the iv in front of the ciphertext
         ciphertext = self.encrypt_plaintext(self.symmetric_key, self.in_file)
+        print(f"ciphertext: {binascii.hexlify(ciphertext).decode()}")
 
         # 3. encrypt the symmetric key with destination public key
         encrypted_symmetric_key = self.encrypt_symmetric_key(
             self.symmetric_key, self.dest_PK)
+        print(
+            f"encrypted_symmetric_key: {binascii.hexlify(encrypted_symmetric_key).decode()}")
 
         # 4. sign the hash of the plaintext with rsa
         signature = self.sign_plaintext(self.sender_SK, self.in_file)
+        print(f"signature: {binascii.hexlify(signature).decode()}")
 
         # 5. output the symmetric key, ciphertext, and signature to a File
         with open(out_file, 'wb') as f:
@@ -107,8 +133,8 @@ class cryptoer:
     def create_symmetric_key(self, sender_SK):
         # create a random salt
         salt = os.urandom(16)
-        kdf = cryptography.hazmat.primitives.kdf.pbkdf2.PBKDF2HMAC(
-            algorithm=cryptography.hazmat.primitives.hashes.SHA256(),
+        kdf = PBKDF2HMAC(
+            algorithm=SHA256(),
             length=32,
             salt=salt,
             iterations=100000,
@@ -116,7 +142,7 @@ class cryptoer:
         )
         # NOTE: using sender_SK as the password to make the kdf more secure
         # -- over using a PK
-        symmetric_key = kdf.derive(sender_SK)
+        symmetric_key = kdf.derive(self.sender_SK_bytes)
         return symmetric_key
 
     def encrypt_symmetric_key(self, symmetric_key, dest_PK):
@@ -146,6 +172,11 @@ class cryptoer:
         """
         # create a random iv
         iv = os.urandom(16)
+
+        # pad the plaintext
+        padder = cryptography.hazmat.primitives.padding.PKCS7(128).padder()
+        in_plaintext = padder.update(in_plaintext) + padder.finalize()
+
         # create a cipher
         cipher = cryptography.hazmat.primitives.ciphers.Cipher(
             cryptography.hazmat.primitives.ciphers.algorithms.AES(
@@ -191,10 +222,12 @@ if __name__ == "__main__":
     parser.add_argument("out_file", help="output ciphertext file")
     args = parser.parse_args()
 
-    encrypt = cryptoer()
+    cryptoer = cryptoer()
     if args.encrypt:
-        cryptoer.encrypt(args.dest_PK, args.sender_SK,
-                         args.in_file, args.out_file)
+        cryptoer.files_to_bytes(in_file=args.in_file,
+                                dest_PK=args.dest_PK,
+                                sender_SK=args.sender_SK)
+        cryptoer.encrypt(args.out_file)
     elif args.decrypt:
         cryptoer.decrypt(args.dest_SK, args.sender_PK,
                          args.in_file, args.out_file)
