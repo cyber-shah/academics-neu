@@ -138,8 +138,7 @@ check jupyter notebook
 
 
 
-
-
+## Random is at the foundation, its strength determines the strength of everything above it
 
 
 
