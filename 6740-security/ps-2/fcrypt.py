@@ -14,15 +14,8 @@ Here's the flow of the program:
 9. verify the signature using the senders PK and the plaintext
 10. output the plaintext to a file
 """
-from cryptography.hazmat.primitives import serialization
-import cryptography.hazmat.primitives.serialization
-import cryptography.hazmat.primitives.padding
-import cryptography.hazmat.backends
-import cryptography.hazmat.primitives
-from cryptography.hazmat.primitives.hashes import SHA256
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat import primitives
+from cryptography.hazmat import backends
 
 import os
 import argparse
@@ -76,32 +69,32 @@ class cryptoer:
         if dest_PK:
             with open(dest_PK, 'rb') as f:
                 self.dest_PK_bytes = f.read()
-            self.dest_PK = serialization.load_pem_public_key(
+            self.dest_PK = primitives.serialization.load_pem_public_key(
                 self.dest_PK_bytes,
-                backend=cryptography.hazmat.backends.default_backend()
+                backend=backends.default_backend()
             )
         if dest_SK:
             with open(dest_SK, 'rb') as f:
                 self.dest_SK_bytes = f.read()
-            self.dest_SK = serialization.load_pem_private_key(
+            self.dest_SK = primitives.serialization.load_pem_private_key(
                 self.dest_SK_bytes,
                 password=None,
-                backend=cryptography.hazmat.backends.default_backend()
+                backend=backends.default_backend()
             )
         if sender_PK:
             with open(sender_PK, 'rb') as f:
                 self.sender_PK_bytes = f.read()
-            self.sender_PK = serialization.load_pem_public_key(
+            self.sender_PK = primitives.sserialization.load_pem_public_key(
                 self.sender_PK_bytes,
-                backend=cryptography.hazmat.backends.default_backend()
+                backend=backends.default_backend()
             )
         if sender_SK:
             with open(sender_SK, 'rb') as f:
                 self.sender_SK_bytes = f.read()
-            self.sender_SK = serialization.load_pem_private_key(
+            self.sender_SK = primitives.serialization.load_pem_private_key(
                 self.sender_SK_bytes,
                 password=None,
-                backend=cryptography.hazmat.backends.default_backend()
+                backend=backends.default_backend()
             )
 
     def create_symmetric_key(self, sender_SK):
@@ -112,10 +105,10 @@ class cryptoer:
             length=SYMKEY_LEN,
             salt=salt,
             iterations=100000,
-            backend=cryptography.hazmat.backends.default_backend()
+            backend=backends.default_backend()
         )
         # NOTE: using sender_SK as the password to make the kdf more secure
-        # -- over using a PK
+        # -- over using a PK as PK is available to everyone
         symmetric_key = kdf.derive(self.sender_SK_bytes)
         return symmetric_key
 
@@ -128,8 +121,8 @@ class cryptoer:
         # USING OAEP padding
         return dest_PK.encrypt(
             symmetric_key,
-            padding.OAEP(
-                mgf=padding.MGF1(
+            primitives.asymmetric.padding.OAEP(
+                mgf=primitives.asymmetric.padding.MGF1(
                     algorithm=hashes.SHA256()
                 ),
                 algorithm=hashes.SHA256(),
@@ -142,19 +135,20 @@ class cryptoer:
         Encrypts the plaintext with the symmetric key
         appends iv in front of the ciphertext
         """
+        # NOTE: uses AES with CBC mode and hence requires padding
+
         # create a random iv
         iv = os.urandom(IV_LEN)
 
         # pad the plaintext
-        padder = cryptography.hazmat.primitives.padding.PKCS7(128).padder()
+        padder = primitives.padding.PKCS7(128).padder()
         in_plaintext = padder.update(in_plaintext) + padder.finalize()
 
         # create a cipher
-        cipher = cryptography.hazmat.primitives.ciphers.Cipher(
-            cryptography.hazmat.primitives.ciphers.algorithms.AES(
-                symmetric_key),
-            cryptography.hazmat.primitives.ciphers.modes.CBC(iv),
-            cryptography.hazmat.backends.default_backend()
+        cipher = ciphers.Cipher(
+            ciphers.algorithms.AES(symmetric_key),
+            ciphers.modes.CBC(iv),
+            backends.default_backend()
         )
         # encrypt the plaintext
         encryptor = cipher.encryptor()
@@ -182,13 +176,13 @@ class cryptoer:
         #
         return sender_SK.sign(
             in_plaintext,
-            cryptography.hazmat.primitives.asymmetric.padding.PSS(
-                mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
-                    algorithm=cryptography.hazmat.primitives.hashes.SHA256()
+            primitives.asymmetric.padding.PSS(
+                mgf=asymmetric.padding.MGF1(
+                    algorithm=primitives.hashes.SHA256()
                 ),
-                salt_length=cryptography.hazmat.primitives.asymmetric.padding.PSS.MAX_LENGTH
+                salt_length=asymmetric.padding.PSS.MAX_LENGTH
             ),
-            cryptography.hazmat.primitives.hashes.SHA256()
+            primitives.hashes.SHA256()
         )
 
     # ###############################################
@@ -268,26 +262,26 @@ class cryptoer:
     def decrypt_symmetric_key(self, symmetric_key, dest_SK):
         return self.dest_SK.decrypt(
             symmetric_key,
-            cryptography.hazmat.primitives.asymmetric.padding.OAEP(
-                mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
-                    algorithm=cryptography.hazmat.primitives.hashes.SHA256()
+            primitives.asymmetric.padding.OAEP(
+                mgf=primitives.asymmetric.padding.MGF1(
+                    algorithm=primitives.hashes.SHA256()
                 ),
-                algorithm=cryptography.hazmat.primitives.hashes.SHA256(),
+                algorithm=primitives.hashes.SHA256(),
                 label=None
             )
         )
 
     def decrypt_ciphertext(self, symmetric_key, in_ciphertext):
-        decryptor = cryptography.hazmat.primitives.ciphers.Cipher(
-            cryptography.hazmat.primitives.ciphers.algorithms.AES(
+        decryptor = primitives.ciphers.Cipher(
+            primitives.ciphers.algorithms.AES(
                 symmetric_key),
-            cryptography.hazmat.primitives.ciphers.modes.CBC(
+            primitives.ciphers.modes.CBC(
                 in_ciphertext[:IV_LEN]),
-            cryptography.hazmat.backends.default_backend()
+            backends.default_backend()
         ).decryptor()
         plaintext = decryptor.update(
             in_ciphertext[IV_LEN:]) + decryptor.finalize()
-        unpadder = cryptography.hazmat.primitives.padding.PKCS7(128).unpadder()
+        unpadder = primitives.padding.PKCS7(128).unpadder()
         plaintext = unpadder.update(plaintext) + unpadder.finalize()
         return plaintext
 
@@ -295,13 +289,13 @@ class cryptoer:
         self.sender_PK.verify(
             signature,
             in_plaintext,
-            cryptography.hazmat.primitives.asymmetric.padding.PSS(
-                mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
-                    algorithm=cryptography.hazmat.primitives.hashes.SHA256()
+            primitives.asymmetric.padding.PSS(
+                mgf=primitives.asymmetric.padding.MGF1(
+                    algorithm=primitives.hashes.SHA256()
                 ),
-                salt_length=cryptography.hazmat.primitives.asymmetric.padding.PSS.MAX_LENGTH
+                salt_length=primitives.asymmetric.padding.PSS.MAX_LENGTH
             ),
-            cryptography.hazmat.primitives.hashes.SHA256()
+            primitives.hashes.SHA256()
         )
 
 
