@@ -1,12 +1,8 @@
 import argparse
 import os
 
-from cryptography.hazmat.primitives import ciphers
-import cryptography.hazmat.primitives.asymmetric as asymmetric
-import cryptography.hazmat.primitives.hashes as hashes
-import cryptography.hazmat.primitives.padding as padding
-import cryptography.hazmat.primitives.serialization as serialization
-import cryptography.hazmat.backends as backends
+from cryptography.hazmat.primitives import ciphers, asymmetric, hashes, padding, serialization
+from cryptography.hazmat import backends
 
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
@@ -195,6 +191,81 @@ class cryptoer:
             f.write(encrypted_symmetric_key)
             f.write(signature)
             f.write(ciphertext)
+
+    # ###############################################
+    #                 DECRYPTION
+    # ###############################################
+    def decrypt(self, out_file):
+        # TODO : resolve this
+        # 1. get the symmetric key
+        # 2. get the ciphertext
+        # 3. get the signature
+        with open(self.in_file_path, 'rb') as f:
+            encrypted_symmetric_key = f.read(128)
+            signature = f.read(128)
+            ciphertext = f.read()
+
+        print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
+        print("\nsignature:", signature)
+        print("\nciphertext:", ciphertext)
+
+        # 4. decrypt the symmetric key
+        self.symmetric_key = self.decrypt_symmetric_key(encrypted_symmetric_key,
+                                                        self.dest_SK)
+        print("\nsymmetric_key:", self.symmetric_key)
+        # 5. decrypt the ciphertext
+        self.plaintext = self.decrypt_ciphertext(
+            self.symmetric_key, self.in_file)
+        print("\nplaintext:", self.plaintext)
+        # 6. verify the signature
+        self.verify_signature(signature, self.plaintext)
+        print("\nverified signature")
+        # 7. output the plaintext to a file
+        with open(out_file, 'wb') as f:
+            f.write(self.plaintext)
+
+    def decrypt_symmetric_key(self, symmetric_key, dest_SK):
+        """
+        decrypts the symmetric key with the destination private key
+        and returns the decrypted key
+        """
+        return self.dest_SK.decrypt(
+            symmetric_key,
+            asymmetric.padding.OAEP(
+                mgf=asymmetric.padding.MGF1(
+                    algorithm=hashes.SHA256()
+                ),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+
+    def decrypt_ciphertext(self, symmetric_key, in_ciphertext):
+        decryptor = ciphers.Cipher(
+            ciphers.algorithms.AES(
+                symmetric_key),
+            ciphers.modes.CBC(
+                in_ciphertext[:IV_LEN]),
+            backends.default_backend()
+        ).decryptor()
+        plaintext = decryptor.update(
+            in_ciphertext[IV_LEN:]) + decryptor.finalize()
+        unpadder = padding.PKCS7(128).unpadder()
+        plaintext = unpadder.update(plaintext) + unpadder.finalize()
+        return plaintext
+
+    def verify_signature(self, signature, in_plaintext):
+        self.sender_PK.verify(
+            signature,
+            in_plaintext,
+            asymmetric.padding.PSS(
+                mgf=asymmetric.padding.MGF1(
+                    algorithm=hashes.SHA256()
+                ),
+                salt_length=asymmetric.padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
 
 
 if __name__ == "__main__":
