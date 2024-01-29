@@ -14,17 +14,23 @@ Here's the flow of the program:
 9. verify the signature using the senders PK and the plaintext
 10. output the plaintext to a file
 """
-
-
-import argparse
-import os
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives.hashes import SHA256
-import cryptography.hazmat.primitives
-import cryptography.hazmat.backends
-import cryptography.hazmat.primitives.padding
+from cryptography.hazmat.primitives import serialization
 import cryptography.hazmat.primitives.serialization
-import binascii
+import cryptography.hazmat.primitives.padding
+import cryptography.hazmat.backends
+import cryptography.hazmat.primitives
+from cryptography.hazmat.primitives.hashes import SHA256
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
+
+import os
+import argparse
+
+# sizes in bytes
+SYMKEY_LEN = 32
+AES_BLOCK_SIZE = 16
+IV_LEN = 16
 
 """
 For encryption and signatures generating ciphertext_file: ALL MUST BE FILES
@@ -47,13 +53,15 @@ Three modules:
 class cryptoer:
     """
     On encryption, cipher text is of the following format:
-    <Encrypted Symmetric Key> <Ciphertext> <Digital Signature>
+    <Encrypted Symmetric Key> <Digital Signature> <Ciphertext>
+    WHY? because the cipher text is the most sensitive, and we
+    won't decrypt it unless the signature is verified
     """
 
     def __init__(self):
         pass
 
-    def files_to_bytes(self, in_file=None,
+    def files_to_bytes(self, in_file=None, out_file=None,
                        dest_PK=None, dest_SK=None,
                        sender_PK=None,  sender_SK=None):
         """
@@ -61,20 +69,21 @@ class cryptoer:
         and stores them as attributes to the class
         """
         if in_file:
+            self.in_file_path = in_file
             with open(in_file, 'rb') as f:
                 in_file_bytes = f.read()
             self.in_file = in_file_bytes
         if dest_PK:
             with open(dest_PK, 'rb') as f:
                 self.dest_PK_bytes = f.read()
-            self.dest_PK = cryptography.hazmat.primitives.serialization.load_pem_public_key(
+            self.dest_PK = serialization.load_pem_public_key(
                 self.dest_PK_bytes,
                 backend=cryptography.hazmat.backends.default_backend()
             )
         if dest_SK:
             with open(dest_SK, 'rb') as f:
                 self.dest_SK_bytes = f.read()
-            self.dest_SK = cryptography.hazmat.primitives.serialization.load_pem_private_key(
+            self.dest_SK = serialization.load_pem_private_key(
                 self.dest_SK_bytes,
                 password=None,
                 backend=cryptography.hazmat.backends.default_backend()
@@ -82,59 +91,25 @@ class cryptoer:
         if sender_PK:
             with open(sender_PK, 'rb') as f:
                 self.sender_PK_bytes = f.read()
-            self.sender_PK = cryptography.hazmat.primitives.serialization.load_pem_public_key(
+            self.sender_PK = serialization.load_pem_public_key(
                 self.sender_PK_bytes,
                 backend=cryptography.hazmat.backends.default_backend()
             )
         if sender_SK:
             with open(sender_SK, 'rb') as f:
                 self.sender_SK_bytes = f.read()
-            self.sender_SK = cryptography.hazmat.primitives.serialization.load_pem_private_key(
+            self.sender_SK = serialization.load_pem_private_key(
                 self.sender_SK_bytes,
                 password=None,
                 backend=cryptography.hazmat.backends.default_backend()
             )
 
-    def encrypt(self, out_file):
-        """
-        encrypts the plaintext and signs it
-        """
-        # TODO: figure out what is the format of the final output file
-        # NOTE: for each message/encyption session, a new symmetric key is used
-
-        # 1. create a kdf - symmetric key
-        # TODO: if someone uses this file can they see the symmetric key?
-        self.symmetric_key = self.create_symmetric_key(self.sender_SK)
-        print(f"symmetric key: {self.symmetric_key}")
-
-        # 2. encrypt the plaintext with the symmetric key
-        # appends the iv in front of the ciphertext
-        ciphertext = self.encrypt_plaintext(self.symmetric_key, self.in_file)
-        print(f"ciphertext: {ciphertext}")
-
-        # 3. encrypt the symmetric key with destination public key
-        encrypted_symmetric_key = self.encrypt_symmetric_key(
-            self.symmetric_key, self.dest_PK)
-        print(f"encrypted symmetric key: {encrypted_symmetric_key}")
-
-        # 4. sign the hash of the plaintext with rsa
-        signature = self.sign_plaintext(self.sender_SK, self.in_file)
-
-        # 5. output the symmetric key, ciphertext, and signature to a File
-        with open(out_file, 'wb') as f:
-            f.write(encrypted_symmetric_key)
-            f.write(ciphertext)
-            f.write(signature)
-
-    def decrypt(self, dest_SK, sender_PK, in_file, out_file):
-        pass
-
     def create_symmetric_key(self, sender_SK):
         # create a random salt
-        salt = os.urandom(16)
+        salt = os.urandom(IV_LEN)
         kdf = PBKDF2HMAC(
             algorithm=SHA256(),
-            length=32,
+            length=SYMKEY_LEN,
             salt=salt,
             iterations=100000,
             backend=cryptography.hazmat.backends.default_backend()
@@ -150,19 +125,17 @@ class cryptoer:
         and returns the encrypted key
         """
         # done with dest PK because only the dest SK can decrypt it
+        # USING OAEP padding
         return dest_PK.encrypt(
             symmetric_key,
-            cryptography.hazmat.primitives.asymmetric.padding.OAEP(
-                mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
-                    algorithm=cryptography.hazmat.primitives.hashes.SHA256()
+            padding.OAEP(
+                mgf=padding.MGF1(
+                    algorithm=hashes.SHA256()
                 ),
-                algorithm=cryptography.hazmat.primitives.hashes.SHA256(),
+                algorithm=hashes.SHA256(),
                 label=None
             )
         )
-
-    def decrypt_symmetric_key(self, symmetric_key, dest_SK):
-        pass
 
     def encrypt_plaintext(self, symmetric_key, in_plaintext):
         """
@@ -170,7 +143,7 @@ class cryptoer:
         appends iv in front of the ciphertext
         """
         # create a random iv
-        iv = os.urandom(16)
+        iv = os.urandom(IV_LEN)
 
         # pad the plaintext
         padder = cryptography.hazmat.primitives.padding.PKCS7(128).padder()
@@ -192,14 +165,135 @@ class cryptoer:
         ciphertext = iv + encryptor.update(in_plaintext) + encryptor.finalize()
         return ciphertext
 
-    def decrypt_ciphertext(self, symmetric_key, in_ciphertext):
-        pass
-
     def sign_plaintext(self, sender_SK, in_plaintext):
         """
         Returns a signature of the plaintext using the senders SK
+        With AES, for example, we have a block size of 128 bits (16 bytes), and
+        where we process these blocks to cipher and decipher.
+        But the last block is unlikely to fill all the bytes in this block
+        and so we add in padding.
+        This padding is typically derived from the number of empty spaces
+        and repeated for the number of spaces left.
+        And so, “hello” is padded with 11 padding values (0b):
+
+        h e l l o 0b 0b 0b 0b 0b 0b 0b 0b 0b 0b 0b
         """
+        # size of the signature = size of the key + padding size
+        #
         return sender_SK.sign(
+            in_plaintext,
+            cryptography.hazmat.primitives.asymmetric.padding.PSS(
+                mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
+                    algorithm=cryptography.hazmat.primitives.hashes.SHA256()
+                ),
+                salt_length=cryptography.hazmat.primitives.asymmetric.padding.PSS.MAX_LENGTH
+            ),
+            cryptography.hazmat.primitives.hashes.SHA256()
+        )
+
+    # ###############################################
+    #                  ENCRYPTION
+    # ###############################################
+    def encrypt(self, out_file):
+        """
+        encrypts the plaintext and signs it
+        """
+        # NOTE: for each message/encyption session, a new symmetric key is used
+
+        # 1. create a kdf - symmetric key
+        self.symmetric_key = self.create_symmetric_key(self.sender_SK)
+
+        # 2. encrypt the plaintext with the symmetric key
+        # appends the iv in front of the ciphertext
+        ciphertext = self.encrypt_plaintext(self.symmetric_key, self.in_file)
+
+        # 3. encrypt the symmetric key with destination public key
+        encrypted_symmetric_key = self.encrypt_symmetric_key(
+            self.symmetric_key, self.dest_PK)
+
+        # 4. sign the hash of the plaintext with rsa
+        signature = self.sign_plaintext(self.sender_SK, self.in_file)
+
+        # NOTE: so far each of the above is a byte string
+        # when written to a file, they are written as bytes
+        print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
+        print("\nsignature:", signature)
+        print("\nciphertext:", ciphertext)
+
+        print("\n\nlen(encrypted_symmetric_key):",
+              len(encrypted_symmetric_key))
+        print("\nlen(signature):", len(signature))
+        print("\nlen(ciphertext):", len(ciphertext))
+        # 5. output the symmetric key, ciphertext, and signature to a File
+        with open(out_file, 'wb') as f:
+            f.write(encrypted_symmetric_key)
+            f.write(signature)
+            f.write(ciphertext)
+
+    # ###############################################
+    #                 DECRYPTION
+    # ###############################################
+    def decrypt(self, out_file):
+        # TODO : resolve this
+        print("\nlen (encrypted_symmetric_key):", 128)
+        print("\nlen (signature):", 128)
+        # 1. get the symmetric key
+        # 2. get the ciphertext
+        # 3. get the signature
+        with open(self.in_file_path, 'rb') as f:
+            encrypted_symmetric_key = f.read(128)
+            signature = f.read(128)
+            ciphertext = f.read()
+
+        print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
+        print("\nsignature:", signature)
+        print("\nciphertext:", ciphertext)
+
+        # 4. decrypt the symmetric key
+        self.symmetric_key = self.decrypt_symmetric_key(encrypted_symmetric_key,
+                                                        self.dest_SK)
+        print("\nsymmetric_key:", self.symmetric_key)
+        # 5. decrypt the ciphertext
+        self.plaintext = self.decrypt_ciphertext(
+            self.symmetric_key, self.in_file)
+        print("\nplaintext:", self.plaintext)
+        # 6. verify the signature
+        self.verify_signature(signature, self.plaintext)
+        print("\nverified signature")
+        # 7. output the plaintext to a file
+        with open(out_file, 'wb') as f:
+            f.write(self.plaintext)
+        pass
+
+    def decrypt_symmetric_key(self, symmetric_key, dest_SK):
+        return self.dest_SK.decrypt(
+            symmetric_key,
+            cryptography.hazmat.primitives.asymmetric.padding.OAEP(
+                mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
+                    algorithm=cryptography.hazmat.primitives.hashes.SHA256()
+                ),
+                algorithm=cryptography.hazmat.primitives.hashes.SHA256(),
+                label=None
+            )
+        )
+
+    def decrypt_ciphertext(self, symmetric_key, in_ciphertext):
+        decryptor = cryptography.hazmat.primitives.ciphers.Cipher(
+            cryptography.hazmat.primitives.ciphers.algorithms.AES(
+                symmetric_key),
+            cryptography.hazmat.primitives.ciphers.modes.CBC(
+                in_ciphertext[:IV_LEN]),
+            cryptography.hazmat.backends.default_backend()
+        ).decryptor()
+        plaintext = decryptor.update(
+            in_ciphertext[IV_LEN:]) + decryptor.finalize()
+        unpadder = cryptography.hazmat.primitives.padding.PKCS7(128).unpadder()
+        plaintext = unpadder.update(plaintext) + unpadder.finalize()
+        return plaintext
+
+    def verify_signature(self, signature, in_plaintext):
+        self.sender_PK.verify(
+            signature,
             in_plaintext,
             cryptography.hazmat.primitives.asymmetric.padding.PSS(
                 mgf=cryptography.hazmat.primitives.asymmetric.padding.MGF1(
@@ -215,8 +309,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Encrypt and sign files")
     parser.add_argument("-e", "--encrypt", action="store_true")
     parser.add_argument("-d", "--decrypt", action="store_true")
-    parser.add_argument("dest_PK", help="destination public key file")
-    parser.add_argument("sender_SK", help="sender private key file")
+    parser.add_argument("dest_key", help="destination public key file")
+    parser.add_argument("sender_key", help="sender private key file")
     parser.add_argument("in_file", help="input plaintext file")
     parser.add_argument("out_file", help="output ciphertext file")
     args = parser.parse_args()
@@ -224,12 +318,15 @@ if __name__ == "__main__":
     cryptoer = cryptoer()
     if args.encrypt:
         cryptoer.files_to_bytes(in_file=args.in_file,
-                                dest_PK=args.dest_PK,
-                                sender_SK=args.sender_SK)
+                                dest_PK=args.dest_key,
+                                sender_SK=args.sender_key)
         cryptoer.encrypt(args.out_file)
     elif args.decrypt:
-        cryptoer.decrypt(args.dest_SK, args.sender_PK,
-                         args.in_file, args.out_file)
+        # assign the keys to dest SK and sender PK
+        cryptoer.files_to_bytes(in_file=args.in_file,
+                                dest_SK=args.dest_key,
+                                sender_PK=args.sender_key)
+        cryptoer.decrypt(args.out_file)
     else:
         print("error: must specify either -e or -d")
         exit(1)

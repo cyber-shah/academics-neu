@@ -15,7 +15,11 @@ number = sys.argv[1]
 # TODO: check if we need encoding
 # create TCP socket
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except ConnectionRefusedError:
+        print("Connection refused. Please try again.")
+        sys.exit(1)
     s.send(number.encode('utf-8'))
     data = s.recv(1024)
     # The maximum amount of data to be received in each chunk
