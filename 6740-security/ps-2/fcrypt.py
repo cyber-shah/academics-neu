@@ -1,11 +1,200 @@
 import argparse
 import os
 
-import cryptography.primitives.ciphers as ciphers
-import cryptography.primitives.asymmetric as asymmetric
-import cryptography.primitives.hashes as hashes
-import cryptography.primitives.padding as padding
-import cryptography.primitives.serialization as serialization
+from cryptography.hazmat.primitives import ciphers
+import cryptography.hazmat.primitives.asymmetric as asymmetric
+import cryptography.hazmat.primitives.hashes as hashes
+import cryptography.hazmat.primitives.padding as padding
+import cryptography.hazmat.primitives.serialization as serialization
+import cryptography.hazmat.backends as backends
+
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+# sizes in bytes
+SYMKEY_LEN = 32
+AES_BLOCK_SIZE = 16
+IV_LEN = 16
+
+
+class cryptoer:
+    """
+    On encryption, cipher text is of the following format:
+    <Encrypted Symmetric Key> <Digital Signature> <Ciphertext>
+    """
+
+    def __init__(self):
+        pass
+
+    def files_to_bytes(self, in_file=None, out_file=None,
+                       dest_PK=None, dest_SK=None,
+                       sender_PK=None,  sender_SK=None):
+        """
+        converts the file paths to byte strings
+        and stores them as attributes to the class
+        """
+        if in_file:
+            self.in_file_path = in_file
+            with open(in_file, 'rb') as f:
+                in_file_bytes = f.read()
+            self.in_file = in_file_bytes
+        if dest_PK:
+            with open(dest_PK, 'rb') as f:
+                self.dest_PK_bytes = f.read()
+            self.dest_PK = serialization.load_pem_public_key(
+                self.dest_PK_bytes,
+                backend=backends.default_backend()
+            )
+        if dest_SK:
+            with open(dest_SK, 'rb') as f:
+                self.dest_SK_bytes = f.read()
+            self.dest_SK = serialization.load_pem_private_key(
+                self.dest_SK_bytes,
+                password=None,
+                backend=backends.default_backend()
+            )
+        if sender_PK:
+            with open(sender_PK, 'rb') as f:
+                self.sender_PK_bytes = f.read()
+            self.sender_PK = serialization.load_pem_public_key(
+                self.sender_PK_bytes,
+                backend=backends.default_backend()
+            )
+        if sender_SK:
+            with open(sender_SK, 'rb') as f:
+                self.sender_SK_bytes = f.read()
+            self.sender_SK = serialization.load_pem_private_key(
+                self.sender_SK_bytes,
+                password=None,
+                backend=backends.default_backend()
+            )
+
+    def create_symmetric_key(self, sender_SK):
+        """
+        creates a symmetric key using the sender's private key
+        """
+        # create a random salt
+        salt = os.urandom(IV_LEN)
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=SYMKEY_LEN,
+            salt=salt,
+            iterations=100000,
+            backend=backends.default_backend()
+        )
+        # NOTE: using sender_SK as the password to make the kdf more secure
+        # -- over using a PK as PK is available to everyone
+        symmetric_key = kdf.derive(self.sender_SK_bytes)
+        return symmetric_key
+
+    def encrypt_symmetric_key(self, symmetric_key, dest_PK):
+        """
+        encrypts the symmetric key with the destination public key
+        and returns the encrypted key
+        """
+        # done with dest PK because only the dest SK can decrypt it
+        return dest_PK.encrypt(
+            symmetric_key,
+            asymmetric.padding.OAEP(
+                mgf=asymmetric.padding.MGF1(
+                    algorithm=hashes.SHA256()
+                ),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+
+    def encrypt_plaintext(self, symmetric_key, in_plaintext):
+        """
+        encrypts the plaintext with the symmetric key
+        appends iv in front of the ciphertext
+        """
+        # note: uses aes with cbc mode and hence requires padding
+
+        # create a random iv
+        iv = os.urandom(IV_LEN)
+
+        # pad the plaintext
+        padder = padding.PKCS7(128).padder()
+        in_plaintext = padder.update(in_plaintext) + padder.finalize()
+
+        # create a cipher
+        cipher = ciphers.Cipher(
+            ciphers.algorithms.AES(symmetric_key),
+            ciphers.modes.CBC(iv),
+            backends.default_backend()
+        )
+        # encrypt the plaintext
+        encryptor = cipher.encryptor()
+        # update proceses the data and generates the cipher
+        # finalize finalizes the cipher
+
+        # prepend iv, key to the ciphertext
+        ciphertext = iv + encryptor.update(in_plaintext) + encryptor.finalize()
+        return ciphertext
+
+    def sign_plaintext(self, sender_SK, in_plaintext):
+        """
+        Returns a signature of the plaintext using the senders SK
+        With AES, for example, we have a block size of 128 bits (16 bytes), and
+        where we process these blocks to cipher and decipher.
+        But the last block is unlikely to fill all the bytes in this block
+        and so we add in padding.
+        This padding is typically derived from the number of empty spaces
+        and repeated for the number of spaces left.
+        And so, “hello” is padded with 11 padding values (0b):
+
+        h e l l o 0b 0b 0b 0b 0b 0b 0b 0b 0b 0b 0b
+        """
+        # size of the signature = size of the key + padding size
+        return sender_SK.sign(
+            in_plaintext,
+            asymmetric.padding.PSS(
+                mgf=asymmetric.padding.MGF1(
+                    algorithm=hashes.SHA256()
+                ),
+                salt_length=asymmetric.padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+
+    # ###############################################
+    #                  ENCRYPTION
+    # ###############################################
+    def encrypt(self, out_file):
+        """
+        encrypts the plaintext and signs it
+        """
+        # NOTE: for each message/encyption session, a new symmetric key is used
+
+        # 1. create a kdf - symmetric key
+        self.symmetric_key = self.create_symmetric_key(self.sender_SK)
+
+        # 2. encrypt the plaintext with the symmetric key
+        # appends the iv in front of the ciphertext
+        ciphertext = self.encrypt_plaintext(self.symmetric_key, self.in_file)
+
+        # 3. encrypt the symmetric key with destination public key
+        encrypted_symmetric_key = self.encrypt_symmetric_key(
+            self.symmetric_key, self.dest_PK)
+
+        # 4. sign the hash of the plaintext with rsa
+        signature = self.sign_plaintext(self.sender_SK, self.in_file)
+
+        # NOTE: so far each of the above is a byte string
+        # when written to a file, they are written as bytes
+        print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
+        print("\nsignature:", signature)
+        print("\nciphertext:", ciphertext)
+
+        print("\n\nlen(encrypted_symmetric_key):",
+              len(encrypted_symmetric_key))
+        print("\nlen(signature):", len(signature))
+        print("\nlen(ciphertext):", len(ciphertext))
+        # 5. output the symmetric key, ciphertext, and signature to a File
+        with open(out_file, 'wb') as f:
+            f.write(encrypted_symmetric_key)
+            f.write(signature)
+            f.write(ciphertext)
 
 
 if __name__ == "__main__":
