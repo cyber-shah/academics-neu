@@ -104,28 +104,27 @@ class cryptoer:
         encrypts the plaintext with the symmetric key
         appends iv in front of the ciphertext
         """
-        # note: uses aes with cbc mode and hence requires padding
-
         # create a random iv
         iv = os.urandom(IV_LEN)
 
         # pad the plaintext
         padder = padding.PKCS7(128).padder()
-        in_plaintext = padder.update(in_plaintext) + padder.finalize()
+        in_plaintext_padded = padder.update(in_plaintext) + padder.finalize()
 
         # create a cipher
         cipher = ciphers.Cipher(
             ciphers.algorithms.AES(symmetric_key),
-            ciphers.modes.CBC(iv),
-            backends.default_backend()
-        )
+            ciphers.modes.CBC(iv))
         # encrypt the plaintext
         encryptor = cipher.encryptor()
         # update proceses the data and generates the cipher
         # finalize finalizes the cipher
 
         # prepend iv, key to the ciphertext
-        ciphertext = iv + encryptor.update(in_plaintext) + encryptor.finalize()
+        ciphertext = iv + \
+            encryptor.update(in_plaintext_padded) + \
+            encryptor.finalize()
+
         return ciphertext
 
     def sign_plaintext(self, sender_SK, in_plaintext):
@@ -178,6 +177,7 @@ class cryptoer:
 
         # NOTE: so far each of the above is a byte string
         # when written to a file, they are written as bytes
+        """
         print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
         print("\nsignature:", signature)
         print("\nciphertext:", ciphertext)
@@ -186,6 +186,7 @@ class cryptoer:
               len(encrypted_symmetric_key))
         print("\nlen(signature):", len(signature))
         print("\nlen(ciphertext):", len(ciphertext))
+        """
         # 5. output the symmetric key, ciphertext, and signature to a File
         with open(out_file, 'wb') as f:
             f.write(encrypted_symmetric_key)
@@ -205,21 +206,21 @@ class cryptoer:
             signature = f.read(128)
             ciphertext = f.read()
 
-        print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
-        print("\nsignature:", signature)
-        print("\nciphertext:", ciphertext)
-
         # 4. decrypt the symmetric key
-        self.symmetric_key = self.decrypt_symmetric_key(encrypted_symmetric_key,
-                                                        self.dest_SK)
-        print("\nsymmetric_key:", self.symmetric_key)
+        decrypted_symm_key = self.decrypt_symmetric_key(
+            encrypted_symmetric_key, self.dest_SK)
+
         # 5. decrypt the ciphertext
         self.plaintext = self.decrypt_ciphertext(
-            self.symmetric_key, self.in_file)
-        print("\nplaintext:", self.plaintext)
+            decrypted_symm_key, ciphertext)
+
         # 6. verify the signature
-        self.verify_signature(signature, self.plaintext)
-        print("\nverified signature")
+        if self.verify_signature(signature, self.plaintext):
+            print("Signature verified")
+        else:
+            print("Signature not verified")
+            exit(1)
+
         # 7. output the plaintext to a file
         with open(out_file, 'wb') as f:
             f.write(self.plaintext)
@@ -241,20 +242,29 @@ class cryptoer:
         )
 
     def decrypt_ciphertext(self, symmetric_key, in_ciphertext):
-        decryptor = ciphers.Cipher(
-            ciphers.algorithms.AES(
-                symmetric_key),
-            ciphers.modes.CBC(
-                in_ciphertext[:IV_LEN]),
-            backends.default_backend()
-        ).decryptor()
-        plaintext = decryptor.update(
+        """
+        decrypts the ciphertext with the symmetric key
+        """
+        # extract IV
+        iv = in_ciphertext[:IV_LEN]
+
+        # create a decryptor
+        decryptor = ciphers.Cipher(ciphers.algorithms.AES(symmetric_key),
+                                   ciphers.modes.CBC(iv)).decryptor()
+        # decrypt the ciphertext
+        decrypted_data = decryptor.update(
             in_ciphertext[IV_LEN:]) + decryptor.finalize()
+
+        # unpad the plaintext
         unpadder = padding.PKCS7(128).unpadder()
-        plaintext = unpadder.update(plaintext) + unpadder.finalize()
+        plaintext = unpadder.update(decrypted_data) + unpadder.finalize()
+
         return plaintext
 
     def verify_signature(self, signature, in_plaintext):
+        """
+        verifies the signature of the plaintext
+        """
         self.sender_PK.verify(
             signature,
             in_plaintext,
@@ -266,6 +276,8 @@ class cryptoer:
             ),
             hashes.SHA256()
         )
+        if self.sender_PK.verify:
+            return True
 
 
 if __name__ == "__main__":
