@@ -28,41 +28,80 @@ class cryptoer:
         converts the file paths to byte strings
         and stores them as attributes to the class
         """
+
         if in_file:
             self.in_file_path = in_file
             with open(in_file, 'rb') as f:
                 in_file_bytes = f.read()
             self.in_file = in_file_bytes
+
         if dest_PK:
             with open(dest_PK, 'rb') as f:
                 self.dest_PK_bytes = f.read()
-            self.dest_PK = serialization.load_pem_public_key(
-                self.dest_PK_bytes,
-                backend=backends.default_backend()
-            )
+            # Get the file extension
+            _, file_extension = os.path.splitext(dest_PK)
+            if file_extension == '.pem':
+                self.dest_PK = serialization.load_pem_public_key(
+                    self.dest_PK_bytes,
+                    backend=backends.default_backend()
+                )
+            elif file_extension == '.der':
+                self.dest_PK = serialization.load_der_public_key(
+                    self.dest_PK_bytes,
+                    backend=backends.default_backend()
+                )
+
         if dest_SK:
             with open(dest_SK, 'rb') as f:
                 self.dest_SK_bytes = f.read()
-            self.dest_SK = serialization.load_pem_private_key(
-                self.dest_SK_bytes,
-                password=None,
-                backend=backends.default_backend()
-            )
+            # Get the file extension
+            _, file_extension = os.path.splitext(dest_SK)
+            if file_extension == '.pem':
+                self.dest_SK = serialization.load_pem_private_key(
+                    self.dest_SK_bytes,
+                    password=None,
+                    backend=backends.default_backend()
+                )
+            elif file_extension == '.der':
+                self.dest_SK = serialization.load_der_private_key(
+                    self.dest_SK_bytes,
+                    password=None,
+                    backend=backends.default_backend()
+                )
+
         if sender_PK:
             with open(sender_PK, 'rb') as f:
                 self.sender_PK_bytes = f.read()
-            self.sender_PK = serialization.load_pem_public_key(
-                self.sender_PK_bytes,
-                backend=backends.default_backend()
-            )
+            # Get the file extension
+            _, file_extension = os.path.splitext(sender_PK)
+            if file_extension == '.pem':
+                self.sender_PK = serialization.load_pem_public_key(
+                    self.sender_PK_bytes,
+                    backend=backends.default_backend()
+                )
+            elif file_extension == '.der':
+                self.sender_PK = serialization.load_der_public_key(
+                    self.sender_PK_bytes,
+                    backend=backends.default_backend()
+                )
+
         if sender_SK:
             with open(sender_SK, 'rb') as f:
                 self.sender_SK_bytes = f.read()
-            self.sender_SK = serialization.load_pem_private_key(
-                self.sender_SK_bytes,
-                password=None,
-                backend=backends.default_backend()
-            )
+            # Get the file extension
+            _, file_extension = os.path.splitext(sender_SK)
+            if file_extension == '.pem':
+                self.sender_SK = serialization.load_pem_private_key(
+                    self.sender_SK_bytes,
+                    password=None,
+                    backend=backends.default_backend()
+                )
+            elif file_extension == '.der':
+                self.sender_SK = serialization.load_der_private_key(
+                    self.sender_SK_bytes,
+                    password=None,
+                    backend=backends.default_backend()
+                )
 
     def create_symmetric_key(self, sender_SK):
         """
@@ -197,10 +236,7 @@ class cryptoer:
     #                 DECRYPTION
     # ###############################################
     def decrypt(self, out_file):
-        # TODO : resolve this
-        # 1. get the symmetric key
-        # 2. get the ciphertext
-        # 3. get the signature
+        # 1. get the symmetric key, cipher and signature from the file
         with open(self.in_file_path, 'rb') as f:
             encrypted_symmetric_key = f.read(128)
             signature = f.read(128)
