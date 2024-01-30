@@ -11,6 +11,7 @@ SYMKEY_LEN = 32
 AES_BLOCK_SIZE = 16
 IV_LEN = 16
 
+# TODO: error handling at file read/write level
 
 class cryptoer:
     """
@@ -29,80 +30,86 @@ class cryptoer:
         and stores them as attributes to the class
         """
 
-        if in_file:
-            self.in_file_path = in_file
-            with open(in_file, 'rb') as f:
-                in_file_bytes = f.read()
-            self.in_file = in_file_bytes
+        try:
+            if in_file:
+                self.in_file_path = in_file
+                with open(in_file, 'rb') as f:
+                    in_file_bytes = f.read()
+                self.in_file = in_file_bytes
 
-        if dest_PK:
-            with open(dest_PK, 'rb') as f:
-                self.dest_PK_bytes = f.read()
-            # Get the file extension
-            _, file_extension = os.path.splitext(dest_PK)
-            if file_extension == '.pem':
-                self.dest_PK = serialization.load_pem_public_key(
-                    self.dest_PK_bytes,
-                    backend=backends.default_backend()
-                )
-            elif file_extension == '.der':
-                self.dest_PK = serialization.load_der_public_key(
-                    self.dest_PK_bytes,
-                    backend=backends.default_backend()
-                )
+            if dest_PK:
+                with open(dest_PK, 'rb') as f:
+                    self.dest_PK_bytes = f.read()
+                # Get the file extension
+                _, file_extension = os.path.splitext(dest_PK)
+                if file_extension == '.pem':
+                    self.dest_PK = serialization.load_pem_public_key(
+                        self.dest_PK_bytes,
+                        backend=backends.default_backend()
+                    )
+                elif file_extension == '.der':
+                    self.dest_PK = serialization.load_der_public_key(
+                        self.dest_PK_bytes,
+                        backend=backends.default_backend()
+                    )
 
-        if dest_SK:
-            with open(dest_SK, 'rb') as f:
-                self.dest_SK_bytes = f.read()
-            # Get the file extension
-            _, file_extension = os.path.splitext(dest_SK)
-            if file_extension == '.pem':
-                self.dest_SK = serialization.load_pem_private_key(
-                    self.dest_SK_bytes,
-                    password=None,
-                    backend=backends.default_backend()
-                )
-            elif file_extension == '.der':
-                self.dest_SK = serialization.load_der_private_key(
-                    self.dest_SK_bytes,
-                    password=None,
-                    backend=backends.default_backend()
-                )
+            if dest_SK:
+                with open(dest_SK, 'rb') as f:
+                    self.dest_SK_bytes = f.read()
+                # Get the file extension
+                _, file_extension = os.path.splitext(dest_SK)
+                if file_extension == '.pem':
+                    self.dest_SK = serialization.load_pem_private_key(
+                        self.dest_SK_bytes,
+                        password=None,
+                        backend=backends.default_backend()
+                    )
+                elif file_extension == '.der':
+                    self.dest_SK = serialization.load_der_private_key(
+                        self.dest_SK_bytes,
+                        password=None,
+                        backend=backends.default_backend()
+                    )
 
-        if sender_PK:
-            with open(sender_PK, 'rb') as f:
-                self.sender_PK_bytes = f.read()
-            # Get the file extension
-            _, file_extension = os.path.splitext(sender_PK)
-            if file_extension == '.pem':
-                self.sender_PK = serialization.load_pem_public_key(
-                    self.sender_PK_bytes,
-                    backend=backends.default_backend()
-                )
-            elif file_extension == '.der':
-                self.sender_PK = serialization.load_der_public_key(
-                    self.sender_PK_bytes,
-                    backend=backends.default_backend()
-                )
+            if sender_PK:
+                with open(sender_PK, 'rb') as f:
+                    self.sender_PK_bytes = f.read()
+                # Get the file extension
+                _, file_extension = os.path.splitext(sender_PK)
+                if file_extension == '.pem':
+                    self.sender_PK = serialization.load_pem_public_key(
+                        self.sender_PK_bytes,
+                        backend=backends.default_backend()
+                    )
+                elif file_extension == '.der':
+                    self.sender_PK = serialization.load_der_public_key(
+                        self.sender_PK_bytes,
+                        backend=backends.default_backend()
+                    )
 
-        if sender_SK:
-            with open(sender_SK, 'rb') as f:
-                self.sender_SK_bytes = f.read()
-            # Get the file extension
-            _, file_extension = os.path.splitext(sender_SK)
-            if file_extension == '.pem':
-                self.sender_SK = serialization.load_pem_private_key(
-                    self.sender_SK_bytes,
-                    password=None,
-                    backend=backends.default_backend()
-                )
-            elif file_extension == '.der':
-                self.sender_SK = serialization.load_der_private_key(
-                    self.sender_SK_bytes,
-                    password=None,
-                    backend=backends.default_backend()
-                )
+            if sender_SK:
+                with open(sender_SK, 'rb') as f:
+                    self.sender_SK_bytes = f.read()
+                # Get the file extension
+                _, file_extension = os.path.splitext(sender_SK)
+                if file_extension == '.pem':
+                    self.sender_SK = serialization.load_pem_private_key(
+                        self.sender_SK_bytes,
+                        password=None,
+                        backend=backends.default_backend()
+                    )
+                elif file_extension == '.der':
+                    self.sender_SK = serialization.load_der_private_key(
+                        self.sender_SK_bytes,
+                        password=None,
+                        backend=backends.default_backend()
+                    )
 
+        except Exception as e:
+            print(f"An error occured: {e}")
+        finally:
+            return
+        
     def create_symmetric_key(self, sender_SK):
         """
         creates a symmetric key using the sender's private key
@@ -169,15 +176,6 @@ class cryptoer:
     def sign_plaintext(self, sender_SK, in_plaintext):
         """
         Returns a signature of the plaintext using the senders SK
-        With AES, for example, we have a block size of 128 bits (16 bytes), and
-        where we process these blocks to cipher and decipher.
-        But the last block is unlikely to fill all the bytes in this block
-        and so we add in padding.
-        This padding is typically derived from the number of empty spaces
-        and repeated for the number of spaces left.
-        And so, “hello” is padded with 11 padding values (0b):
-
-        h e l l o 0b 0b 0b 0b 0b 0b 0b 0b 0b 0b 0b
         """
         # size of the signature = size of the key + padding size
         return sender_SK.sign(
@@ -216,16 +214,7 @@ class cryptoer:
 
         # NOTE: so far each of the above is a byte string
         # when written to a file, they are written as bytes
-        """
-        print("\nencrypted_symmetric_key:", encrypted_symmetric_key)
-        print("\nsignature:", signature)
-        print("\nciphertext:", ciphertext)
 
-        print("\n\nlen(encrypted_symmetric_key):",
-              len(encrypted_symmetric_key))
-        print("\nlen(signature):", len(signature))
-        print("\nlen(ciphertext):", len(ciphertext))
-        """
         # 5. output the symmetric key, ciphertext, and signature to a File
         with open(out_file, 'wb') as f:
             f.write(encrypted_symmetric_key)
@@ -252,9 +241,12 @@ class cryptoer:
 
         # 6. verify the signature
         if self.verify_signature(signature, self.plaintext):
-            print("Signature verified")
+            print("Signature verified, message is not tempered")
+            print(self.plaintext)
+            print("Saving to file")
         else:
             print("Signature not verified")
+            print("for your safety, the plaintext will not be decrypted")
             exit(1)
 
         # 7. output the plaintext to a file
