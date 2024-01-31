@@ -76,6 +76,7 @@ OEAP is used here because it allows for creating keys based on password which ma
 ### Creating final cipher
 The final cipher is created by concatenating the encrypted symmetric key, encrypted message and the signature. This is later used by the receiver to decrypt the message.
 
+
 ## Decryption:
 ```mermaid
 graph TD
@@ -97,6 +98,8 @@ subgraph Receiver
     H --> I[Save to file]
 end
 ```
+
+
 
 ### Breaking the final cipher:
 The final cipher is broken into three parts, the encrypted symmetric key, encrypted message and the signature. This process of breaking the cipher is done using the following parameters:
