@@ -43,6 +43,41 @@ Therefore we can conclude the need as :
 In the OSI model, IP is part of the network layer (Layer 3), TCP is part of the transport layer (Layer 4), and HTTPS operates at the application layer (Layer 7). Each layer of the OSI model has specific responsibilities in facilitating communication across a network.
 
 
+
+## HTTP:
+
+HTTP headers are components of the HTTP (Hypertext Transfer Protocol) protocol used to transmit *additional information* between the client and the server as part of an HTTP request or response. Headers are included in the HTTP messages' header section, which precedes the actual data being transmitted (such as the HTML content of a webpage or the body of a POST request).
+
+HTTP headers provide metadata about the HTTP message, allowing both the client and server to understand and process the request or response appropriately. There are two main types of HTTP headers: request headers and response headers.
+### Request Headers:
+1. **Host:**
+    - Specifies the domain name of the server (e.g., "[www.example.com](http://www.example.com)") and, optionally, the port number.
+2. **User-Agent:**
+    - Identifies the user agent (typically the web browser or application) making the request.
+3. **Accept:**
+    - Informs the server about the types of media that the client can process, usually specifying accepted content types.
+4. **Authorization:**
+    - Provides credentials for authentication purposes, allowing the client to access protected resources on the server.
+5. **Cookie:**
+    - Contains information about cookies previously sent by the server to the client. The client includes this header in subsequent requests to maintain session information.
+6. **Referer (or Referrer):**
+    - Indicates the URL of the page that linked to the current page. This header is often used for analytics and tracking.
+
+### Response Headers:
+1. **Content-Type:**
+    - Specifies the type of data in the response body (e.g., "text/html" for HTML content or "application/json" for JSON).
+2. **Content-Length:**
+    - Indicates the length of the response body in bytes.
+3. **Server:**
+    - Identifies the software or server technology used by the server.
+4. **Set-Cookie:**
+    - Sends cookies from the server to the client, which will be stored and sent back with subsequent requests.
+5. **Location:**
+    - Used in redirections to indicate the URL to which the client should navigate.
+6. **Cache-Control:**
+    - Directs caching behavior, specifying whether a response can be cached and, if so, for how long.
+
+These are just a few examples, and there are many more HTTP headers with specific purposes. Headers play a crucial role in defining the behavior and characteristics of the communication between clients and servers in the HTTP protocol.
 # Performance
 #### Bandwidth:
  

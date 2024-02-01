@@ -19,7 +19,7 @@ def get_resource(resource):
     print(f"Response Status Code: {status_code}")
     print(f"Content Type: {content_type}")
     print("Response Content:")
-    print(content)
+    print(content.decode())
 
     conn.close()
 
