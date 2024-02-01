@@ -1,4 +1,7 @@
-
+Alot of crypto is about pushing things into areas which nobody knows how to solve.
+``` 
+Crypto people wake up in the morning and look at the problems that have not been solved yet -- after a lot of effort, then derive algos that push numbers in that area!
+```
 ## Why cryptography ?
 In previous lectures we discussed the Internet architecture, and its key networking protocols specifically routing, transport, naming, and some important applications layer protocols. The understanding of these protocols is necessary to discuss the security of networks.  
 
@@ -209,3 +212,6 @@ check jupyter notebook
 
 
 
+
+
+### Random Number generation
