@@ -69,6 +69,15 @@ _Advantages:_
 
 
 
+
+
+# OSI and TCP/IP Stack
+![[Pasted image 20240201123700.png]]
+
+![[Pasted image 20240201123759.png]]
+
+
+
 # ICMP
 
 ### Why do we need ICMP packets, and how did they come into being?
