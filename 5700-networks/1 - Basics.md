@@ -78,7 +78,51 @@ HTTP headers provide metadata about the HTTP message, allowing both the client a
     - Directs caching behavior, specifying whether a response can be cached and, if so, for how long.
 
 These are just a few examples, and there are many more HTTP headers with specific purposes. Headers play a crucial role in defining the behavior and characteristics of the communication between clients and servers in the HTTP protocol.
-# Performance
+
+
+# 1.5 Performance
+
+### What Is Bandwidth?
+Bandwidth refers to the **maximum amount of data** that can move from one point to another. It’s expressed in megabits per second, or Mbps, that can pass through a network at any given time.
+> Think of network connection as a highway; the cars driving along it are data packets. A five-lane highway typically has a bigger bandwidth than a two-lane local road because the former can accommodate a greater number of cars. Because of this, there’s a smaller chance of vehicles getting stuck in traffic jams.
+
+However, having a wide highway will tell you nothing about how fast the cars are going, similar to how bandwidth alone can’t determine the internet speed. It simply tells how much data can be received at a given time.
+
+Remember that stated bandwidth of your users’ network only refers to its theoretical maximum capacity. In practice, the actual amount of data they can send and receive is smaller than this. That’s because most applications and protocols add extra bits or perform more processing, which introduces overhead.
+
+This is called “goodput” or “good throughput.”
+
+### What Is Latency?
+
+Latency refers to the **amount of time** a data packet takes to travel from one point to another, AKA the delay between the time data is sent and received, measured in milliseconds (ms). Whereas bandwidth refers to the **volume** of data sent, latency refers to the **speed** at which it’s transmitted.
+> Imagine a 400-seater bus and a 2-seater sports car traveling from New York to San Francisco. The sports car obviously travels faster and reaches its destination much sooner — it goes at a higher speed, which means it has a lower latency. But the bus has a bigger bandwidth because it carries more people in a single trip.
+
+We often think of latency as having three components. 
+1. First, there is the speed-of-light propagation delay. This delay occurs because nothing, including a bit on a wire, can travel faster than the speed of light. If you know the distance between two points, you can calculate the speed-of-light latency, although you have to be careful because light travels across different media at different speeds: It travels at 3.0 × 108m/s in a vacuum, 2.3 × 108m/s in a copper cable, and 2.0 × 108m/s in an optical fiber. 
+2. Second, there is the amount of time it takes to transmit a unit of data. This is a function of the network bandwidth and the size of the packet in which the data is carried. 
+3. Third, there may be queuing delays inside the network, since packet switches generally need to store packets for some time before forwarding them on an outbound link. So, we could define the total latency as
+```
+Latency = Propagation + Transmit + Queue 
+```
+$$Propagation = Distance/SpeedOfLight 
+$$
+$$Transmit = Size/Bandwidth$$
+
+
+### Bandwidth or Latency?
+Bandwidth and latency combine to define the performance characteristics of a given link or channel. Their relative importance, however, depends on the application. For some applications, latency dominates bandwidth. 
+
+For example,: 
+1. a client that sends a 1-byte message to a server and receives a 1-byte message in return is latency bound. Assuming that no serious computation is involved in preparing the response, the application will perform much differently on a transcontinental channel with a 100-ms RTT than it will on an across-the-room channel with a 1-ms RTT. *Whether the channel is 1 Mbps or 100 Mbps is relatively insignificant*, however, since the former implies that the time to transmit a byte is 8 μs and the latter implies Transmit = 0.08 μs.
+2. In contrast, consider a digital library program that is being asked to fetch a 25-megabyte (MB) image—the more bandwidth that is available, the faster it will be able to return the image to the user. Here, the bandwidth of the channel dominates performance. To see this, suppose that the channel has a bandwidth of 10 Mbps. It will take 20 seconds to transmit the image (25 × 106× 8-bits / (10 × 106 Mbps = 20 seconds), *making it relatively unimportant if the image is on the other side of a 1-ms channel or a 100-ms channel;* the difference between a 20.001-second response time and a 20.1-second response time is negligible.
+
+
+
+
+
+
+
+
 #### Bandwidth:
  
  **Definition:** Bandwidth refers to the maximum rate at which data can be transmitted over a network or communication channel. It is often measured in bits per second (bps) or multiples thereof (e.g., kilobits per second, megabits per second).

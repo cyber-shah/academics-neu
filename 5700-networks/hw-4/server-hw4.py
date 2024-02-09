@@ -28,21 +28,7 @@ class MyHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(open(self.path, "r").read().encode())
 
             except FileNotFoundError:
-                """
-                Response Status Code: 200
-Content Type: text/html
-Response Content:
-HTTP/1.0 404 File Not Found: FileDoesNotExist.html
-Server: SimpleHTTP/0.6 Python/3.12.1
-Date: Sun, 21 Jan 2024 06:14:48 GMT
-Connection: close
-Content-Type: text/html;charset=utf-8
-Content-Length: 35
-                """
-                self.send_response(200)
-                self.send_header("Content-type", "text/plain")
-                self.end_headers()
-                self.wfile.write(f"404 File Not Found: {self.path} ".encode())
+                self.send_error(404)
 
         elif mimetypes.guess_type(self.path)[0] == "application/json":
             try:
