@@ -1,4 +1,18 @@
 public class Main {
+        /**
+     * String a = "Hello"; 
+     * This creates a string literal in the string pool. 
+     * String literals in Java are stored in a special pool known as the string pool, 
+     * and if a string with the same content already exists in the pool, the existing reference is reused. 
+     * This helps save memory and improves performance.
+     * 
+     * "Hello" in the string pool is shared among all the references pointing to it. 
+     * Multiple variables can point to the same string literal, and they will share the same memory.
+     * 
+     * 
+     * new String("Hello") explicitly creates a new object in the heap, even if the content is the same as an 
+     * existing string literal. This can lead to more memory consumption as each object is distinct.
+     */
     public static void main(String[] args) {
         // create string literals
         // they will have the same hash codes, or same memory location
