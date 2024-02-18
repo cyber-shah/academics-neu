@@ -2,8 +2,10 @@
   Created by Pranchal Shah
   
   1. To begin withGet the current point and append it to the array.
-  2. A line is made between i and i+1, i+1 and i+2.
-  2. Get the current mouse location and draw a line between the last element in the array and current mouse location
+  2. A line is made between i and i+1, i+1 and i+2... 
+  2. Get the current mouse location and 
+     draw a line between the last element in the array and 
+     current mouse location
   3. Whenever a mouse is clicked, it is added to the array.
 */
 
