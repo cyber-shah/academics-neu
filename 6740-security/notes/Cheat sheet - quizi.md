@@ -219,13 +219,8 @@ Securely exchange cryptographic keys over an insecure communication channel. All
 **Step by Step explanation of this process:**
 **Step 1:** Selected public numbers p and g, p is a prime number, called the “modulus” and g is called the base.
 **Step 2:** Selecting private numbers. let Alice pick a private random number a and let Bob pick a private random number b, Malory picks 2 random numbers c and d.
-
-Step 3:Intercepting public values,
+**Step 3**:Intercepting public values,
 Malory intercepts Alice’s public value $(g^a(\mod p))$, block it from reaching Bob, and instead sends Bob her own public value ($g^c(\mod p))$ and Malory intercepts Bob’s public value $(g^b(\mod p))$, block it from reaching Alice, and instead sends Alice her own public value $(g^d (\modp))$
-
 **Step 4:** Computing secret key
 Alice will compute a key $S1=g^{da} (\mod p)$, and Bob will compute a different key, $S2=g^{cb}(\mod p)$
-
-
-
 **Step 5:** If Alice uses S1 as a key to encrypt a later message to Bob, Malory can decrypt it, re-encrypt it using S2, and send it to Bob. Bob and Alice won’t notice any problem and may assume their communication is encrypted, but in reality, Malory can decrypt, read, modify, and then re-encrypt all their conversations.
