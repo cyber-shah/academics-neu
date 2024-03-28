@@ -93,7 +93,6 @@ Remember that stated bandwidth of your users’ network only refers to its theor
 This is called “goodput” or “good throughput.”
 
 ### What Is Latency?
-
 Latency refers to the **amount of time** a data packet takes to travel from one point to another, AKA the delay between the time data is sent and received, measured in milliseconds (ms). Whereas bandwidth refers to the **volume** of data sent, latency refers to the **speed** at which it’s transmitted.
 > Imagine a 400-seater bus and a 2-seater sports car traveling from New York to San Francisco. The sports car obviously travels faster and reaches its destination much sooner — it goes at a higher speed, which means it has a lower latency. But the bus has a bigger bandwidth because it carries more people in a single trip.
 
@@ -115,62 +114,46 @@ Bandwidth and latency combine to define the performance characteristics of a giv
 For example,: 
 1. a client that sends a 1-byte message to a server and receives a 1-byte message in return is latency bound. Assuming that no serious computation is involved in preparing the response, the application will perform much differently on a transcontinental channel with a 100-ms RTT than it will on an across-the-room channel with a 1-ms RTT. *Whether the channel is 1 Mbps or 100 Mbps is relatively insignificant*, however, since the former implies that the time to transmit a byte is 8 μs and the latter implies Transmit = 0.08 μs.
 2. In contrast, consider a digital library program that is being asked to fetch a 25-megabyte (MB) image—the more bandwidth that is available, the faster it will be able to return the image to the user. Here, the bandwidth of the channel dominates performance. To see this, suppose that the channel has a bandwidth of 10 Mbps. It will take 20 seconds to transmit the image (25 × 106× 8-bits / (10 × 106 Mbps = 20 seconds), *making it relatively unimportant if the image is on the other side of a 1-ms channel or a 100-ms channel;* the difference between a 20.001-second response time and a 20.1-second response time is negligible.
-
-
-
-
-
-
-
-
-#### Bandwidth:
- 
- **Definition:** Bandwidth refers to the maximum rate at which data can be transmitted over a network or communication channel. It is often measured in bits per second (bps) or multiples thereof (e.g., kilobits per second, megabits per second).
-**Analogy:** Think of bandwidth as the width of a pipe; a wider pipe allows more water (data) to flow through at a time.
-
-#### Latency:
- **Definition:** Latency is the delay or time it takes for data to travel from the source to the destination in a network. It is often expressed in milliseconds (ms) or microseconds (µs).
- 
- **Components of Latency:**
-        - **Propagation Delay:** The time it takes for a signal to travel from the sender to the receiver. This depends on the physical distance between the devices.
-        - **Transmission Delay:** The time it takes to push all the bits of a packet onto the communication channel.
-        - **Queuing Delay:** The time a packet spends waiting in a network device's queue before being transmitted.
-        - **Processing Delay:** The time it takes for routers, switches, or other network devices to process the packet.
-
-**Analogy:** Latency is like the time it takes for a letter to be sent from one location to another; it includes the time it spends in transit, in processing centers, and in delivery.
-
-Certainly! Here are notes summarizing the concept using the analogy of a hollow pipe to explain latency and bandwidth:
-
-## Latency v/s Bandwith:
-
-1. **Analogy:**
-    - The communication channel between processes is envisioned as a hollow pipe.
-    - **Latency:** Represented as the length of the pipe, indicating the time it takes for data to traverse the channel.
-    - **Bandwidth:** Analogous to the width of the pipe, denoting the maximum rate of data transmission.
-2. **Given Example:**
-    - Latency: 50 milliseconds (ms)
-    - Bandwidth: 45 Megabits per second (Mbps)
-3. **Calculation for Data Transfer:**
-    - Convert latency to seconds: 50 ms = 50 x 10^(-3) seconds.
-    - Multiply latency (in seconds) by bandwidth (in bits per second).
-    - Result: 2.25 x 10^6 bits.
-4. **Conversion and Interpretation:**
-    - Convert the total bits to kilobits: 2.25 x 10^6 bits = 280 kilobytes (KB).
-    - This represents the amount of data that can be transferred within the given latency period.
-5. **Key Takeaways:**
-    - Latency influences the time it takes for data to travel through the channel.
-    - Bandwidth determines the maximum rate of data transmission.
-    - The analogy helps visualize how the length and width of the "pipe" affect the efficiency of data transfer.
-6. **Conclusion:**
-    - Understanding the relationship between latency and bandwidth is crucial for optimizing network performance.
-    - The hollow pipe analogy provides a clear representation of how these factors impact data transmission in a network.
-
-
-
 ### When to use high latency vs when to use high bandwith?
+
 | **Latency for Responsiveness:** | **Bandwidth for Large Files:** |
 | ---- | ---- |
 |  **Scenario:** When the primary concern is responsiveness, such as in applications dealing with small messages or requests (e.g., HTTP, NFS, online gaming), minimizing latency is crucial.<br> | **Scenario:** In situations where the primary task involves transferring large files or data sets, the critical factor is the capacity to transmit a high volume of data. |
 | **Reasoning:** Low latency ensures that individual messages or requests are transmitted quickly, leading to faster response times and improved user experience. | **Reasoning:** High bandwidth becomes important for efficiently handling the large amounts of data, ensuring faster file transfers. |
-### Why?
-**Increased Overhead:** Transmitting smaller packets can result in increased overhead. Overhead refers to the additional information, such as headers, added to each packet for proper routing and identification. With more packets, the overhead per unit of data becomes relatively larger.
+### Delay x Bandiwth Product
+Intuitively, if we think of a channel between a pair of processes as a hollow pipe, where the latency corresponds to the length of the pipe and the bandwidth gives the diameter of the pipe, 
+>then the delay × bandwidth product gives the volume of the pipe—the maximum number of bits that could be in transit through the pipe at any given instant.
+
+For example, a transcontinental channel with a one-way latency of 50 ms and a bandwidth of 45 Mbps is able to hold 
+$$50 \cdot 10^{−3} s × 45 \cdot 10^6 bits/s$$
+$$= 2.25 × 10^6 bits$$
+or approximately 280 KB of data.
+
+#### why should we know it?
+The delay × bandwidth product is important to know when constructing high-performance networks because ==it corresponds to how many bits the sender must transmit before the first bit arrives at the receiver.==
+
+The bits in the pipe are said to be ==“in flight”== which means that if the receiver tells the sender to stop transmitting it might receive up to one RTT × bandwidth’s worth of data before the sender manages to respond. In our example above, that amount corresponds to 5.5 × 106 bits (671 KB) of data. 
+
+On the other hand, ==if the sender does not fill the pipe==—send a whole RTT × bandwidth product’s worth of data before it stops to wait for a signal—the sender will not fully utilize the network.
+![](https://www.youtube.com/watch?v=cDVNU2j26Bs)
+
+
+For a bandwith of 512kbps means you can load 512kb data per second on the link and then the latency of 1000ms would mean we have 1000ms time to load data before it becomes full. or that is the number of times you can refill data before it becomes full.
+
+
+**Link Capacity:**
+- Think of it like the width of a pipe. A bigger pipe can carry more water. Similarly, a link with higher capacity can carry more data.
+- Example: If a link has a capacity of 100 Mbps, it means it can carry 100 million bits of data every second.
+
+**Delay Bandwidth Product (DBP):**
+- Imagine you have a long tunnel (representing the round-trip time or delay) that you need to send a message through. The DBP is like how many toy cars (representing bits of data) you can have inside the tunnel at once.
+- Example: If the round-trip time is 10 seconds and the link capacity is 100 Mbps, the DBP is 1,000 megabits (100 Mbps * 10 seconds).
+
+
+
+
+In short, link capacity is about how wide the pipe is (how much data it can carry per second), and DBP is about how much data you can have in transit in a long tunnel before getting a response.
+
+They help us understand how efficiently we are using the network. 
+>If the link capacity is much higher than the DBP, it means we have a wide pipe, but we are not filling it up efficiently. If they are close, it means we are using the network effectively.
+
