@@ -4,6 +4,22 @@
     <title>Bar Chart with Tooltips</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <style>
+        .bar:hover{
+            fill: orange;
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: white;
+            border: 1px solid black;
+            pointer-events: none;
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -22,10 +38,14 @@
 
         const svg = d3.select("svg")
             .attr("width", width + marginLeft + marginRight )
-            .attr("height", height + marginTop + marginBottom);
+            .attr("height", height + marginTop + marginBottom)
+            .append("g")
+            .attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
 
-        const g = svg.append("g")
-                    .attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+        
+        var tooltip = d3.select("body").append("div")
+                        .attr("class", "tooltip");
+
         
         d3.csv("data.csv", function(d) {
             return { 
@@ -39,26 +59,43 @@
                     .domain(data.map(function(d){return d.name}))
                     .paddingInner(0.2)
                     .paddingOuter(0.1) ;
+
+        const yScaleBand = d3.scaleBand()
+                    .domain([0, d3.max(data, function(d) { return d.value; })])
+                    .range([0, height]);
         
-        const yScale = d3.scaleLinear([0,100], [0, height])
+        // y scaler as per height
+        const yScale = d3.scaleLinear(
+            [0,d3.max(data, function(d){return d.value})], 
+            [0, height])
+
+        const yScaleAxes = d3.scaleLinear(
+            [0,d3.max(data, function(d){return d.value})], 
+            [height, 0])
         
-        g.selectAll(".bar")
+        svg.selectAll(".bar")
             .data(data)
             .enter().append("rect")
+            .attr("class", "bar")
             .attr("x", function(d) {return xScaleBand(d.name);})
-            .attr("y", function (d) {return height -  yScale(d.value);})
+            .attr("y", function (d) {return height- yScale(d.value);})
             .attr("width", xScaleBand.bandwidth())
             .attr("height", function(d){return yScale(d.value);})
            
 
-
-
         // to the existing group, append a new group
-        g.append("g")
-            .attr("class", "x axis")
+        svg.append("g")
+            .attr("class", "x-axis")
             // translate 0 to be = height
             .attr("transform", "translate(0," + height + ")")
+            // add axis bottom a prebuilt in D3
             .call(d3.axisBottom(xScaleBand)); 
+        
+            
+        // append to existing group another group
+        svg.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(yScaleAxes)); 
         })
     </script>
 
