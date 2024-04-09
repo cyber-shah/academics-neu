@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar Chart with Tooltips</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+
+    <svg width="600" height="400"></svg>
+    
+
+    <script>
+
+        const width = 600 
+        const height = 400
+        const marginTop = 50
+        const marginBottom = 50
+        const marginLeft = 50
+        const marginRight = 50
+
+        const svg = d3.select("svg")
+            .attr("width", width + marginLeft + marginRight )
+            .attr("height", height + marginTop + marginBottom);
+
+        const g = svg.append("g")
+                    .attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+        
+        d3.csv("data.csv", function(d) {
+            return { 
+                name: d.name, 
+                value: +d.value 
+            };
+        }).then(function(data) {
+
+        const xScaleBand = d3.scaleBand()
+                   .range([0, width])
+                    .domain(data.map(function(d){return d.name}))
+                    .paddingInner(0.2)
+                    .paddingOuter(0.1) ;
+        
+        const yScale = d3.scaleLinear([0,100], [0, height])
+        
+        g.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("x", function(d) {return xScaleBand(d.name);})
+            .attr("y", function (d) {return height -  yScale(d.value);})
+            .attr("width", xScaleBand.bandwidth())
+            .attr("height", function(d){return yScale(d.value);})
+           
+
+
+
+        // to the existing group, append a new group
+        g.append("g")
+            .attr("class", "x axis")
+            // translate 0 to be = height
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScaleBand)); 
+        })
+    </script>
+
+</body>
+</html>

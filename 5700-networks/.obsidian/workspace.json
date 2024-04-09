@@ -11,8 +11,12 @@
             "id": "5c5cd9c86ed11a06",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "hw-10/hw-10-shah.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "hw-10/hw-10-shah.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "hw-10/hw-10-shah.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "hw-10/hw-10-shah.md"
+              }
             }
           }
         ]
@@ -138,8 +146,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5c5cd9c86ed11a06",
+  "active": "efce61d637203abd",
   "lastOpenFiles": [
+    "hw-10/hw-10-shah.md",
     "1 - Basics.md"
   ]
 }

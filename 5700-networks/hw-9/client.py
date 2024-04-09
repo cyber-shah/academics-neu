@@ -14,12 +14,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     try:
         s.connect((HOST, PORT))
     except ConnectionRefusedError:
-        print("server not online")
+        print("\nError while connecting!")
         exit()
 
     # send the data request
     s.sendall(FILE.encode())
 
     # recieve
-    data = s.recv(1024)
-    print(f"{data.decode()}")
+    while True:
+        try:
+            data = s.recv(1024)
+            print(f"{data.decode()}")
+        except KeyboardInterrupt:
+            print("\nexiting...")
+            exit()
