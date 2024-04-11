@@ -72,15 +72,34 @@
         const yScaleAxes = d3.scaleLinear(
             [0,d3.max(data, function(d){return d.value})], 
             [height, 0])
+
+        const colorScale = d3.scaleQuantize(
+            [0,d3.max(data, function(d){return d.value})],
+            ["#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", 
+            "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142"]
+        )
         
         svg.selectAll(".bar")
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", function(d) {return xScaleBand(d.name);})
+            .attr("fill", function(d){
+                const value = (colorScale(d.value));
+                // return value
+            })
+            .attr("x", function(d) { 
+                console.log(d.value);
+                return xScaleBand(d.name);})
             .attr("y", function (d) {return height- yScale(d.value);})
             .attr("width", xScaleBand.bandwidth())
             .attr("height", function(d){return yScale(d.value);})
+            .on("mousemove", function(event, d) {
+                tooltip.html("Value :" + d.value)
+                .style("opacity", 1)
+                .style("left", (10) + "px")
+                .style("top", (10) + "px")
+
+            });
            
 
         // to the existing group, append a new group
