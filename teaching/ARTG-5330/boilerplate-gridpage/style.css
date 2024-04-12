@@ -35,10 +35,3 @@
 .mainWindow .grid .topR { grid-area: topR; }
 .mainWindow .grid .bottomL { grid-area: bottomL; }
 .mainWindow .grid .bottomR { grid-area: bottomR; }
-
-
-  svg .rect {
-    fill: gold;
-    stroke: steelblue;
-    stroke-width: 5px;
-  }
