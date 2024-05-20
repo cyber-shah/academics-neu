@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/pshah/Desktop/CS5008/build",
+  "command": "/usr/bin/cc   -g -o CMakeFiles/midterm_cyber_shah.dir/instructions/sample_midterm/pascalr.c.o -c /home/pshah/Desktop/CS5008/midterm-cyber-shah/instructions/sample_midterm/pascalr.c",
+  "file": "/home/pshah/Desktop/CS5008/midterm-cyber-shah/instructions/sample_midterm/pascalr.c",
+  "output": "CMakeFiles/midterm_cyber_shah.dir/instructions/sample_midterm/pascalr.c.o"
+},
+{
+  "directory": "/home/pshah/Desktop/CS5008/build",
+  "command": "/usr/bin/cc   -g -o CMakeFiles/midterm_cyber_shah.dir/Fibonacci.c.o -c /home/pshah/Desktop/CS5008/midterm-cyber-shah/Fibonacci.c",
+  "file": "/home/pshah/Desktop/CS5008/midterm-cyber-shah/Fibonacci.c",
+  "output": "CMakeFiles/midterm_cyber_shah.dir/Fibonacci.c.o"
+}
+]

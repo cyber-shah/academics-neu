@@ -1,0 +1,76 @@
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+N must be greater than 0!
+./Fibonacci.out [N] [Type] [Print Level]
+	[N] = Nth Fibonacci number, required.
+	[Type] is either 2 for dynamic programming version, 1 for recursive version, 0 for iterative version, defaults to 0.
+	[Print Level] is 0 for no print/speed compare only, 1 for Nth number only, 2 for print all numbers, defaults to 0.
+n,Iterative C,Recursive C,Dynamic Programming C,Iterative P,Recursive P,Dynamic Programming P
+100000000,0.11414,-,1.06775,-,-,-
+200000000,0.16448,-,1.92061,-,-,-
+300000000,0.21465,-,3.57241,-,-,-
+400000000,0.36466,-,5.02720,-,-,-
+500000000,0.36510,-,5.13033,-,-,-
+600000000,0.46520,-,5.88129,-,-,-
+700000000,0.56591,-,7.23225,-,-,-
+800000000,0.61558,-,8.18870,-,-,-
+900000000,0.71531,-,9.09908,-,-,-
+1000000000,0.86588,-,12.59448,-,-,-
+1100000000,0.91661,-,12.19561,-,-,-
+1200000000,0.96728,-,15.65918,-,-,-
+1300000000,1.11672,-,14.10382,-,-,-
+1400000000,1.06726,-,17.16197,-,-,-
+1500000000,1.26756,-,19.97254,-,-,-
+1600000000,1.21723,-,19.11800,-,-,-
+1700000000,2.16865,-,26.75954,-,-,-
+1800000000,1.36847,-,24.94095,-,-,-
+1900000000,2.23054,-,-,-,-,-
+2000000000,1.56703,-,-,-,-,-
+2100000000,1.91853,-,-,-,-,-
+2200000000,0.00138,-,-,-,-,-
+2300000000,0.01570,-,-,-,-,-
+2400000000,0.00136,-,-,-,-,-
+2500000000,0.00136,-,-,-,-,-
+2600000000,0.00132,-,-,-,-,-
+2700000000,0.00133,-,-,-,-,-
+2800000000,0.00135,-,-,-,-,-
+2900000000,0.00132,-,-,-,-,-
+3000000000,0.00125,-,-,-,-,-
