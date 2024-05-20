@@ -1,0 +1,61 @@
+-----------------------------------------
+Welcome to the Image Manipulation Program.
+Enter a command or type "list-all-commands" to see all commands.
+Type "exit" to exit the program.
+Enter "#" before a command to comment it out.
+Enter a command: 
+>>>load test/testImage/blackbuck.ascii.ppm blackbuck
+Command LOAD executed successfully.
+>>>brighten 50 blackbuck blackbuckbrighter
+Command BRIGHTEN executed successfully.
+>>>save test/testImage/blackbuckbrighter.ppm blackbuckbrighter
+Command SAVE executed successfully.
+>>>value blackbuck blackbuckvalue
+Command VALUE executed successfully.
+>>>save test/testImage/blackbuckvalue.ppm blackbuckvalue
+Command SAVE executed successfully.
+>>>component blackbuck blackbuckcomponent
+Invalid color component.
+>>>component red blackbuck blackbuckred
+Command COMPONENT executed successfully.
+>>>component red blackbuck blackbuckblue
+Command COMPONENT executed successfully.
+>>>component green blackbuck blackbuckgreen
+Command COMPONENT executed successfully.
+>>>save test/testImage/blackbuckred.ppm blackbuckred
+Command SAVE executed successfully.
+>>>save test/testImage/blackbuckgreen.ppm blackbuckgreen
+Command SAVE executed successfully.
+>>>save test/testImage/blackbuckblue.ppm blackbuckblue
+Command SAVE executed successfully.
+>>>luma blackbuck blackbuckluma
+Command LUMA executed successfully.
+>>>save test/testImage/blackbuckluma.ppm blackbuckluma
+Command SAVE executed successfully.
+>>>intensity blackbuck blackbuckintensity
+Command INTENSITY executed successfully.
+>>>save test/testImage/blackbuckintensity.ppm blackbuckintensity
+Command SAVE executed successfully.
+>>>list-all-images
+blackbuckluma
+blackbuckred
+blackbuckgreen
+blackbuck
+blackbuckblue
+blackbuckbrighter
+blackbuckintensity
+blackbuckvalue
+
+>>>list-all-commands
+LOAD
+INTENSITY
+COMPONENT
+SAVE
+BRIGHTEN
+VALUE
+LUMA
+EXIT
+LIST-ALL-IMAGES
+LIST-ALL-COMMANDS
+
+>>>exit
