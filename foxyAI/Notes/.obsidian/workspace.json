@@ -20,7 +20,7 @@
             }
           },
           {
-            "id": "eb5bf63c88602824",
+            "id": "261c4a6bdf509b5a",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -159,7 +159,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "eb5bf63c88602824",
+  "active": "261c4a6bdf509b5a",
   "lastOpenFiles": [
     "Welcome.md",
     "GKE.md"
