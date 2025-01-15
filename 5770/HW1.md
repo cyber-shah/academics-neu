@@ -27,6 +27,19 @@ Register an account at cy5770-cacti.khoury.northeastern.edu.
 1. Use the "cat" command to print the content in "/flag". Explain the results and take a screenshot.
 2. Run the firstflag_32 challenge, explain the results, submit the flag, take a screenshot.
 
+**PART 1**:
+```bash
+ctf@misc_ladd_32:/$ cat flag
+cat: flag: Permission denied
+```
+
+**PART 2**:
+```bash
+ctf@misc_firstflag_32:/$ ./misc_firstflag_32 
+Congratulations on getting your first flag!!
+The flag is: pwn_iot{cyuH8KIFpiAHy3CoU5gCXnYdXfl.QX5IDL5IzW}
+```
+
 ### Task 3 [6 points]
 Run any challenge, and list all the set-UID or set-GID programs under /bin. Explain the commands used and take a screenshot of the results.
 
@@ -93,9 +106,10 @@ Run the ladd_32 challenge. Use the objdump -M intel -d command to disassemble th
 ```
 
 Instruction explanations:
-- `mov eax,DWORD PTR [esp+0x4]`: Loads a 4-byte value from value at addr[esp+4] into eax
-- `mov edx,DWORD PTR [eax+0x4]`: Loads a 4-byte value from value at addr[eax+4] into edx
-- `mov eax,DWORD PTR [eax]`: Loads a 4-byte value from memory at addr[eax] into eax
+- `endbr32`: a security marker that tells the CPU "this is a valid landing spot" for indirect jumps/calls
+- `mov eax,DWORD PTR [esp+0x4]`: Loads 4-bytes from ptr[esp+4] into eax
+- `mov edx,DWORD PTR [eax+0x4]`: Loads 4-bytes from ptr[eax+4] into edx
+- `mov eax,DWORD PTR [eax]`: Loads a 4-bytes from ptr[eax] into eax
 - `add eax,DWORD PTR [esp+0x8]`: Adds the 4-byte value at addr[esp+8] to eax
 - `adc edx,DWORD PTR [esp+0xc]`: Adds the 4-byte value at addr[esp+12] to edx with carry
 - `ret`: Returns from the function
@@ -103,5 +117,43 @@ Instruction explanations:
 ### Task 6 [7 points]
 Run the ladd_64 challenge. Use objdump to disassemble the binary and find the ladd function. Include screenshot and explanation of instructions.
 
+```nasm
+0000000000001220 <ladd>:
+    1220:       f3 0f 1e fa             endbr64 
+    1224:       48 8b 07                mov    (%rdi),%rax
+    1227:       48 01 f0                add    %rsi,%rax
+    122a:       c3                      retq   
+    122b:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+```
+
+Instruction explanations:
+- `endbr64`: a security marker that tells the CPU "this is a valid landing spot" for indirect jumps/calls
+- `mov    (%rdi),%rax`: Loads value from memory address in RDI into RAX
+- `add    %rsi,%rax`: Adds RSI to RAX, stores result in RAX
+- `retq`: Returns from function (64-bit return)
+- `nopl   0x0(%rax,%rax,1)`: nopl is a 5-byte NOP instruction used to fill gaps in code alignment, ensuring the next important instruction starts at a 16-byte boundary for optimal CPU performance - for example, if code ends at byte 11, nopl fills bytes 11-15 so the next instruction starts at byte 16.
+
 ### Task 7 [6 points]
 Read the Setuid Program Example documentation and run the rdsecret_64 challenge. Explain outputs, submit flag, and include screenshots.
+
+```bash
+# view permissions - we notice that this can be run by root only, but there is also a setuid bit - meaning we can run it as CTF
+ctf@misc_rdsecret_64:/$ ls -l misc_rdsecret_64 
+-rwsr-xr-x 1 root root 17096 Sep  3 23:38 misc_rdsecret_64
+```
+
+```bash
+# flag has ready only permissions on the root
+ctf@misc_rdsecret_64:/$ ls -l flag 
+-r-------- 1 root root 48 Jan 15 20:36 flag
+```
+
+```bash
+# use the vulnerability
+ctf@misc_rdsecret_64:/$ ./misc_rdsecret_64 
+UID: 1000, USER: ctf.
+EUID: 0, EUSER: root.
+The flag is: pwn_iot{4mV6xSj9so9lFDjkMdhjcXV4rKx.QX0QDL5IzW}
+```
+
+The vulnerability here is that there is a setuid bit set on the executable file allowing us to run as ROOT.
