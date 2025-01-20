@@ -106,6 +106,7 @@ Run the ladd_32 challenge. Use the objdump -M intel -d command to disassemble th
 ```
 
 Instruction explanations:
+
 - `endbr32`: a security marker that tells the CPU "this is a valid landing spot" for indirect jumps/calls
 - `mov eax,DWORD PTR [esp+0x4]`: Loads 4-bytes from ptr[esp+4] into eax
 - `mov edx,DWORD PTR [eax+0x4]`: Loads 4-bytes from ptr[eax+4] into edx
@@ -115,7 +116,9 @@ Instruction explanations:
 - `ret`: Returns from the function
 
 ### Task 6 [7 points]
-Run the ladd_64 challenge. Use objdump to disassemble the binary and find the ladd function. Include screenshot and explanation of instructions.
+
+Run the ladd_64 challenge. Use objdump to disassemble the binary and find the
+ladd function. Include screenshot and explanation of instructions.
 
 ```nasm
 0000000000001220 <ladd>:
@@ -127,6 +130,7 @@ Run the ladd_64 challenge. Use objdump to disassemble the binary and find the la
 ```
 
 Instruction explanations:
+
 - `endbr64`: a security marker that tells the CPU "this is a valid landing spot" for indirect jumps/calls
 - `mov    (%rdi),%rax`: Loads value from memory address in RDI into RAX
 - `add    %rsi,%rax`: Adds RSI to RAX, stores result in RAX
@@ -134,10 +138,12 @@ Instruction explanations:
 - `nopl   0x0(%rax,%rax,1)`: nopl is a 5-byte NOP instruction used to fill gaps in code alignment, ensuring the next important instruction starts at a 16-byte boundary for optimal CPU performance - for example, if code ends at byte 11, nopl fills bytes 11-15 so the next instruction starts at byte 16.
 
 ### Task 7 [6 points]
+
 Read the Setuid Program Example documentation and run the rdsecret_64 challenge. Explain outputs, submit flag, and include screenshots.
 
 ```bash
-# view permissions - we notice that this can be run by root only, but there is also a setuid bit - meaning we can run it as CTF
+# view permissions - we notice that this can be run by root only, 
+# but there is also a setuid bit - meaning we can run it as CTF
 ctf@misc_rdsecret_64:/$ ls -l misc_rdsecret_64 
 -rwsr-xr-x 1 root root 17096 Sep  3 23:38 misc_rdsecret_64
 ```
