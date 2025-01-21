@@ -16,8 +16,8 @@ Homework -- 2**
 Your username on http://cy5770-cacti.khoury.northeastern.edu/p-shah256
 
 ### \[5 points\] Task 1: Use **pmap** to show the memory maps of **processmap_32** and **processmap_64**. Take screenshots. Briefly explain the outputs.
-![alt text](image.png)
-![alt text](image-2.png) 
+![ ](image.png)
+![ ](image-2.png) 
 
 We have diff parts of misc_processmap in the code, each 4K
 there are 6 areas of libc that are demand loaded into memory (signifying we use these c libraries in our code)
@@ -26,7 +26,7 @@ A 132K (rw) stack is also present, does not need (x) permission
 
 
 ### \[5 points\] Task 2: Use **strace** on a program you choose, e.g., **firstflag**, **ls**. Take a screenshot. Explain the (1) purpose, (2) parameters, and (3) return value of at least 3 system calls from the output.
-![alt text](image-3.png)
+![ ](image-3.png)
 
 Strace records all the system calls made by a program 
 
@@ -66,23 +66,51 @@ Found the secret by looking at the ascii table,
 - ... similarly for each character
 
 ### \[5 points\] Task 5: Replicate what the instructor did in class. Exploit **overflowlocal1_32** and **overflowlocal1_64**. Take screenshots and explain why your exploit works.
-![alt text](image-6.png)
+![ ](image-6.png)
 
 The exploit works as follows: 
 1. code currently checks for value of j, if its 0 (default) it prints I pity the fool!
 2. there is a buffer of size 6, if we put a value more than 6 bytes, the buffer overflows and we can overwrite the value in j to something else other than 0
-
+---
 ### \[5 points\] Task 6: Replicate what the instructor did in class. Exploit **overflowlocal2_32** and **overflowlocal2_64**. Take screenshots and explain why your exploit works.
 - As we can see from the code here, instead of anything except 0, `j` expects a specific HEX VALUE = 0x12345678... not string "12345678" or "0x12345678".
 - If we lookup the actual value for 0x12345678 its "4Vx" in ASCII... so that's expected for `j`
-![alt text](image-7.png)
+![ ](image-7.png)
 
 - To get the exact value for `j`, we know that its four bytes, so we can start with `\x\x\x\x`
 - We also know that this system follows little endian meaning least significant byte first
 - `\x12 \x34 \x56 \x78` becomes `\x78 \x56 \x34 \x12`
 
+---
 ### \[5 points\] Task 7: Capture the flag by exploiting **overflowlocal3_32**. Take screenshots and explain why your exploit works.
+![ ](image-8.png)
+- Vulnerabilities: 
+    1. Buffer is of the size 16 bytes but vulfoo uses fread which can write more than the size of buffer i.e. 24 bytes and overflow into other variables 
+- A few quick observations to print the flag:
+    1. we need var_10 and var_14 to be NOT EQUAL to 1 and 
+    2. and, var_10 * var_14 == 0x19ca33 (1690163)
+
+- We can see that stack is as follows: 
+    - var_10 (4 bytes)
+    - var_14 (4 bytes)
+    - buffer (16 bytes)
+- If we overflow the buffer to edit var_10 and var_14 to 1231 and 1373 (4 bytes each) we can execute `print_flag()`
+- STEPS: 
+    1. overflow the buffer and set i and j to 1 to verify
+    2. set them to desired hexs
+    
+![ ](image-9.png)
 
 ### \[5 points\] Task 8: Capture the flag by exploiting **overflowlocal4_32**. Take screenshots and explain why your exploit works.
-
+![](image-11.png)
+- Vulnerabilities: 
+    1. freads reads 20 bytes whereas buffer is 16 bytes
+- We need to overflow and then replace var_10 with 252 as its the square root of value expected 63504.
+![](image-10.png)
 ### \[5 points\] Task 9: Capture the flag by exploiting **overflowlocal5_32**. Take screenshots and explain why your exploit works.
+
+![](image-13.png)
+
+Based on the image we can see that var_44 is 48 bytes long, and its at $ebp - 68$, whereas var_14 is at $ebp-20$, if we overflow it with 48 + $deadbeef$ we can get the flag.
+
+![](image-12.png)
